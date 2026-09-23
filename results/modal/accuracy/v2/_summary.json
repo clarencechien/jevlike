@@ -1,0 +1,22 @@
+{
+  "m_alarm_severity": {
+    "n": 200,
+    "acc": 0.87,
+    "acc_easy": 0.9285714285714286,
+    "acc_hard": 0.7333333333333333,
+    "missing_rate": 0.135,
+    "control_n": 100,
+    "control_acc": 0.88,
+    "control_unparsed": 0
+  },
+  "q_spc_action": {
+    "n": 200,
+    "acc": 0.95,
+    "acc_easy": 0.9857142857142858,
+    "acc_hard": 0.8666666666666667,
+    "missing_rate": 0.455,
+    "control_n": 100,
+    "control_acc": 0.91,
+    "control_unparsed": 0
+  }
+}

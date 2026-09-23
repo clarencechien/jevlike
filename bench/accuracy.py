@@ -58,6 +58,12 @@ def main(base_url, out_dir, args="", **kw):
     resume = a.get("--resume", "1") == "1"
     limit = int(a.get("--limit", 0))
     commit = kw.get("commit")
+    criteria = json.load(open(a["--criteria"], encoding="utf-8")) if a.get("--criteria") else {}
+    global DATA_DIR
+    DATA_DIR = a.get("--data-dir", DATA_DIR)
+    if a.get("--out-sub"):
+        out_dir = os.path.join(out_dir, a["--out-sub"])
+        os.makedirs(out_dir, exist_ok=True)
     tr = TemplateRenderer(base_url)
     lock = threading.Lock()
     tls = threading.local()
@@ -70,6 +76,13 @@ def main(base_url, out_dir, args="", **kw):
     summary = {}
     for task in tasks:
         rows = load(task)
+        if task in criteria:
+            t = criteria[task]
+            q = {"type": t["kind"], "instructions": t["instructions"],
+                 "options": {k: {"label": v["label"], "criteria": v["criteria"]} for k, v in t["options"].items()}}
+            for r in rows:
+                r["question"] = q
+            print(f"[{task}] using criteria override from {a['--criteria']}", flush=True)
         if limit:
             rows = rows[:limit]
         letters = letters_for(len(rows[0]["question"]["options"]))

@@ -36,6 +36,12 @@ conc = {c: LAT[f"L5_concurrency_{c}"]["summary"] for c in (1, 4, 8)}
 share10_default = LAT["L4_shared_state_10q_cache_on"]["summary"]["p50"] / LAT["L4_shared_state_1q_cache_on"]["summary"]["p50"]
 share10_swa = SWA["L4_shared_state_10q_cache_on"]["summary"]["p50"] / SWA["L4_shared_state_1q_cache_on"]["summary"]["p50"]
 per_q_swa = SWA["L4_shared_state_10q_cache_on"]["per_call"]["p50"]
+V2 = {r["task"]: r for r in json.load(open(os.path.join(ROOT, "results/analysis-v2.json")))}
+HO = {}
+for t in ("m_alarm_severity", "q_spc_action"):
+    for ver in ("v1", "v2"):
+        rows = [json.loads(l) for l in open(os.path.join(ROOT, f"results/modal/accuracy/heldout_{ver}/{t}.jsonl"))]
+        HO[(t, ver)] = sum(r["correct"] for r in rows) / len(rows)
 strong = [t for t in ORDER if A[t]["raw_test"]["acc"] >= 0.98]
 weak = [t for t in ORDER if A[t]["raw_test"]["acc"] < 0.98]
 sev, spc, uph = A["m_alarm_severity"], A["q_spc_action"], A["p_uph_anomaly"]
@@ -105,7 +111,7 @@ Q = [
      "夠快。產線上每天幾百到幾千次的判斷，這個速度可以即時回應。GB10 的真實數字要再量一次，租來的卡只能當保守估計。"),
     ("Q2", "已答", "十類判斷題裡，哪些不用訓練就能用？哪些要再調？",
      f"{len(strong)} 類完全不標註就有 98% 以上答對率。剩下 {len(weak)} 類（{'、'.join(ZH[t] for t in weak)}）落在 {min(A[t]['raw_test']['acc'] for t in weak) * 100:.0f}–{max(A[t]['raw_test']['acc'] for t in weak) * 100:.0f}%，錯的都在相鄰等級的邊界，例如「盡快處理」和「立刻停線」之間。",
-     "不需要為這件事訓練新模型。三類較弱的題目，把判斷標準寫得更明確、再用幾十筆資料調整門檻就夠。"),
+     f"不需要為這件事訓練新模型。已實測其中兩類：把「連續幾點、超限幾次、停線多久」寫成可數的邊界後，SPC 處置從 {A['q_spc_action']['raw_test']['acc'] * 100:.0f}% 升到 {V2['q_spc_action']['raw_test']['acc'] * 100:.0f}%，警報急迫度從 {A['m_alarm_severity']['raw_test']['acc'] * 100:.0f}% 升到 {V2['m_alarm_severity']['raw_test']['acc'] * 100:.0f}%；用另一批沒看過的題驗證，改善幅度相同（{HO[('q_spc_action','v1')] * 100:.0f}% → {HO[('q_spc_action','v2')] * 100:.0f}%、{HO[('m_alarm_severity','v1')] * 100:.0f}% → {HO[('m_alarm_severity','v2')] * 100:.0f}%）。"),
     ("Q3", "已答", "同一份現場狀況一次問好幾題，成本會不會倍增？",
      f"預設設定下會：問十題要 {share10_default:.0f} 倍時間。開啟一個伺服器設定後降到 {share10_swa:.1f} 倍，第二題起每題只要 {per_q_swa / 1000:.2f} 秒。",
      "可以一次問五到十題，把「這則警報有多急、是哪類問題、要不要派工」一起問掉。部署時要記得開那個設定。"),
@@ -226,7 +232,7 @@ page = f"""<!doctype html>
     <p class="head">TL;DR</p>
     <ol>
       <li><strong>判定：值得做，用現有模型自己做，不採購 Jev。</strong>Jev 是閉源雲端服務，資料出不了廠；我們要的能力，現有的 26B 模型加幾十行程式就有。</li>
-      <li><strong>準確率：十類題目七類直接達標。</strong>不做任何標註，{len(strong)} 類答對率 98% 以上；其餘三類 {min(A[t]['raw_test']['acc'] for t in weak) * 100:.0f}–{max(A[t]['raw_test']['acc'] for t in weak) * 100:.0f}%，錯在相鄰等級的邊界，把標準寫清楚、用幾十筆資料調門檻即可，不需要訓練新模型。</li>
+      <li><strong>準確率：十類題目七類直接達標。</strong>不做任何標註，{len(strong)} 類答對率 98% 以上；其餘三類 {min(A[t]['raw_test']['acc'] for t in weak) * 100:.0f}–{max(A[t]['raw_test']['acc'] for t in weak) * 100:.0f}%，錯在相鄰等級的邊界。<strong>把其中兩類的判斷標準改寫成可數規則後，SPC 處置升到 {V2['q_spc_action']['raw_test']['acc'] * 100:.0f}%、警報急迫度升到 {V2['m_alarm_severity']['raw_test']['acc'] * 100:.0f}%</strong>，在模型沒看過的新題上也成立。不需要訓練新模型。</li>
       <li><strong>速度：一次判斷 {L1['p50'] / 1000:.1f} 秒，比讓模型寫答案快 {speed:.1f} 倍。</strong>同一份現場狀況一次問十題，開對設定後每題再降到 {per_q_swa / 1000:.2f} 秒。</li>
       <li><strong>標註：比主管報告承諾的還少。</strong>多數題目零筆；較弱的題目標 25 筆就能校準。傳統機器學習標 100 筆還到不了 90%。</li>
       <li><strong>三個上線條件：</strong>部署時開啟前綴快取設定、「有把握才自動處理」的門檻要用真實資料校準、GB10 上重量一次速度。都是幾小時到幾天的事，不是幾個月。</li>
@@ -270,6 +276,23 @@ page = f"""<!doctype html>
   <div class="note warn">
     <p class="head">一個要小心的地方：模型太有自信</p>
     <p>不管對錯，模型幾乎每題都說自己有 99% 把握。所以「有把握就自動處理」的門檻不能直接用模型原始的把握度，要先用一百筆左右的資料校準。校準後，它說有把握的題目答對率可以到 96–100%，代價是它會把一到六成的題目交給人。這是可以接受的分工，但門檻要用真實資料定。</p>
+  </div>
+
+  <p class="eyebrow">02b · 把標準寫清楚</p>
+  <h2>判斷標準改成可數規則，兩類弱題立刻回升</h2>
+  <p>三類較弱題目裡挑兩類做了實驗。原本的標準用形容詞描述邊界（「即將造成批量問題」「已連續多點」），模型在相鄰等級之間一律往嚴重的那級靠。改成「先數什麼、數到幾就是哪一級」：SPC 先數超出管制界限的點有幾個，兩個以上就叫品保、恰好一個就停線複檢；急迫度先看有沒有不良已經產出或整線在等，有就停線，只有單站停就是盡快。</p>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>題型</th><th class="num">原標準</th><th class="num">可數標準</th><th class="num">沒看過的新題：原標準</th><th class="num">沒看過的新題：可數標準</th></tr></thead>
+      <tbody>
+        <tr><td>SPC 管制圖該怎麼處置</td><td class="num">{A['q_spc_action']['raw_test']['acc'] * 100:.0f}%</td><td class="num">{V2['q_spc_action']['raw_test']['acc'] * 100:.0f}%</td><td class="num">{HO[('q_spc_action','v1')] * 100:.0f}%</td><td class="num">{HO[('q_spc_action','v2')] * 100:.0f}%</td></tr>
+        <tr><td>機台警報有多急</td><td class="num">{A['m_alarm_severity']['raw_test']['acc'] * 100:.0f}%</td><td class="num">{V2['m_alarm_severity']['raw_test']['acc'] * 100:.0f}%</td><td class="num">{HO[('m_alarm_severity','v1')] * 100:.0f}%</td><td class="num">{HO[('m_alarm_severity','v2')] * 100:.0f}%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">
+    <p class="head">這算不算先射箭再畫靶</p>
+    <p>一半算。答案沒有動，改的是我們自己定的判斷規格，這是正當的；但新標準是看著錯題改出來的，同一批題上的數字偏樂觀。所以另外產了一批模型沒看過的題再測一次，改善幅度幾乎相同，證明它不是記住特定句子。真正的驗證還是要等真實警報與工單。</p>
   </div>
 
   <p class="eyebrow">03 · 標註量</p>
@@ -334,7 +357,7 @@ page = f"""<!doctype html>
   <ol>
     <li><strong>GB10 上重跑速度測試</strong>（半小時）：確認每次判斷的真實秒數與併發能力。</li>
     <li><strong>收 200–500 筆真實警報與工單</strong>（一到兩天）：校準門檻，確認零標註在真實資料上的答對率。</li>
-    <li><strong>改寫兩類題目的判斷標準</strong>（半天）：警報急迫度與 SPC 處置，把「連續幾點、超限幾次、停線多久」寫成可數的邊界。</li>
+    <li><strong>改寫兩類題目的判斷標準</strong>：已做。SPC 處置 {A['q_spc_action']['raw_test']['acc'] * 100:.0f}% → {V2['q_spc_action']['raw_test']['acc'] * 100:.0f}%，警報急迫度 {A['m_alarm_severity']['raw_test']['acc'] * 100:.0f}% → {V2['m_alarm_severity']['raw_test']['acc'] * 100:.0f}%。急迫度剩下的錯集中在「AOI 一片誤判」這類，等真實資料再調一輪。</li>
   </ol>
 
   <div class="note">

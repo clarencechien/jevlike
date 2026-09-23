@@ -1,0 +1,12 @@
+{
+  "m_alarm_severity": {
+    "n": 200,
+    "acc": 0.885,
+    "acc_easy": 0.9214285714285714,
+    "acc_hard": 0.8,
+    "missing_rate": 0.19,
+    "control_n": 100,
+    "control_acc": 0.86,
+    "control_unparsed": 0
+  }
+}

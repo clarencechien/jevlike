@@ -324,6 +324,24 @@ page = f"""<!doctype html>
 
   <div class="qlist">{q_blocks}</div>
 
+  <p class="eyebrow">04b · 跟別人比</p>
+  <h2>和 Jev、和別人跑同一顆模型的結果對照</h2>
+  <p>外面有兩個可以對照的來源：Jev 官方與獨立評測（JevBench）公布的數字，以及開源專案 gemma-jev 用同一顆 Gemma 4 26B 在自家顯示卡上量到的數字。資料集、硬體、題目都不同，只能看量級，不能排名。</p>
+
+  <div class="table-scroll wide route">
+    <table>
+      <thead><tr><th>誰</th><th>硬體</th><th class="num">一次判斷</th><th>準確率</th><th>可信度</th></tr></thead>
+      <tbody>
+        <tr><td>Jev（TypeSafe 雲端服務）</td><td>雲端，經網路</td><td class="num">0.24–0.35 秒</td><td>獨立評測 JevBench 第 1 名（74.4 分／100）；官方自家題約 68%</td><td>公開評測，534 題</td></tr>
+        <tr><td>gemma-jev（開源，同一顆 26B 模型）</td><td>RTX 3090 桌機顯示卡</td><td class="num">0.05 秒</td><td>意圖分類 87%、防注入 100%、自家控制題 100%</td><td>樣本只有 12–30 題，看方向</td></tr>
+        <tr><td>同一顆 26B 模型（他人提交）</td><td>—</td><td class="num">—</td><td>JevBench 66.4 分，落後 Jev 8 分</td><td>公開評測，刻意刁難的題</td></tr>
+        <tr><td><strong>我們</strong>（同一顆 26B 模型）</td><td>租用 L4；GB10 待測</td><td class="num">{L1['p50'] / 1000:.1f} 秒（共用狀況時 {per_q_swa / 1000:.2f} 秒）</td><td>十類產線題平均 {sum(A[t]['raw_test']['acc'] for t in ORDER) / 10 * 100:.0f}%，七類 ≥ 98%，難題平均 {sum(A[t]['by']['hard']['acc'] for t in ORDER) / 10 * 100:.0f}%</td><td>每類 200 題、獨立抽查；但是合成資料</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>三個結論：第一，<span class="mark">同一顆模型在別人手上也一樣準</span>，不是我們的題目太簡單才看到高分。第二，速度差在顯示卡：3090 的記憶體頻寬是 L4 的三倍，同一顆模型量到 0.05 秒 vs 我們的 0.2 秒；GB10 的頻寬與 L4 同級，實際會落在 0.1–0.2 秒之間，靠一次問多題才會壓到 0.07 秒。第三，在刻意刁難的公開評測上，這顆模型落後 Jev 8 分；產線的封閉判斷題不會碰到那種難度，但真實資料上的分數要預期比合成資料低。</p>
+
   <p class="eyebrow">05 · 怎麼分工</p>
   <h2>哪些判斷交給它，哪些不交</h2>
 

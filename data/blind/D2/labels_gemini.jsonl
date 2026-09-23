@@ -58,3 +58,108 @@
 {"id": "m_alarm_severity-d2-057", "task": "m_alarm_severity", "label": "C", "confidence": 1.0, "reason": "通訊失敗觸發 MES 鎖機聯鎖導致停線，必須立刻處理。", "annotator": "gemini-3.5-flash"}
 {"id": "m_alarm_severity-d2-058", "task": "m_alarm_severity", "label": "C", "confidence": 1.0, "reason": "料帶裝反導致批量板子面臨報廢，必須立刻停線糾正。", "annotator": "gemini-3.5-flash"}
 {"id": "m_alarm_severity-d2-059", "task": "m_alarm_severity", "label": "C", "confidence": 1.0, "reason": "貼片頭撞車損壞且已按下緊急停止，必須立刻停線處理。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-000", "task": "m_alarm_category", "label": "E", "confidence": 1.0, "reason": "廠務排風扇馬達跳脫導致回焊爐溫度下降，屬於公用設施與環境問題", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-001", "task": "m_alarm_category", "label": "D", "confidence": 1.0, "reason": "PE導入CAD座標時將X與Y軸欄位顛倒，屬於貼片程式與參數設定錯誤", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-002", "task": "m_alarm_category", "label": "B", "confidence": 1.0, "reason": "24V開關電源損壞無輸出，屬於電氣與電源控制問題", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-003", "task": "m_alarm_category", "label": "A", "confidence": 1.0, "reason": "調寬傳動絲桿生鏽卡死，屬於機械零件與硬體動作問題", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-004", "task": "m_alarm_category", "label": "C", "confidence": 1.0, "reason": "PCB板邊變形下彎導致撐針頂不平，屬於來料物料問題", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-005", "task": "m_alarm_category", "label": "B", "confidence": 1.0, "reason": "地線脫落導致通訊異常與雜訊，屬於電氣與通訊控制問題", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-006", "task": "m_alarm_category", "label": "E", "confidence": 1.0, "reason": "廠務空調箱漏水導致車間濕度過高，屬於環境與公用設施問題", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-007", "task": "m_alarm_category", "label": "D", "confidence": 1.0, "reason": "貼片程式中將元件形狀參數設錯，屬於程式與設定問題", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-008", "task": "m_alarm_category", "label": "A", "confidence": 1.0, "reason": "貼片頭旋轉軸內部的微型齒輪咬死，屬於機械零件損壞", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-009", "task": "m_alarm_category", "label": "C", "confidence": 1.0, "reason": "倉管發錯舊版物料導致與工單不符，屬於物料管理問題", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-010", "task": "m_alarm_category", "label": "A", "confidence": 1.0, "reason": "傳送皮帶磨損打滑及彈簧拉伸過度，屬於機械零件問題", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-011", "task": "m_alarm_category", "label": "B", "confidence": 0.9, "reason": "感應器內部損壞導致輸出訊號鎖死，屬於電氣與I/O訊號問題", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-012", "task": "m_alarm_category", "label": "D", "confidence": 1.0, "reason": "拼板設定與資料庫參數錯誤，屬於程式與設定問題", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-013", "task": "m_alarm_category", "label": "E", "confidence": 1.0, "reason": "廠務CDA氣源壓力不足，屬於廠務公用設施與環境問題", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-014", "task": "m_alarm_category", "label": "C", "confidence": 1.0, "reason": "電阻紙帶毛邊多且過厚導致卡料，屬於料帶物料問題", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-015", "task": "m_alarm_category", "label": "D", "confidence": 1.0, "reason": "MES下載過程中工單檔案損壞導致設定值異常，屬於程式與設定問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-016", "task": "m_alarm_category", "label": "A", "confidence": 1.0, "reason": "氣缸接頭螺絲鬆脫導致鋼網鎖不緊，屬於機械零件與機構問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-017", "task": "m_alarm_category", "label": "B", "confidence": 1.0, "reason": "編碼器訊號線斷線需更換電纜，屬於電氣線材與電控問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-018", "task": "m_alarm_category", "label": "C", "confidence": 1.0, "reason": "載帶孔距不均勻導致 feeder 打滑吸料失敗，屬於來料物料品質問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-019", "task": "m_alarm_category", "label": "E", "confidence": 1.0, "reason": "外部施工扯斷靜電接地銅排，屬於廠務公用設施與環境問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-020", "task": "m_alarm_category", "label": "C", "confidence": 1.0, "reason": "PCB裸板嚴重變形彎曲導致頂起不平，屬於來料物料問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-021", "task": "m_alarm_category", "label": "B", "confidence": 1.0, "reason": "PCI通訊超時且無法重啟，屬於通訊與控制板卡之電控問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-022", "task": "m_alarm_category", "label": "A", "confidence": 1.0, "reason": "傳動皮帶磨損變鬆導致空轉卡板，屬於機械零件與機構問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-023", "task": "m_alarm_category", "label": "D", "confidence": 1.0, "reason": "程式內料件庫的0度方向定義錯誤，屬於貼片程式與參數設定問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-024", "task": "m_alarm_category", "label": "E", "confidence": 1.0, "reason": "廠務冷氣滴水且濕度過高導致錫膏坍塌，屬於溫濕度與環境問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-025", "task": "m_alarm_category", "label": "C", "confidence": 1.0, "reason": "料帶口袋太緊導致零件卡住、吸取偏斜，屬於料帶物料問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-026", "task": "m_alarm_category", "label": "D", "confidence": 1.0, "reason": "配方中元件外形模板註冊錯誤，屬於程式與配方設定問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-027", "task": "m_alarm_category", "label": "B", "confidence": 0.9, "reason": "光電開關內部短路燒毀且電壓異常，屬於電氣元件損壞之電控問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-028", "task": "m_alarm_category", "label": "E", "confidence": 1.0, "reason": "中央壓縮機房乾燥機因高溫停機導致主氣壓不足，屬於廠務公用設施與環境問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-029", "task": "m_alarm_category", "label": "A", "confidence": 1.0, "reason": "調寬傳動螺桿因髒污卡死無法旋轉，屬於機械零件與機構問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-030", "task": "m_alarm_category", "label": "D", "confidence": 1.0, "reason": "拋料原因為程式中設定的吸取厚度參數錯誤，屬於程式或設定問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-031", "task": "m_alarm_category", "label": "C", "confidence": 1.0, "reason": "BGA錫裂與空焊是因為IC錫球嚴重氧化，屬於來料物料品質問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-032", "task": "m_alarm_category", "label": "B", "confidence": 1.0, "reason": "Y軸編碼器回授訊號線外皮磨破、斷線，屬於電氣線材接觸與控制問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-033", "task": "m_alarm_category", "label": "A", "confidence": 1.0, "reason": "固定氣缸夾具螺絲滑絲鬆動導致刮刀施力不均，屬於機械零件機構問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-034", "task": "m_alarm_category", "label": "E", "confidence": 1.0, "reason": "產線太乾且靜電消除器損壞導致吸嘴靜電過高，屬於環境與公用設施問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-035", "task": "m_alarm_category", "label": "B", "confidence": 1.0, "reason": "固態繼電器（SSR）輸出開路故障且無電流，屬於電氣控制元件問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-036", "task": "m_alarm_category", "label": "D", "confidence": 1.0, "reason": "轉程式時單位公英制選錯造成座標偏移，屬於程式與設定錯誤問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-037", "task": "m_alarm_category", "label": "C", "confidence": 1.0, "reason": "電阻外標籤與實際阻值不符，屬於物料標籤或料號不符問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-038", "task": "m_alarm_category", "label": "A", "confidence": 1.0, "reason": "Feeder內部彈簧疲乏導致蓋板無法彈回，屬於機械零件與機構動作問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-039", "task": "m_alarm_category", "label": "E", "confidence": 1.0, "reason": "陽光直射廠房影響鏡頭光源強度導致誤判，屬於環境光線干擾問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-040", "task": "m_alarm_category", "label": "B", "confidence": 0.9, "reason": "懷疑是驅動器或馬達編碼器線路破損漏電，屬於電氣與控制線路問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-041", "task": "m_alarm_category", "label": "C", "confidence": 1.0, "reason": "PCB板子嚴重彎曲下陷超出規範，屬於來料板材物料問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-042", "task": "m_alarm_category", "label": "D", "confidence": 1.0, "reason": "Feeder資料庫中的Pitch參數設定錯誤，屬於程式與設定問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-043", "task": "m_alarm_category", "label": "E", "confidence": 0.9, "reason": "懷疑施工挖斷接地極導致靜電地線阻值飆高，屬於廠務公用設施與環境問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-044", "task": "m_alarm_category", "label": "A", "confidence": 1.0, "reason": "氣壓缸推桿變形導致擋銷物理卡死，屬於氣壓與機械零件機構問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-045", "task": "m_alarm_category", "label": "D", "confidence": 1.0, "reason": "零件庫建檔時元件方向定義錯誤，修改元件方向參數後解決，屬於程式與設定問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-046", "task": "m_alarm_category", "label": "C", "confidence": 1.0, "reason": "料帶寬度不對導致元件在 pocket 內晃動、側立反面，屬於來料物料問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-047", "task": "m_alarm_category", "label": "B", "confidence": 0.9, "reason": "光電開關損壞且無電壓輸出，屬於電氣與 I/O 控制元件故障。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-048", "task": "m_alarm_category", "label": "E", "confidence": 1.0, "reason": "空調箱及冰水管路故障導致車間溫濕度異常，屬於環境與廠務公用設施問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-049", "task": "m_alarm_category", "label": "A", "confidence": 1.0, "reason": "Feeder 的壓料輪磨損及齒輪間隙過大，屬於機械零件磨損的機構問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-050", "task": "m_alarm_category", "label": "D", "confidence": 1.0, "reason": "元件外框超出感測範圍，透過修正元件規格尺寸參數解決，屬於程式與設定問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-051", "task": "m_alarm_category", "label": "B", "confidence": 1.0, "reason": "拖鏈內的控制訊號線外皮磨破、銅線斷續接觸導致通訊中斷，屬於線材接觸與電氣問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-052", "task": "m_alarm_category", "label": "C", "confidence": 1.0, "reason": "PCB PAD 表面氧化發黑導致空焊，屬於來料物料品質問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-053", "task": "m_alarm_category", "label": "E", "confidence": 1.0, "reason": "隔壁沖壓機啟動導致中央壓降瞬態太大，屬於廠務空壓等公用設施與環境問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-054", "task": "m_alarm_category", "label": "A", "confidence": 1.0, "reason": "進板側固定導軌調節螺絲鬆掉導致寬度跑掉卡板，屬於機械零件與機構問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-055", "task": "m_alarm_category", "label": "D", "confidence": 1.0, "reason": "匯入 Gerber 時選錯基準點導致座標整批歪掉，屬於貼片程式與座標設定問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-056", "task": "m_alarm_category", "label": "C", "confidence": 1.0, "reason": "元件厚度與料帶 pocket 深度規格不符導致吸取失敗，屬於物料問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-057", "task": "m_alarm_category", "label": "B", "confidence": 1.0, "reason": "電源供應器（PSU）損壞無電壓輸出，屬於電源與電氣控制問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-058", "task": "m_alarm_category", "label": "A", "confidence": 1.0, "reason": "吸嘴彈簧卡卡、吸嘴頭磨損歪斜，屬於吸嘴等機械零件機構問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_category-d2-059", "task": "m_alarm_category", "label": "E", "confidence": 0.9, "reason": "樓頂抽風馬達皮帶斷裂導致排風異常，屬於廠務排風等公用設施問題。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-000", "task": "m_needs_dispatch", "label": "B", "confidence": 0.95, "reason": "操作員自行擦拭鋼網並重拉 mark 點後即恢復正常，無需設備工程師處理。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-001", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "軌道皮帶斷裂且感測器撞歪，需要設備工程師更換零件與校正。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-002", "task": "m_needs_dispatch", "label": "B", "confidence": 0.95, "reason": "操作員已自行清潔吸嘴反射板並通過校正，無需派工。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-003", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "加熱器溫度異常且懷疑加熱管燒毀，需要設備工程師檢修與更換零件。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-004", "task": "m_needs_dispatch", "label": "B", "confidence": 0.9, "reason": "程式路徑設定錯誤，現場人員已自行對調路徑解決，無需派工。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-005", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "軌道寬度馬達過載且過熱，需要設備工程師進行馬達更換。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-006", "task": "m_needs_dispatch", "label": "B", "confidence": 0.95, "reason": "操作員自行重新接料並剪除折痕後即恢復正常，無需派工。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-007", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "伺服驅動器燒毀且送電跳電，需要設備工程師更換硬體。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-008", "task": "m_needs_dispatch", "label": "B", "confidence": 0.95, "reason": "操作員已自行重新對齊安全門並重設恢復運行，無需派工。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-009", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "Z軸螺桿咬死且聯軸器鎖死，需要設備工程師拆解維修。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-010", "task": "m_needs_dispatch", "label": "B", "confidence": 0.95, "reason": "操作員自行清洗鋼網並調整自動擦拭頻率後即恢復正常，無需派工。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-011", "task": "m_needs_dispatch", "label": "A", "confidence": 0.95, "reason": "電磁閥無作動聲音且疑似燒毀，需要設備工程師檢修更換。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-012", "task": "m_needs_dispatch", "label": "B", "confidence": 0.85, "reason": "調整擋板間距以排除條碼遮擋問題，屬於操作員可自行調整之範圍。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-013", "task": "m_needs_dispatch", "label": "B", "confidence": 0.9, "reason": "濾網堵塞需要更換，屬於操作員可自行更換耗材之範圍。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-014", "task": "m_needs_dispatch", "label": "B", "confidence": 0.95, "reason": "板子未放平導致誤判，操作員手動重新放平進板即解決，無需派工。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-015", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "Slot 內的針腳變形，需要設備工程師維修或更換。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-016", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "操作員已自行更換正確料卷並恢復正常生產。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-017", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "擦拭無效，懷疑 CCD 損壞或鏡頭內部刮傷，需設備工程師檢修。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-018", "task": "m_needs_dispatch", "label": "B", "confidence": 0.9, "reason": "已手動載入正確配方解決問題，不需設備工程師處理。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-019", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "傳送鏈條變形導致掉板，需要設備工程師維修或更換。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-020", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "操作員已自行添加 IPA 溶劑並排除警報。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-021", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "步進馬達絲桿卡死且手轉不動，需要設備工程師維修。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-022", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "變頻器無回應、過熱且重啟失敗，需要設備工程師檢修硬體。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-023", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "操作員已自行清潔吸嘴並測試通過。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-024", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "操作員已自行重貼條碼並手動測試通過。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-025", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "加熱開關送電秒跳且疑似短路，需要設備工程師檢修。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-026", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "操作員已手動將移位的安全門推回對準並恢復生產。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-027", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "壓力感測器數值異常且校正失敗，需要設備工程師處理。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-028", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "操作員已自行接料並排除警報恢復生產。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-029", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "Z軸異音且高度校正失敗，懷疑零件損壞需設備工程師檢修。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-030", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "操作員自行擦拭清潔光學尺並重啟後即恢復正常。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-031", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "卷紙軸馬達不轉且懷疑IO板損壞，需要設備工程師檢修或更換零件。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-032", "task": "m_needs_dispatch", "label": "A", "confidence": 0.9, "reason": "回焊爐排風扇馬達故障及跳脫，需要設備工程師進行檢修。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-033", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "操作員自行更換備用吸嘴並清洗後，真空值即恢復正常。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-034", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "飛達齒輪組卡死且導軌磨損，需要設備工程師進行大修。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-035", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "操作員自行重新鎖緊刮刀座快拆螺絲後即恢復正常。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-036", "task": "m_needs_dispatch", "label": "A", "confidence": 0.95, "reason": "系統重啟後找不到加密狗且相機故障，需要設備工程師處理。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-037", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "氣壓自行回升後操作員重啟運行，問題已自行恢復。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-038", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "軌道皮帶斷裂，需要設備工程師拆卸軌道並更換新皮帶。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-039", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "操作員自行清理飛達蓋板上的殘膠後，拋料率即恢復正常。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-040", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "操作員自行重新接料並重啟後即恢復正常。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-041", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "Z軸卡死且重啟無效，懷疑螺桿或馬達損壞，需要設備工程師檢修。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-042", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "操作員自行排除卡板並重置後即恢復正常。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-043", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "壓力傳感器失效且清潔後無效，需要設備工程師更換零件。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-044", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "操作員自行切換至正確程式後，軌道自動調寬恢復正常。", "annotator": "gemini-3.5-flash"}

@@ -1,0 +1,60 @@
+{"id": "x_escalate-d2-000", "task": "x_escalate", "state": "SMT-L2 DEK-01 paper out, OP replaced roll and cleaned stencil, line down 4 mins, back in production.", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-001", "task": "x_escalate", "state": "SMT-L5 SPI-01 system crash, error code: ERR-0x000F4. IT and PE checked but still no response, line down 50 mins, 4 operators idling.", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-002", "task": "x_escalate", "state": "SMT-L1 NXT-02 head2 nozzle 102 replaced by OP due to dirty. Uptime recovered.", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-003", "task": "x_escalate", "state": "SMT-L3 REFLOW-01 temp drop warning! Zone 4 down 18C, 120 pcs WO-20261011-022 passed, potential cold solder on batch.", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-004", "task": "x_escalate", "state": "L5 回流爐出口皮帶卡死，板子卡在裡面，聞到塑膠燒焦味，已按急停但還在冒煙，設備還沒到", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-005", "task": "x_escalate", "state": "L3-AOI 剛報一台 WO-1002 誤判略高，調了一下 threshold 之後 test 5pcs 都 pass，繼續跑了", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-006", "task": "x_escalate", "state": "SMT-L2 跑 WO-20261005-098 剛剛拋料率飆到 15%，換了 3 個 feeder 還是沒效，一盤 2000 塊的 IC 已經丟了 40 顆了，怎麼辦", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-007", "task": "x_escalate", "state": "L6-NXT01 換 Slot 12 的 C0402 飛達，OP 誤觸安全門鎖，已 reset 機台，重新 auto run 沒影響 output", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-008", "task": "x_escalate", "state": "阿生剛剛在 SMT-L1 抬錫膏箱的時候腰閃到，痛到站不起來，現在躺在線邊休息，L1 印刷站暫時沒人接", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-009", "task": "x_escalate", "state": "L2-SPI 今天做週保養，ME 正在清鋼板，預計 10:30 結束，目前進度正常，大概還要 10 分鐘", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-010", "task": "x_escalate", "state": "SMT-L8 今天要結單的 WO-20261001-12 發現最後一站 MES 刷不過去，系統顯示前站 AQC 漏刷，但板子已經包裝入庫了", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-011", "task": "x_escalate", "state": "L4-AOI 燈管一閃一閃的，跟備品庫領了新的，OP 順手換好了，目前測試影像正常，無停線", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-012", "task": "x_escalate", "state": "SMT-L3 剛剛大夜交班，發現大盤料 Q8-BGA 的 Moisture Indicator Card 已經變粉紅色，上一班好像直接拆袋打上去了，大概打了 80 片", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-013", "task": "x_escalate", "state": "L1-MES 剛剛網路卡了一下，兩分鐘不能過站，現在 IT 說修好了，已經可以正常刷條碼", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-014", "task": "x_escalate", "state": "SMT-L6 機台 NXT-02 突然發出巨響然後 alarm 報 X-axis overload 停機，ME 來看說螺桿好像歪了，要叫原廠", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-015", "task": "x_escalate", "state": "SMT-L5 轉線中，WO-20261003-01 鋼板跟首件都對過了，QE 也簽核 OK，準備開始 run 生產", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-016", "task": "x_escalate", "state": "L2 跑的客供料 U12 剛開箱發現腳都變形了，根本沒法過 SMT，這批貨下班前要出，客戶說沒多準備料", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-017", "task": "x_escalate", "state": "SMT-L4 CP-01 拋料稍微多一點，ME 來把吸嘴沾污清一清、真空值調一下，run 了 10 分鐘都沒再拋，結案", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-018", "task": "x_escalate", "state": "SMT-L3 剛剛 PE 在調爐溫曲線，測溫板過爐的時候卡在第 5 區，現在 Reflow 裡面溫度卡在 260 度退不下來", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-019", "task": "x_escalate", "state": "SMT-L1 剛剛下班清點，WO-20261002-88 多出 3 片空板，查了一下是倉庫多發，已辦退料回庫", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-020", "task": "x_escalate", "state": "SMT-L5 SPI-01 偵測到一處錫橋，操作員洗板後重印，量測厚度正常，前後耽誤約 6 分鐘，已繼續跑。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-021", "task": "x_escalate", "state": "L3 ICT-01 剛開工單 WO-20261011-002 連續 15 片報 fail，都死在同一顆 IC 沒電壓，PE 還在看，目前整線塞車。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-022", "task": "x_escalate", "state": "SMT-L2 NXT-01 head 2 camera calibration fail, production stopped for 8 mins, recalibrated by ME and resumed.", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-023", "task": "x_escalate", "state": "SMT-L1 備料課送錯料，WO-20261009-08 應該用 10uF 貼成 1uF，已經打完一籃 50 片才發現，現在全停下來了。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-024", "task": "x_escalate", "state": "小張在 FATP-L1 包裝站發現一台條碼掃不出來，已手動輸入序號確認 MES 過站，後續掃描正常。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-025", "task": "x_escalate", "state": "剛剛接到 PM 說 Qisda 那單 WO-20261015-012 要緊急 Hold 住，因為客戶設計有 Bug，可是我們已經上線打 100 多片了！", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-026", "task": "x_escalate", "state": "SMT-L6 DEK-02 squeegee blade pressure low alert, recalibrated by OP, completed in 3 mins, no defect found.", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-027", "task": "x_escalate", "state": "DIP-L2 波峰焊 R-02 煙霧警報一直響，排風好像壞了，現場味道超重，大家都在咳嗽，現在先把軌道停掉。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-028", "task": "x_escalate", "state": "SMT-L3 YSM-20 slot 12 拋料率到 0.8%，剛請 ME 換一根吸嘴、清 Feeder 後就降下來了，持續觀察中。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-029", "task": "x_escalate", "state": "FATP-L3 ICT-03 今天要上新機種，可是現場找不到對應的測試治具，詢問 PE 他們說沒收到通知，機台空等中。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-030", "task": "x_escalate", "state": "SMT-L4 CP-12 Feeder empty at slot 52, reel replaced by OP per standard procedure, took 2 mins to resume.", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-031", "task": "x_escalate", "state": "DIP-L1 AOI 檢出連續 8 板都有 R12 墓碑，手焊站補到手軟，PE 來調整鋼網厚度還是沒改善，要不要改鋼網？", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-032", "task": "x_escalate", "state": "SMT-L2 YSM-02 換線等發料遲到 15 分鐘，現在料已到齊，預計 11:30 可以跑首件，進度會自己追回來。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-033", "task": "x_escalate", "state": "SMT-L5 NXT-02 軌道皮帶剛才突然斷掉，機台裡面卡了三片板子進退兩難，ME 說要等外購件，今天可能修不好。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-034", "task": "x_escalate", "state": "FATP-L2 FCT-02 sensor error code E-0422, cleared by restarting the test program, master gold board test pass.", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-035", "task": "x_escalate", "state": "SMT-L1 跑 WO-20261022-04 的 C105 貼片電容用完了，MES 庫存顯示還有兩盤但發料找不到，去倉庫問也沒人知道在哪。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-036", "task": "x_escalate", "state": "SMT-L8 DEK-01 印刷厚度偏上限，操作員手動擦拭鋼網後，SPI 量測數值已降回中線，機台正常運作。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-037", "task": "x_escalate", "state": "OQC 剛剛在 FATP-L1 抽檢 WO-20261018-022 發現外殼有嚴重刮傷，直接判退一整批 400 台，現在要拉回產線重工。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-038", "task": "x_escalate", "state": "SMT-L3 MES 伺服器剛剛斷線 5 分鐘，刷 barcode 沒反應，IT 重啟系統後已恢復連線，全線繼續過站。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-039", "task": "x_escalate", "state": "美國客戶 Apple 稽核人員突然走到 SMT-L2，發現操作員沒戴靜電手環在拿板子，現在對方臉超臭在拍照記錄...", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-040", "task": "x_escalate", "state": "SMT-L3 NXT-02 Slot 45 換料，接帶完成，機台沒停，首件比對已過，記錄一下。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-041", "task": "x_escalate", "state": "大代誌！L1 剛剛發現 WO-20261011-03 已經打完 120pcs 過爐，但 U3 好像裝錯料號，P/N 對不上，怎麼辦？", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-042", "task": "x_escalate", "state": "L5 SPI-01 報錫膏偏厚，OP 已經照 SOP 擦拭鋼網重印，下一片測量 OK，沒耽誤到生產。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-043", "task": "x_escalate", "state": "SMT-L2 NXT-05 Head 1 剛撞機，吸嘴桿整個歪掉，ME 說要換整組模組但線邊沒備品，可能要聯絡原廠了。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-044", "task": "x_escalate", "state": "DIP-L2 AOI scanner 剛剛斷線，重開機後正常，耽誤 4 分鐘而已，現在追 UPH 中。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-045", "task": "x_escalate", "state": "客戶 QE 剛巡線，看到 L3 在打的那批 WO-20261012-005 刮傷嚴重，直接貼 Hold 單了，整線先停下來了。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-046", "task": "x_escalate", "state": "SYS-L4 NXT-01 Warning: Vacuum pressure low on Head 3 Spindle 5, auto-recovered. Current efficiency 98.4%.", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-047", "task": "x_escalate", "state": "ERROR CODE: E-90412. SMT-L6 DEK-01 squeegee motor driver failure. Main power disconnected. ME team requested.", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-048", "task": "x_escalate", "state": "MES ALERT: WO-20261015-088 blocked. Routing error: 50 boards bypassed SPI station. QA intervention required.", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-049", "task": "x_escalate", "state": "SMT-L1 Shift Report: All lines running normally. WO-20261010-09 completed 500/500 pcs, yield 99.6%. No pending issues.", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-050", "task": "x_escalate", "state": "L5 R-02 第 8 區突然噴到 270 度，爐子在叫，爐子裡面還有 15 片板子正在跑，PE 還沒接電話。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-051", "task": "x_escalate", "state": "L2 YSM-02 換吸嘴保養 10 分鐘，10:30 搞定，已經交還給生產繼續跑了。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-052", "task": "x_escalate", "state": "L4 今天夜班目檢和包裝直接沒來，現在只有我跟一個新手，根本做不來，這單 23:00 要出貨...", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-053", "task": "x_escalate", "state": "AOI-02 抓到一板 C12 錫橋，OP 拿烙鐵修一下重測就過了，不是批量問題，NXT 繼續跑。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-054", "task": "x_escalate", "state": "L3 剛剛靜電測試儀壞掉，OP 沒測就進線，結果剛剛抽檢 10pcs 晶片全部被靜電擊穿，可能整批要報廢。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-055", "task": "x_escalate", "state": "L1 換線 WO-20261014-04 鋼網和刮刀都推到線邊了，ME 在架機，預計 15 分鐘後開跑。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-056", "task": "x_escalate", "state": "整廠 MES 好像掛了，現在全部機台都在刷條碼的地方轉圈圈，L1-L6 目前全部動彈不得。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-057", "task": "x_escalate", "state": "l5 siplace-01 nozzle 8 又堵住塞料，OP 依 SOP 換一顆新的 3min 搞定，沒事了。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-058", "task": "x_escalate", "state": "幹剛剛才發現，L2 用到一罐退冰不到 1 小時的錫膏，已經印了 30 片而且都過爐了，難怪溢錫一堆。", "writer": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-059", "task": "x_escalate", "state": "L6 的 R102 電阻料不夠，比對料冊後，PE 說線邊還有同規格替代料，已換上繼續打，無停機。", "writer": "gemini-3.5-flash"}

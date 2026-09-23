@@ -1,1 +1,2 @@
 {"which": "latency", "args": "", "gpu": "L4", "n_parallel": 4, "ctx": 16384, "server_start_s": 15.1, "bench_s": 1355.4, "ts": "2026-09-23T09:27:10Z"}
+{"which": "latency", "args": "--only L1,L4 --out latency_swafull.json --n 100", "gpu": "L4", "n_parallel": 4, "ctx": 8192, "server_extra": "--swa-full", "server_start_s": 15.1, "bench_s": 208.2, "ts": "2026-09-23T09:32:06Z"}

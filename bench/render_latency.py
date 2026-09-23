@@ -52,5 +52,23 @@ L += ["| 方法 | p50 ms | p95 ms | p99 ms | 輸出 tokens |", "|---|---|---|---
       f"| LLM 生成 JSON | {f(l7['p50'])} | {f(l7['p95'])} | {f(l7['p99'])} | {l7['completion_tokens_mean']:.1f} |",
       "", f"**JSON 生成 / typed decision（p50）= {l7['speedup_vs_L1_p50']:.1f}x**", "",
       "註：所有數字皆為 L4（300 GB/s、算力弱於 GB10）；GB10 要用 v1 §5 的 L1–L7 重跑一次（約 30 分鐘）。"]
+# ---- optional: --swa-full comparison
+sw_path = os.path.join(ROOT, "results/modal/latency/latency_swafull.json")
+if os.path.exists(sw_path):
+    S = json.load(open(sw_path))["results"]
+    L += ["", "## L8 追加：`--swa-full`（Gemma 4 sliding-window attention 與前綴 cache）", "",
+          "上面所有 `cache 命中 tokens` 都是 0：Gemma 4 用 sliding-window attention（SWA），llama-server 預設的 SWA KV cache **只能整段命中、不能部分重用前綴**，"
+          "所以「多題共用 state」和「共用 system/模板前綴」都沒有省到。加 `--swa-full`（SWA 層也保留完整 KV，記憶體較大）後前綴重用生效：", "",
+          f"n={json.load(open(sw_path))['n']}，`-c 8192 -np 4 --swa-full`。", "",
+          "| 條件 | 預設 p50 ms | `--swa-full` p50 ms | swa-full cache 命中 tokens |", "|---|---|---|---|",
+          f"| L1 每次不同 state | {f(R['L1_single_100tok_2opt']['summary']['p50'])} | {f(S['L1_single_100tok_2opt']['summary']['p50'])} | {f(S['L1_single_100tok_2opt']['summary']['cache_n_mean'])}（模板前綴） |",
+          f"| 同一 prompt 重複（decode 地板） | {f(R['L1_ref_same_prompt_repeated']['summary']['p50'])} | {f(S['L1_ref_same_prompt_repeated']['summary']['p50'])} | {f(S['L1_ref_same_prompt_repeated']['summary']['cache_n_mean'])} |",
+          f"| cache_prompt=false | {f(R['L1_ref_nocache']['summary']['p50'])} | {f(S['L1_ref_nocache']['summary']['p50'])} | 0 |",
+          "", "| N 題共用 state（cache on） | 預設 總 p50 | 預設 每題 | swa-full 總 p50 | swa-full 每題 | swa-full 每題 cache 命中 | swa-full N 題 vs 1 題 |", "|---|---|---|---|---|---|---|"]
+    b = S["L4_shared_state_1q_cache_on"]["summary"]["p50"]
+    for nq in (1, 5, 10):
+        r0, r1 = R[f"L4_shared_state_{nq}q_cache_on"], S[f"L4_shared_state_{nq}q_cache_on"]
+        L.append(f"| {nq} | {f(r0['summary']['p50'])} | {f(r0['per_call']['p50'])} | {f(r1['summary']['p50'])} | {f(r1['per_call']['p50'])} | {f(r1['per_call']['cache_n_mean'])} | {r1['summary']['p50'] / b:.2f}x |")
+    L += ["", "→ 共用 state 的第 2 題起，每題只剩 decode + 問題段 prefill（約 70 ms，L4）。**GB10 部署時要開 `--swa-full`**（128 GB 統一記憶體夠），否則 Q3 的答案是「N 題 = N 倍」。"]
 open(os.path.join(ROOT, "results/03-latency.md"), "w", encoding="utf-8").write("\n".join(L) + "\n")
 print("wrote results/03-latency.md")

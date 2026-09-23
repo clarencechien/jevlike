@@ -10,6 +10,6 @@ curl -sS -X PUT "https://imitator.ai-apps.work/v1/a/gb10-typed-decisions" \
   -H "Authorization: Bearer $IMITATOR_TOKEN" \
   -H "Content-Type: text/html" \
   -H "X-Visibility: public" \
-  -H "X-Title: 八個問題，答了五個，三個給了上界 — GB10 typed decision 實驗紀錄" \
+  -H "X-Title: Jev 式決策，值得，而且不用買 — 給長官的判定備忘" \
   --data-binary @results/report.html
 echo

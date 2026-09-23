@@ -1,5 +1,6 @@
-"""Build results/report.html — a self-contained imitator-style (v3) report of what the
-experiment has answered so far. Numbers come from results/analysis.json and
+"""Build results/report.html — a self-contained imitator-style (v3) decision memo for
+management: is a Jev-like typed-decision layer worth doing? TL;DR first, then each of the
+eight questions in plain language. Numbers come from results/analysis.json and
 results/modal/latency/*.json; the chassis CSS is pasted verbatim from a local copy.
 
 Usage: python3 bench/render_html_report.py <path-to-report.css>
@@ -15,145 +16,120 @@ assert "imitator report chassis" in CSS
 A = {r["task"]: r for r in json.load(open(os.path.join(ROOT, "results/analysis.json")))}
 LAT = json.load(open(os.path.join(ROOT, "results/modal/latency/latency.json")))["results"]
 SWA = json.load(open(os.path.join(ROOT, "results/modal/latency/latency_swafull.json")))["results"]
-TASKS = json.load(open(os.path.join(ROOT, "data/seeds/tasks.json"), encoding="utf-8"))
 ORDER = ["x_ticket_route", "x_escalate", "x_10way_intent", "m_needs_dispatch", "p_line_change", "m_alarm_category",
          "q_defect_root", "p_uph_anomaly", "q_spc_action", "m_alarm_severity"]
-ZH = {"m_alarm_severity": "alarm 急迫度", "m_alarm_category": "alarm 分類", "m_needs_dispatch": "是否派工",
-      "q_spc_action": "SPC 動作", "q_defect_root": "不良根因站別", "p_uph_anomaly": "UPH 是否異常",
-      "p_line_change": "工單狀態", "x_ticket_route": "工單派給誰", "x_escalate": "是否升級線長", "x_10way_intent": "10 類意圖"}
+ZH = {"m_alarm_severity": "機台警報有多急", "m_alarm_category": "機台警報是哪類問題", "m_needs_dispatch": "要不要派設備工程師",
+      "q_spc_action": "SPC 管制圖該怎麼處置", "q_defect_root": "不良品是哪一站造成", "p_uph_anomaly": "產能是否異常",
+      "p_line_change": "工單為什麼停", "x_ticket_route": "工單該派給哪個單位", "x_escalate": "要不要通知線長", "x_10way_intent": "訊息是十種意圖的哪一種"}
 
 
 def e(s):
     return html.escape(str(s))
 
 
-def pct(x, d=0):
-    return f"{x * 100:.{d}f}%"
+# ------------------------------------------------------------------ numbers
+L1 = LAT["L1_single_100tok_2opt"]["summary"]
+L1s = SWA["L1_single_100tok_2opt"]["summary"]
+L7 = LAT["L7_chat_json"]["summary"]
+L6 = LAT["L6_with_bg_generation"]
+conc = {c: LAT[f"L5_concurrency_{c}"]["summary"] for c in (1, 4, 8)}
+share10_default = LAT["L4_shared_state_10q_cache_on"]["summary"]["p50"] / LAT["L4_shared_state_1q_cache_on"]["summary"]["p50"]
+share10_swa = SWA["L4_shared_state_10q_cache_on"]["summary"]["p50"] / SWA["L4_shared_state_1q_cache_on"]["summary"]["p50"]
+per_q_swa = SWA["L4_shared_state_10q_cache_on"]["per_call"]["p50"]
+strong = [t for t in ORDER if A[t]["raw_test"]["acc"] >= 0.98]
+weak = [t for t in ORDER if A[t]["raw_test"]["acc"] < 0.98]
+sev, spc, uph = A["m_alarm_severity"], A["q_spc_action"], A["p_uph_anomaly"]
+lc = spc["learning_curve"]
+speed = L7["p50"] / L1["p50"]
+best_rule = max(A.values(), key=lambda r: r.get("rules_acc_test", 0))
 
 
 # ------------------------------------------------------------------ charts
 def acc_bar_chart():
     rows = [(t, A[t]["raw_test"]["acc"]) for t in ORDER]
     h = 26 * len(rows) + 30
-    x0, x1 = 150, 560
-    out = [f'<svg viewBox="0 0 640 {h}" role="img" aria-label="十個 task 在 test 集的零樣本準確率，L4 上的 Gemma 4 26B-A4B">']
-    for i, g in enumerate((0.5, 0.75, 1.0)):
+    x0, x1 = 190, 570
+    out = [f'<svg viewBox="0 0 640 {h}" role="img" aria-label="十類產線判斷題，不做任何標註時的答對率">']
+    for g in (0.5, 0.75, 1.0):
         x = x0 + (x1 - x0) * g
         out.append(f'<line class="grid" x1="{x:.0f}" y1="8" x2="{x:.0f}" y2="{h - 22}"/>')
-        out.append(f'<text class="axis" x="{x:.0f}" y="{h - 6}" text-anchor="middle">{pct(g)}</text>')
+        out.append(f'<text class="axis" x="{x:.0f}" y="{h - 6}" text-anchor="middle">{g * 100:.0f}%</text>')
     for i, (t, v) in enumerate(rows):
         y = 12 + 26 * i
         w = (x1 - x0) * v
         out.append(f'<text class="axis" x="{x0 - 8}" y="{y + 14}" text-anchor="end">{e(ZH[t])}</text>')
         out.append(f'<rect class="bar" x="{x0}" y="{y}" width="{w:.1f}" height="18" fill="var(--c1)"/>')
-        out.append(f'<text class="label" x="{x0 + w + 6:.1f}" y="{y + 14}">{v:.2f}</text>')
+        out.append(f'<text class="label" x="{x0 + w + 6:.1f}" y="{y + 14}">{v * 100:.0f}%</text>')
     out.append("</svg>")
-    table = "".join(f'<tr><td>{e(ZH[t])}<span class="sub">{t}</span></td><td class="num">{A[t]["raw_test"]["acc"]:.2f}</td>'
-                    f'<td class="num">{A[t]["by"]["hard"]["acc"]:.2f}</td><td class="num">{A[t]["raw_test"]["ece"]:.3f}</td>'
-                    f'<td class="num">{A[t].get("control", {}).get("acc", float("nan")):.2f}</td><td class="num">{A[t]["tfidf_acc_test"]:.2f}</td>'
-                    f'<td class="num">{A[t].get("rules_acc_test", float("nan")):.2f}</td></tr>' for t in ORDER)
+    table = "".join(f'<tr><td>{e(ZH[t])}<span class="sub">{t}</span></td><td class="num">{A[t]["raw_test"]["acc"] * 100:.0f}%</td>'
+                    f'<td class="num">{A[t]["by"]["hard"]["acc"] * 100:.0f}%</td>'
+                    f'<td class="num">{A[t].get("control", {}).get("acc", 0) * 100:.0f}%</td><td class="num">{A[t]["tfidf_acc_test"] * 100:.0f}%</td>'
+                    f'<td class="num">{A[t].get("rules_acc_test", 0) * 100:.0f}%</td></tr>' for t in ORDER)
     return "\n".join(out), table
 
 
-def shared_state_chart():
-    ns = (1, 5, 10)
-    d = [LAT[f"L4_shared_state_{n}q_cache_on"]["summary"]["p50"] for n in ns]
-    s = [SWA[f"L4_shared_state_{n}q_cache_on"]["summary"]["p50"] for n in ns]
-    top = 2500
-    x0, x1, y0, y1 = 60, 600, 20, 240
-    out = ['<svg viewBox="0 0 640 280" role="img" aria-label="共用一份 state 問 1、5、10 題的總時間，預設設定與開 swa-full 的比較">']
-    for g in (0, 500, 1000, 1500, 2000, 2500):
-        y = y1 - (y1 - y0) * g / top
-        out.append(f'<line class="grid" x1="{x0}" y1="{y:.1f}" x2="{x1}" y2="{y:.1f}"/>')
-        out.append(f'<text class="axis" x="{x0 - 8}" y="{y + 4:.1f}" text-anchor="end">{g}</text>')
-    gw = (x1 - x0) / len(ns)
-    for i, n in enumerate(ns):
-        cx = x0 + gw * (i + 0.5)
-        for j, (v, col) in enumerate(((d[i], "--c1"), (s[i], "--c2"))):
-            bx = cx - 26 + j * 28
-            by = y1 - (y1 - y0) * v / top
-            out.append(f'<rect class="bar" x="{bx:.1f}" y="{by:.1f}" width="24" height="{y1 - by:.1f}" fill="var({col})"/>')
-            out.append(f'<text class="label" x="{bx + 12:.1f}" y="{by - 5:.1f}" text-anchor="middle">{v:.0f}</text>')
-        out.append(f'<text class="axis" x="{cx:.1f}" y="{y1 + 20}" text-anchor="middle">{n} 題</text>')
-    out.append(f'<text class="axis" x="{x0 - 8}" y="12" text-anchor="end">ms</text>')
-    out.append("</svg>")
-    table = "".join(f'<tr><td>{n} 題</td><td class="num">{d[i]:.0f}</td><td class="num">{LAT[f"L4_shared_state_{n}q_cache_on"]["per_call"]["p50"]:.0f}</td>'
-                    f'<td class="num">{s[i]:.0f}</td><td class="num">{SWA[f"L4_shared_state_{n}q_cache_on"]["per_call"]["p50"]:.0f}</td>'
-                    f'<td class="num">{d[i] / s[i]:.1f}x</td></tr>' for i, n in enumerate(ns))
-    return "\n".join(out), table
-
-
-def learning_curve_chart(task):
-    lc = A[task]["learning_curve"]
+def learning_curve_chart():
     ns = lc["N"]
-    series = [("TF-IDF + LR，用 N 筆訓練", "tfidf", "--c1"), ("typed decision 零樣本（N 筆不用）", "typed0", "--c2"),
-              ("typed decision 用 N 筆校準後，只答信心 ≥ 0.9 的題", "typed_sel90", "--c3")]
+    series = [("傳統機器學習，用 N 筆標註訓練", "tfidf", "--c1"), ("Jev 式，完全不標註", "typed0", "--c2"),
+              ("Jev 式，用 N 筆標註校準後只回答有把握的題", "typed_sel90", "--c3")]
     x0, x1, y0, y1 = 60, 600, 16, 240
     xs = {n: x0 + (x1 - x0) * i / (len(ns) - 1) for i, n in enumerate(ns)}
-    out = [f'<svg viewBox="0 0 640 280" role="img" aria-label="{e(ZH[task])}：標註筆數對準確率的學習曲線，三個系列">']
+    out = ['<svg viewBox="0 0 640 280" role="img" aria-label="SPC 處置這一題：標註筆數對答對率，三個做法的比較">']
     for g in (0.4, 0.6, 0.8, 1.0):
         y = y1 - (y1 - y0) * (g - 0.4) / 0.6
         out.append(f'<line class="grid" x1="{x0}" y1="{y:.1f}" x2="{x1}" y2="{y:.1f}"/>')
-        out.append(f'<text class="axis" x="{x0 - 8}" y="{y + 4:.1f}" text-anchor="end">{g:.1f}</text>')
+        out.append(f'<text class="axis" x="{x0 - 8}" y="{y + 4:.1f}" text-anchor="end">{g * 100:.0f}%</text>')
     for n in ns:
-        out.append(f'<text class="axis" x="{xs[n]:.1f}" y="{y1 + 20}" text-anchor="middle">N = {n}</text>')
+        out.append(f'<text class="axis" x="{xs[n]:.1f}" y="{y1 + 20}" text-anchor="middle">標註 {n} 筆</text>')
     for label, key, col in series:
         pts = [(xs[n], y1 - (y1 - y0) * (lc["mean"][key][str(n)] - 0.4) / 0.6) for n in ns]
         out.append('<path class="line" d="' + " ".join(f"{'M' if i == 0 else 'L'}{x:.1f} {y:.1f}" for i, (x, y) in enumerate(pts)) + f'" stroke="var({col})"/>')
         for x, y in pts:
             out.append(f'<circle class="dot" cx="{x:.1f}" cy="{y:.1f}" r="4.5" fill="var({col})"/>')
         lx, ly = pts[-1]
-        out.append(f'<text class="label" x="{lx + 8:.1f}" y="{ly + 4:.1f}">{lc["mean"][key][str(ns[-1])]:.2f}</text>')
+        out.append(f'<text class="label" x="{lx + 8:.1f}" y="{ly + 4:.1f}">{lc["mean"][key][str(ns[-1])] * 100:.0f}%</text>')
     out.append("</svg>")
     legend = "".join(f'<span class="key"><span class="swatch" style="background:var({col})"></span>{e(label)}</span>' for label, _, col in series)
-    table = "".join(f'<tr><td>{n}</td><td class="num">{lc["mean"]["tfidf"][str(n)]:.2f}</td><td class="num">{lc["mean"]["typed0"][str(n)]:.2f}</td>'
-                    f'<td class="num">{lc["mean"]["typed_sel90"][str(n)]:.2f}</td><td class="num">{lc["mean"]["typed_cov90"][str(n)]:.2f}</td></tr>' for n in ns)
+    table = "".join(f'<tr><td>{n} 筆</td><td class="num">{lc["mean"]["tfidf"][str(n)] * 100:.0f}%</td><td class="num">{lc["mean"]["typed0"][str(n)] * 100:.0f}%</td>'
+                    f'<td class="num">{lc["mean"]["typed_sel90"][str(n)] * 100:.0f}%</td><td class="num">{lc["mean"]["typed_cov90"][str(n)] * 100:.0f}%</td></tr>' for n in ns)
     return "\n".join(out), legend, table
 
 
 acc_svg, acc_table = acc_bar_chart()
-ss_svg, ss_table = shared_state_chart()
-lc_svg, lc_legend, lc_table = learning_curve_chart("q_spc_action")
+lc_svg, lc_legend, lc_table = learning_curve_chart()
 
-L1 = LAT["L1_single_100tok_2opt"]["summary"]
-L1s = SWA["L1_single_100tok_2opt"]["summary"]
-floor = SWA["L1_ref_same_prompt_repeated"]["summary"]["p50"]
-L7 = LAT["L7_chat_json"]["summary"]
-L6 = LAT["L6_with_bg_generation"]
-conc = {c: LAT[f"L5_concurrency_{c}"]["summary"] for c in (1, 4, 8)}
-strong = [t for t in ORDER if A[t]["raw_test"]["acc"] >= 0.98]
-weak = [t for t in ORDER if A[t]["raw_test"]["acc"] < 0.98]
-
-# ------------------------------------------------------------------ question status
+# ------------------------------------------------------------------ the eight questions, in plain language
 Q = [
-    ("Q1", "GB10 上的決策延遲 p50 / p95，比生成 JSON 快幾倍", "上界",
-     f"L4 上單題 p50 {L1['p50']:.0f} ms、p95 {L1['p95']:.0f} ms（開 <code>--swa-full</code> 後 {L1s['p50']:.0f} ms，decode 地板 {floor:.0f} ms）；同題生成 JSON {L7['p50']:.0f} ms，typed 快 {L7['p50'] / L1['p50']:.1f}–{L7['p50'] / L1s['p50']:.1f} 倍。",
-     "GB10 重跑 L1–L7，約 30 分鐘"),
-    ("Q2", "哪些 task 零樣本就夠、哪些要改題、哪些救不回", "已答",
-     f"{len(strong)} 個 task test 準確率 ≥ 0.98；{len(weak)} 個（{'、'.join(ZH[t] for t in weak)}）0.82–0.93 但 top-2 / AUROC ≥ 0.99，是門檻與 criteria 問題；沒有救不回的。",
-     "合成資料版；真實資料會低一些"),
-    ("Q3", "多題共用 state 的成本", "已答",
-     f"預設下 10 題 = {LAT['L4_shared_state_10q_cache_on']['summary']['p50'] / LAT['L4_shared_state_1q_cache_on']['summary']['p50']:.1f} 倍，前綴 cache 完全沒命中；開 <code>--swa-full</code> 後 10 題 = {SWA['L4_shared_state_10q_cache_on']['summary']['p50'] / SWA['L4_shared_state_1q_cache_on']['summary']['p50']:.1f} 倍，第 2 題起每題 {SWA['L4_shared_state_10q_cache_on']['per_call']['p50']:.0f} ms。",
-     "倍數可信，絕對毫秒數以 GB10 為準"),
-    ("Q4", "生成負載對決策延遲的影響", "上界",
-     f"背景持續生成 512 token 時決策 p50 {L1['p50']:.0f} → {L6['summary']['p50']:.0f} ms（{L6['slowdown_p50']:.2f} 倍）；併發 4 / 8 client 的 p50 {conc[4]['p50']:.0f} / {conc[8]['p50']:.0f} ms，throughput 卡在 {conc[8]['throughput_rps']:.1f} req/s，llama-server 在 L4 上沒把 prefill 批次化。",
-     "GB10 併發行為要重量，再決定要不要獨立 E4B"),
-    ("Q5", "中文 vs 英文 alarm", "已答",
-     f"中文夾機台代碼普遍不輸英文；英文 alarm log 在 4 個 task 略差（急迫度 {A['m_alarm_severity']['by']['en']['acc']:.2f} vs 中文 {A['m_alarm_severity']['by']['zh']['acc']:.2f}），主因是英文樣本刻意寫得極簡。不需要先正規化中文。",
-     "—"),
-    ("Q6", "每個 task 的信心門檻", "合成版",
-     f"raw 信心平均 0.99，無鑑別力：急迫度在 raw ≥ 0.9 的 coverage {A['m_alarm_severity']['raw_test']['sel90']['coverage']:.2f} 但準確率只有 {A['m_alarm_severity']['raw_test']['sel90']['acc']:.2f}。校準後 ≥ 0.9 才可用：SPC 動作 {A['q_spc_action']['affine_test']['sel90']['acc']:.2f} @ coverage {A['q_spc_action']['affine_test']['sel90']['coverage']:.2f}，急迫度 1.00 @ 0.40。7 個強 task 用 raw ≥ 0.9 即可。",
-     "用 200–500 筆真實 alarm／工單重做校準"),
-    ("Q7", "標註量：傳統 ML 與 typed decision 各要幾筆到 90%", "已答",
-     "TF-IDF + LR 在 100 筆內沒有一個 task 到 0.9（hard 子集 0.46–0.57）；typed decision 7 個 task 0 筆就 ≥ 0.98，弱的 3 個用 25 筆校準即可在 0.79–0.93 coverage 下達 0.95+。主管版「幾百筆」的說法成立，且多數 task 是 0 筆。",
-     "資料集每 task 只有 200 筆，N > 100 量不到"),
-    ("Q8", "規則基線在哪些 task 夠用", "已答",
-     f"沒有 task 的關鍵字規則 ≥ 0.95；最高是工單狀態 {A['p_line_change']['rules_acc_test']:.2f}（easy 0.96）。不建議任何 task 只用規則，規則可當 easy 案例的前置過濾。",
-     "—"),
+    ("Q1", "上界", "一次判斷要多久？比讓模型寫一段答案快多少？",
+     f"在租來的 L4 顯示卡上，一次判斷約 {L1['p50'] / 1000:.1f} 秒；同一題改讓模型寫出答案要 {L7['p50'] / 1000:.1f} 秒，Jev 式快 {speed:.1f} 倍。若一次問十題（同一份現場狀況），開對設定後平均每題只要 {per_q_swa / 1000:.2f} 秒。",
+     "夠快。產線上每天幾百到幾千次的判斷，這個速度可以即時回應。GB10 的真實數字要再量一次，租來的卡只能當保守估計。"),
+    ("Q2", "已答", "十類判斷題裡，哪些不用訓練就能用？哪些要再調？",
+     f"{len(strong)} 類完全不標註就有 98% 以上答對率。剩下 {len(weak)} 類（{'、'.join(ZH[t] for t in weak)}）落在 {min(A[t]['raw_test']['acc'] for t in weak) * 100:.0f}–{max(A[t]['raw_test']['acc'] for t in weak) * 100:.0f}%，錯的都在相鄰等級的邊界，例如「盡快處理」和「立刻停線」之間。",
+     "不需要為這件事訓練新模型。三類較弱的題目，把判斷標準寫得更明確、再用幾十筆資料調整門檻就夠。"),
+    ("Q3", "已答", "同一份現場狀況一次問好幾題，成本會不會倍增？",
+     f"預設設定下會：問十題要 {share10_default:.0f} 倍時間。開啟一個伺服器設定後降到 {share10_swa:.1f} 倍，第二題起每題只要 {per_q_swa / 1000:.2f} 秒。",
+     "可以一次問五到十題，把「這則警報有多急、是哪類問題、要不要派工」一起問掉。部署時要記得開那個設定。"),
+    ("Q4", "上界", "機台同時在讓模型寫報告時，判斷會被拖慢多少？",
+     f"背景持續寫長文時，判斷從 {L1['p50'] / 1000:.1f} 秒變 {L6['summary']['p50'] / 1000:.1f} 秒（{L6['slowdown_p50']:.1f} 倍）。同時來 8 個請求時每個要等 {conc[8]['p50'] / 1000:.1f} 秒，租來的卡每秒最多處理 {conc[8]['throughput_rps']:.0f} 次判斷。",
+     "每秒五次以內共用一台就夠。尖峰更高的話要在 GB10 上實測，再決定要不要另外放一個小模型專門做判斷。"),
+    ("Q5", "已答", "中文夾機台代碼的警報，會不會比英文差？",
+     f"不會。中文普遍不輸英文；英文警報碼在四類題目略差（例如警報急迫度：英文 {sev['by']['en']['acc'] * 100:.0f}%、中文 {sev['by']['zh']['acc'] * 100:.0f}%），主要是英文警報訊息本身太短。",
+     "現場的中文工單和警報可以直接用，不用先翻譯或整理格式。"),
+    ("Q6", "合成版", "模型說「我有把握」的時候，可以信到什麼程度？",
+     f"原始狀態不能信：模型幾乎每一題都說有 99% 把握，對錯都一樣。以警報急迫度為例，它自稱有把握的題目裡只有 {sev['raw_test']['sel90']['acc'] * 100:.0f}% 答對。用一百筆資料校準後，它說有把握的題目答對率變成 100%，但只剩 {sev['affine_test']['sel90']['coverage'] * 100:.0f}% 的題目它敢答；SPC 處置校準後是 {spc['affine_test']['sel90']['acc'] * 100:.0f}% 答對、{spc['affine_test']['sel90']['coverage'] * 100:.0f}% 敢答。",
+     "「有把握就自動處理、沒把握就轉人或轉大模型」這個機制可行，但門檻一定要用真實資料校準過才能上線。"),
+    ("Q7", "已答", "還需要標多少資料？",
+     f"傳統機器學習標 100 筆還到不了 90%（SPC 處置只有 {lc['mean']['tfidf']['100'] * 100:.0f}%）。Jev 式七類題目零筆就 98% 以上；較弱的三類標 25 筆校準，就能在八成左右的題目上做到 95% 以上。",
+     "主管版報告承諾「從每題幾千筆降到幾百筆」，實測比承諾更好：多數題目零筆，其餘幾十筆。"),
+    ("Q8", "已答", "用關鍵字規則就夠的題目，有沒有？",
+     f"沒有。十類題目用工程師手寫的關鍵字規則，最好的一類也只有 {best_rule['rules_acc_test'] * 100:.0f}%（{ZH[best_rule['task']]}），其餘 47–87%。",
+     "規則可以留著當第一道過濾，但不能只靠規則。"),
 ]
+CHIP = {"已答": "已答", "上界": "上界，GB10 待實測", "合成版": "方法成立，數字待真實資料"}
 q_blocks = "".join(
-    f'<div class="q"><p class="verdict">{q} · {e(status)}</p><h3>{e(title)}</h3><p>{answer}</p>'
-    f'<p class="byline">GB10 待補 · {e(todo)}</p></div>' for q, title, status, answer, todo in Q)
+    f'<div class="q"><p class="verdict">{q} · {e(CHIP[status])}</p><h3>{e(title)}</h3>'
+    f'<p><strong>答案</strong>　{answer}</p><p class="so"><strong>這代表</strong>　{meaning}</p></div>'
+    for q, status, title, answer, meaning in Q)
 
 # ------------------------------------------------------------------ page
 page = f"""<!doctype html>
@@ -161,25 +137,25 @@ page = f"""<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="imitator-style" content="v3">
-<meta name="imitator-register" content="實驗紀錄 — 沒有 GB10，先在 L4 上把八個問題答到 80%">
+<meta name="imitator-register" content="判定備忘 — Jev 式決策層值不值得做，給長官一頁講完">
 <meta name="imitator-reference" content="1980 年代工廠 QC 課點陣印表機印在連續報表紙上的實驗紀錄 — 編號所見、判定欄、等寬欄位">
 <meta name="imitator-paper" content="hsl(120 18% 94%)">
 <meta name="imitator-accent" content="hsl(178 58% 26%)">
-<title>八個問題，答了五個，三個給了上界</title>
+<title>Jev 式決策，值得，而且不用買</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 {CSS}
-/* REGISTER:  實驗紀錄 — 沒有 GB10，先在 Modal 的 L4 上把 Jev 式 typed decision 的八個問題答到 80%；
-              讀者是 Clarence 和要看分流建議的主管。這是「目前答到哪裡」的整理，不是最終報告。
+/* REGISTER:  判定備忘 — 給長官的一頁：Jev 式決策層值不值得做。先給結論與代價，再把八個問題
+              一題一題用白話講「問題是什麼、答案是什麼、這代表什麼」。工程細節收進條件與附錄。
    REFERENCE: 1980 年代工廠 QC 課的實驗紀錄 — 點陣印表機印在連續報表紙（greenbar）上，
               編號的所見、判定欄、等寬體的欄位，所見與判定分開寫。
    PAPER:     連續報表紙的淡綠 — hsl(120 18% 94%)。
    VOICE:     終端機青綠只給裁決、章節號和連結；標題用 IBM Plex Sans Condensed 壓 Noto Sans TC；
-              欄位與狀態用等寬體。判定用 chip：已答 / 上界 / 合成版。
-   NOT:       儀表板。數字是所見，每一個都跟著一句判定。
-   RECENT:    paper 355° 50° 20° · accent 205° 216° 282° — 原本想用三聯單黃聯 52° + 紫章 275°，
-              兩個都撞，改材料為 greenbar 120° + 終端機青綠 178°；178° 離 205° 有 27°。 */
+              判定用等寬體標籤：已答 / 上界 / 方法成立。
+   NOT:       儀表板，也不是工程報告。每個數字後面跟一句「這代表」。
+   RECENT:    paper 355° 50° 20° · accent 205° 216° 282° — 同一 slug 的改版，沿用第一版的
+              greenbar 120° + 青綠 178°；178° 離 205° 有 27°。 */
 :root {{
   --paper: hsl(120 18% 94%);
   --card: hsl(120 22% 97%);
@@ -227,8 +203,13 @@ page = f"""<!doctype html>
 .qlist .q h3 {{ margin: var(--sp-1) 0 var(--sp-2); font-size: var(--fs-3); }}
 .qlist .q p {{ margin: 0 0 var(--sp-2); }}
 .qlist .q .verdict {{ margin: 0; }}
-/* the routing table carries prose: on a phone it scrolls with its first column pinned instead of squeezing */
-.route table {{ min-width: 44rem; }}
+.qlist .q .so {{ color: var(--ink-2); }}
+/* the TL;DR: a ruled block, the verdict line set in the display face */
+.tldr {{ border-top: 3px solid var(--accent); border-bottom: 1px solid var(--rule-hard); padding: var(--sp-4) 0 var(--sp-3); margin-block: var(--sp-6); }}
+.tldr .head {{ font-family: var(--disp); font-size: var(--fs-2); font-weight: 700; margin: 0 0 var(--sp-3); }}
+.tldr ol {{ margin: 0; padding-left: 1.4em; }}
+.tldr li + li {{ margin-top: var(--sp-2); }}
+.route table {{ min-width: 40rem; }}
 </style>
 <body>
 <div class="progress"></div>
@@ -236,30 +217,41 @@ page = f"""<!doctype html>
 
 <main class="report">
 
-  <p class="eyebrow">實驗紀錄 · GB10 前置 · 2026-09-23</p>
-  <h1 class="display">八個問題，<br>答了五個，<br>三個給了<em>上界</em></h1>
-  <p class="lede">在拿不到 GB10 的情況下，用 Modal 上一張 L4 跑 Gemma 4 26B-A4B，讀選項字母的第一個 token 機率當決策 API。這一頁整理目前每個問題答到哪裡、哪些數字可以直接用、哪些要等 GB10 重量。</p>
-  <p class="byline">模型 gemma-4-26B-A4B-it-UD-Q4_K_M · llama-server b11118 · 合成資料 10 task × 200 筆 · GPU 約 0.85 小時 · 明細在 results/REPORT.md</p>
+  <p class="eyebrow">判定備忘 · Jev 式決策層 · 2026-09-23</p>
+  <h1 class="display">Jev 式決策，<br>值得做，<br>而且<em>不用買</em></h1>
+  <p class="lede">用我們已經部署的 Gemma 4 26B，加一層「只從固定選項裡選答案、不寫文章」的決策 API。十類產線判斷題有七類不用任何標註就能上線，每次判斷約 0.2 秒。本次驗證花費約一美元的雲端 GPU。</p>
+  <p class="byline">實驗於 Modal 雲端 L4 顯示卡進行 · 合成資料 10 類 × 200 題 · 工程細節與原始數據在 results/REPORT.md</p>
 
-  <p class="eyebrow">所見 01 · 答到哪裡</p>
-  <h2>八個問題的狀態</h2>
-  <p>v1 交接文件列了八個實驗要回答的問題。<span class="chip">已答</span> 是在合成資料上完整回答、與 GPU 無關的；<span class="chip soft">上界</span> 是延遲類，L4 的頻寬接近 GB10 但算力較弱，數字只能當保守上界；<span class="chip soft">合成版</span> 是門檻類，方法對了但數值要用真實資料重做。</p>
-
-  <div class="qlist">{q_blocks}</div>
-
-  <p class="eyebrow">所見 02 · 準確率</p>
-  <h2>七個 task 零樣本就過線，三個是門檻問題</h2>
-
-  <div class="tiles wide stagger">
-    <div class="stat"><p class="label">test 準確率 ≥ 0.98 的 task</p><div class="value">{len(strong)} / 10</div><div class="delta">零樣本、不校準</div></div>
-    <div class="stat"><p class="label">最弱的 task</p><div class="value">{A['m_alarm_severity']['raw_test']['acc']:.2f}</div><div class="delta">alarm 急迫度，top-2 為 1.00</div></div>
-    <div class="stat"><p class="label">raw 信心平均</p><div class="value">0.99</div><div class="delta down">幾乎永遠說有把握</div></div>
-    <div class="stat"><p class="label">抽查不合理率</p><div class="value">2.5%</div><div class="delta">200 筆，0 筆錯、5 筆可辯</div></div>
+  <div class="tldr">
+    <p class="head">TL;DR</p>
+    <ol>
+      <li><strong>判定：值得做，用現有模型自己做，不採購 Jev。</strong>Jev 是閉源雲端服務，資料出不了廠；我們要的能力，現有的 26B 模型加幾十行程式就有。</li>
+      <li><strong>準確率：十類題目七類直接達標。</strong>不做任何標註，{len(strong)} 類答對率 98% 以上；其餘三類 {min(A[t]['raw_test']['acc'] for t in weak) * 100:.0f}–{max(A[t]['raw_test']['acc'] for t in weak) * 100:.0f}%，錯在相鄰等級的邊界，把標準寫清楚、用幾十筆資料調門檻即可，不需要訓練新模型。</li>
+      <li><strong>速度：一次判斷 {L1['p50'] / 1000:.1f} 秒，比讓模型寫答案快 {speed:.1f} 倍。</strong>同一份現場狀況一次問十題，開對設定後每題再降到 {per_q_swa / 1000:.2f} 秒。</li>
+      <li><strong>標註：比主管報告承諾的還少。</strong>多數題目零筆；較弱的題目標 25 筆就能校準。傳統機器學習標 100 筆還到不了 90%。</li>
+      <li><strong>三個上線條件：</strong>部署時開啟前綴快取設定、「有把握才自動處理」的門檻要用真實資料校準、GB10 上重量一次速度。都是幾小時到幾天的事，不是幾個月。</li>
+    </ol>
   </div>
 
+  <div class="tiles wide stagger">
+    <div class="stat"><p class="label">不標註就達 98% 的題型</p><div class="value">{len(strong)} / 10</div><div class="delta">其餘三類要調門檻</div></div>
+    <div class="stat"><p class="label">一次判斷</p><div class="value">{L1['p50'] / 1000:.1f} 秒</div><div class="delta">租用 L4；GB10 待實測</div></div>
+    <div class="stat"><p class="label">比模型寫答案快</p><div class="value">{speed:.1f} 倍</div><div class="delta">一次問十題可再降</div></div>
+    <div class="stat"><p class="label">本次驗證的 GPU 費用</p><div class="value">≈ $1</div><div class="delta">約 0.85 小時</div></div>
+  </div>
+
+  <p class="eyebrow">01 · 這是什麼</p>
+  <h2>六十秒說明 Jev 式決策</h2>
+  <p>今天讓大模型做產線判斷，通常是丟一段描述請它「寫出」判斷結果，再從那段文字裡撈答案。慢、貴、而且偶爾撈不到。Jev 是一家新創推出的做法：<span class="mark">不讓模型寫，只讓它從我們給的幾個選項裡選一個，並附上它有多大把握</span>。一次判斷只算一步，所以快；答案永遠是選項之一，所以不會亂答；有把握度，所以可以「有把握就自動處理、沒把握就轉人」。</p>
+  <p>Jev 本身是閉源雲端服務，產線資料送不出去。這次驗證的是：<strong>用我們自己的 Gemma 4 26B 做同一件事，行不行。</strong>做法是讓模型只回答一個字母，讀它對每個字母的機率。不重新部署模型，不訓練，加一層程式而已。</p>
+
+  <p class="eyebrow">02 · 準確率</p>
+  <h2>十類題目，七類不用教就會</h2>
+  <p>我們做了十類產線判斷題，每類 200 題：七成是規則展開的一般題，三成是刻意寫得資訊不全、夾錯字、放干擾資訊的難題。全部由另一家模型出題與定答案，避免自己考自己；再由獨立審核抽查 10%，錯題率為零，可爭議的 2.5%。</p>
+
   <figure class="reveal">
-    <p class="title">十個 task 的零樣本準確率（test 集，未校準）</p>
-    <p class="subtitle">依 pair_id 分組切一半當 test；孿生例不跨集。同一模型生成 JSON 作答的對照、TF-IDF 與規則基線在表裡。</p>
+    <p class="title">十類判斷題，不做任何標註時的答對率</p>
+    <p class="subtitle">同一模型改讓它寫出答案、傳統機器學習、關鍵字規則三種對照在表裡。</p>
     <div class="chart">
 {acc_svg}
     </div>
@@ -267,60 +259,26 @@ page = f"""<!doctype html>
       <summary>看數字</summary>
       <div class="table-scroll">
         <table>
-          <thead><tr><th>task</th><th class="num">typed acc</th><th class="num">hard acc</th><th class="num">ECE raw</th><th class="num">生成 JSON</th><th class="num">TF-IDF+LR</th><th class="num">規則</th></tr></thead>
+          <thead><tr><th>題型</th><th class="num">Jev 式</th><th class="num">難題</th><th class="num">模型寫答案</th><th class="num">傳統 ML</th><th class="num">關鍵字規則</th></tr></thead>
           <tbody>{acc_table}</tbody>
         </table>
       </div>
     </details>
-    <figcaption>錯的集中在相鄰等級的邊界：急迫度的「盡快 vs 停線」、SPC 的「抽檢 vs 停線複檢」。這是 criteria 要寫成可數規則的問題，不是模型能力問題。</figcaption>
+    <figcaption>三類較弱的題目，錯的集中在「盡快處理 vs 立刻停線」「加抽檢 vs 停線複檢」這種相鄰等級之間，是判斷標準寫法的問題，不是模型能力的問題。</figcaption>
   </figure>
-
-  <p>Smoke 時就看到的現象在兩千筆上重現：<span class="mark">模型幾乎永遠給 99% 的信心，對錯都一樣</span>。alarm 急迫度的 raw ECE 是 {A['m_alarm_severity']['raw_test']['ece']:.3f}，temperature 要拉到 T ≈ 6 才校準得回來。所以 Jev 式「低信心就升級 LLM」的分流，在這個模型上<strong>只能用校準後的信心</strong>，raw 信心當門檻等於沒有門檻。</p>
 
   <div class="note warn">
-    <p class="head">判定：不需要 fine-tune</p>
-    <p>三個弱 task 的 top-2 準確率與 AUROC 都 ≥ 0.99，排序能力沒問題。依 v1 的判讀順序，這是門檻與 criteria 的事：用 25–100 筆做 affine 校準，加上把「連續幾點、超限幾次、機台停多久」寫成可數的邊界，再看要不要動模型。</p>
+    <p class="head">一個要小心的地方：模型太有自信</p>
+    <p>不管對錯，模型幾乎每題都說自己有 99% 把握。所以「有把握就自動處理」的門檻不能直接用模型原始的把握度，要先用一百筆左右的資料校準。校準後，它說有把握的題目答對率可以到 96–100%，代價是它會把一到六成的題目交給人。這是可以接受的分工，但門檻要用真實資料定。</p>
   </div>
 
-  <p class="eyebrow">所見 03 · 延遲</p>
-  <h2>單題兩百毫秒，但前綴 cache 預設是關不掉的壞</h2>
-
-  <p>L4 上一題約 {L1['prompt_tokens_mean']:.0f} 個 prompt token 的決策 p50 {L1['p50']:.0f} ms，同一題改讓模型生成 JSON 要 {L7['p50']:.0f} ms。這個倍數（{L7['p50'] / L1['p50']:.1f}x）在 GB10 上大致會保留；絕對值會變。</p>
-
-  <p class="pull">Gemma 4 用 sliding-window attention，llama-server 預設的 SWA cache 只能整段命中、不能部分重用前綴——所以「多題共用 state」在預設下一毛錢都省不到。</p>
+  <p class="eyebrow">03 · 標註量</p>
+  <h2>「幾百筆」的承諾，實測是「幾十筆或零筆」</h2>
+  <p>主管版報告承諾 Jev 式做法能把標註需求從每題幾千筆降到幾百筆。下圖是最弱的一類題目（SPC 管制圖處置）：傳統機器學習標到 100 筆還在 {lc['mean']['tfidf']['100'] * 100:.0f}%，Jev 式零筆就 {lc['mean']['typed0']['25'] * 100:.0f}%，標 25 筆校準後在它敢答的八成題目上有 {lc['mean']['typed_sel90']['25'] * 100:.0f}%。</p>
 
   <figure class="reveal">
-    <p class="title">共用一份 300-token state，問 1 / 5 / 10 題的總時間</p>
-    <p class="subtitle">兩個系列共用一條 y 軸（ms）。加 <code>--swa-full</code> 後第 2 題起只剩 decode 加問題段的 prefill。</p>
-    <div class="chart">
-{ss_svg}
-    </div>
-    <div class="legend">
-      <span class="key"><span class="swatch" style="background:var(--c1)"></span>預設（cache_prompt 開或關都一樣）</span>
-      <span class="key"><span class="swatch" style="background:var(--c2)"></span>加 --swa-full</span>
-    </div>
-    <details class="datatable">
-      <summary>看數字</summary>
-      <div class="table-scroll">
-        <table>
-          <thead><tr><th>題數</th><th class="num">預設 總 p50</th><th class="num">預設 每題</th><th class="num">swa-full 總 p50</th><th class="num">swa-full 每題</th><th class="num">省</th></tr></thead>
-          <tbody>{ss_table}</tbody>
-        </table>
-      </div>
-    </details>
-    <figcaption>GB10 有 128 GB 統一記憶體，開 <code>--swa-full</code> 不是問題；不開的話 Q3 的答案就是「N 題 = N 倍」。</figcaption>
-  </figure>
-
-  <p>另外兩個延遲所見：背景持續生成 512 token 時決策慢 {L6['slowdown_p50']:.2f} 倍；併發 1 / 4 / 8 個 client 的 p50 是 {conc[1]['p50']:.0f} / {conc[4]['p50']:.0f} / {conc[8]['p50']:.0f} ms，throughput 停在 {conc[8]['throughput_rps']:.1f} req/s。llama-server 在 L4 上沒有把 prefill 批次化，併發只是排隊。這一項在 GB10 上要重量，才能決定要不要走路線 C（獨立一個 E4B 做高頻 gating）。</p>
-
-  <p class="eyebrow">所見 04 · 標註量</p>
-  <h2>「幾百筆」的說法成立，而且多數 task 是零筆</h2>
-
-  <p>主管版報告承諾「標註需求從每題幾千筆降到幾百筆」。在三個 task 上從 calibration 集抽 N 筆、跑 3 個 seed，畫傳統 ML 和 typed decision 的學習曲線。下面是最弱的 SPC 動作；另外兩個 task 的 typed 零樣本本來就在 0.98 以上。</p>
-
-  <figure class="reveal">
-    <p class="title">SPC 動作：標註筆數 N 對 test 準確率</p>
-    <p class="subtitle">三個系列共用一條 y 軸。第三條是校準後只回答信心 ≥ 0.9 的題，其 coverage 在表裡。</p>
+    <p class="title">SPC 處置這一題：標註筆數對答對率</p>
+    <p class="subtitle">三個做法共用一條 y 軸。第三條是校準後只回答有把握的題，它敢答的比例在表裡。</p>
     <div class="chart">
 {lc_svg}
     </div>
@@ -329,47 +287,62 @@ page = f"""<!doctype html>
       <summary>看數字</summary>
       <div class="table-scroll">
         <table>
-          <thead><tr><th>N</th><th class="num">TF-IDF+LR</th><th class="num">typed 零樣本</th><th class="num">typed 校準後 @0.9</th><th class="num">coverage</th></tr></thead>
+          <thead><tr><th>標註</th><th class="num">傳統 ML</th><th class="num">Jev 式零筆</th><th class="num">Jev 式校準後</th><th class="num">敢答的比例</th></tr></thead>
           <tbody>{lc_table}</tbody>
         </table>
       </div>
     </details>
-    <figcaption>資料集每 task 只有 200 筆，calibration 集 100 筆，所以 N 停在 100。傳統 ML 在這個範圍內沒有到 0.9。</figcaption>
+    <figcaption>資料集每類只有 200 題，所以標註筆數最多量到 100。</figcaption>
   </figure>
 
-  <p class="eyebrow">所見 05 · 分流</p>
-  <h2>分流表可以先填了</h2>
+  <p class="eyebrow">04 · 八個問題</p>
+  <h2>一題一題講：問題是什麼，答案是什麼</h2>
+  <p>實驗設計時列了八個要回答的問題。<span class="chip">已答</span> 是在合成資料上完整回答、與硬體無關的；<span class="chip soft">上界</span> 是速度類，租用的顯示卡記憶體頻寬與 GB10 相近但算力較弱，只能當保守估計；<span class="chip soft">方法成立</span> 是門檻類，做法對了，數值要用真實資料重做。</p>
+
+  <div class="qlist">{q_blocks}</div>
+
+  <p class="eyebrow">05 · 怎麼分工</p>
+  <h2>哪些判斷交給它，哪些不交</h2>
 
   <div class="table-scroll wide route">
     <table>
-      <thead><tr><th class="wrap">題目特徵</th><th class="wrap">走哪條</th><th class="wrap">實測依據</th></tr></thead>
+      <thead><tr><th>判斷的長相</th><th>交給誰</th><th>依據</th></tr></thead>
       <tbody>
-        <tr><td class="wrap">封閉 label、選項 ≤ 5、每天百次以上</td><td class="nowrap"><span class="verdict">TYPED · 零樣本</span></td><td class="wrap">7 個 task sel@0.9 ≥ 0.99、coverage ≥ 0.99</td></tr>
-        <tr><td class="wrap">10 類以上細粒度分類</td><td class="nowrap"><span class="verdict">TYPED · 不必拆題</span></td><td class="wrap">10 類相近意圖 test 1.00、hard 0.98；多 8 個選項只多 40 ms</td></tr>
-        <tr><td class="wrap">模糊、需要「以上皆非」、低信心升級</td><td class="nowrap"><span class="verdict">TYPED · 校準後才能 gate</span></td><td class="wrap">raw 信心無鑑別力；affine 校準後 ≥ 0.9 可用</td></tr>
-        <tr><td class="wrap">中文夾機台代碼</td><td class="nowrap"><span class="verdict">TYPED · 不必正規化</span></td><td class="wrap">中文普遍不輸英文</td></tr>
-        <tr><td class="wrap">關鍵字規則就能解</td><td class="nowrap"><span class="verdict">CODE · 只當前置過濾</span></td><td class="wrap">規則最高 0.885，沒有 task ≥ 0.95</td></tr>
-        <tr><td class="wrap">數值進、數值出（UPH、CT、SPC）</td><td class="nowrap"><span class="verdict">CODE · 公式判定</span></td><td class="wrap">讀「數列文字」只有 0.93，hard 0.80</td></tr>
-        <tr><td class="wrap">要說明為什麼、多步推理</td><td class="nowrap"><span class="verdict">LLM</span></td><td class="wrap">本質上要文字</td></tr>
+        <tr><td>答案是固定幾個選項、每天百次以上（派工、分類、要不要通知）</td><td class="nowrap"><span class="verdict">JEV 式 · 直接上</span></td><td>七類題目 98% 以上，且說有把握時 99% 以上答對</td></tr>
+        <tr><td>選項多到十種以上的細分類</td><td class="nowrap"><span class="verdict">JEV 式 · 不必拆題</span></td><td>十種相近意圖 100% 答對，多選項幾乎不影響速度</td></tr>
+        <tr><td>模糊、需要「以上皆非」、要能轉人</td><td class="nowrap"><span class="verdict">JEV 式 · 校準後才上</span></td><td>門檻要用真實資料校準，否則模型永遠說有把握</td></tr>
+        <tr><td>純數字的判斷（產能、CT、SPC 是否超限）</td><td class="nowrap"><span class="verdict">程式公式</span></td><td>讓模型讀數字序列只有 {uph['raw_test']['acc'] * 100:.0f}%，公式是 100%</td></tr>
+        <tr><td>關鍵字就能認的</td><td class="nowrap"><span class="verdict">規則 · 只當前置過濾</span></td><td>規則最好的一類 {best_rule['rules_acc_test'] * 100:.0f}%，不能單獨用</td></tr>
+        <tr><td>要寫出原因、要多步推理、要查資料</td><td class="nowrap"><span class="verdict">大模型生成</span></td><td>本質上要文字；由 Jev 式判斷「沒把握」時觸發</td></tr>
       </tbody>
     </table>
   </div>
 
-  <p class="eyebrow">所見 06 · 沒答的</p>
-  <h2>這一版說不了的三件事</h2>
+  <p class="eyebrow">06 · 上線條件</p>
+  <h2>值得，前提是做到這三件事</h2>
 
   <div class="cols">
-    <div class="card"><p class="verdict">延遲絕對值</p><p>全部是 L4 上界。GB10 用 <code>bench/latency.py --only</code> 重跑 L1–L7 約 30 分鐘，記得開 <code>--swa-full</code>。</p></div>
-    <div class="card"><p class="verdict">真實資料的門檻</p><p>校準用的是合成資料，easy 例子是模板展開、規律性高。零樣本數字在真實 alarm 上會降，Q6 的門檻要用 200–500 筆真實資料重做。</p></div>
-    <div class="card"><p class="verdict">併發與 aarch64</p><p>L4 上 llama-server 不因併發加速，GB10 要重量；模型檔若不是 UD-Q4_K_M，準確率也要在 GB10 重跑一次，同格式的 raw logprobs 可直接進 analyze.py。</p></div>
+    <div class="card"><p class="verdict">條件一 · 部署設定</p><p>Gemma 4 的注意力機制讓伺服器預設無法重用「同一份現場狀況」的計算。要開一個設定（<code>--swa-full</code>），否則一次問十題就是十倍時間。GB10 記憶體夠，開了沒有代價。</p></div>
+    <div class="card"><p class="verdict">條件二 · 真實資料校準</p><p>這次全部是合成資料。零標註的答對率在真實工單上預期會降一些，「有把握才自動處理」的門檻必須用 200–500 筆真實警報與工單重新校準，估計一到兩天。</p></div>
+    <div class="card"><p class="verdict">條件三 · GB10 實測</p><p>速度數字全部來自租用的 L4。GB10 上重跑同一套測試約半小時，可以得到真實的秒數，以及機台同時在寫報告時的併發表現，再決定要不要另放一個小模型專做判斷。</p></div>
   </div>
+
+  <p class="pull">不買 Jev，不換模型，不訓練。加一層程式，七類判斷今天就能用，三類再調一調。</p>
+
+  <p class="eyebrow">07 · 下一步</p>
+  <h2>建議的三個動作</h2>
+  <ol>
+    <li><strong>GB10 上重跑速度測試</strong>（半小時）：確認每次判斷的真實秒數與併發能力。</li>
+    <li><strong>收 200–500 筆真實警報與工單</strong>（一到兩天）：校準門檻，確認零標註在真實資料上的答對率。</li>
+    <li><strong>改寫兩類題目的判斷標準</strong>（半天）：警報急迫度與 SPC 處置，把「連續幾點、超限幾次、停線多久」寫成可數的邊界。</li>
+  </ol>
 
   <div class="note">
-    <p class="head">還沒說到的</p>
-    <p>AI Studio 上的 Gemma 4 不開放 logprobs，31B dense 的對照因此沒做；env 裡的 Gemini key 這次只用來探測能力。實際費用 GPU 約 0.85 小時、約一美元，比交接文件估的 4–6 小時低很多，因為 A4B MoE 在 L4 上每題只要兩百毫秒。</p>
+    <p class="head">這一版沒說到的</p>
+    <p>Jev 官方另一個賣點是「校準過的把握度」，我們的替代方案要自己校準，這是條件二。獨立的小模型（Laya 之類）零標註接近亂猜，這次沒用。AI Studio 上的 Gemma 4 不提供選項機率，雲端對照因此沒做。實際 GPU 費用約 0.85 小時、約一美元，比原估的 4–6 小時低很多。</p>
   </div>
 
-  <p class="byline">repo clarencechien/jevlike · branch claude/zen-pascal-tg5upl · results/00-env.md · 01-smoke.md · 03-latency.md · 04-accuracy.md · REPORT.md · cost.md</p>
+  <p class="byline">repo clarencechien/jevlike · 工程版報告 results/REPORT.md · 原始數據 results/analysis.json · results/modal/</p>
 
 </main>
 

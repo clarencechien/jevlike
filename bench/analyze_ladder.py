@@ -336,6 +336,9 @@ def main():
             s = lambda m: f"{f(m['ece'])} / {f(m['sel90']['acc'])},{f(m['sel90']['coverage'], 2)}" if m else "—"
             L.append(f"| {t} | {f(c['raw']['acc'])} / {s(c['raw'])} | {s(c['transfer'])} | {s(c['refit_half'])} |")
     L += ["", "![](fig/ladder-accuracy.png)", ""]
+    narr = os.path.join(ROOT, "results/06-ladder-narrative.md")
+    if os.path.exists(narr):
+        L.insert(2, open(narr, encoding="utf-8").read())
     open(os.path.join(ROOT, "results/06-ladder.md"), "w", encoding="utf-8").write("\n".join(L) + "\n")
     print("wrote results/06-ladder.md")
     for t, v in verdicts.items():

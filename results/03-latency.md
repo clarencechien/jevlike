@@ -62,3 +62,23 @@
 **JSON 生成 / typed decision（p50）= 2.4x**
 
 註：所有數字皆為 L4（300 GB/s、算力弱於 GB10）；GB10 要用 v1 §5 的 L1–L7 重跑一次（約 30 分鐘）。
+
+## L8 追加：`--swa-full`（Gemma 4 sliding-window attention 與前綴 cache）
+
+上面所有 `cache 命中 tokens` 都是 0：Gemma 4 用 sliding-window attention（SWA），llama-server 預設的 SWA KV cache **只能整段命中、不能部分重用前綴**，所以「多題共用 state」和「共用 system/模板前綴」都沒有省到。加 `--swa-full`（SWA 層也保留完整 KV，記憶體較大）後前綴重用生效：
+
+n=100，`-c 8192 -np 4 --swa-full`。
+
+| 條件 | 預設 p50 ms | `--swa-full` p50 ms | swa-full cache 命中 tokens |
+|---|---|---|---|
+| L1 每次不同 state | 206 | 137 | 28（模板前綴） |
+| 同一 prompt 重複（decode 地板） | 97 | 26 | 186 |
+| cache_prompt=false | 206 | 169 | 0 |
+
+| N 題共用 state（cache on） | 預設 總 p50 | 預設 每題 | swa-full 總 p50 | swa-full 每題 | swa-full 每題 cache 命中 | swa-full N 題 vs 1 題 |
+|---|---|---|---|---|---|---|
+| 1 | 334 | 333 | 223 | 223 | 28 | 1.00x |
+| 5 | 1253 | 234 | 518 | 74 | 323 | 2.32x |
+| 10 | 2382 | 231 | 880 | 73 | 344 | 3.94x |
+
+→ 共用 state 的第 2 題起，每題只剩 decode + 問題段 prefill（約 70 ms，L4）。**GB10 部署時要開 `--swa-full`**（128 GB 統一記憶體夠），否則 Q3 的答案是「N 題 = N 倍」。

@@ -43,3 +43,18 @@
 {"id": "m_alarm_severity-d2-042", "task": "m_alarm_severity", "label": "A", "confidence": 0.95, "reason": "雖讀卡不順但仍可運作，已規劃於換線時再行處理，不影響目前生產。", "annotator": "gemini-3.5-flash"}
 {"id": "m_alarm_severity-d2-043", "task": "m_alarm_severity", "label": "A", "confidence": 1.0, "reason": "微量滲油不影響壓力，已排定於下週大保養時更換。", "annotator": "gemini-3.5-flash"}
 {"id": "m_alarm_severity-d2-044", "task": "m_alarm_severity", "label": "A", "confidence": 0.9, "reason": "溫濕度僅略微超標且防潮櫃正常，已通知調整，不影響目前生產。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-045", "task": "m_alarm_severity", "label": "A", "confidence": 1.0, "reason": "系統提示硬碟空間不足但不影響目前備份，本週內處理即可。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-046", "task": "m_alarm_severity", "label": "A", "confidence": 0.8, "reason": "手動量測合格，可等當前批次生產完後再行擦拭鋼板。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-047", "task": "m_alarm_severity", "label": "B", "confidence": 0.8, "reason": "料帶張力過高但自動修正中，需盡快確認以防斷帶或拋料。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-048", "task": "m_alarm_severity", "label": "A", "confidence": 0.8, "reason": "拋料率略高但工單即將打完，可等稍後塞料前再行清潔。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-049", "task": "m_alarm_severity", "label": "B", "confidence": 0.9, "reason": "Golden Sample 即將於 15 分鐘內過期鎖機，需盡快找 QE 簽核。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-050", "task": "m_alarm_severity", "label": "B", "confidence": 0.8, "reason": "元件偏位處於允收邊緣，需盡快通知 PE 調整以防後續批次不良。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-051", "task": "m_alarm_severity", "label": "A", "confidence": 0.8, "reason": "錫膏溫度偏低警告且系統監控中，暫不影響目前生產。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-052", "task": "m_alarm_severity", "label": "B", "confidence": 0.9, "reason": "螺絲滑牙雖目前固定得住，但 40 分鐘後換線將無法調整，需盡快處理。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-053", "task": "m_alarm_severity", "label": "C", "confidence": 1.0, "reason": "回焊爐斷電且馬達停止，爐內板子面臨報廢與起火風險，必須立刻處理。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-054", "task": "m_alarm_severity", "label": "C", "confidence": 1.0, "reason": "貼片頭發生致命錯誤並關閉，機台已無法生產，必須立刻停線處理。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-055", "task": "m_alarm_severity", "label": "C", "confidence": 1.0, "reason": "傳送帶斷裂導致整線卡死無法生產，屬於停線狀態。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-056", "task": "m_alarm_severity", "label": "C", "confidence": 1.0, "reason": "測試機冒煙燒焦且已拉下急停，存在嚴重安全與設備損壞風險，必須立刻處理。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-057", "task": "m_alarm_severity", "label": "C", "confidence": 1.0, "reason": "通訊失敗觸發 MES 鎖機聯鎖導致停線，必須立刻處理。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-058", "task": "m_alarm_severity", "label": "C", "confidence": 1.0, "reason": "料帶裝反導致批量板子面臨報廢，必須立刻停線糾正。", "annotator": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-059", "task": "m_alarm_severity", "label": "C", "confidence": 1.0, "reason": "貼片頭撞車損壞且已按下緊急停止，必須立刻停線處理。", "annotator": "gemini-3.5-flash"}

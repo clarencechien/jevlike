@@ -1,0 +1,60 @@
+{"id": "p_line_change-d2-000", "task": "p_line_change", "state": "SMT-L2 WO-20261011-042 前工單已結。目前 DEK-01 鋼網已架好，NXT-02 刷完程式正對條碼中，阿國在拉首件，預估還要 20 分。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-001", "task": "p_line_change", "state": "L6 說好的 0402 10k 電阻怎麼還沒來？資材說車子在路上，目前進度 0，全線人員先去線上開早會，拿到料再開工。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-002", "task": "p_line_change", "state": "SMT-L1 Heller-02 出口皮帶斷掉卡板，爐子高溫警報中，已 Call ME 來看，現在整條線塞車停擺中，不知道要修多久。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-003", "task": "p_line_change", "state": "SMT-L5 WO-20261012-088 MES STATUS: CHANGEOVER. YSM-20 PROFILE HEATING UP TO 245C. STENCIL S-9921 CHECKED PASS. FAI PENDING.", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-004", "task": "p_line_change", "state": "FATP-L3 WO-088 中框小板 SMT 還沒交過來，據說 L4 剛剛過爐大塞車，目前 FCT 線上 8 個人沒板子裝，在等前製程交接。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-005", "task": "p_line_change", "state": "WO-20261014-002 SMT-L3 NXT-03 HEAD #4 VACUUM ERROR CODE E-2044. NOZZLE REPLACED BUT STILL FAILS. WAITING FOR PE TO CALIBRATE.", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-006", "task": "p_line_change", "state": "SMT-L8 WO-1015-001 清線完畢，現正設定 SIPLACE-01 軌道寬度與頂針，小美核對條碼 B23-0402-10NF 中，首件確認中。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-007", "task": "p_line_change", "state": "L2 AOI-01 視訊相機光源突然熄掉，重開機無效，疑似控制板燒掉，已報修廠商，今天可能沒辦法跑了，先 Hold 線。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-008", "task": "p_line_change", "state": "SMT-L4 WO-20261013-051 MES HOLD: COMPONENT SHORTAGE. U102 IC-LQFP100 WAREHOUSE STOCK 0, PUR ETA 10/16. LINE STANDBY.", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-009", "task": "p_line_change", "state": "L3 WO-20261012-102 鋼網擦拭紙和錫膏（LOT: 261005）已到線，DEK 參數 load 完畢，等首件 SPI 跑完就要開拉。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-010", "task": "p_line_change", "state": "SMT-L6 SPI-02 軌道馬達一直報 ALARM 203 夾板異常，手動重置也進不去，OP 說剛剛卡板有異音，ME 還在抓問題。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-011", "task": "p_line_change", "state": "WO-20261015-090 SMT-L2 CURRENT STATUS: WAIT. MISSING BGA U401 (LOT 261011A). WH DELAYED ISSUING DUE TO IQC HOLD. ETA UNKNOWN.", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-012", "task": "p_line_change", "state": "SMT-L1 前工單 11:30 順結。WO-20261012-012 換模中，SMT-03 feeder 排程 36 站，Amy 說還要 15 分鐘對料。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-013", "task": "p_line_change", "state": "L5 回焊爐 ZONE 8 溫控異常，實際溫度掉到 160 度（目標 220），熱電偶可能掛了。已請保養課帶備品過來拆爐。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-014", "task": "p_line_change", "state": "SMT-L7 上一張做完了，但新工單的 PCB 裸板還在烘烤箱裡面烘，要下午 3 點才能出爐，線上現在沒事做。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-015", "task": "p_line_change", "state": "SMT-L4 MES ALARM: DEK-01 SQUEEGEE PRESSURE SENSOR FAULT. CALL TR-4420 SUBMITTED TO MAINTENANCE TEAM. LINE STOPPED.", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-016", "task": "p_line_change", "state": "L2 新工單 005 首件送 FAI 檢驗中，軌道寬度跟 Reflow 溫度都切換好了，等 QE 簽首件就可以正式跑了。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-017", "task": "p_line_change", "state": "SMT-L3 WO-20261015-007 原定下午一點開，但主晶片散熱片（PN: 400-1120）盤點數量不對，庫房還在找料，線上等。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-018", "task": "p_line_change", "state": "L6 貼片機 NXT-02 Z 軸螺桿卡死，下壓時有怪聲，強行運作會撞斷吸嘴。目前已報修，等原廠工程師下午帶零件過來。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-019", "task": "p_line_change", "state": "SMT-L5 上工單 09:15 pass 完畢。新工單 WO-089 開始進料，正在進行鋼網對位及自動錫膏印刷測試，預計 10 分鐘內首件。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-020", "task": "p_line_change", "state": "SMT-L1 WO-20261012-005 剛下，新工單 -006 鋼網放上去了，PE 正在對 mark 點，等下跑首件。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-021", "task": "p_line_change", "state": "L5 轉產 C1005 電容料架插好了，但 R104 顆粒料捲找不著，物料去倉庫翻，大家先乾等。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-022", "task": "p_line_change", "state": "SMT-L2 NXT-01 Z軸一直彈 error 0x4F8，ME 說感應器髒了清過沒用，可能要拆馬達，停線中。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-023", "task": "p_line_change", "state": "L3 WO-1015-088 STATUS: REFLOW PROFILE SWITCHING, HEATING UP. ETA 10MIN.", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-024", "task": "p_line_change", "state": "DIP-L2 WO-20261009-022 軌道卡板啦！送板馬達軸承好像燒掉轉不動，ME 在找備件換。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-025", "task": "p_line_change", "state": "SMT-L8 U5 晶片盤料點過不夠貼這批，發料單打去倉儲沒反應，小林去催料了，目前產線乾站著。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-026", "task": "p_line_change", "state": "L4 NXT-02 ERR-2013 FEEDER BASE 3 COMM FAIL. ME TROUBLESHOOTING. LINE STOPPED.", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-027", "task": "p_line_change", "state": "L6 上一單完工。新單 012 換線中，AOI 程式載入完畢，目前助導正在做首件比對，稍後開跑。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-028", "task": "p_line_change", "state": "L2 換線換一半，發現 slot 32 的 10uF 電容庫存為零，系統顯示在 IQC 待驗，這批動不了了。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-029", "task": "p_line_change", "state": "WO-1011-030 L1 STOP: BGA CHIP U12 NOT ARRIVED. WAITING FOR WHSE DELIVERY.", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-030", "task": "p_line_change", "state": "SMT-L3 11:40 SPI-01 鏡頭雷射高度校正一直 fail，工程師懷疑控制板壞了，打給廠商報修。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-031", "task": "p_line_change", "state": "L7 新工單-112 進度 85%了，feeder 全上完了，IPQC 正在核對條碼，等下刷鋼網印刷首件。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-032", "task": "p_line_change", "state": "DIP-L3 WO-20261018-040 現場剩 10 台外殼，組裝課說大巴今天沒把五金件送過來，10:30起停線。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-033", "task": "p_line_change", "state": "WO-1019-055 L5 CHANGEOVER 90%. NXT-04 LOADING PROG. FAI JIG READY, WAIT PE CONFIRM.", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-034", "task": "p_line_change", "state": "L5 DEK-01 印刷機刮刀壓力異常，印出來都缺錫。ME 懷疑氣壓閥壞掉，正在拆開檢測。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-035", "task": "p_line_change", "state": "SMT-L9 下一單要用的屏蔽罩（P/N 302-109）沒料，跟採購確認說下午才會到廠，目前全線等料。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-036", "task": "p_line_change", "state": "L2 WO-20261022-004 已結單，現正排新工單 -005。NXT-02 鋼網刷洗中，預計 15 分鐘後試跑。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-037", "task": "p_line_change", "state": "SMT-L1 L-02 回焊爐第七溫區實測溫度降到 180 度升不上去，熱電偶斷線，ME 正頂著熱拆換。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-038", "task": "p_line_change", "state": "L3 下個機種主板（WO-20261020-099）排在線邊了，但沒 24pin 插座，聽說卡在報關行還沒進來。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-039", "task": "p_line_change", "state": "SMT-L8 WO-20261025-012 快做完了，下張工單料架已在離線台車備妥，等下無縫接軌直接上線。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-040", "task": "p_line_change", "state": "L2 剛剛 WO-20261005-021 結單，現在 S1 準備換 C0805 的 feeder，PE 正在導新程式，預計還要 15 分鐘拉首件。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-041", "task": "p_line_change", "state": "SMT-L4 換線中，上一工單 14:15 跑完。目前 NPM-02 鋼網已經對位好，正在等 QC 過去量錫膏厚度，等下就能跑第一片了。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-042", "task": "p_line_change", "state": "DIP-L3 新工單 WO-20261012-088 下午進站，載具正在調寬度，爐溫 profile 剛測完過關，技術員在設定波焊機參數。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-043", "task": "p_line_change", "state": "LINE-5 WO-20261003-012 closed at 09:30. Current status: loading new program to AOI-02 and adjusting conveyor width for the next batch.", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-044", "task": "p_line_change", "state": "SMT-L1 正在轉機種，換線進度 60%，NXT-02 22站料表刷完了，現在等首件出爐，預估 11:30 可以開始量產。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-045", "task": "p_line_change", "state": "厚，L3上一條剛跑完，現在正在洗鋼網，新工單 WO-100822 的錫膏剛退冰好，正在攪拌，大概10分鐘後架上去。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-046", "task": "p_line_change", "state": "SMT-L6 WO-20261001-002: Stencil replacement and laser marker setup in progress. ETA 15 mins for first trial run.", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-047", "task": "p_line_change", "state": "L5 停線！WO-20261009-031 缺 U12 那顆 MCU，倉庫說還在海關驗放，今天不知道會不會來，大家先去支援 L1 貼標籤。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-048", "task": "p_line_change", "state": "SMT-L2 15:30 起 idle，新工單 R0402 10k 電阻（料號 102-00431）車子載過來發現只有5盤，不夠打，跟倉管確認中。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-049", "task": "p_line_change", "state": "WO-20261011-042 開線失敗，SMT-L3 現場料架都架好了，但主晶片 BGA 庫存帳不對，少 200 顆，生管還在找料。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-050", "task": "p_line_change", "state": "SMT-L1 WO-20261002-077 STOPPED. SPI checked OK but line is waiting for connector CON-3pin-V. Warehouse stock empty, waiting for buyer update.", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-051", "task": "p_line_change", "state": "報告組長，L4 新工單的 PCB 裸板還在板廠載過來的路上，聽說卡在高速公路塞車，現場沒板子可印，先幫忙別線折板。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-052", "task": "p_line_change", "state": "L6 的 WO-101501 線上無 output，因為 R12 貼片電容發錯料號，發到 0603 的，工程師正在聯絡倉庫緊急補領 0402 的。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-053", "task": "p_line_change", "state": "SMT-L2 Hold since 08:45. MES shows WO-20261004-001 material verification fail: flash memory U4 not found in current line side stock.", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-054", "task": "p_line_change", "state": "L1 SPI-01 突然噴 Error Code 2045，馬達一直叫，ME 拆開蓋子看是皮帶斷了，現在去五金房翻看看有沒有備件。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-055", "task": "p_line_change", "state": "SMT-L3 貼片機 M03 的 Head 3 吸嘴頭一直掉，打出來的都歪掉，ME 拆下來校正，說要等廠商下午帶儀器來調，暫時不能開。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-056", "task": "p_line_change", "state": "SMT-L5 回焊爐 R-01 溫控異常，Zone 6 的發熱管燒掉，現在降溫中，ME 說至少要 3 小時才能換好，今天這單可能要移線了。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-057", "task": "p_line_change", "state": "L4 AOI-02 camera failure. Image capture timeout error. Maintenance team onsite, suspected bad grabber card. Under repair.", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-058", "task": "p_line_change", "state": "SMT-L2 剛換完線，但 DEK-02 印刷機一直跳 Squeegee Overpressure，軌道卡死動不了，PE 還在抓原因，線上全停。", "writer": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-059", "task": "p_line_change", "state": "急，L6 的點膠機突然罷工，膠量控制閥塞住，泡溶劑也清不掉，可能要整組換新，ME正在聯絡代理商看有沒有現貨。", "writer": "gemini-3.5-flash"}

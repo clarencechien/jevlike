@@ -1,0 +1,60 @@
+{"id": "q_spc_action-d2-000", "task": "q_spc_action", "state": "L2 SPI 剛剛報一個 Cpk 剛好 1.35，看了一下 X-bar 都在 CL 上下跳，沒連續上升，晚班先這樣，下一批進來再確認就好。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-001", "task": "q_spc_action", "state": "SPC SMT-L8 NPM-A01 PLACEMENT Y-OFFSET CL 0UM UCL 30 LCL -30. LAST 5 PTS: 18, 22, 24, 26, 29. NEAR UCL, TREND DETECTED.", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-002", "task": "q_spc_action", "state": "L1 DEK 剛剛刷完鋼網第一片 SPI 錫膏厚度直接飆到 185 (UCL 170)，先hold住，叫大夜去確認一下刮刀是不是沒鎖緊，重新印一片量量看。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-003", "task": "q_spc_action", "state": "L5 SPI又爆了，昨晚調過刮刀壓力，今天早上這批料號 U201 錫膏體積連三點都過 130% (UCL 125%)，別線同料號也偏高，不知道是不是這批板子問題，快請品管過來抓原因。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-004", "task": "q_spc_action", "state": "SPC SPI-03 PASTE AREA CL 100% UCL 120% LCL 80% LAST 8 PTS: 102 98 105 111 95 99 104 97. DISTRIBUTED RANDOMLY AROUND CL.", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-005", "task": "q_spc_action", "state": "白班交接：L6 爐子 R-03 第三溫區剛換加熱棒，峰溫 SPC 連續 5 點都在 247 度（UCL 250），雖然沒超，但保險起見每半小時去手動量一下板溫。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-006", "task": "q_spc_action", "state": "MES警報：L3-NPM1 零件 X 軸偏置單點超限（量測值 -48um，LCL -45um），機台目前 red light，請線長先停下，去手動量一下這顆 Feeder 看看有沒有吸偏。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-007", "task": "q_spc_action", "state": "L2 AOI R102 電阻連三板報空焊，看 SPC 回焊前高度跟體積都正常，這已經是這週第二次了，黃課長叫我們直接請工程跟品質開會，看是不是 Layout 的 PAD 有設計問題。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-008", "task": "q_spc_action", "state": "L1 DEK-02 錫膏厚度最近 10 點：148, 152, 149, 151, 147, 153, 150, 148, 152, 149。波動很小，平均 150 左右，看起來很穩，照原計畫繼續跑。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-009", "task": "q_spc_action", "state": "SPC ALARM: LINE 5 BT-01 REFLOW PEAK TEMP 236.5C BELOW LCL 238.0C (CL 243.0C). PREVIOUS 5 PTS WITHIN LIMITS. SINGLE POINT ANOMALY.", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-010", "task": "q_spc_action", "state": "L4 SPI 測 C312 錫膏高度連續 6 點往下掉（145->142->138->135->132->130），快接近 LCL 128 了，先去拿幾片剛刷好的，用厚度計手動點檢一下是不是鋼網開孔堵住了。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-011", "task": "q_spc_action", "state": "L7 投這批 WO-12345，SPI 報錫膏面積跟隔壁 L8 量出來的都集體往下掉，兩條線的 CL/UCL/LCL 設定沒變，但量出來都在 LCL 附近，ME 說設備沒動，要請品質確認是不是這批錫膏黏度異常。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-012", "task": "q_spc_action", "state": "LINE-3 PLACEMENT-Y OFFSET CL: 0UM, UCL: +25UM, LCL: -25UM. SUBGROUP AVG LAST 15 PTS STABLE WITHIN +/-12UM, CPK 1.52. NO TREND DETECTED.", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-013", "task": "q_spc_action", "state": "剛剛看 L3 SPI 報表，C105 的體積 SPC 有 5 點都在 CL 下方（平均 82%，LCL 75%），雖然沒出界，但通知線檢這兩板過爐後去手動點檢，看看有沒有少錫的錫尖。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-014", "task": "q_spc_action", "state": "L2-NPM2 吸嘴 R05 剛剛拋料率突然衝到 8% 觸發 MES 紅燈，但前一小時都很正常，先 press hold 壓停，叫技術員把 05 吸嘴拆下來吹一下看有沒有卡膠再重試。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-015", "task": "q_spc_action", "state": "L1 AOI 報 U12 腳位吃錫高度連續 15 點貼在 LCL，雖然沒出界，但 Cpk 已經跌到 0.61 了，剛剛 ME 調過鋼網擦拭頻率也沒改善。這批是新供應商的料，得拉品質進來發 CAR 了。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-016", "task": "q_spc_action", "state": "SPC WARNING: SMT-L6 SPI-01 VOL% FOR U100 BGA. CL 100%, LCL 80%. PREVIOUS 6 PTS: 86%, 84%, 82%, 81%, 82%, 81%. RUN BELOW CL DETECTED. PREPARE MANUAL MEASUREMENT.", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-017", "task": "q_spc_action", "state": "機台：L5-NPM X軸偏差，這半小時點都在 +15um ~ -12um 跑（UCL/LCL ±35），沒有朝單邊飄的趨勢。目前沒事，放著它跑，我們去幫 L6 換料。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-018", "task": "q_spc_action", "state": "線長，L3回焊爐第四溫區溫度突然掉到 165 度（SPC LCL 172 度），前幾點都 175 度很穩，我先按停線了，去查一下是不是加熱組跳電，等一下重新過溫板確認。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-019", "task": "q_spc_action", "state": "SPC ERROR: LINE-4 SPI-02 VOLUME SPC CONTINUOUS 3 POINTS EXCEEDED UCL 125% FOR PARTS C12, C13, C14. SYSTEM SUSPENDED. RE-CALIBRATION FAILED TO RESOLVE. QUALITY ENG INTERVENTION REQUIRED.", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-020", "task": "q_spc_action", "state": "SMT-L3 AOI-02 報表：料號 R102-0402-10K 零件偏移 SPC (CL 0.02mm, UCL 0.05, LCL -0.05) 最近 10 點都在 CL 上下跳動，最大值 0.035，無連續偏移。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-021", "task": "q_spc_action", "state": "L2線長：剛剛 SPI 報 R125-0201 那個 BGA 錫量直接噴到 135% 爆 UCL 了，我先請小李把印刷機 pause，你們去看一下鋼網是不是堵住。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-022", "task": "q_spc_action", "state": "SPC ALARM: REFLOW-L8 TEMP ZONE 5 CURRENT 249.8C ABOVE UCL 248.0C. WO: W240215A01. PROCESS BLOCKED. WAIT FOR OPERATOR RESET AND RE-RUN TEST BOARD.", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-023", "task": "q_spc_action", "state": "報告老大，L1 鋼網厚度超標，剛剛 ME 進來調了兩次刮刀壓力跟速度，但做出來的 SPC 厚度還是卡在 175um (UCL 171) 降不下來，現在卡在這邊。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-024", "task": "q_spc_action", "state": "SMT-L6 SPI-01 料號 C302-0402 錫膏體積，CL 100%，最近 5 點量測值：92%, 90%, 88%, 85%, 82%，雖然都還在 LCL 76% 以上，但有往下滑的 trend。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-025", "task": "q_spc_action", "state": "剛看了一下 L5 DEK-01 的 SPC 畫出來都很漂亮，Cpk 有到 1.65。這批板子印得很穩，先不用動，班長叫我們照平常速度跑就好。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-026", "task": "q_spc_action", "state": "MES_STATUS_OK: SMT-L2 AOI-01 REFLOW SOLDER JOINT HEIGHT SPC (CL 50um UCL 65 LCL 35) LAST 15 PTS NORMAL RANDOM VARIATION. CPK 1.82. NO ALARM TRIGGERED.", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-027", "task": "q_spc_action", "state": "SMT-L4 DEK-02 今天換了新的一罐錫膏（Batch: SG-20231015），剛剛看三個不同料號的印刷厚度 SPC 全都一起衝過 UCL，怪怪的，是不是這批料有問題？", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-028", "task": "q_spc_action", "state": "R-03 爐子的 O2 殘氧量，最近 7 點分別是 450, 490, 520, 550, 580, 610, 630 ppm，快接近上限了但還沒爆，Op 說先多抽幾片看過爐後的吃錫狀況。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-029", "task": "q_spc_action", "state": "L3_Op: 「大夜班學弟回報，剛剛 CP-01 貼片 SPC 吸料率警報響了，連續三片在同個 nozzle 掉料，機台亮紅燈鎖住了，我叫他先停下來清吸嘴再重新確認。」", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-030", "task": "q_spc_action", "state": "SPC WARNING: L5-SPI-02 SYSTEM CPK DROPPED TO 0.85 FOR THREE CONSECUTIVE SUBGROUPS (WO-908221). THICKNESS DEVIATION SIGNIFICANT. ENG DEPT INTERVENTION REQUIRED.", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-031", "task": "q_spc_action", "state": "MES 提示：SMT-L2 印刷厚度管制圖，最近一點 174um 超過 UCL 171um。請依 SOP 暫停設備，並對前五片生產板進行手動複檢以確認印刷品質。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-032", "task": "q_spc_action", "state": "L6線長：今天這批板子 AOI 一直報 QFN 空焊，SPC 統計顯示這週不良率已經連三天超過 1.5% 警戒線，ME 說不是爐子的問題，要開 CAR 請品保進來看。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-033", "task": "q_spc_action", "state": "SMT-L1 回焊爐 R-01 溫度第四區，CL 245.0度。最近 6 點量測全部偏在中心線上方（247.1、247.5、246.8、247.0、247.4、246.9），雖然沒超 UCL 但很不正常。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-034", "task": "q_spc_action", "state": "L7_Op_小白：剛剛看了一下 R-02 傳送速度 SPC，最近 12 點都在 CL 80 cm/min 左右晃，沒有偏哪一邊，數據很漂亮，我就繼續在旁邊補料囉。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-035", "task": "q_spc_action", "state": "SPC TREND WARNING: SMT-L3 DEK-01 PASTE VOLUME LCL 78% UCL 122%. LAST 6 SUBGROUPS SHOW CONTINUOUS DECREASE FROM 110% TO 82%. NO LIMIT VIOLATION YET. UP SAMPLING RATE.", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-036", "task": "q_spc_action", "state": "課長，L5 做 WO-220912 這一批，SPI 刷出來的 Cpk 只有 1.12，我們自己調過脫模參數還是不見起色，這張單客戶要求 Cpk 1.33 以上，要不要找 QE 來改 spec 或開會？", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-037", "task": "q_spc_action", "state": "L1-SPI-01 ALARM!! 料號 U102 錫膏面積 SPC 最新一點量到 65% 直接破 LCL (76%)，機台黃燈閃爍。阿明你先別下板，把前面印的那三片拿去放大鏡底下重看一次。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-038", "task": "q_spc_action", "state": "ME 報告：L4 貼片機 CP-02 剛剛保養完，跑了 20 片的 SPC 點都在 CL 附近呈隨機分布，無連串或單向傾向，Cpk 計算出來是 1.55，符合量產水準，維持現狀生產。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-039", "task": "q_spc_action", "state": "SMT-L8 線長：大家注意一下，剛剛 AOI 數據顯示 C105 零件有連續 5 點都偏向 X 軸正方向，雖然都在 UCL 之內，但巡檢等一下過去那條線多量兩片。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-040", "task": "q_spc_action", "state": "L2 SPI-01 換線後跑首件，C1206 厚度 SPC 連續 5 點在 CL 上下跑（CL 145, UCL 165, LCL 125）最新 148、139、142、147、135，沒偏一邊。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-041", "task": "q_spc_action", "state": "MES SPC ALERT: LINE 4 AOI COMPONENT OFFSET X-BAR (CL:0, UCL:35, LCL:-35). LAST 8 SAMPLES: 12, -8, 15, -4, 2, 9, -11, 6. ALL IN LIMITS, NO TREND.", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-042", "task": "q_spc_action", "state": "剛剛測了 R-01 第五區溫度，班長看過管制圖，最近 8 次量測：242.3, 241.8, 242.9, 241.1, 242.5, 241.6, 243.0, 241.7。都在CL 242上下跳，沒啥問題。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-043", "task": "q_spc_action", "state": "L5 貼片機 M-03 QFN offset X-bar (CL: 0, UCL: 25, LCL: -25)，早班到現在點都在 12, -8, 5, -15, 3, 10, -5, 2 亂跳，跑得滿穩的。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-044", "task": "q_spc_action", "state": "WO#8124501 跑 IPQC 巡檢，看了一下 SPI 0805 錫膏體積，點都落在中線 100 附近（95, 102, 98, 105, 96, 101），波形滿正常的。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-045", "task": "q_spc_action", "state": "L3 SPI 0402 錫膏體積好像怪怪的，看 X-bar 已經連續 6 點一直往下掉（98, 95, 91, 88, 85, 82，LCL是 75），還沒超限，但鋼板是不是堵住阿？", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-046", "task": "q_spc_action", "state": "SPC WARNING: L1 DEK-01 SOLDER THICKNESS (CL 150UM, UCL 170, LCL 130). LAST 6 PTS: 135, 137, 140, 143, 146, 148. CONTINUOUS RISING SHIFT.", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-047", "task": "q_spc_action", "state": "幫忙看一下 L6 回焊爐第 3 區溫控，SPC 已經連續 7 個點都落在中線以下（CL 220, 點在 217~219 之間），雖然還沒掉出 LCL 215，要不要叫人去多量幾片？", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-048", "task": "q_spc_action", "state": "L2-AOI 0603電阻置件 offset R-chart 極差有點越變越大，最近 6 點是 3.2, 4.1, 5.0, 5.8, 6.5, 7.2（UCL 8.5）。感覺貼片吸嘴有點磨損，班長說注意一下。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-049", "task": "q_spc_action", "state": "L8 刷錫膏厚度 SPC，最近 7 點都在 CL 下面偏一邊（CL 150，最近都在 138-145 跑），都沒過 LCL 130。先不要停，下幾板多量幾點看看。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-050", "task": "q_spc_action", "state": "慘了，L4-AOI 報警！BGA U2 錫橋空洞 SPC 超出上限（UCL 15%），最新一點量到 18.2%，前面那兩板好像也有點多，趕快把後面先 lock 住。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-051", "task": "q_spc_action", "state": "MES OCAP ALARM: L3-SPI-02 PASTE VOLUME OOC. LAST POINT 71% BELOW LCL 75% (CL 100%). MACHINE AUTO-STOPPED. NEED LOT DEFECT CHECK.", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-052", "task": "q_spc_action", "state": "L6 印刷機 1206 錫膏厚度直接飆到 178um 了啦！UCL 才 170 耶，前幾板就已經連續好幾點偏高了。PE 趕快過來，我先按暫停，怕溢錫。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-053", "task": "q_spc_action", "state": "回焊爐 R-02 第 7 區溫度剛剛警報，最新量測 253.5 度超 UCL 251.0 了！這批高階板，先通知前站 IPQC 不要再投料，我來拉這幾片去重工。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-054", "task": "q_spc_action", "state": "LINE5-SPI 0201 錫膏量直接掛點，最新一筆 68% 掉到 LCL 75 以下。前幾片可能就有少錫了，後面先 hold 住不要進爐，要清鋼板了。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-055", "task": "q_spc_action", "state": "L1 SPI鋼板清過好幾次了，厚度 SPC 還是一直跳，不是偏高就是偏低，ME調過刮刀壓力也沒改善。這料號 C302 到底能不能過？QA快來看。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-056", "task": "q_spc_action", "state": "QUALITY ALERT: LINE 2 X-RAY BGA VOID RATE REPEATEDLY TOUCHING UCL 20%. ME REPORTED MACHINE CALIBRATED, ISSUE PERSISTS. RE-ROUTE TO Q-HOLD.", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-057", "task": "q_spc_action", "state": "L3 跑 WO#855210 的 QFN，AOI 一直報 SPC OOC（點都在 28um 超過 UCL 25），但 ME 說量過鋼網跟吸嘴都沒壞，產線先 hold 住，等品質工程師來判定。", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-058", "task": "q_spc_action", "state": "昨晚 L6 爐子溫差警報 SPC 超限，ME 換過加熱馬達了，剛剛首件量測雖然在 LCL 內，但波動還是很大，我們不敢直接跑，誰聯絡一下 QA 帶黃單來簽核？", "writer": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-059", "task": "q_spc_action", "state": "L7 跑新料號 R105-BGA，X-ray SPC 點一直貼著 UCL，OP 懷疑這批料的 BGA 錫球本身就氧化，ME 說設備沒問題，看來要找 QA 拆包裝驗 IC 囉。", "writer": "gemini-3.5-flash"}

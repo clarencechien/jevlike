@@ -1,0 +1,600 @@
+{"id": "m_alarm_severity-d2-000", "task": "m_alarm_severity", "label": "C", "confidence": 0.6, "reason": "軌道馬達卡死致整線無法投板，已實質停線需立即處理", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-001", "task": "m_alarm_severity", "label": "A", "confidence": 0.95, "reason": "濾網更換提示不影響檢測，排保養時段處理", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-002", "task": "m_alarm_severity", "label": "B", "confidence": 0.85, "reason": "拋料率偏高影響效率但機台仍運作，本班內調整", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-003", "task": "m_alarm_severity", "label": "C", "confidence": 0.85, "reason": "爐溫急降且爐內有板，將造成批量品質問題", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-004", "task": "m_alarm_severity", "label": "A", "confidence": 0.9, "reason": "張力仍在規範內，結單後再校正", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-005", "task": "m_alarm_severity", "label": "B", "confidence": 0.8, "reason": "連續 SPI NG 有品質風險，機台仍可運作需盡快處理", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-006", "task": "m_alarm_severity", "label": "C", "confidence": 0.75, "reason": "伺服異常伴隨異音且機台鎖死，有設備損壞風險", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-007", "task": "m_alarm_severity", "label": "A", "confidence": 0.95, "reason": "電池低電量提示，系統正常，下次保養更換", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-008", "task": "m_alarm_severity", "label": "A", "confidence": 0.8, "reason": "風扇雜音但溫度正常，排換線空檔處理", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-009", "task": "m_alarm_severity", "label": "C", "confidence": 0.85, "reason": "連三片 BGA 浮翹需 HOLD 批，已造成批量品質問題", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-010", "task": "m_alarm_severity", "label": "A", "confidence": 0.9, "reason": "氮氣讀數微飄但氧殘正常，排大保養處理", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-011", "task": "m_alarm_severity", "label": "B", "confidence": 0.85, "reason": "重試成功但 CT 增加 15%，已影響效率", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-012", "task": "m_alarm_severity", "label": "C", "confidence": 0.6, "reason": "SPI/MES 無法過站致整線停擺，急迫度等同停線", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-013", "task": "m_alarm_severity", "label": "B", "confidence": 0.7, "reason": "擦拭紙僅剩 4 片量，不及時補料將中斷生產", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-014", "task": "m_alarm_severity", "label": "A", "confidence": 0.9, "reason": "重試後 OK 不影響 CT，班後清潔即可", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-015", "task": "m_alarm_severity", "label": "C", "confidence": 0.8, "reason": "吸嘴撞歪 head 鎖死，已有設備損壞", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-016", "task": "m_alarm_severity", "label": "B", "confidence": 0.75, "reason": "AOI 誤判率升高影響效率，機台仍可運作", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-017", "task": "m_alarm_severity", "label": "C", "confidence": 0.85, "reason": "安全連鎖感測器失效且無法重啟，涉及安全風險", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-018", "task": "m_alarm_severity", "label": "A", "confidence": 0.85, "reason": "替代料備註已簽核，非異常僅資訊", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-019", "task": "m_alarm_severity", "label": "B", "confidence": 0.75, "reason": "拋料未達門檻但將影響後續供料，本班內處理", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-020", "task": "m_alarm_severity", "label": "C", "confidence": 0.9, "reason": "馬達過熱伴焦味已 E-stop，設備損壞風險", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-021", "task": "m_alarm_severity", "label": "A", "confidence": 0.95, "reason": "耗材剩 12% 不影響現在運作，交接前補即可", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-022", "task": "m_alarm_severity", "label": "B", "confidence": 0.65, "reason": "溫區漂移 +3.5C 有品質風險，仍在監控中", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-023", "task": "m_alarm_severity", "label": "C", "confidence": 0.6, "reason": "夾板氣缸卡死整線空等 10 分鐘，已實質停線", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-024", "task": "m_alarm_severity", "label": "A", "confidence": 0.9, "reason": "PE 確認不影響測試接觸，換線時鎖緊", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-025", "task": "m_alarm_severity", "label": "B", "confidence": 0.8, "reason": "貼片率降至 94% 影響效率，機台仍運作", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-026", "task": "m_alarm_severity", "label": "B", "confidence": 0.65, "reason": "視覺對位錯誤單站暫停，需操作員立即處置但無品質安全風險", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-027", "task": "m_alarm_severity", "label": "B", "confidence": 0.65, "reason": "錫膏 30 分鐘內用完，需本班內補充", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-028", "task": "m_alarm_severity", "label": "A", "confidence": 0.8, "reason": "AOI 陰影誤判已判 pass，下班後微調參數", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-029", "task": "m_alarm_severity", "label": "C", "confidence": 0.85, "reason": "爐出口疊板卡板且後方持續出板，將造成批量損壞", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-030", "task": "m_alarm_severity", "label": "A", "confidence": 0.95, "reason": "刮刀壽命提醒，下次保養或換線更換", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-031", "task": "m_alarm_severity", "label": "B", "confidence": 0.8, "reason": "錫膏量連續三片在下限邊緣，有品質風險需擦鋼網", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-032", "task": "m_alarm_severity", "label": "C", "confidence": 0.9, "reason": "冰水主機跳閘爐溫拉高有熔毀風險，PE 已要求停線", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-033", "task": "m_alarm_severity", "label": "A", "confidence": 0.9, "reason": "廢料盒滿黃燈提示，打完料再倒即可", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-034", "task": "m_alarm_severity", "label": "A", "confidence": 0.65, "reason": "補料需求已送出，屬 MES 例行資訊提示", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-035", "task": "m_alarm_severity", "label": "C", "confidence": 0.85, "reason": "連續五片 C12 立碑，已造成批量品質問題", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-036", "task": "m_alarm_severity", "label": "B", "confidence": 0.55, "reason": "氮氣偏低氧含量上升有品質風險，需盡快切備用但尚未需停線", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-037", "task": "m_alarm_severity", "label": "A", "confidence": 0.8, "reason": "MES 變慢不影響過站，可先紙本記錄", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-038", "task": "m_alarm_severity", "label": "C", "confidence": 0.8, "reason": "吸嘴撞凹 PCB 且 head 鎖死，設備與品質已受損", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-039", "task": "m_alarm_severity", "label": "B", "confidence": 0.75, "reason": "高價 BGA 拋料頻繁影響成本效率，機台仍運作", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-040", "task": "m_alarm_severity", "label": "A", "confidence": 0.95, "reason": "電池低電量閃燈讀數正常，交接班再換", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-041", "task": "m_alarm_severity", "label": "A", "confidence": 0.95, "reason": "校正到期提醒 48 小時內，機台正常運作", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-042", "task": "m_alarm_severity", "label": "A", "confidence": 0.8, "reason": "讀卡不順可重插解決，換線時再處理", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-043", "task": "m_alarm_severity", "label": "A", "confidence": 0.9, "reason": "微量滲油不影響壓力，大保養更換", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-044", "task": "m_alarm_severity", "label": "A", "confidence": 0.85, "reason": "濕度略高防潮櫃正常，已請廠務調整", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-045", "task": "m_alarm_severity", "label": "A", "confidence": 0.95, "reason": "硬碟空間提醒不影響備份，本週清理", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-046", "task": "m_alarm_severity", "label": "B", "confidence": 0.6, "reason": "錫膏面積連兩片偏上限有品質風險，batch 後擦鋼板", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-047", "task": "m_alarm_severity", "label": "B", "confidence": 0.6, "reason": "料帶張力過高自動修正中仍要求關注，可能影響供料", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-048", "task": "m_alarm_severity", "label": "B", "confidence": 0.65, "reason": "拋料率 3.2% 偏高已影響效率，本班內清潔處理", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-049", "task": "m_alarm_severity", "label": "B", "confidence": 0.7, "reason": "Golden Sample 15 分鐘後過期將鎖機，需本班內盡快簽核", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-050", "task": "m_alarm_severity", "label": "B", "confidence": 0.7, "reason": "零件偏位在允收邊緣有品質風險，需 PE 調 offset", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-051", "task": "m_alarm_severity", "label": "B", "confidence": 0.55, "reason": "錫膏溫度略低於要求有品質風險，監控中未停機", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-052", "task": "m_alarm_severity", "label": "B", "confidence": 0.75, "reason": "螺絲滑牙 40 分後換線必受影響，需本班內處理", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-053", "task": "m_alarm_severity", "label": "C", "confidence": 0.85, "reason": "回焊爐斷電爐內有板，將造成批量品質問題需立即處理", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-054", "task": "m_alarm_severity", "label": "C", "confidence": 0.65, "reason": "X 軸伺服過載 head 關機，有設備損壞風險", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-055", "task": "m_alarm_severity", "label": "C", "confidence": 0.6, "reason": "印刷機傳送帶斷裂整線卡死，已實質停線", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-056", "task": "m_alarm_severity", "label": "C", "confidence": 0.95, "reason": "ICT 冒煙燒焦已拉緊急停止，安全風險", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-057", "task": "m_alarm_severity", "label": "C", "confidence": 0.6, "reason": "通訊失效觸發 MES 連鎖整線停止，急迫度等同停線", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-058", "task": "m_alarm_severity", "label": "C", "confidence": 0.75, "reason": "料帶裝反致 12 片報廢，已造成批量品質問題", "annotator": "claude-fable"}
+{"id": "m_alarm_severity-d2-059", "task": "m_alarm_severity", "label": "C", "confidence": 0.9, "reason": "貼片頭撞車 Z 軸歪掉仍有異音，已按 EMO 設備損壞", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-000", "task": "m_alarm_category", "label": "E", "confidence": 0.8, "reason": "屋頂排風馬達被廠務跳脫致爐溫下降，屬廠務公用設施", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-001", "task": "m_alarm_category", "label": "D", "confidence": 0.95, "reason": "CAD 座標匯入 XY 顛倒，屬程式座標問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-002", "task": "m_alarm_category", "label": "B", "confidence": 0.95, "reason": "24V 開關電源無輸出，屬電源問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-003", "task": "m_alarm_category", "label": "A", "confidence": 0.9, "reason": "調寬傳動絲桿生鏽卡死，屬機械零件問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-004", "task": "m_alarm_category", "label": "C", "confidence": 0.7, "reason": "此批 PCB 板邊變形致錫膏高度不足，屬來料問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-005", "task": "m_alarm_category", "label": "B", "confidence": 0.9, "reason": "屏蔽線接地脫落造成通訊雜訊，屬線材接觸問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-006", "task": "m_alarm_category", "label": "E", "confidence": 0.95, "reason": "空調冷水主閥漏水致濕度過高，屬環境公用設施", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-007", "task": "m_alarm_category", "label": "D", "confidence": 0.95, "reason": "貼片程式形狀設錯 0603，屬程式設定問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-008", "task": "m_alarm_category", "label": "A", "confidence": 0.95, "reason": "貼片頭旋轉軸內部齒輪咬死，屬機械問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-009", "task": "m_alarm_category", "label": "C", "confidence": 0.9, "reason": "倉管發料版本與工單料號不符，屬物料問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-010", "task": "m_alarm_category", "label": "A", "confidence": 0.95, "reason": "皮帶打滑張力彈簧拉伸磨損，屬機械問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-011", "task": "m_alarm_category", "label": "B", "confidence": 0.6, "reason": "感測器輸出恆 0V 內部損壞，偏向電氣元件故障而非機械位置", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-012", "task": "m_alarm_category", "label": "D", "confidence": 0.9, "reason": "拼板 row/col 資料庫設定錯誤，屬程式設定問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-013", "task": "m_alarm_category", "label": "E", "confidence": 0.9, "reason": "廠務 CDA 管路尾端壓力不足，屬廠務空壓問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-014", "task": "m_alarm_category", "label": "C", "confidence": 0.9, "reason": "電阻紙帶毛邊過厚卡撕帶槽，屬料帶問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-015", "task": "m_alarm_category", "label": "D", "confidence": 0.85, "reason": "工單檔案下載損毀致 profile 值偏移，屬檔案錯誤", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-016", "task": "m_alarm_category", "label": "A", "confidence": 0.95, "reason": "氣缸萬向接頭螺絲鬆脫，屬機械零件問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-017", "task": "m_alarm_category", "label": "B", "confidence": 0.9, "reason": "編碼器訊號線斷線驅動器報警，屬電控問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-018", "task": "m_alarm_category", "label": "C", "confidence": 0.9, "reason": "載帶拉孔距不均致撥齒打滑，屬料帶品質問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-019", "task": "m_alarm_category", "label": "E", "confidence": 0.85, "reason": "施工扯斷靜電接地銅排，屬靜電環境問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-020", "task": "m_alarm_category", "label": "C", "confidence": 0.7, "reason": "此批 PCB 裸板嚴重板翹換批即正常，屬來料問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-021", "task": "m_alarm_category", "label": "B", "confidence": 0.95, "reason": "PCI 與 head 控制板通訊逾時，屬板卡通訊問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-022", "task": "m_alarm_category", "label": "A", "confidence": 0.95, "reason": "傳動皮帶磨損鬆脫，屬機械問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-023", "task": "m_alarm_category", "label": "D", "confidence": 0.9, "reason": "料件庫 0 度方向定反，屬程式資料庫問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-024", "task": "m_alarm_category", "label": "E", "confidence": 0.9, "reason": "濕度 78% 冷氣滴水致錫膏坍塌，屬環境問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-025", "task": "m_alarm_category", "label": "C", "confidence": 0.9, "reason": "料帶口袋太緊卡住零件，屬料帶問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-026", "task": "m_alarm_category", "label": "D", "confidence": 0.9, "reason": "配方登錄 0402 外型模板與 0201 不符，屬程式問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-027", "task": "m_alarm_category", "label": "B", "confidence": 0.6, "reason": "光電開關內部短路燒掉，偏向電氣元件故障", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-028", "task": "m_alarm_category", "label": "E", "confidence": 0.9, "reason": "中央空壓機乾燥機停機致氣壓過低，屬廠務空壓", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-029", "task": "m_alarm_category", "label": "A", "confidence": 0.9, "reason": "調寬螺桿被切屑油泥卡死防塵套破，屬機械問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-030", "task": "m_alarm_category", "label": "D", "confidence": 0.9, "reason": "程式吸取厚度設 1.2mm 與料不符，屬參數問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-031", "task": "m_alarm_category", "label": "C", "confidence": 0.85, "reason": "IC 錫球嚴重氧化需退供應商，屬來料問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-032", "task": "m_alarm_category", "label": "B", "confidence": 0.9, "reason": "編碼器回授線磨破斷線，屬線材電控問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-033", "task": "m_alarm_category", "label": "A", "confidence": 0.9, "reason": "刮刀架氣缸夾具螺絲滑絲鬆動，屬機械問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-034", "task": "m_alarm_category", "label": "E", "confidence": 0.7, "reason": "離子風機失效致靜電 1500V，靜電歸環境類", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-035", "task": "m_alarm_category", "label": "B", "confidence": 0.9, "reason": "SSR 輸出開路加熱器無電流，屬電控問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-036", "task": "m_alarm_category", "label": "D", "confidence": 0.95, "reason": "轉程式單位公英制選錯造成 offset，屬程式問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-037", "task": "m_alarm_category", "label": "C", "confidence": 0.95, "reason": "電阻標籤標錯 10K 實測 1K，屬來料料號不符", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-038", "task": "m_alarm_category", "label": "A", "confidence": 0.9, "reason": "feeder 內部彈簧疲乏壓料蓋板不回位，屬機械問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-039", "task": "m_alarm_category", "label": "E", "confidence": 0.65, "reason": "陽光直射影響鏡頭光源，屬環境因素但不在列舉項目內", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-040", "task": "m_alarm_category", "label": "B", "confidence": 0.85, "reason": "Z 軸過電流懷疑驅動器或編碼器線路漏電，屬電控", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-041", "task": "m_alarm_category", "label": "C", "confidence": 0.7, "reason": "此批板子中間下陷超規上一批正常，屬來料問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-042", "task": "m_alarm_category", "label": "D", "confidence": 0.85, "reason": "feeder database pitch 設成 4mm，屬程式資料庫設定", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-043", "task": "m_alarm_category", "label": "E", "confidence": 0.85, "reason": "施工挖斷接地極致靜電報警，屬靜電環境問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-044", "task": "m_alarm_category", "label": "A", "confidence": 0.9, "reason": "氣壓缸推桿變形擋銷卡死，屬機械問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-045", "task": "m_alarm_category", "label": "D", "confidence": 0.95, "reason": "零件庫 Pin1 方向建錯，屬程式資料庫問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-046", "task": "m_alarm_category", "label": "C", "confidence": 0.9, "reason": "料帶寬度不對元件在 pocket 晃動，屬料帶問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-047", "task": "m_alarm_category", "label": "B", "confidence": 0.6, "reason": "光電開關輸出恆 0V 損壞，偏向電氣元件故障", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-048", "task": "m_alarm_category", "label": "E", "confidence": 0.9, "reason": "空調風扇停冰水無冷度致高溫高濕，屬環境問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-049", "task": "m_alarm_category", "label": "A", "confidence": 0.95, "reason": "壓輪磨損齒輪背隙過大，屬機械問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-050", "task": "m_alarm_category", "label": "D", "confidence": 0.9, "reason": "元件規格長寬尺寸修正後即正常，屬程式參數問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-051", "task": "m_alarm_category", "label": "B", "confidence": 0.9, "reason": "拖鏈內控制訊號線磨破斷續接觸，屬線材問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-052", "task": "m_alarm_category", "label": "C", "confidence": 0.85, "reason": "板廠此批 PAD 表面氧化，屬來料問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-053", "task": "m_alarm_category", "label": "E", "confidence": 0.85, "reason": "隔壁沖壓機造成中央氣壓瞬態壓降，屬廠務問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-054", "task": "m_alarm_category", "label": "A", "confidence": 0.9, "reason": "導軌調節螺絲鬆脫寬度跑掉，屬機械問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-055", "task": "m_alarm_category", "label": "D", "confidence": 0.95, "reason": "匯入 Gerber 選錯基準點座標整批歪掉，屬程式問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-056", "task": "m_alarm_category", "label": "C", "confidence": 0.85, "reason": "料帶 pocket 太淺元件厚度與規格不符，屬物料問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-057", "task": "m_alarm_category", "label": "B", "confidence": 0.95, "reason": "24V 電源供應器無輸出需更換，屬電源問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-058", "task": "m_alarm_category", "label": "A", "confidence": 0.95, "reason": "吸嘴彈簧卡滯磨損歪斜換新即正常，屬機械問題", "annotator": "claude-fable"}
+{"id": "m_alarm_category-d2-059", "task": "m_alarm_category", "label": "E", "confidence": 0.65, "reason": "樓頂抽風馬達皮帶斷致排風失效，屬廠務排風設施", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-000", "task": "m_needs_dispatch", "label": "B", "confidence": 0.9, "reason": "擦拭鋼網重拉 mark 即恢復，操作員自行處理", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-001", "task": "m_needs_dispatch", "label": "A", "confidence": 0.95, "reason": "皮帶斷裂感測器撞歪，需工程師維修更換", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-002", "task": "m_needs_dispatch", "label": "B", "confidence": 0.9, "reason": "OP 清潔後校正通過，已自行恢復", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-003", "task": "m_needs_dispatch", "label": "A", "confidence": 0.9, "reason": "懷疑加熱管燒掉，需工程師更換", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-004", "task": "m_needs_dispatch", "label": "B", "confidence": 0.75, "reason": "程式路徑放錯對調後開線，未涉及設備維修", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-005", "task": "m_needs_dispatch", "label": "A", "confidence": 0.95, "reason": "馬達過熱需更換，超出 OP 授權", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-006", "task": "m_needs_dispatch", "label": "B", "confidence": 0.9, "reason": "重接料帶後拋料恢復正常，OP 自行處理", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-007", "task": "m_needs_dispatch", "label": "A", "confidence": 0.95, "reason": "驅動器燒焦味送電即跳，需工程師維修", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-008", "task": "m_needs_dispatch", "label": "B", "confidence": 0.9, "reason": "OP 重新對正安全門復位即可運行", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-009", "task": "m_needs_dispatch", "label": "A", "confidence": 0.9, "reason": "Z 軸螺桿咬死聯軸器鎖死，需工程師維修", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-010", "task": "m_needs_dispatch", "label": "B", "confidence": 0.85, "reason": "清洗鋼網調擦拭頻率後正常，OP SOP 可處理", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-011", "task": "m_needs_dispatch", "label": "A", "confidence": 0.85, "reason": "電磁閥疑似燒毀無作動，需工程師更換", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-012", "task": "m_needs_dispatch", "label": "B", "confidence": 0.7, "reason": "調整擋板間距後正常讀取，屬簡單調整已恢復", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-013", "task": "m_needs_dispatch", "label": "B", "confidence": 0.5, "reason": "濾網堵塞需更換，屬耗材更換但機台已停機，授權範圍不明", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-014", "task": "m_needs_dispatch", "label": "B", "confidence": 0.9, "reason": "板子重新放平即通過，OP 自行處理", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-015", "task": "m_needs_dispatch", "label": "A", "confidence": 0.9, "reason": "slot 針腳歪掉變形，需工程師維修", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-016", "task": "m_needs_dispatch", "label": "B", "confidence": 0.9, "reason": "換回正確料捲即 OK，屬物料問題 OP 處理", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-017", "task": "m_needs_dispatch", "label": "A", "confidence": 0.85, "reason": "懷疑 CCD 壞點或鏡頭刮傷，需工程師更換", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-018", "task": "m_needs_dispatch", "label": "B", "confidence": 0.75, "reason": "配方存錯資料夾手動 load 即恢復，非設備維修", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-019", "task": "m_needs_dispatch", "label": "A", "confidence": 0.9, "reason": "傳送鏈條變形掉板，需工程師維修", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-020", "task": "m_needs_dispatch", "label": "B", "confidence": 0.95, "reason": "OP 補充 IPA 後 alarm 自動清除", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-021", "task": "m_needs_dispatch", "label": "A", "confidence": 0.9, "reason": "步進馬達絲桿卡死轉不動，需工程師維修", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-022", "task": "m_needs_dispatch", "label": "A", "confidence": 0.95, "reason": "變頻器無回應重送電失敗，需工程師維修", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-023", "task": "m_needs_dispatch", "label": "B", "confidence": 0.9, "reason": "OP 清潔吸嘴後測試 pass", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-024", "task": "m_needs_dispatch", "label": "B", "confidence": 0.9, "reason": "重貼條碼後 re-test pass，OP 自行處理", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-025", "task": "m_needs_dispatch", "label": "A", "confidence": 0.9, "reason": "加熱開關送電秒跳疑短路，需工程師檢修", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-026", "task": "m_needs_dispatch", "label": "B", "confidence": 0.85, "reason": "OP 將安全門推回對準即正常運行", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-027", "task": "m_needs_dispatch", "label": "A", "confidence": 0.9, "reason": "壓力感測器讀值飄動校正失敗，需工程師更換校正", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-028", "task": "m_needs_dispatch", "label": "B", "confidence": 0.95, "reason": "OP 接料帶 reset 後恢復", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-029", "task": "m_needs_dispatch", "label": "A", "confidence": 0.9, "reason": "Z 軸異音校正 error 疑彈簧斷，需工程師檢修", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-030", "task": "m_needs_dispatch", "label": "B", "confidence": 0.85, "reason": "OP 擦拭光學尺後校正 ok", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-031", "task": "m_needs_dispatch", "label": "A", "confidence": 0.9, "reason": "卷紙軸馬達無輸出疑 IO 板壞，需工程師維修", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-032", "task": "m_needs_dispatch", "label": "A", "confidence": 0.8, "reason": "排風馬達故障溫度超限跳脫，需工程師維修", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-033", "task": "m_needs_dispatch", "label": "B", "confidence": 0.85, "reason": "OP 更換備用吸嘴後真空值恢復", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-034", "task": "m_needs_dispatch", "label": "A", "confidence": 0.9, "reason": "feeder 齒輪組卡死導軌磨損需大修", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-035", "task": "m_needs_dispatch", "label": "B", "confidence": 0.8, "reason": "OP 重新鎖緊刮刀座螺絲後數值恢復", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-036", "task": "m_needs_dispatch", "label": "A", "confidence": 0.75, "reason": "相機影像凍結重啟後 dongle 遺失，需工程師處理", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-037", "task": "m_needs_dispatch", "label": "B", "confidence": 0.85, "reason": "氣壓回升後按 start 繼續，問題已自行恢復", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-038", "task": "m_needs_dispatch", "label": "A", "confidence": 0.9, "reason": "皮帶斷裂需拆軌道更換", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-039", "task": "m_needs_dispatch", "label": "B", "confidence": 0.85, "reason": "OP 清除殘膠後拋料率恢復正常", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-040", "task": "m_needs_dispatch", "label": "B", "confidence": 0.95, "reason": "OP 重剪重貼 splice 後恢復", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-041", "task": "m_needs_dispatch", "label": "A", "confidence": 0.95, "reason": "Z 軸卡死重啟仍報警疑螺桿或馬達損壞，需工程師", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-042", "task": "m_needs_dispatch", "label": "B", "confidence": 0.9, "reason": "OP 手動取板重置後正常", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-043", "task": "m_needs_dispatch", "label": "A", "confidence": 0.9, "reason": "壓力感測器回授 0V 清潔無效，需更換", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-044", "task": "m_needs_dispatch", "label": "B", "confidence": 0.9, "reason": "OP 切換正確程式後正常過板", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-045", "task": "m_needs_dispatch", "label": "A", "confidence": 0.95, "reason": "SSR 短路加熱器常開，需工程師更換", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-046", "task": "m_needs_dispatch", "label": "B", "confidence": 0.8, "reason": "廠務重啟空壓機後 reset 即可生產，非設備工程師", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-047", "task": "m_needs_dispatch", "label": "A", "confidence": 0.85, "reason": "取料 XY 偏移換吸嘴無效，需工程師校正", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-048", "task": "m_needs_dispatch", "label": "B", "confidence": 0.95, "reason": "依 SOP 清洗吸嘴後拋料率恢復", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-049", "task": "m_needs_dispatch", "label": "A", "confidence": 0.9, "reason": "傳送皮帶斷裂需工程師更換", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-050", "task": "m_needs_dispatch", "label": "B", "confidence": 0.85, "reason": "條碼太淡手動 key in 過板，非設備問題", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-051", "task": "m_needs_dispatch", "label": "A", "confidence": 0.85, "reason": "換 O-ring 仍漏氣電磁閥故障，需工程師更換", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-052", "task": "m_needs_dispatch", "label": "B", "confidence": 0.85, "reason": "OP 重啟後連線恢復並穩定運行 2 小時", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-053", "task": "m_needs_dispatch", "label": "A", "confidence": 0.85, "reason": "夾爪不夾氣閥有作動，需工程師檢修機構", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-054", "task": "m_needs_dispatch", "label": "B", "confidence": 0.95, "reason": "OP 重新穿料帶後恢復正常", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-055", "task": "m_needs_dispatch", "label": "A", "confidence": 0.85, "reason": "雷射高度感測器擦拭後仍 -9.99mm，需工程師維修", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-056", "task": "m_needs_dispatch", "label": "B", "confidence": 0.9, "reason": "擦拭鋼網殘錫後重印 OK", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-057", "task": "m_needs_dispatch", "label": "A", "confidence": 0.9, "reason": "slot 接腳歪掉多支 feeder 皆讀不到，需工程師維修", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-058", "task": "m_needs_dispatch", "label": "B", "confidence": 0.9, "reason": "OP 清除感測器錫渣後測試 OK", "annotator": "claude-fable"}
+{"id": "m_needs_dispatch-d2-059", "task": "m_needs_dispatch", "label": "A", "confidence": 0.85, "reason": "XY 皮帶張力不足鬆掉，需工程師調整", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-000", "task": "q_spc_action", "label": "A", "confidence": 0.8, "reason": "Cpk 1.35 點在 CL 附近無連串，製程穩定", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-001", "task": "q_spc_action", "label": "B", "confidence": 0.85, "reason": "5 點連續上升接近 UCL 但未超限，需加抽樣", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-002", "task": "q_spc_action", "label": "C", "confidence": 0.85, "reason": "單點 185 超 UCL 170，應停站複檢", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-003", "task": "q_spc_action", "label": "D", "confidence": 0.9, "reason": "連三點超 UCL 且別線同料號也偏高，需 QE 介入", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-004", "task": "q_spc_action", "label": "A", "confidence": 0.95, "reason": "8 點隨機分布於 CL 附近無違規", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-005", "task": "q_spc_action", "label": "B", "confidence": 0.55, "reason": "5 點皆 247 偏 UCL 但未超限且未達 7 點連串，加測板溫偏向抽檢", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-006", "task": "q_spc_action", "label": "C", "confidence": 0.85, "reason": "單點 -48um 超 LCL，機台紅燈需停站複檢", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-007", "task": "q_spc_action", "label": "D", "confidence": 0.65, "reason": "SPC 正常但空焊本週第二次，已要求工程與品質會議判定", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-008", "task": "q_spc_action", "label": "A", "confidence": 0.95, "reason": "10 點波動小圍繞 CL，穩定", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-009", "task": "q_spc_action", "label": "C", "confidence": 0.85, "reason": "單點低於 LCL，需停站複檢", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-010", "task": "q_spc_action", "label": "B", "confidence": 0.9, "reason": "連續 6 點單向下降尚未超 LCL，需手動加測", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-011", "task": "q_spc_action", "label": "D", "confidence": 0.7, "reason": "兩條線同時偏向 LCL 疑錫膏批次異常，涉及多站需品質判定", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-012", "task": "q_spc_action", "label": "A", "confidence": 0.95, "reason": "15 點穩定 Cpk 1.52 無趨勢", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-013", "task": "q_spc_action", "label": "B", "confidence": 0.7, "reason": "5 點同側未出界，通知加測", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-014", "task": "q_spc_action", "label": "C", "confidence": 0.55, "reason": "拋料率突衝 8% 觸發紅燈壓停，屬單點超限停站處理", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-015", "task": "q_spc_action", "label": "D", "confidence": 0.85, "reason": "15 點貼 LCL Cpk 0.61 且 ME 調整無效，需發 CAR", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-016", "task": "q_spc_action", "label": "B", "confidence": 0.9, "reason": "6 點連續低於 CL 未超 LCL，準備手動量測", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-017", "task": "q_spc_action", "label": "A", "confidence": 0.9, "reason": "點在 ±15um 內無單邊漂移", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-018", "task": "q_spc_action", "label": "C", "confidence": 0.85, "reason": "單點 165 低於 LCL 172，已停線複驗溫板", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-019", "task": "q_spc_action", "label": "D", "confidence": 0.95, "reason": "連續 3 點超 UCL 多料號且校正無效，需 QE", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-020", "task": "q_spc_action", "label": "A", "confidence": 0.95, "reason": "10 點圍繞 CL 無連續偏移", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-021", "task": "q_spc_action", "label": "C", "confidence": 0.85, "reason": "單點 135% 超 UCL，暫停印刷機查鋼網", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-022", "task": "q_spc_action", "label": "C", "confidence": 0.85, "reason": "單點超 UCL 製程封鎖，需重跑測試板", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-023", "task": "q_spc_action", "label": "D", "confidence": 0.85, "reason": "ME 調整兩次後厚度仍超 UCL，複檢後仍異常", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-024", "task": "q_spc_action", "label": "B", "confidence": 0.85, "reason": "5 點連續下滑未超 LCL，需抽檢", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-025", "task": "q_spc_action", "label": "A", "confidence": 0.95, "reason": "Cpk 1.65 穩定持續生產", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-026", "task": "q_spc_action", "label": "A", "confidence": 0.95, "reason": "15 點隨機變異 Cpk 1.82 無警報", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-027", "task": "q_spc_action", "label": "D", "confidence": 0.85, "reason": "三個料號同時超 UCL 疑錫膏批次，涉及多料號", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-028", "task": "q_spc_action", "label": "B", "confidence": 0.9, "reason": "7 點連續上升未超上限，加抽幾片確認", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-029", "task": "q_spc_action", "label": "C", "confidence": 0.5, "reason": "連續三片同吸嘴掉料紅燈鎖機，先停站清吸嘴再確認", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-030", "task": "q_spc_action", "label": "D", "confidence": 0.75, "reason": "Cpk 連三組降至 0.85 偏差顯著，要求工程介入", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-031", "task": "q_spc_action", "label": "C", "confidence": 0.95, "reason": "單點超 UCL 依 SOP 暫停並複檢前五片", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-032", "task": "q_spc_action", "label": "D", "confidence": 0.85, "reason": "不良率連三天超警戒且 ME 排除爐子，需開 CAR 找品保", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-033", "task": "q_spc_action", "label": "B", "confidence": 0.75, "reason": "6 點連續同側偏上未超 UCL，需加抽樣", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-034", "task": "q_spc_action", "label": "A", "confidence": 0.95, "reason": "12 點圍繞 CL 無偏移", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-035", "task": "q_spc_action", "label": "B", "confidence": 0.95, "reason": "6 組連續下降無超限，提高抽樣率", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-036", "task": "q_spc_action", "label": "D", "confidence": 0.75, "reason": "Cpk 1.12 未達客戶 1.33 自行調整無效，需 QE 判定", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-037", "task": "q_spc_action", "label": "C", "confidence": 0.9, "reason": "單點 65% 破 LCL，需複檢前三片", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-038", "task": "q_spc_action", "label": "A", "confidence": 0.95, "reason": "20 點隨機分布 Cpk 1.55 無連串", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-039", "task": "q_spc_action", "label": "B", "confidence": 0.75, "reason": "5 點同側偏正未超 UCL，巡檢加量", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-040", "task": "q_spc_action", "label": "A", "confidence": 0.9, "reason": "5 點在 CL 上下未偏一邊", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-041", "task": "q_spc_action", "label": "A", "confidence": 0.95, "reason": "8 點均在界內無趨勢", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-042", "task": "q_spc_action", "label": "A", "confidence": 0.95, "reason": "8 點圍繞 CL 242 無問題", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-043", "task": "q_spc_action", "label": "A", "confidence": 0.95, "reason": "點隨機分布於 ±15 內穩定", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-044", "task": "q_spc_action", "label": "A", "confidence": 0.95, "reason": "6 點落在 CL 附近正常", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-045", "task": "q_spc_action", "label": "B", "confidence": 0.9, "reason": "連續 6 點單向下降未超 LCL，需加抽確認", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-046", "task": "q_spc_action", "label": "B", "confidence": 0.9, "reason": "6 點連續上升未超限", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-047", "task": "q_spc_action", "label": "B", "confidence": 0.9, "reason": "連續 7 點低於 CL 未出 LCL，加量幾片", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-048", "task": "q_spc_action", "label": "B", "confidence": 0.85, "reason": "R chart 極差連續 6 點上升未超 UCL，需注意抽檢", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-049", "task": "q_spc_action", "label": "B", "confidence": 0.9, "reason": "7 點同側偏下未超 LCL，多量幾點", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-050", "task": "q_spc_action", "label": "C", "confidence": 0.6, "reason": "單點 18.2% 超 UCL 需鎖住後續複檢，前兩板僅疑似偏高未確認連續超限", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-051", "task": "q_spc_action", "label": "C", "confidence": 0.9, "reason": "單點 71% 低於 LCL 機台自停，需批次複檢", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-052", "task": "q_spc_action", "label": "C", "confidence": 0.6, "reason": "單點 178 超 UCL 已暫停，前幾點偏高但未明確超限", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-053", "task": "q_spc_action", "label": "C", "confidence": 0.85, "reason": "單點 253.5 超 UCL，停止投料並重工", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-054", "task": "q_spc_action", "label": "C", "confidence": 0.85, "reason": "單點 68% 低於 LCL，hold 住並複檢", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-055", "task": "q_spc_action", "label": "D", "confidence": 0.85, "reason": "多次清鋼板與調刮刀無效仍異常，需 QA 判定", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-056", "task": "q_spc_action", "label": "D", "confidence": 0.8, "reason": "重複觸及 UCL 且 ME 校正無效，需品質介入", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-057", "task": "q_spc_action", "label": "D", "confidence": 0.9, "reason": "持續 OOC 且 ME 排除設備，hold 等 QE 判定", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-058", "task": "q_spc_action", "label": "D", "confidence": 0.8, "reason": "ME 維修後首件仍波動大，需 QA 簽核判定", "annotator": "claude-fable"}
+{"id": "q_spc_action-d2-059", "task": "q_spc_action", "label": "D", "confidence": 0.8, "reason": "X-ray 持續貼 UCL 疑來料氧化，需 QA 驗證", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-000", "task": "q_defect_root", "label": "A", "confidence": 0.7, "reason": "刮刀壓力設錯導致印刷少錫，根因在印刷站", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-001", "task": "q_defect_root", "label": "E", "confidence": 0.85, "reason": "鋼網開孔堵塞造成錫量不足，屬治具問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-002", "task": "q_defect_root", "label": "A", "confidence": 0.85, "reason": "錫膏退冰超過18小時未用完，錫膏過期變質", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-003", "task": "q_defect_root", "label": "B", "confidence": 0.9, "reason": "貼片機狂拋料且貼件位置歪，SPI正常，根因在貼片", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-004", "task": "q_defect_root", "label": "B", "confidence": 0.7, "reason": "Feeder步進設定錯誤造成取料失敗與元件破裂，屬貼片機問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-005", "task": "q_defect_root", "label": "B", "confidence": 0.85, "reason": "吸嘴高度設定跑掉壓爆元件，SPI正常，根因在貼片", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-006", "task": "q_defect_root", "label": "C", "confidence": 0.9, "reason": "第四溫區實際溫度過低造成腳翹，前段皆正常，根因回焊", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-007", "task": "q_defect_root", "label": "C", "confidence": 0.9, "reason": "回焊爐輸送帶速度波動造成立碑與偏移", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-008", "task": "q_defect_root", "label": "C", "confidence": 0.85, "reason": "預熱段升溫斜率過快造成voiding，錫膏正常", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-009", "task": "q_defect_root", "label": "D", "confidence": 0.9, "reason": "PCB裸板焊墊氧化變黑，來料保存不良", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-010", "task": "q_defect_root", "label": "D", "confidence": 0.9, "reason": "LED引腳共面度不良，來料本身問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-011", "task": "q_defect_root", "label": "D", "confidence": 0.85, "reason": "供應商料帶內二極體極性裝反，來料問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-012", "task": "q_defect_root", "label": "D", "confidence": 0.85, "reason": "薄板過爐嚴重板彎導致BGA拉斷，來料板材問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-013", "task": "q_defect_root", "label": "E", "confidence": 0.9, "reason": "載具壓扣鬆脫使板子過爐位移，治具問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-014", "task": "q_defect_root", "label": "E", "confidence": 0.9, "reason": "過爐夾具支撐柱變形擠壓板子，治具問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-015", "task": "q_defect_root", "label": "E", "confidence": 0.9, "reason": "載具鎖扣故障使PCB滑移，治具問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-016", "task": "q_defect_root", "label": "F", "confidence": 0.9, "reason": "換線上錯料槽且首件未測，人為錯誤", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-017", "task": "q_defect_root", "label": "F", "confidence": 0.9, "reason": "操作員拿錯版本鋼網，人為錯誤", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-018", "task": "q_defect_root", "label": "F", "confidence": 0.85, "reason": "助工擅自放大辨識tolerance造成貼歪，未依SOP", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-019", "task": "q_defect_root", "label": "F", "confidence": 0.85, "reason": "操作員接料帶接反造成極性反，人為錯誤", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-020", "task": "q_defect_root", "label": "F", "confidence": 0.85, "reason": "新人料盤方向裝反且自檢造假，人為錯誤", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-021", "task": "q_defect_root", "label": "A", "confidence": 0.7, "reason": "錫膏退冰僅15分鐘就使用造成缺錫，錫膏處理不當", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-022", "task": "q_defect_root", "label": "D", "confidence": 0.85, "reason": "元件腳氧化不沾錫，錫膏與爐溫正常，來料問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-023", "task": "q_defect_root", "label": "E", "confidence": 0.9, "reason": "載具壓扣變形扣不緊造成偏移，治具問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-024", "task": "q_defect_root", "label": "C", "confidence": 0.9, "reason": "Zone 7熱風馬達停轉使熔融時間不足，回焊問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-025", "task": "q_defect_root", "label": "B", "confidence": 0.9, "reason": "吸嘴破損真空不足造成缺件，貼片機問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-026", "task": "q_defect_root", "label": "D", "confidence": 0.85, "reason": "PCB焊墊尺寸與規格不符造成立碑，來料問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-027", "task": "q_defect_root", "label": "A", "confidence": 0.85, "reason": "錫膏在網板上放置12小時黏度異常造成拉尖橋接", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-028", "task": "q_defect_root", "label": "B", "confidence": 0.5, "reason": "頂針少放使板子下陷，判為貼片機設置問題但亦可能屬人為疏失", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-029", "task": "q_defect_root", "label": "B", "confidence": 0.7, "reason": "Feeder步進距離設錯造成取料失敗，貼片機設定問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-030", "task": "q_defect_root", "label": "F", "confidence": 0.9, "reason": "操作員繞過防錯上錯料，人為錯誤", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-031", "task": "q_defect_root", "label": "C", "confidence": 0.85, "reason": "爐子溫區溫差大且冷卻風扇異常造成立碑", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-032", "task": "q_defect_root", "label": "D", "confidence": 0.9, "reason": "供應商料帶混料且標籤貼錯，來料問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-033", "task": "q_defect_root", "label": "E", "confidence": 0.85, "reason": "鋼網開孔被乾掉助焊劑堵塞，治具問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-034", "task": "q_defect_root", "label": "F", "confidence": 0.9, "reason": "手修操作員未戴靜電環且IC貼反，手修不當", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-035", "task": "q_defect_root", "label": "E", "confidence": 0.9, "reason": "托盤變形平整度超規，治具問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-036", "task": "q_defect_root", "label": "B", "confidence": 0.9, "reason": "吸嘴堵塞真空不足造成拋料，貼片機問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-037", "task": "q_defect_root", "label": "C", "confidence": 0.85, "reason": "氮氣爐排氣閥損壞氧含量超標造成空焊，回焊爐問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-038", "task": "q_defect_root", "label": "A", "confidence": 0.85, "reason": "刮刀壓力過大造成錫膏外溢橋接，印刷問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-039", "task": "q_defect_root", "label": "D", "confidence": 0.9, "reason": "PCB化金厚度不足鎳層氧化，來料問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-040", "task": "q_defect_root", "label": "A", "confidence": 0.8, "reason": "刮刀壓力與脫模速度設定不當造成外溢橋接，印刷問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-041", "task": "q_defect_root", "label": "A", "confidence": 0.9, "reason": "錫膏在網板超過12小時未攪拌黏度失效", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-042", "task": "q_defect_root", "label": "A", "confidence": 0.8, "reason": "錫膏退冰15分鐘即使用造成錫量不足，錫膏處理問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-043", "task": "q_defect_root", "label": "B", "confidence": 0.9, "reason": "吸嘴橡膠磨損真空不足造成缺件，貼片機問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-044", "task": "q_defect_root", "label": "B", "confidence": 0.9, "reason": "吸嘴堵塞真空洩漏貼裝力不足造成偏移，貼片機問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-045", "task": "q_defect_root", "label": "B", "confidence": 0.85, "reason": "Z軸下壓高度設太高元件未壓進錫膏造成偏位，貼片問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-046", "task": "q_defect_root", "label": "C", "confidence": 0.9, "reason": "回焊第4區溫度低35度造成空焊，前段正常", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-047", "task": "q_defect_root", "label": "C", "confidence": 0.9, "reason": "Zone 8加熱器跳脫溫度不足造成冷焊", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-048", "task": "q_defect_root", "label": "C", "confidence": 0.85, "reason": "升溫斜率過高兩端受熱不均造成立碑，回焊問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-049", "task": "q_defect_root", "label": "D", "confidence": 0.85, "reason": "元件引腳有油汙擦拭後可吃錫，來料汙染問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-050", "task": "q_defect_root", "label": "D", "confidence": 0.9, "reason": "PCB焊墊露銅氧化可焊性失敗，來料問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-051", "task": "q_defect_root", "label": "D", "confidence": 0.9, "reason": "LED廠商標籤貼錯規格不符，來料問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-052", "task": "q_defect_root", "label": "E", "confidence": 0.9, "reason": "12號載具定位銷鬆動造成偏移，治具問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-053", "task": "q_defect_root", "label": "E", "confidence": 0.9, "reason": "載具壓扣彈簧疲乏無法壓平造成板彎，治具問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-054", "task": "q_defect_root", "label": "E", "confidence": 0.9, "reason": "過爐治具壓條變形毛邊刮傷板子，治具問題", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-055", "task": "q_defect_root", "label": "F", "confidence": 0.9, "reason": "操作員手寫條碼繞過防錯上錯料，人為錯誤", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-056", "task": "q_defect_root", "label": "F", "confidence": 0.55, "reason": "操作員繞過鎖定續用過期錫膏，人為違規與錫膏過期並存，判人為為主", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-057", "task": "q_defect_root", "label": "F", "confidence": 0.9, "reason": "操作員手動補料方向放反，人為錯誤", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-058", "task": "q_defect_root", "label": "F", "confidence": 0.9, "reason": "操作員裝錯產品鋼網，人為錯誤", "annotator": "claude-fable"}
+{"id": "q_defect_root-d2-059", "task": "q_defect_root", "label": "F", "confidence": 0.85, "reason": "操作員擅自關閉鋼網清洗導致堵孔，未依SOP", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-000", "task": "p_uph_anomaly", "label": "A", "confidence": 0.7, "reason": "CT快70秒且持續塞板報錯，雖無目標值但明顯拉長", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-001", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "CT 24.2s對比24.0s僅差0.8%，正常", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-002", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "UPH 580-620對比目標900低約33%", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-003", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "CT 41.8-42.5s對比目標42s在±1.2%內", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-004", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "UPH從1100掉到720，低35%且突然下滑", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-005", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "UPH 1480高於目標1450", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-006", "task": "p_uph_anomaly", "label": "A", "confidence": 0.8, "reason": "AOI卡板CT飆到55秒，明顯拉長", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-007", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "4小時產出4820對比目標4800，正常", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-008", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "UPH 510對比目標850低40%", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-009", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "CT 31.2-31.8s對比目標31.5s在±1%內", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-010", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "CT 58.2s對比目標45s拉長29%", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-011", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "UPH約1100與目標1100一致", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-012", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "CT近90秒對比SOP 55秒拉長逾60%", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-013", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "平均UPH 1510高於計畫1500", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-014", "task": "p_uph_anomaly", "label": "A", "confidence": 0.9, "reason": "停線40分鐘該小時UPH僅120，突然掉產能", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-015", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "UPH 1250對比預估1200高4%", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-016", "task": "p_uph_anomaly", "label": "A", "confidence": 0.85, "reason": "CT拉長15%已超過10%門檻", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-017", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "CT 35.2s對比標準35s差0.6%", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-018", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "UPH 750-810對比目標1050低約25%", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-019", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "UPH 1805對比目標1800正常", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-020", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "UPH從1200掉到650，低46%", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-021", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "UPH約1200且CT 30.2s對比30s正常", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-022", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "CT 42.1s對比目標42s正常", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-023", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "CT從24s飆到38s拉長58%", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-024", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "逐時產出880-910對比目標900在±2.2%內", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-025", "task": "p_uph_anomaly", "label": "A", "confidence": 0.9, "reason": "UPH只有預期一半，明顯低於目標", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-026", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "CT 58.3s對比目標32s拉長82%", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-027", "task": "p_uph_anomaly", "label": "B", "confidence": 0.85, "reason": "CT穩定在55s上下且稱達標，無異常跡象但未給目標值", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-028", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "CT從45s拉到85s且後段塞車", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-029", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "CT 17.9-18.2s對比標準18s正常", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-030", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "UPH 1780-1810對比目標1800在±1.1%內", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-031", "task": "p_uph_anomaly", "label": "A", "confidence": 0.85, "reason": "UPH在1200與600間交替，間歇性掉產能", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-032", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "產出740-760對比排程750在±1.3%內", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-033", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "CT 120s對比目標15s嚴重拉長", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-034", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "CT從28s拖到45s拉長61%", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-035", "task": "p_uph_anomaly", "label": "B", "confidence": 0.9, "reason": "UPH 1480對比目標1500低1.3%在±5%內", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-036", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "UPH從1100持續下滑到710，低35%", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-037", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "三小時2990片換算UPH約997對比目標1000正常", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-038", "task": "p_uph_anomaly", "label": "A", "confidence": 0.9, "reason": "CT 52s對比目標35s拉長49%", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-039", "task": "p_uph_anomaly", "label": "B", "confidence": 0.9, "reason": "UPH約1004與standard 1000相當", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-040", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "UPH 420對比平常800以上低近50%", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-041", "task": "p_uph_anomaly", "label": "B", "confidence": 0.8, "reason": "CT 12.5s對比標準12s高4.2%，在±5%內", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-042", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "UPH 1490-1510對比目標1500在±0.7%內", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-043", "task": "p_uph_anomaly", "label": "A", "confidence": 0.9, "reason": "CT拉到近兩分鐘後段乾等，明顯拉長", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-044", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "CT 185s對比目標90s超過一倍", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-045", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "產出3210對比目標3200正常", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-046", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "產出不到300對比目標800低逾60%", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-047", "task": "p_uph_anomaly", "label": "B", "confidence": 0.55, "reason": "UPH 1180-1210穩定但未提供目標值，暫判正常", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-048", "task": "p_uph_anomaly", "label": "A", "confidence": 0.6, "reason": "UPH刻意降到300對比正常1100低73%，雖為缺料主動降速仍符低於目標", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-049", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "CT從45s拉到95s，突然拉長", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-050", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "CT 44.8-45.5s對比目標45s正常", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-051", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "UPH 980高於目標950", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-052", "task": "p_uph_anomaly", "label": "A", "confidence": 0.9, "reason": "AOI誤判重測CT飆到110s前段停等", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-053", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "UPH 150對比目標950低84%", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-054", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "產出605對比目標600正常", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-055", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "CT翻倍，明顯拉長", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-056", "task": "p_uph_anomaly", "label": "B", "confidence": 0.9, "reason": "UPH 1250對比標準1200高4%在±5%內", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-057", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "印刷機暫停15分鐘無產出，線體阻塞", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-058", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "UPH 1030對比目標1050低1.9%在±5%內", "annotator": "claude-fable"}
+{"id": "p_uph_anomaly-d2-059", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "CT從30s變60s翻倍", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-000", "task": "p_line_change", "label": "A", "confidence": 0.95, "reason": "前工單已結，架鋼網刷程式拉首件中，正常換線", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-001", "task": "p_line_change", "label": "B", "confidence": 0.95, "reason": "電阻未到，等料開工", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-002", "task": "p_line_change", "label": "C", "confidence": 0.95, "reason": "回焊爐皮帶斷掉高溫警報等ME維修", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-003", "task": "p_line_change", "label": "A", "confidence": 0.95, "reason": "MES顯示換線中，爐溫升溫鋼網檢查首件待驗", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-004", "task": "p_line_change", "label": "B", "confidence": 0.6, "reason": "等前製程SMT交板，屬物料未到，但起因為L4塞車", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-005", "task": "p_line_change", "label": "C", "confidence": 0.95, "reason": "貼片機真空錯誤換吸嘴無效等PE校正", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-006", "task": "p_line_change", "label": "A", "confidence": 0.95, "reason": "清線後設定軌道頂針核對條碼首件確認中", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-007", "task": "p_line_change", "label": "C", "confidence": 0.95, "reason": "AOI光源控制板疑似燒掉已報修Hold線", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-008", "task": "p_line_change", "label": "B", "confidence": 0.95, "reason": "MES HOLD元件短缺，庫存0待採購", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-009", "task": "p_line_change", "label": "A", "confidence": 0.95, "reason": "物料到線參數載入完畢等首件SPI，正常換線", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-010", "task": "p_line_change", "label": "C", "confidence": 0.95, "reason": "SPI軌道馬達ALARM無法重置ME抓問題中", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-011", "task": "p_line_change", "label": "B", "confidence": 0.95, "reason": "BGA缺料倉庫因IQC Hold未發料", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-012", "task": "p_line_change", "label": "A", "confidence": 0.95, "reason": "前工單順結，換模對料中", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-013", "task": "p_line_change", "label": "C", "confidence": 0.95, "reason": "回焊爐溫控異常熱電偶故障等保養課拆爐", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-014", "task": "p_line_change", "label": "B", "confidence": 0.7, "reason": "新工單裸板尚在烘烤未出爐，等物料無事可做", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-015", "task": "p_line_change", "label": "C", "confidence": 0.95, "reason": "印刷機壓力感測器故障報修停線", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-016", "task": "p_line_change", "label": "A", "confidence": 0.95, "reason": "首件送FAI等QE簽核，正常換線", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-017", "task": "p_line_change", "label": "B", "confidence": 0.95, "reason": "散熱片數量不對庫房找料，線上等待", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-018", "task": "p_line_change", "label": "C", "confidence": 0.95, "reason": "貼片機Z軸螺桿卡死等原廠帶零件維修", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-019", "task": "p_line_change", "label": "A", "confidence": 0.95, "reason": "上工單完成新工單鋼網對位印刷測試中", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-020", "task": "p_line_change", "label": "A", "confidence": 0.95, "reason": "新工單鋼網已放PE對mark點等首件", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-021", "task": "p_line_change", "label": "B", "confidence": 0.9, "reason": "轉產中料捲找不到去倉庫翻，等料", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-022", "task": "p_line_change", "label": "C", "confidence": 0.95, "reason": "貼片機Z軸error可能拆馬達，停線待修", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-023", "task": "p_line_change", "label": "A", "confidence": 0.9, "reason": "回焊profile切換升溫中，換線程序", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-024", "task": "p_line_change", "label": "C", "confidence": 0.95, "reason": "送板馬達軸承燒掉ME找備件", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-025", "task": "p_line_change", "label": "B", "confidence": 0.95, "reason": "U5料不夠催倉儲發料，產線乾站", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-026", "task": "p_line_change", "label": "C", "confidence": 0.95, "reason": "Feeder base通訊失敗ME排除中停線", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-027", "task": "p_line_change", "label": "A", "confidence": 0.95, "reason": "上單完工新單AOI程式載入首件比對中", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-028", "task": "p_line_change", "label": "B", "confidence": 0.9, "reason": "換線中發現電容庫存零且在IQC待驗，缺料", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-029", "task": "p_line_change", "label": "B", "confidence": 0.95, "reason": "BGA未到等倉庫送料", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-030", "task": "p_line_change", "label": "C", "confidence": 0.95, "reason": "SPI雷射校正失敗疑控制板壞報修", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-031", "task": "p_line_change", "label": "A", "confidence": 0.95, "reason": "feeder上完IPQC核對條碼等印首件", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-032", "task": "p_line_change", "label": "B", "confidence": 0.95, "reason": "五金件未送達停線", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-033", "task": "p_line_change", "label": "A", "confidence": 0.95, "reason": "換線90%載入程式等PE確認首件", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-034", "task": "p_line_change", "label": "C", "confidence": 0.95, "reason": "印刷機刮刀壓力異常ME拆檢氣壓閥", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-035", "task": "p_line_change", "label": "B", "confidence": 0.95, "reason": "屏蔽罩沒料下午才到廠全線等料", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-036", "task": "p_line_change", "label": "A", "confidence": 0.95, "reason": "已結單新工單鋼網刷洗中預計試跑", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-037", "task": "p_line_change", "label": "C", "confidence": 0.95, "reason": "回焊爐熱電偶斷線ME拆換中", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-038", "task": "p_line_change", "label": "B", "confidence": 0.95, "reason": "24pin插座卡在報關行未進來，缺料", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-039", "task": "p_line_change", "label": "A", "confidence": 0.85, "reason": "工單將完成且下張料架已備妥，準備依排程換線", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-040", "task": "p_line_change", "label": "A", "confidence": 0.95, "reason": "結單後換feeder導新程式拉首件", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-041", "task": "p_line_change", "label": "A", "confidence": 0.95, "reason": "換線中鋼網對位好等QC量錫膏厚度", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-042", "task": "p_line_change", "label": "A", "confidence": 0.95, "reason": "新工單進站調載具設定波焊參數，正常換線", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-043", "task": "p_line_change", "label": "A", "confidence": 0.95, "reason": "前工單關閉載入AOI程式調軌道寬度", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-044", "task": "p_line_change", "label": "A", "confidence": 0.95, "reason": "轉機種換線60%等首件出爐", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-045", "task": "p_line_change", "label": "A", "confidence": 0.95, "reason": "洗鋼網攪拌錫膏準備架上，正常換線", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-046", "task": "p_line_change", "label": "A", "confidence": 0.95, "reason": "更換鋼網與雷射打標設定中等首件試跑", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-047", "task": "p_line_change", "label": "B", "confidence": 0.95, "reason": "MCU卡在海關停線等料", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-048", "task": "p_line_change", "label": "B", "confidence": 0.95, "reason": "電阻僅5盤不夠打與倉管確認中", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-049", "task": "p_line_change", "label": "B", "confidence": 0.95, "reason": "BGA庫存帳不對少200顆生管找料", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-050", "task": "p_line_change", "label": "B", "confidence": 0.95, "reason": "連接器庫存空等採購回覆", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-051", "task": "p_line_change", "label": "B", "confidence": 0.95, "reason": "PCB裸板在路上未到現場無板可印", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-052", "task": "p_line_change", "label": "B", "confidence": 0.85, "reason": "發錯料號待倉庫緊急補領，屬缺料等待", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-053", "task": "p_line_change", "label": "B", "confidence": 0.85, "reason": "物料驗證失敗線邊無U4庫存，Hold線等料", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-054", "task": "p_line_change", "label": "C", "confidence": 0.95, "reason": "SPI皮帶斷ME找備件", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-055", "task": "p_line_change", "label": "C", "confidence": 0.95, "reason": "貼片頭吸嘴掉ME校正等廠商儀器", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-056", "task": "p_line_change", "label": "C", "confidence": 0.95, "reason": "回焊爐發熱管燒掉需3小時更換", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-057", "task": "p_line_change", "label": "C", "confidence": 0.95, "reason": "AOI相機故障維修中", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-058", "task": "p_line_change", "label": "C", "confidence": 0.9, "reason": "換線後印刷機超壓軌道卡死PE抓原因全停", "annotator": "claude-fable"}
+{"id": "p_line_change-d2-059", "task": "p_line_change", "label": "C", "confidence": 0.95, "reason": "點膠機控制閥塞住需換新等代理商", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-000", "task": "x_ticket_route", "label": "A", "confidence": 0.95, "reason": "調度他線熟手支援人力短缺，屬產線人力問題", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-001", "task": "x_ticket_route", "label": "A", "confidence": 0.85, "reason": "備料員缺席、領料簽核與拉料屬生產物料補給", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-002", "task": "x_ticket_route", "label": "A", "confidence": 0.7, "reason": "漏刷需派人拆箱回拉重刷，為現場操作補救，非系統故障", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-003", "task": "x_ticket_route", "label": "A", "confidence": 0.9, "reason": "新人操作不熟需班長帶領，屬產線人力問題", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-004", "task": "x_ticket_route", "label": "A", "confidence": 0.9, "reason": "包材短缺需停線改排工單，屬排程與物料", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-005", "task": "x_ticket_route", "label": "B", "confidence": 0.95, "reason": "軌道卡板、夾爪異音、sensor 報警，屬機台故障", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-006", "task": "x_ticket_route", "label": "B", "confidence": 0.95, "reason": "SPI 光源故障跳 Err-092，屬設備維修", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-007", "task": "x_ticket_route", "label": "B", "confidence": 0.95, "reason": "回焊爐風扇不轉並報警，屬機台故障", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-008", "task": "x_ticket_route", "label": "B", "confidence": 0.95, "reason": "feeder 馬達過電流需更換單元，屬設備零件更換", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-009", "task": "x_ticket_route", "label": "B", "confidence": 0.9, "reason": "印刷機清洗裝置鋼帶斷裂需更換，屬設備維修", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-010", "task": "x_ticket_route", "label": "C", "confidence": 0.95, "reason": "MES 資料庫連線逾時，屬資訊系統問題", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-011", "task": "x_ticket_route", "label": "C", "confidence": 0.9, "reason": "掃描 UID 系統報無工單權限、後台未開通，屬帳號權限", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-012", "task": "x_ticket_route", "label": "C", "confidence": 0.95, "reason": "MES 帳號密碼鎖定無法登入，屬帳號權限", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-013", "task": "x_ticket_route", "label": "C", "confidence": 0.95, "reason": "ShopFloor 服務停止、掃描器凍結，屬伺服器問題", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-014", "task": "x_ticket_route", "label": "C", "confidence": 0.9, "reason": "共用碟空間或存取權限問題，屬伺服器權限", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-015", "task": "x_ticket_route", "label": "D", "confidence": 0.9, "reason": "錫膏厚度 SPC 飄移與 Cpk 偏低需判定放行，屬品保", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-016", "task": "x_ticket_route", "label": "D", "confidence": 0.9, "reason": "AOI 複判確認錫橋不良且停線待處置，屬不良判定", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-017", "task": "x_ticket_route", "label": "D", "confidence": 0.85, "reason": "首件量測與 BOM 不符疑混料需判定，屬品保", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-018", "task": "x_ticket_route", "label": "D", "confidence": 0.9, "reason": "客訴空焊且限度樣品未簽回詢問放行，屬品保", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-019", "task": "x_ticket_route", "label": "D", "confidence": 0.9, "reason": "BGA 氣泡率超規範需特採或重工判定，屬品保", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-020", "task": "x_ticket_route", "label": "C", "confidence": 0.9, "reason": "POKA-YOKE 資料庫連線逾時，屬資訊系統問題", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-021", "task": "x_ticket_route", "label": "B", "confidence": 0.9, "reason": "貼片機拋料換吸嘴無效、真空異常有氣笛聲，屬機台故障", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-022", "task": "x_ticket_route", "label": "D", "confidence": 0.9, "reason": "OQC 抽檢極性反需判定是否全檢，屬不良判定", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-023", "task": "x_ticket_route", "label": "A", "confidence": 0.95, "reason": "人員請假需調度他線人手，屬產線人力", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-024", "task": "x_ticket_route", "label": "C", "confidence": 0.95, "reason": "SFC 認證失敗、LDAP 同步異常，屬 IT", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-025", "task": "x_ticket_route", "label": "B", "confidence": 0.95, "reason": "回焊爐 SSR Fault 溫度拉不起來，屬機台故障", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-026", "task": "x_ticket_route", "label": "D", "confidence": 0.9, "reason": "客戶詢問氣泡率允收基準並要黃金樣品，屬檢驗標準", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-027", "task": "x_ticket_route", "label": "A", "confidence": 0.65, "reason": "標籤貼反需整批換貼，屬操作員可處理的現場問題；亦可能牽涉品保", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-028", "task": "x_ticket_route", "label": "C", "confidence": 0.9, "reason": "量測主機 IP 衝突無法連 SPC 系統，屬網路問題", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-029", "task": "x_ticket_route", "label": "B", "confidence": 0.95, "reason": "貼片頭 theta 軸馬達過熱報警停機，屬機台故障", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-030", "task": "x_ticket_route", "label": "D", "confidence": 0.85, "reason": "AOI 錫橋真假陽性判定爭議需專家裁決，屬不良判定", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-031", "task": "x_ticket_route", "label": "A", "confidence": 0.85, "reason": "客戶追加數量需確認物料續跑，屬排程與物料", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-032", "task": "x_ticket_route", "label": "C", "confidence": 0.95, "reason": "掃描器 socket 斷線、伺服器 ping 不通，屬網路", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-033", "task": "x_ticket_route", "label": "B", "confidence": 0.9, "reason": "印刷機擦拭紙卷軸卡住馬達過載，屬設備維修", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-034", "task": "x_ticket_route", "label": "D", "confidence": 0.9, "reason": "客訴外觀刮傷需允收標準，屬檢驗標準", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-035", "task": "x_ticket_route", "label": "A", "confidence": 0.55, "reason": "交接核對餘料與 BOM，屬線長現場核對；若確認少打件則轉品保，資訊不足", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-036", "task": "x_ticket_route", "label": "B", "confidence": 0.95, "reason": "Z 軸驅動器過電流需換驅動模組，屬設備維修", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-037", "task": "x_ticket_route", "label": "D", "confidence": 0.8, "reason": "FCT 不良拆解發現焊接微裂需開異常分析單，屬品保", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-038", "task": "x_ticket_route", "label": "C", "confidence": 0.95, "reason": "SFC 看板 502 Bad Gateway 無法開啟，屬 IT", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-039", "task": "x_ticket_route", "label": "A", "confidence": 0.9, "reason": "清線與安排人員受訓，屬產線例行作業", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-040", "task": "x_ticket_route", "label": "C", "confidence": 0.95, "reason": "MES Gateway 資料庫逾時、系統凍結，屬 IT", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-041", "task": "x_ticket_route", "label": "B", "confidence": 0.95, "reason": "X 軸馬達過熱異音需拆殼點檢，屬設備保養維修", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-042", "task": "x_ticket_route", "label": "D", "confidence": 0.9, "reason": "客訴錫裂需開 AAR 追查檢驗記錄，屬品保", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-043", "task": "x_ticket_route", "label": "A", "confidence": 0.95, "reason": "臨時插單需借調人力，屬產線排程人力", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-044", "task": "x_ticket_route", "label": "B", "confidence": 0.9, "reason": "刮刀壓力 sensor 異常校正失敗，屬設備校正", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-045", "task": "x_ticket_route", "label": "C", "confidence": 0.9, "reason": "MES 員工代碼全部無效無法過站，屬系統帳號問題", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-046", "task": "x_ticket_route", "label": "D", "confidence": 0.9, "reason": "AOI 偏移判定與特採單會簽，屬品保", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-047", "task": "x_ticket_route", "label": "A", "confidence": 0.85, "reason": "派人清潔載具才能上線，屬操作員可處理現場問題", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-048", "task": "x_ticket_route", "label": "C", "confidence": 0.9, "reason": "標籤印表機網路不通、交換器埠異常，屬網路", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-049", "task": "x_ticket_route", "label": "B", "confidence": 0.95, "reason": "印刷機擦拭馬達咬死需拆修，屬設備維修", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-050", "task": "x_ticket_route", "label": "D", "confidence": 0.85, "reason": "千分尺疑失準需標準件校對，屬量測儀器校驗", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-051", "task": "x_ticket_route", "label": "A", "confidence": 0.9, "reason": "派人至待驗區拉料避免停線，屬物料補給", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-052", "task": "x_ticket_route", "label": "B", "confidence": 0.95, "reason": "回焊爐熱風馬達雜音溫度偏低需檢查，屬設備維修", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-053", "task": "x_ticket_route", "label": "C", "confidence": 0.85, "reason": "系統工單狀態錯亂無法過站，屬 MES 資料問題", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-054", "task": "x_ticket_route", "label": "D", "confidence": 0.9, "reason": "客訴綠漆起泡需 Hold 批並分析，屬品保", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-055", "task": "x_ticket_route", "label": "A", "confidence": 0.95, "reason": "人員受訓缺人需調度支援，屬產線人力", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-056", "task": "x_ticket_route", "label": "B", "confidence": 0.9, "reason": "吸嘴真空不足持續拋料，屬機台故障", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-057", "task": "x_ticket_route", "label": "C", "confidence": 0.9, "reason": "IP Cam 串流與防火牆 port 問題，屬網路", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-058", "task": "x_ticket_route", "label": "D", "confidence": 0.65, "reason": "首件條碼規格與規格書不符需確認標準變更，偏品保檢驗標準；亦可能為文件問題", "annotator": "claude-fable"}
+{"id": "x_ticket_route-d2-059", "task": "x_ticket_route", "label": "A", "confidence": 0.75, "reason": "漏刷結報需派人抱回補刷，屬現場操作補救", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-000", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "停線 4 分鐘已恢復，單站短暫問題", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-001", "task": "x_escalate", "label": "A", "confidence": 0.95, "reason": "停線 50 分鐘且 IT/PE 未解，超過 30 分鐘門檻", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-002", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "操作員換吸嘴已恢復，例行處理", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-003", "task": "x_escalate", "label": "A", "confidence": 0.9, "reason": "120 pcs 已過爐疑冷焊，屬批量品質問題", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-004", "task": "x_escalate", "label": "A", "confidence": 0.95, "reason": "冒煙燒焦味屬安全事故", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-005", "task": "x_escalate", "label": "B", "confidence": 0.6, "reason": "已調整並繼續生產，但擅調 AOI threshold 未經 QE 有風險，資訊不足", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-006", "task": "x_escalate", "label": "A", "confidence": 0.75, "reason": "拋料率 15% 換 feeder 無效且持續損耗高價 IC，需設備與生產跨單位處理", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-007", "task": "x_escalate", "label": "B", "confidence": 0.9, "reason": "誤觸安全門已 reset，無影響產出", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-008", "task": "x_escalate", "label": "A", "confidence": 0.9, "reason": "人員受傷屬安全事故且站別無人", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-009", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "例行週保養進度正常", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-010", "task": "x_escalate", "label": "A", "confidence": 0.7, "reason": "結單當日 MES 卡關且板已入庫，需 IT/品保跨單位協調，影響出貨", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-011", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "操作員自行換燈管無停線", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-012", "task": "x_escalate", "label": "A", "confidence": 0.9, "reason": "MSD 料超濕已打 80 片，屬批量品質問題", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-013", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "網路中斷 2 分鐘已修復", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-014", "task": "x_escalate", "label": "A", "confidence": 0.9, "reason": "螺桿損壞需叫原廠，停機將遠超 30 分鐘", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-015", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "轉線首件已簽核，例行事務", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-016", "task": "x_escalate", "label": "A", "confidence": 0.9, "reason": "客供料變形無法生產且當日要出貨，影響出貨需跨單位", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-017", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "ME 已處理拋料並結案", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-018", "task": "x_escalate", "label": "A", "confidence": 0.8, "reason": "回焊爐卡測溫板且溫度 260 度退不下，有設備與安全風險", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-019", "task": "x_escalate", "label": "B", "confidence": 0.9, "reason": "多發空板已退料，例行事務", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-020", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "單站 6 分鐘已恢復", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-021", "task": "x_escalate", "label": "A", "confidence": 0.85, "reason": "連續 15 片 fail 且整線塞車，屬批量品質問題", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-022", "task": "x_escalate", "label": "B", "confidence": 0.9, "reason": "停機 8 分鐘已校正恢復", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-023", "task": "x_escalate", "label": "A", "confidence": 0.95, "reason": "錯料已打 50 片並全停，屬批量品質問題", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-024", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "單一條碼手動輸入已處理", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-025", "task": "x_escalate", "label": "A", "confidence": 0.9, "reason": "客戶要求緊急 Hold 且已生產 100 多片，影響出貨", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-026", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "3 分鐘自行校正無不良", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-027", "task": "x_escalate", "label": "A", "confidence": 0.95, "reason": "排風故障人員咳嗽屬安全事故", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-028", "task": "x_escalate", "label": "B", "confidence": 0.9, "reason": "拋料率已降回並觀察中", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-029", "task": "x_escalate", "label": "A", "confidence": 0.7, "reason": "新機種缺治具機台空等，需 PE/生管跨單位協調，停機時間未知", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-030", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "依標準程序換料 2 分鐘", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-031", "task": "x_escalate", "label": "A", "confidence": 0.8, "reason": "連續墓碑未改善需改鋼網，批量品質且跨單位", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-032", "task": "x_escalate", "label": "B", "confidence": 0.8, "reason": "發料遲到 15 分鐘已到齊，進度可追回", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-033", "task": "x_escalate", "label": "A", "confidence": 0.95, "reason": "皮帶斷裂需外購件今日修不好，停線超過 30 分鐘", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-034", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "重啟程式已恢復，gold board 通過", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-035", "task": "x_escalate", "label": "A", "confidence": 0.75, "reason": "物料找不到將停線，需與倉庫跨單位協調", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-036", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "擦拭鋼網後 SPI 已正常", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-037", "task": "x_escalate", "label": "A", "confidence": 0.95, "reason": "整批 400 台判退重工，批量品質問題", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-038", "task": "x_escalate", "label": "B", "confidence": 0.85, "reason": "MES 斷線 5 分鐘已恢復", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-039", "task": "x_escalate", "label": "A", "confidence": 0.85, "reason": "客戶稽核發現靜電違規並記錄，需立即處理與跨單位應對", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-040", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "例行換料首件已過", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-041", "task": "x_escalate", "label": "A", "confidence": 0.95, "reason": "120 pcs 疑裝錯料，批量品質問題", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-042", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "依 SOP 擦拭重印未耽誤生產", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-043", "task": "x_escalate", "label": "A", "confidence": 0.9, "reason": "撞機無備品需聯絡原廠，停線將超過 30 分鐘", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-044", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "斷線 4 分鐘已恢復", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-045", "task": "x_escalate", "label": "A", "confidence": 0.95, "reason": "客戶 QE 貼 Hold 單整線停止", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-046", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "警告已自動恢復，效率正常", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-047", "task": "x_escalate", "label": "A", "confidence": 0.7, "reason": "刮刀馬達驅動故障主電源斷開，預期停機長且需 ME，但停機時間未明", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-048", "task": "x_escalate", "label": "A", "confidence": 0.85, "reason": "50 片跳過 SPI 需品保介入，批量品質與跨單位", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-049", "task": "x_escalate", "label": "B", "confidence": 0.98, "reason": "例行班報無待處理問題", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-050", "task": "x_escalate", "label": "A", "confidence": 0.9, "reason": "爐溫飆 270 度且爐內有板，批量品質與設備風險", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-051", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "10 分鐘保養已交還生產", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-052", "task": "x_escalate", "label": "A", "confidence": 0.9, "reason": "夜班人員缺席無法完成當日出貨，影響出貨", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-053", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "單板錫橋已修復非批量", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-054", "task": "x_escalate", "label": "A", "confidence": 0.95, "reason": "靜電擊穿整批可能報廢，批量品質", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-055", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "換線架機例行進行中", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-056", "task": "x_escalate", "label": "A", "confidence": 0.95, "reason": "整廠 MES 當機全線停擺", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-057", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "依 SOP 3 分鐘換吸嘴", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-058", "task": "x_escalate", "label": "A", "confidence": 0.9, "reason": "錫膏回溫不足已印 30 片過爐且溢錫，批量品質", "annotator": "claude-fable"}
+{"id": "x_escalate-d2-059", "task": "x_escalate", "label": "B", "confidence": 0.75, "reason": "PE 確認替代料已換上無停機，但替代料使用宜留紀錄", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-000", "task": "x_10way_intent", "label": "A", "confidence": 0.95, "reason": "詢問工單剩餘數量與能否入庫", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-001", "task": "x_10way_intent", "label": "A", "confidence": 0.9, "reason": "詢問工單投產數量與完工時間", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-002", "task": "x_10way_intent", "label": "B", "confidence": 0.85, "reason": "詢問機台保養後今日能否正常運轉", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-003", "task": "x_10way_intent", "label": "B", "confidence": 0.8, "reason": "查詢機台離線狀態", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-004", "task": "x_10way_intent", "label": "C", "confidence": 0.95, "reason": "通報機台拋料率異常已停機", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-005", "task": "x_10way_intent", "label": "C", "confidence": 0.9, "reason": "機台軸驅動過載 alarm 通報", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-006", "task": "x_10way_intent", "label": "D", "confidence": 0.95, "reason": "通報連續墓碑不良", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-007", "task": "x_10way_intent", "label": "D", "confidence": 0.95, "reason": "通報 SPI 連續錫少請 QE 處理", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-008", "task": "x_10way_intent", "label": "E", "confidence": 0.95, "reason": "請求催倉管發料", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-009", "task": "x_10way_intent", "label": "E", "confidence": 0.9, "reason": "通報缺料並請補料", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-010", "task": "x_10way_intent", "label": "F", "confidence": 0.7, "reason": "請 ME 調整刮刀壓力，非緊急故障通報，偏維修申請", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-011", "task": "x_10way_intent", "label": "C", "confidence": 0.7, "reason": "爐區風扇歸零要求立即派 ME，屬緊急故障通報", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-012", "task": "x_10way_intent", "label": "G", "confidence": 0.55, "reason": "請求提前送下一單鋼網與 Feeder，屬換線準備；亦近似物料申請", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-013", "task": "x_10way_intent", "label": "G", "confidence": 0.85, "reason": "生管指示安排換線至下一工單", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-014", "task": "x_10way_intent", "label": "H", "confidence": 0.95, "reason": "請求開通 MES 過站權限", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-015", "task": "x_10way_intent", "label": "H", "confidence": 0.9, "reason": "請求授權上傳 profile 權限", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-016", "task": "x_10way_intent", "label": "I", "confidence": 0.95, "reason": "詢問吃錫檢驗標準與 SOP", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-017", "task": "x_10way_intent", "label": "I", "confidence": 0.95, "reason": "詢問錫膏回溫時間參數", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-018", "task": "x_10way_intent", "label": "J", "confidence": 0.95, "reason": "通知工單結單準備清線", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-019", "task": "x_10way_intent", "label": "J", "confidence": 0.95, "reason": "通知工單全部完成達標", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-020", "task": "x_10way_intent", "label": "A", "confidence": 0.95, "reason": "詢問工單剩餘片數", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-021", "task": "x_10way_intent", "label": "A", "confidence": 0.9, "reason": "詢問工單 SMT 是否完成", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-022", "task": "x_10way_intent", "label": "B", "confidence": 0.9, "reason": "詢問 SPI 是否運轉或 Idle", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-023", "task": "x_10way_intent", "label": "B", "confidence": 0.85, "reason": "查詢機台連線中斷狀態", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-024", "task": "x_10way_intent", "label": "C", "confidence": 0.9, "reason": "通報爐溫異常 alarm 持續", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-025", "task": "x_10way_intent", "label": "C", "confidence": 0.9, "reason": "機台真空低卡板 alarm 通報", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-026", "task": "x_10way_intent", "label": "D", "confidence": 0.9, "reason": "通報 AOI 連續空焊已停線請 PE", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-027", "task": "x_10way_intent", "label": "D", "confidence": 0.9, "reason": "通報首件氣泡率超標請 QE 判定", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-028", "task": "x_10way_intent", "label": "E", "confidence": 0.95, "reason": "請倉管補一盤料", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-029", "task": "x_10way_intent", "label": "E", "confidence": 0.95, "reason": "請倉庫加發錫膏", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-030", "task": "x_10way_intent", "label": "C", "confidence": 0.6, "reason": "吸嘴桿歪斜持續拋料要求馬上派人，偏緊急通報；亦可視為維修申請", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-031", "task": "x_10way_intent", "label": "F", "confidence": 0.8, "reason": "AOI 校正失敗與輸送帶震動請 ME 支援，屬維修申請", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-032", "task": "x_10way_intent", "label": "G", "confidence": 0.85, "reason": "請生管調整排程先排 L3", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-033", "task": "x_10way_intent", "label": "G", "confidence": 0.55, "reason": "詢問明日換線治具準備狀況，屬換線相關但為詢問而非申請", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-034", "task": "x_10way_intent", "label": "H", "confidence": 0.95, "reason": "請系統科開通 Shopfloor 帳號", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-035", "task": "x_10way_intent", "label": "H", "confidence": 0.95, "reason": "請求開通 MES 首件權限", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-036", "task": "x_10way_intent", "label": "I", "confidence": 0.95, "reason": "詢問貼裝高度參數設定值", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-037", "task": "x_10way_intent", "label": "I", "confidence": 0.95, "reason": "詢問回焊爐輸送速度規格", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-038", "task": "x_10way_intent", "label": "J", "confidence": 0.95, "reason": "通知工單全數完成報工", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-039", "task": "x_10way_intent", "label": "J", "confidence": 0.95, "reason": "工單完成通知", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-040", "task": "x_10way_intent", "label": "A", "confidence": 0.9, "reason": "詢問工單進度與今晚能否出貨", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-041", "task": "x_10way_intent", "label": "A", "confidence": 0.85, "reason": "查詢工單投入產出數量", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-042", "task": "x_10way_intent", "label": "B", "confidence": 0.9, "reason": "詢問機台看板黃燈是否運轉", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-043", "task": "x_10way_intent", "label": "B", "confidence": 0.85, "reason": "詢問機台是否加工中或 idle", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-044", "task": "x_10way_intent", "label": "F", "confidence": 0.85, "reason": "sensor 報警可繼續但請 ME 有空來看，非緊急維修申請", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-045", "task": "x_10way_intent", "label": "C", "confidence": 0.9, "reason": "加熱元件故障機台鎖定 alarm 通報", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-046", "task": "x_10way_intent", "label": "D", "confidence": 0.9, "reason": "通報 AOI 連續墓碑缺件請 IPQC", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-047", "task": "x_10way_intent", "label": "D", "confidence": 0.9, "reason": "通報首件 BGA 氣泡超標詢問能否過", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-048", "task": "x_10way_intent", "label": "E", "confidence": 0.95, "reason": "請倉管送 2 盤電阻", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-049", "task": "x_10way_intent", "label": "E", "confidence": 0.95, "reason": "請求倉庫緊急拉料", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-050", "task": "x_10way_intent", "label": "C", "confidence": 0.55, "reason": "馬達燒掉已卡板要求開修單叫保修，屬緊急故障通報；亦可視為申請維修", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-051", "task": "x_10way_intent", "label": "F", "confidence": 0.85, "reason": "請設備課收回 feeder 修理，非緊急", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-052", "task": "x_10way_intent", "label": "G", "confidence": 0.6, "reason": "請求提前推來下一單鋼網刮刀，屬換線準備", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-053", "task": "x_10way_intent", "label": "G", "confidence": 0.95, "reason": "請生管調整排程改切工單", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-054", "task": "x_10way_intent", "label": "H", "confidence": 0.95, "reason": "請資訊部開 MES 帳號", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-055", "task": "x_10way_intent", "label": "H", "confidence": 0.75, "reason": "請求機台 Supervisor 權限以修改參數，屬功能權限申請", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-056", "task": "x_10way_intent", "label": "I", "confidence": 0.95, "reason": "詢問 Reflow 速度參數", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-057", "task": "x_10way_intent", "label": "I", "confidence": 0.9, "reason": "詢問載具卡扣作業標準", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-058", "task": "x_10way_intent", "label": "J", "confidence": 0.95, "reason": "通知工單全數完成", "annotator": "claude-fable"}
+{"id": "x_10way_intent-d2-059", "task": "x_10way_intent", "label": "J", "confidence": 0.95, "reason": "系統通知工單完成", "annotator": "claude-fable"}

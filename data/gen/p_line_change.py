@@ -15,7 +15,7 @@ def _two_wo(rng):
     b = wo(rng)
     while b == a:
         b = wo(rng)
-    return a, b
+    return min(a, b), max(a, b)
 
 
 def _head(rng, line):

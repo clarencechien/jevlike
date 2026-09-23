@@ -9,16 +9,21 @@ of target CT). The stated percentage is computed from the generated numbers.
 from ._common import LINES, MOUNTERS, PRINTERS, TESTERS, hhmm, pick
 
 
+def _rd(v, t):
+    """UPH-scale targets round to integers; CT-scale (<100 s) keep one decimal so ±4% stays exact."""
+    return round(v, 1) if t < 100 else int(round(v))
+
+
 def _normal(rng, t, n):
-    return [round(t * (1 + rng.uniform(-0.04, 0.04))) for _ in range(n)]
+    return [_rd(t * (1 + rng.uniform(-0.04, 0.04)), t) for _ in range(n)]
 
 
 def _low(rng, t, n, lo=0.12, hi=0.25):
-    return [round(t * (1 - rng.uniform(lo, hi))) for _ in range(n)]
+    return [_rd(t * (1 - rng.uniform(lo, hi)), t) for _ in range(n)]
 
 
 def _long(rng, t, n, lo=0.12, hi=0.30):
-    return [round(t * (1 + rng.uniform(lo, hi))) for _ in range(n)]
+    return [_rd(t * (1 + rng.uniform(lo, hi)), t) for _ in range(n)]
 
 
 def _drop(rng, t, n, k):
@@ -111,8 +116,8 @@ def daily(rng):  # A / B
 def tester_ct(rng):  # A / B
     line, tester, t = pick(rng, LINES), pick(rng, TESTERS), rng.choice([45, 60, 75, 90, 120])
     a, b = _long(rng, t, 6), _normal(rng, t, 6)
-    return (f"{line} {tester} 每片測試 CT 目標 {t}s，近 6 片：{_j(a)}s，平均 {round(sum(a) / 6)}s，較目標拉長 {abs(_pct_diff(t, a))}%", "A",
-            f"{line} {tester} 每片測試 CT 目標 {t}s，近 6 片：{_j(b)}s，平均 {round(sum(b) / 6)}s，與目標差 {_pct_diff(t, b):+d}%", "B")
+    return (f"{line} {tester} 每片測試 CT 目標 {t}s，近 6 片：{_j(a)}s，平均 {round(sum(a) / 6, 1)}s，較目標拉長 {abs(_pct_diff(t, a))}%", "A",
+            f"{line} {tester} 每片測試 CT 目標 {t}s，近 6 片：{_j(b)}s，平均 {round(sum(b) / 6, 1)}s，與目標差 {_pct_diff(t, b):+d}%", "B")
 
 
 def after_changeover(rng):  # A / B
@@ -126,8 +131,8 @@ def after_changeover(rng):  # A / B
 def printer_ct(rng):  # A / B
     line, p, t = pick(rng, LINES), pick(rng, PRINTERS), rng.choice([18, 20, 22, 25, 28, 30])
     a, b = _long(rng, t, 6), _normal(rng, t, 6)
-    return (f"{line} {p} 印刷 CT 目標 {t}s，最近 6 板：{_j(a)}s，每板都比目標多 {min(a) - t}s 以上", "A",
-            f"{line} {p} 印刷 CT 目標 {t}s，最近 6 板：{_j(b)}s，最大偏差 {max(abs(x - t) for x in b)}s", "B")
+    return (f"{line} {p} 印刷 CT 目標 {t}s，最近 6 板：{_j(a)}s，每板都比目標多 {round(min(a) - t, 1)}s 以上", "A",
+            f"{line} {p} 印刷 CT 目標 {t}s，最近 6 板：{_j(b)}s，最大偏差 {round(max(abs(x - t) for x in b), 1)}s", "B")
 
 
 def ct_vs_prev_shift(rng):  # A / B

@@ -23,8 +23,7 @@ def _r(v, nd):
 
 def _f(v, spec):
     nd, signed = spec[4], spec[5]
-    s = f"{v:+.{nd}f}" if signed else f"{v:.{nd}f}"
-    return s
+    return f"{v:+.{nd}f}" if signed and v != 0 else f"{v:.{nd}f}"
 
 
 def _lim(spec):

@@ -47,6 +47,17 @@ H2 = ["m_alarm_category", "m_needs_dispatch", "q_defect_root", "m_alarm_severity
 H1 = ["p_line_change", "x_ticket_route", "x_escalate", "x_10way_intent"]
 d2_agree = sum(k["n"] for k in LAD["kappa"].values())
 d2_rate = 584 / 600
+CAS = json.load(open(os.path.join(ROOT, "results/cascade.json")))
+TASKDEF = json.load(open(os.path.join(ROOT, "data/seeds/tasks.json"), encoding="utf-8"))
+
+
+def example_of(task):
+    rows = [json.loads(l) for l in open(os.path.join(ROOT, f"data/synthetic/{task}.jsonl"), encoding="utf-8")]
+    zh = [r for r in rows if r["lang"] == "zh" and r["difficulty"] == "hard" and 30 <= len(r["state"]) <= 75]
+    r = sorted(zh, key=lambda r: r["id"])[0] if zh else rows[0]
+    return r["state"], TASKDEF[task]["options"][r["gold"]]["label"]
+
+
 strong = [t for t in ORDER if A[t]["raw_test"]["acc"] >= 0.98]
 weak = [t for t in ORDER if A[t]["raw_test"]["acc"] < 0.98]
 sev, spc, uph = A["m_alarm_severity"], A["q_spc_action"], A["p_uph_anomaly"]
@@ -132,6 +143,12 @@ def ladder_chart():
 
 
 lad_svg, lad_table = ladder_chart()
+ex_rows = ""
+for t in H2 + H1:
+    st, ans = example_of(t)
+    opts = " / ".join(v["label"] for v in TASKDEF[t]["options"].values())
+    ex_rows += (f'<tr><td class="nowrap">{e(ZH[t])}<span class="sub">{"26B 真的強" if t in H2 else "小模型也行"}</span></td>'
+                f'<td>{e(st)}</td><td>{e(opts)}</td><td class="nowrap">{e(ans)}</td></tr>')
 acc_svg, acc_table = acc_bar_chart()
 lc_svg, lc_legend, lc_table = learning_curve_chart()
 
@@ -354,6 +371,39 @@ page = f"""<!doctype html>
   </figure>
 
   <p>這對 GB10 的部署有直接意義：<span class="mark">六類要用 26B，四類（工單狀態、派給誰、要不要升級、訊息意圖）小到 2B 的模型就夠</span>，可以獨立放一個小模型做高頻判斷。另一個結果是反向的：原本想用 Gemini 盲寫的 600 題當「更難的題」，結果它比合成題容易——不看標準寫題，反而把線索寫得很完整，兩個大模型獨立標答一致率 {d2_rate * 100:.0f}%。所以真正拉開差距的是合成題裡刻意寫得資訊不全、邊界模糊的那三成難題，之後跟其他模型比要用那一批。</p>
+
+  <p class="eyebrow">02d · 六類、四類長什麼樣</p>
+  <h2>題目長什麼樣、怎麼分的、能不能先分再派</h2>
+  <p>先看題目。每一類各挑一則手寫的難題，附選項與正確答案。前六類要「在幾個相鄰的等級或原因之間做判斷」，後四類是「訊息本身就說明了它是什麼」。</p>
+
+  <div class="table-scroll wide route">
+    <table>
+      <thead><tr><th>題型</th><th>一則例題</th><th>選項</th><th>答案</th></tr></thead>
+      <tbody>{ex_rows}</tbody>
+    </table>
+  </div>
+
+  <p><strong>怎麼分的。</strong>分的是「題型」，不是單一題目。十類題各有 100 題測試集，三個大小的模型跑同一批、同一個提問方式。規則在跑之前寫死：最小的 E2B 也答對 95% 以上的題型，判為「題目對小模型也簡單」；26B 比 E4B 高 5 個百分點以上、且統計檢定 p &lt; 0.05 的題型，判為「26B 真的強」。十類剛好分成 4 加 6，沒有落在中間的。</p>
+
+  <p><strong>能不能先分類、再決定用哪個模型？</strong>可以，而且分兩層，第一層不需要分類器：</p>
+  <ol>
+    <li><strong>題型層級：不用分類器。</strong>問題是我們的系統自己發出的，發問時就知道是「要不要通知線長」還是「SPC 該怎麼處置」。四類固定走小模型、六類固定走 26B，是一張查表，不是判斷。</li>
+    <li><strong>題目層級：讓小模型自己當分類器。</strong>同一類題裡也有簡單和難的。做法是先問 E4B，它的把握度夠高就採用，不夠就把同一題丟給 26B。不用另外訓練東西，把握度就是那個分類器。用十類共一千題模擬：</li>
+  </ol>
+
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>做法</th><th class="num">平均答對率</th><th class="num">送到 26B 的比例</th></tr></thead>
+      <tbody>
+        <tr><td>全部用 E4B</td><td class="num">{CAS['mean'][0] * 100:.1f}%</td><td class="num">0%</td></tr>
+        <tr><td>E4B 先答，把握度 &lt; 0.99 才問 26B</td><td class="num">{CAS['mean'][4] * 100:.1f}%</td><td class="num">{CAS['mean'][5] * 100:.0f}%</td></tr>
+        <tr><td>E4B 先答，把握度 &lt; 0.999 才問 26B</td><td class="num">{CAS['mean'][6] * 100:.1f}%</td><td class="num">{CAS['mean'][7] * 100:.0f}%</td></tr>
+        <tr><td>全部用 26B</td><td class="num">{CAS['mean'][1] * 100:.1f}%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>結論：<span class="mark">先問小模型、三分之一的題再問 26B，答對率和全部用 26B 一樣</span>，而且四類簡單題幾乎不會被送上去（3–20%），六類難題會送 18–86%，等於系統自己找出了難題。兩個提醒：這裡用的是模型原始的把握度，上線要校準過；數字來自合成題，真實資料要重算門檻。</p>
 
   <p class="eyebrow">03 · 標註量</p>
   <h2>「幾百筆」的承諾，實測是「幾十筆或零筆」</h2>

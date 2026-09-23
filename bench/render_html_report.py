@@ -48,6 +48,7 @@ H1 = ["p_line_change", "x_ticket_route", "x_escalate", "x_10way_intent"]
 d2_agree = sum(k["n"] for k in LAD["kappa"].values())
 d2_rate = 584 / 600
 CAS = json.load(open(os.path.join(ROOT, "results/cascade.json")))
+SPD = json.load(open(os.path.join(ROOT, "results/speed_ladder.json")))
 TASKDEF = json.load(open(os.path.join(ROOT, "data/seeds/tasks.json"), encoding="utf-8"))
 
 
@@ -143,6 +144,7 @@ def ladder_chart():
 
 
 lad_svg, lad_table = ladder_chart()
+cas_rows = "".join(f'<tr><td>{e(r[0])}</td><td class="num">{r[1] * 100:.1f}%</td><td class="num">{r[2] * 100:.0f}%</td><td class="num">{r[3] / 1000:.2f} 秒</td></tr>' for r in SPD["cascade"])
 ex_rows = ""
 for t in H2 + H1:
     st, ans = example_of(t)
@@ -393,17 +395,26 @@ page = f"""<!doctype html>
 
   <div class="table-scroll">
     <table>
-      <thead><tr><th>做法</th><th class="num">平均答對率</th><th class="num">送到 26B 的比例</th></tr></thead>
-      <tbody>
-        <tr><td>全部用 E4B</td><td class="num">{CAS['mean'][0] * 100:.1f}%</td><td class="num">0%</td></tr>
-        <tr><td>E4B 先答，把握度 &lt; 0.99 才問 26B</td><td class="num">{CAS['mean'][4] * 100:.1f}%</td><td class="num">{CAS['mean'][5] * 100:.0f}%</td></tr>
-        <tr><td>E4B 先答，把握度 &lt; 0.999 才問 26B</td><td class="num">{CAS['mean'][6] * 100:.1f}%</td><td class="num">{CAS['mean'][7] * 100:.0f}%</td></tr>
-        <tr><td>全部用 26B</td><td class="num">{CAS['mean'][1] * 100:.1f}%</td><td class="num">100%</td></tr>
-      </tbody>
+      <thead><tr><th>做法</th><th class="num">平均答對率</th><th class="num">送到 26B 的比例</th><th class="num">平均每題（L4）</th></tr></thead>
+      <tbody>{cas_rows}</tbody>
     </table>
   </div>
 
   <p>結論：<span class="mark">先問小模型、三分之一的題再問 26B，答對率和全部用 26B 一樣</span>，而且四類簡單題幾乎不會被送上去（3–20%），六類難題會送 18–86%，等於系統自己找出了難題。兩個提醒：這裡用的是模型原始的把握度，上線要校準過；數字來自合成題，真實資料要重算門檻。</p>
+
+  <p><strong>4B 到底多快，這樣做多值。</strong>同一張 L4 上實測：</p>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>一次判斷（p50）</th><th class="num">26B</th><th class="num">E4B</th><th class="num">E2B</th></tr></thead>
+      <tbody>
+        <tr><td>單題，每次不同的現場狀況</td><td class="num">{SPD['L1']['26b'] / 1000:.2f} 秒</td><td class="num">{SPD['L1']['e4b'] / 1000:.2f} 秒</td><td class="num">{SPD['L1']['e2b'] / 1000:.2f} 秒</td></tr>
+        <tr><td>同一份狀況問十題</td><td class="num">{SPD['t10']['26b'] / 1000:.2f} 秒</td><td class="num">{SPD['t10']['e4b'] / 1000:.2f} 秒</td><td class="num">{SPD['t10']['e2b'] / 1000:.2f} 秒</td></tr>
+        <tr><td>最快極限（狀況已在快取）</td><td class="num">{SPD['floor']['26b'] / 1000:.3f} 秒</td><td class="num">{SPD['floor']['e4b'] / 1000:.3f} 秒</td><td class="num">{SPD['floor']['e2b'] / 1000:.3f} 秒</td></tr>
+        <tr><td>模型佔的記憶體</td><td class="num">17 GB</td><td class="num">8 GB</td><td class="num">5 GB</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>E4B 單題快 2.2 倍、十題快 1.8 倍，但最快極限兩者一樣（26B 是「每次只動 4B」的混合專家架構），所以小模型的好處主要在記憶體和讀題的速度，不是每個字的速度。<strong>值多少：</strong>級聯後準確率 {CAS['mean'][6] * 100:.1f}%（全用 26B 是 {CAS['mean'][1] * 100:.1f}%），平均每題從 {SPD['L1']['26b'] / 1000:.2f} 秒降到 {SPD['cascade'][2][3] / 1000:.2f} 秒（省兩成），26B 的判斷負載只剩三分之一。在 GB10 上 26B 同時還要寫報告、做 RCA，把三分之二的判斷流量移走，才是這個做法真正的價值；純速度上的收益有限。四類簡單題若只用 E4B，8 GB 記憶體、單題 0.06 秒，可以放在更小的機器上。</p>
 
   <p class="eyebrow">03 · 標註量</p>
   <h2>「幾百筆」的承諾，實測是「幾十筆或零筆」</h2>

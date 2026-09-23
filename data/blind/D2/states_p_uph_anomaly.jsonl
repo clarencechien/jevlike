@@ -38,3 +38,23 @@
 {"id": "p_uph_anomaly-d2-037", "task": "p_uph_anomaly", "state": "L8 下午三小時總產出 2990 片，對比工單預計的每小時 UPH 1000，速度算是非常穩定，等下準備直接結單了。", "writer": "gemini-3.5-flash"}
 {"id": "p_uph_anomaly-d2-038", "task": "p_uph_anomaly", "state": "SMT-L7 晚上換料後手動貼裝時間拉太長，CT目標35s，近五片測出來平均要 52s，作業員手腳太慢需要 QE 去帶。", "writer": "gemini-3.5-flash"}
 {"id": "p_uph_anomaly-d2-039", "task": "p_uph_anomaly", "state": "L4 晚班回報：目標 12,000 片，目前已跑 11H 累計產出 11,050 片，平均 UPH 約 1004，跟 standard 差不多。", "writer": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-040", "task": "p_uph_anomaly", "state": "L1 CP650 吸嘴一直吸真空異常，這兩小時 UPH 只跑 420，平常都 800 以上，PE 快來看。", "writer": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-041", "task": "p_uph_anomaly", "state": "SMT-L3 今天打 A 客戶的板子，CT 穩定維持在 12.5s，跟標準工時 12s 差不多，下班前應該能追平。", "writer": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-042", "task": "p_uph_anomaly", "state": "L5 ASM-01 MES: RUNNING. UPH LAST 5H: 1490 1505 1510 1495 1500 TARGET 1500", "writer": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-043", "task": "p_uph_anomaly", "state": "L2 SPI 報警說錫膏偏位狂跳，進板 CT 直接被拉到快兩分鐘，後面 Mounter 都在乾等，快派人調機。", "writer": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-044", "task": "p_uph_anomaly", "state": "ALARM SMT-L6 AOI-02: CT OVER LIMIT (ACTUAL 185S / TARGET 90S) ON 3 BOARDS", "writer": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-045", "task": "p_uph_anomaly", "state": "SMT-L4 日班結報：WO-99812 實際產出 3210pcs，目標 3200pcs，雖然中間有塞板一下但沒影響進度。", "writer": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-046", "task": "p_uph_anomaly", "state": "靠北喔 L1 今天是怎樣，NXT3 跑兩片就卡一次，早班到现在才出不到 300pcs，目標明明是 800。", "writer": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-047", "task": "p_uph_anomaly", "state": "L8 晚班進度：目前打 WO-5541，UPH 落在 1180-1210 之間，等一下換線再看看狀況。", "writer": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-048", "task": "p_uph_anomaly", "state": "L3 剛接的單缺料，線長說先降速跑，現在 UPH 調到 300，等九點備料送來再拉回原本的 1100。", "writer": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-049", "task": "p_uph_anomaly", "state": "L2 爐子剛才溫度異常，拉長了進板間隔，CT 從 45s 拉到 95s，雖然溫度救回來了但累積好幾片沒打。", "writer": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-050", "task": "p_uph_anomaly", "state": "SMT-L3 FCT-02 RUNNING OK. CT 45.2s, 44.8s, 45.1s, 45.5s. STAGE GOAL: 45s.", "writer": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-051", "task": "p_uph_anomaly", "state": "L7 換班交接：B201 機種今天跑的很順，UPH 平均 980 (目標950)，沒塞板也沒拋料，給晚班參考。", "writer": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-052", "task": "p_uph_anomaly", "state": "SMT-L4 的 AOI 判定太嚴，一直誤判重測，CT 飆到 110s，前面 mounter 都停等了，要找 QE 條一下。", "writer": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-053", "task": "p_uph_anomaly", "state": "WARN: L2 PLACER NXT-02 FEEDER CLOGGED. CURRENT UPH DROPPED TO 150 (TARGET: 950).", "writer": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-054", "task": "p_uph_anomaly", "state": "WO-10293 工單備註：此料件體積大，上件速度有下調，目標 UPH 為 600，日班實際產出 605，符合進度。", "writer": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-055", "task": "p_uph_anomaly", "state": "L5 鋼網好像有點變形，印刷機一直報警，每次都要手動擦網，CT 整整翻了一倍，今天大概做不完了。", "writer": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-056", "task": "p_uph_anomaly", "state": "剛剛 L1 SPI 換過網後，打得超順，近一小時產量 1250 片，剛好壓在標準 UPH 1200 左右。", "writer": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-057", "task": "p_uph_anomaly", "state": "SMT-L7 PRINTER AP-01 PAUSE. NO OUTPUT OVER 15 MINS. CT INFINITE. LINE BLOCKED.", "writer": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-058", "task": "p_uph_anomaly", "state": "L6 換完料了，目前 UPH 都在 1030 上下，雖然沒到目標的 1050，但有在 +-5% 容許範圍內。", "writer": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-059", "task": "p_uph_anomaly", "state": "靠，L3 的 FCT 治具彈片斷掉，現在只能單通道測試，CT 從 30s 直接變成 60s，整條線塞爆了。", "writer": "gemini-3.5-flash"}

@@ -248,8 +248,9 @@ def main():
                 continue
             results[task][ds] = compare(task, ds, ids, R)
             if ds == "D1-cue" and "26b" in R:
-                cue_inputs.append((task, ids, R, R["26b"]))
-                sub = [i for i in ids if R["26b"][i].get("n_cues_removed", 0) >= 1]
+                cue = {json.loads(l)["id"]: json.loads(l) for l in open(os.path.join(ROOT, f"data/perturbed/D1-cue/{task}.jsonl"), encoding="utf-8")}
+                cue_inputs.append((task, ids, R, cue))
+                sub = [i for i in ids if cue.get(i, {}).get("n_cues_removed", 0) >= 1]
                 if len(sub) >= 10:
                     results[task]["D1-cue≥1"] = compare(task, "D1-cue≥1", sub, R)
         # calibration transfer 26b: fit on D0 cal, apply to D2

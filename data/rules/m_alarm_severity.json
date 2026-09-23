@@ -1,0 +1,71 @@
+{
+ "task": "m_alarm_severity",
+ "default": "B",
+ "rules": [
+  {
+   "pattern": "冒煙|起火|燒焦|燙傷|受傷|安全|E-?STOP|急停|EMERGENCY|SMOKE|FIRE|VOC",
+   "label": "C",
+   "note": "安全風險"
+  },
+  {
+   "pattern": "撞|CRASH|COLLISION|斷裂|損壞|DAMAGE|異音|燒毀|空轉",
+   "label": "C",
+   "note": "設備損壞"
+  },
+  {
+   "pattern": "整線|全線|批量|整批|報廢|流到|流出|漏檢|SCRAP|ESCAPE|BATCH",
+   "label": "C",
+   "note": "批量品質"
+  },
+  {
+   "pattern": "TEMP HIGH|溫度.*超|超過上限|超.*上限|OVER ?TEMP|UNCONTROLLED|RISING",
+   "label": "C",
+   "note": "爐溫超限"
+  },
+  {
+   "pattern": "提醒|提示|到期|保養|\\bPM\\b|週期|計數|COUNT|CYCLE|INFO|NOTICE|REMINDER|SCHEDULE",
+   "label": "A",
+   "note": "例行提示"
+  },
+  {
+   "pattern": "WARNING|黃燈|\\bW-\\d",
+   "label": "A",
+   "note": "警告等級"
+  },
+  {
+   "pattern": "PAUSE|暫停|WAIT|等待|鎖機|單站",
+   "label": "B",
+   "note": "單站暫停"
+  },
+  {
+   "pattern": "EMPTY|缺料|補料|跳料|拋料|PICK ERROR|FEEDER",
+   "label": "B",
+   "note": "料件相關"
+  },
+  {
+   "pattern": "UPH|\\bCT\\b|ATT|效率|誤判|FALSE CALL|降|掉",
+   "label": "B",
+   "note": "效率影響"
+  },
+  {
+   "pattern": "VACUUM|真空|吸嘴|NOZZLE|SERVO|伺服|OVERLOAD",
+   "label": "B",
+   "note": "單機故障"
+  },
+  {
+   "pattern": "MES|TIMEOUT|連線|通訊|COMM",
+   "label": "B",
+   "note": "連線問題"
+  },
+  {
+   "pattern": "\\bNG\\b|不良|偏移|偏低|偏高|DRIFT|超規|超過",
+   "label": "B",
+   "note": "品質風險"
+  },
+  {
+   "pattern": "正常|\\bOK\\b|達標|恢復|RECOVER|RESET OK|SPLICE OK",
+   "label": "A",
+   "note": "已恢復或正常"
+  }
+ ]
+}

@@ -4,8 +4,10 @@ seed=7, easy per task=140, en share=0.2
 
 | task | kind | n | easy | hard | zh | en | pairs (easy/hard) | gold distribution | hard types |
 |---|---|---|---|---|---|---|---|---|---|
-| m_alarm_category | choice | 140 | 140 | 0 | 112 | 28 | 70/0 | A:30, B:29, C:28, D:28, E:25 |  |
-| m_needs_dispatch | noul | 140 | 140 | 0 | 112 | 28 | 70/0 | A:70, B:70 |  |
+| q_spc_action | choice | 200 | 140 | 60 | 159 | 41 | 70/15 | A:51, B:48, C:53, D:48 | borderline:13, distractor:14, incomplete:11, inverted:11, noisy:11 |
+| q_defect_root | choice | 200 | 140 | 60 | 159 | 41 | 70/15 | A:35, B:34, C:34, D:34, E:32, F:31 | borderline:13, distractor:12, incomplete:11, inverted:12, noisy:12 |
+| p_uph_anomaly | noul | 200 | 140 | 60 | 160 | 40 | 70/15 | A:100, B:100 | borderline:12, distractor:12, incomplete:14, inverted:10, noisy:12 |
+| p_line_change | choice | 200 | 140 | 60 | 160 | 40 | 70/16 | A:67, B:66, C:67 | borderline:12, distractor:12, incomplete:12, inverted:12, noisy:12 |
 
 ## 產法
 

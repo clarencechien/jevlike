@@ -104,13 +104,13 @@ def start_server(n_parallel=4, ctx=16384, port=8080, extra=()):
 
 
 @app.function(image=image, gpu=GPU, volumes={"/models": models, "/results": results}, timeout=60 * 60 * 3)
-def run_bench(which: str, args: str = "", n_parallel: int = 4, ctx: int = 16384):
+def run_bench(which: str, args: str = "", n_parallel: int = 4, ctx: int = 16384, server_extra: str = ""):
     """which in {smoke, latency, accuracy}; writes /results/<which>/..."""
     import sys
 
     sys.path.insert(0, "/root")
     t_start = time.time()
-    proc = start_server(n_parallel=n_parallel, ctx=ctx)
+    proc = start_server(n_parallel=n_parallel, ctx=ctx, extra=tuple(server_extra.split()))
     t_ready = time.time()
     try:
         mod = __import__(f"bench.{which}", fromlist=["main"])
@@ -118,7 +118,7 @@ def run_bench(which: str, args: str = "", n_parallel: int = 4, ctx: int = 16384)
         os.makedirs(out_dir, exist_ok=True)
         ret = mod.main(base_url="http://127.0.0.1:8080", out_dir=out_dir, args=args, commit=results.commit)
         with open(f"/results/{which}/_run.json", "a") as f:
-            f.write(json.dumps({"which": which, "args": args, "gpu": GPU, "n_parallel": n_parallel, "ctx": ctx,
+            f.write(json.dumps({"which": which, "args": args, "gpu": GPU, "n_parallel": n_parallel, "ctx": ctx, "server_extra": server_extra,
                                 "server_start_s": round(t_ready - t_start, 1),
                                 "bench_s": round(time.time() - t_ready, 1), "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}) + "\n")
         results.commit()
@@ -128,11 +128,11 @@ def run_bench(which: str, args: str = "", n_parallel: int = 4, ctx: int = 16384)
 
 
 @app.local_entrypoint()
-def main(which: str = "smoke", args: str = "", n_parallel: int = 4, n_ctx: int = 16384):
+def main(which: str = "smoke", args: str = "", n_parallel: int = 4, n_ctx: int = 16384, server_extra: str = ""):
     if which == "download":
         print(json.dumps(download.remote(), indent=2))
     elif which == "probe":
         print(json.dumps(probe.remote(), indent=2, ensure_ascii=False))
     else:
-        ret = run_bench.remote(which, args, n_parallel, n_ctx)
+        ret = run_bench.remote(which, args, n_parallel, n_ctx, server_extra)
         print(json.dumps(ret, indent=2, ensure_ascii=False, default=str)[:4000])

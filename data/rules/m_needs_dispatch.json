@@ -1,0 +1,66 @@
+{
+ "task": "m_needs_dispatch",
+ "default": "A",
+ "rules": [
+  {
+   "pattern": "仍|還是|依然|一樣|再次|重複|反覆|RECUR|PERSIST|STILL|x[2-9]|[2-9] ?次",
+   "label": "A",
+   "note": "處理後仍發生"
+  },
+  {
+   "pattern": "校正|CALIBRAT|精度|DRIFT|不準",
+   "label": "A",
+   "note": "需校正"
+  },
+  {
+   "pattern": "維修|更換零件|REPLACE|REPAIR|備品|SPARE",
+   "label": "A",
+   "note": "需維修/換零件"
+  },
+  {
+   "pattern": "伺服|SERVO|驅動|DRIVER|馬達|MOTOR|感測器|SENSOR|氣缸|CYLINDER|皮帶|BELT|軸|AXIS|OVERLOAD|ENCODER|SSR|保險絲|FUSE|泵浦|PUMP",
+   "label": "A",
+   "note": "機台零件故障"
+  },
+  {
+   "pattern": "異音|摩擦|撞|燒|斷|漏|卡死|STUCK|BROKEN|NO RESPONSE|不動|沒反應|燙",
+   "label": "A",
+   "note": "硬體損壞徵兆"
+  },
+  {
+   "pattern": "調整|ADJUST|重調|鬆動|LOOSE|偏",
+   "label": "A",
+   "note": "需調整"
+  },
+  {
+   "pattern": "補料|換料|新料|料盤|REEL|EMPTY|缺料|TRAY|LOADED|裝帶",
+   "label": "B",
+   "note": "補料"
+  },
+  {
+   "pattern": "清潔|清乾淨|擦|CLEAN|WIPE",
+   "label": "B",
+   "note": "清潔"
+  },
+  {
+   "pattern": "重啟|重開|RESTART|REBOOT|RESET|POWER CYCLE",
+   "label": "B",
+   "note": "重啟"
+  },
+  {
+   "pattern": "耗材|吸嘴|刮刀|刀片|POGO|濾網|錫膏|助焊劑|FLUX|NOZZLE|SQUEEGEE|燈管|LAMP",
+   "label": "B",
+   "note": "換耗材"
+  },
+  {
+   "pattern": "恢復|正常|解決|排除|RECOVER|\\bOK\\b|RESUMED|CLEARED|\\bRUN\\b",
+   "label": "B",
+   "note": "已恢復"
+  },
+  {
+   "pattern": "提醒|週期|到期|REMINDER|計數",
+   "label": "B",
+   "note": "例行提示"
+  }
+ ]
+}

@@ -16,6 +16,10 @@ import re
 import sys
 
 import numpy as np
+import matplotlib
+matplotlib.use("Agg")
+matplotlib.rcParams["font.family"] = ["WenQuanYi Zen Hei", "DejaVu Sans"]
+matplotlib.rcParams["axes.unicode_minus"] = False
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TASKS = json.load(open(os.path.join(ROOT, "data/seeds/tasks.json"), encoding="utf-8"))
@@ -233,7 +237,9 @@ def learning_curve_fig(task, curve, path):
         ax.fill_between(ns, np.array(m) - np.array(s), np.array(m) + np.array(s), color=col, alpha=0.12, lw=0)
     ax.axhline(0.9, color=C["grid"], lw=1.2, ls=":", zorder=1)
     ax.text(curve["N"][0], 0.905, "0.90", fontsize=8, color=C["muted"])
+    from matplotlib.ticker import NullFormatter, NullLocator
     ax.set_xscale("log"); ax.set_xticks(curve["N"]); ax.set_xticklabels([str(n) for n in curve["N"]])
+    ax.xaxis.set_minor_locator(NullLocator()); ax.xaxis.set_minor_formatter(NullFormatter())
     ax.set_ylim(0, 1.02); ax.set_xlabel("標註筆數 N（calibration 集抽樣，3 seeds）", color=C["sec"]); ax.set_ylabel("accuracy / coverage（test 集）", color=C["sec"])
     ax.set_title(f"{task} — 標註量學習曲線", fontsize=11, color=C["ink"])
     ax.grid(axis="y", color=C["grid"], lw=0.8); ax.set_axisbelow(True)

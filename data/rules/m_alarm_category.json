@@ -1,0 +1,81 @@
+{
+ "task": "m_alarm_category",
+ "default": "A",
+ "rules": [
+  {
+   "pattern": "溫濕度|濕度|HUMIDITY|\\bRH\\b",
+   "label": "E",
+   "note": "環境-溫濕度"
+  },
+  {
+   "pattern": "空壓機|主管路|廠務|FACILITY|氮氣|\\bN2\\b|氧含量|排風|EXHAUST|冰水|冷卻水|水塔",
+   "label": "E",
+   "note": "環境-公用設施"
+  },
+  {
+   "pattern": "靜電|ESD|接地|停電|跳電|驟降|瞬降|電網|BROWNOUT|POWER SAG|電壓不穩",
+   "label": "E",
+   "note": "環境-電力品質/靜電"
+  },
+  {
+   "pattern": "料號|PART ?(NO|NUMBER)|MISMATCH|條碼|BARCODE|貼錯|BOM",
+   "label": "C",
+   "note": "物料-料號/條碼"
+  },
+  {
+   "pattern": "REEL|料帶|料盤|TAPE|SPLICE|缺料|EMPTY|批號|\\bLOT\\b",
+   "label": "C",
+   "note": "物料-料帶料盤"
+  },
+  {
+   "pattern": "錫膏|PASTE|鋼網|STENCIL|過期|EXPIR",
+   "label": "C",
+   "note": "物料-錫膏鋼網"
+  },
+  {
+   "pattern": "貼片程式|貼片檔|座標|COORD|配方|RECIPE|PROGRAM",
+   "label": "D",
+   "note": "程式-貼片程式/配方"
+  },
+  {
+   "pattern": "參數|PARAM|版本|VERSION|資料庫|DATABASE|檔案|FILE|OFFSET|設定|SETTING|CAD|ROTATION|覆寫",
+   "label": "D",
+   "note": "程式-參數/檔案"
+  },
+  {
+   "pattern": "伺服|SERVO|驅動|DRIVER?|OVERLOAD",
+   "label": "B",
+   "note": "電控-伺服驅動"
+  },
+  {
+   "pattern": "電源|POWER|供應器|PSU|保險絲|FUSE|SSR|繼電器|RELAY|燒毀|重開機|REBOOT",
+   "label": "B",
+   "note": "電控-電源"
+  },
+  {
+   "pattern": "通訊|COMM|PLC|I/?O|板卡|CARD|MES|TIMEOUT|網路|NIC|LINK",
+   "label": "B",
+   "note": "電控-通訊/板卡"
+  },
+  {
+   "pattern": "線材|CABLE|接頭|CONNECTOR|接觸|ENCODER|訊號|SIGNAL|接線",
+   "label": "B",
+   "note": "電控-線材接觸"
+  },
+  {
+   "pattern": "吸嘴|NOZZLE|真空|VACUUM|濾芯|FILTER|泵|PUMP",
+   "label": "A",
+   "note": "機構-吸嘴真空"
+  },
+  {
+   "pattern": "皮帶|BELT|軸|AXIS|馬達|MOTOR|氣缸|CYLINDER|螺桿|BALLSCREW|螺絲|SCREW|齒輪|GEAR|鏈條|CHAIN",
+   "label": "A",
+   "note": "機構-傳動"
+  },
+  {
+   "pattern": "感測器|SENSOR|卡住|卡在|JAM|STUCK|磨損|WEAR|變形|異音|氣壓|AIR PRESSURE|摩擦",
+   "label": "A",
+   "note": "機構-感測器/卡料/磨損"
+  }
+ ]
+}

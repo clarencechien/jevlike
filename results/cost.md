@@ -1,0 +1,17 @@
+# 實際費用與 GPU 時間（對照 handoff v2 §2 估算）
+
+日期：2026-09-23。GPU 全部為 Modal L4（約 $0.80/h）；下列時間取自各 run 的 `_run.json` 與 CLI 觀察，Modal dashboard 為準。
+
+| 里程碑 | 內容 | Modal 時間 | 估算費用 | v2 估算 |
+|---|---|---|---|---|
+| M0 環境 | image build（CPU）、probe（L4 約 1 分鐘）、GGUF 下載 17 GB（CPU 容器約 3 分鐘） | GPU 0.02 h | < $0.1 | 0.5 h / < $1 |
+| M1 Smoke | 2 次（第一次 thinking 未關，第二次採用設定），每次含 17 s 模型載入 | GPU 0.05 h | < $0.1 | 0.2 h / < $0.5 |
+| M2 資料 | Claude Code（Fable）撰寫 seeds / 產生器 / 難例 / 抽查；無 GPU | 0 | 訂閱額度 | 0 |
+| M3 延遲 | L1–L7 一次跑完 1355 s + 額外 `--swa-full` 對照（L1/L4，n=100） | GPU ≈ 0.55 h | ≈ $0.45 | 0.5–1 h / ~$1 |
+| M4 準確率 | 10 task × 200 筆 logprob + 10 × 100 筆 JSON 對照，724 s | GPU 0.2 h | ≈ $0.17 | 1–1.5 h / ~$1.5 |
+| M5 分析 | 本機 CPU | 0 | 0 | 0 |
+| 除錯重跑 | image entrypoint / click 參數名 crash loop（CPU，數分鐘） | ≈ 0 | < $0.1 | 1–2 h / ~$2 |
+| **合計** | | **GPU ≈ 0.85 h** | **≈ $0.7–1** | 4–6 h / $4–6 |
+
+比估算省很多的原因：MoE A4B 在 L4 上每題 200 ms 級，2000 筆 + 1000 筆對照只要 12 分鐘；資料由 Claude Code 端產生不吃 GPU。
+AI Studio：僅用於能力探測（4 次呼叫），未用於資料補產。

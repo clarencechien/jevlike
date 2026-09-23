@@ -22,8 +22,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ACC = os.path.join(ROOT, "results/modal/accuracy")
 FIG = os.path.join(ROOT, "results/fig")
 MODELS = ["e2b", "e4b", "26b"]
-DATASETS = ["D0", "D1-typo", "D1-cue", "D1-mix", "D2"]
-NEW_SETS = ["D1-cue", "D2"]
+DATASETS = ["D0", "D1-typo", "D1-cue", "D1-cue≥1", "D1-mix", "D2"]
+NEW_SETS = ["D1-cue≥1", "D2"]
 ZH = {"e2b": "E2B", "e4b": "E4B", "26b": "26B-A4B"}
 SEED = 0
 
@@ -232,6 +232,8 @@ def main():
         results[task] = {}
         test_ids, cal_ids = d0_test_ids(task)
         for ds in DATASETS:
+            if ds == "D1-cue≥1":
+                continue
             R = {m: load(m, ds, task) for m in MODELS}
             R = {m: r for m, r in R.items() if r}
             if not R:
@@ -247,6 +249,9 @@ def main():
             results[task][ds] = compare(task, ds, ids, R)
             if ds == "D1-cue" and "26b" in R:
                 cue_inputs.append((task, ids, R, R["26b"]))
+                sub = [i for i in ids if R["26b"][i].get("n_cues_removed", 0) >= 1]
+                if len(sub) >= 10:
+                    results[task]["D1-cue≥1"] = compare(task, "D1-cue≥1", sub, R)
         # calibration transfer 26b: fit on D0 cal, apply to D2
         R0, R2 = load("26b", "D0", task), load("26b", "D2", task)
         if R0 and R2:

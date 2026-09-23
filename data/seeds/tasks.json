@@ -1,0 +1,103 @@
+{
+  "m_alarm_severity": {
+    "category": "M", "kind": "score", "n_options": 3,
+    "instructions": "這則機台 alarm 的處置急迫度？",
+    "options": {
+      "A": {"label": "不急", "criteria": "資訊提示或提醒，不影響目前生產與品質，可排入例行保養或下次換線處理"},
+      "B": {"label": "盡快", "criteria": "已影響效率或有品質風險，但機台仍可運作或只有單站暫停，應在本班內處理"},
+      "C": {"label": "停線", "criteria": "已造成或即將造成批量品質問題、安全風險或設備損壞，必須立刻停線處理"}
+    }
+  },
+  "m_alarm_category": {
+    "category": "M", "kind": "choice", "n_options": 5,
+    "instructions": "這則機台 alarm 的原因分類？",
+    "options": {
+      "A": {"label": "機構", "criteria": "機械零件、吸嘴、皮帶、軸、氣壓、真空、馬達、感測器機械位置等硬體動作問題"},
+      "B": {"label": "電控", "criteria": "電源、驅動器、伺服、通訊、PLC、I/O、板卡、線材接觸等電氣或控制問題"},
+      "C": {"label": "物料", "criteria": "料件缺料、料帶、料盤、錫膏、鋼網、來料條碼或料號不符等物料問題"},
+      "D": {"label": "程式", "criteria": "貼片程式、座標、參數、配方、軟體版本、資料庫、檔案錯誤等程式或設定問題"},
+      "E": {"label": "環境", "criteria": "溫濕度、廠務空壓、氮氣、排風、靜電、電力品質等環境或公用設施問題"}
+    }
+  },
+  "m_needs_dispatch": {
+    "category": "M", "kind": "noul", "n_options": 2,
+    "instructions": "是否需要派工給設備工程師處理？",
+    "options": {
+      "A": {"label": "是", "criteria": "問題超出操作員 SOP 授權範圍，需要設備工程師調整、維修、更換零件或校正"},
+      "B": {"label": "否", "criteria": "操作員依 SOP 可自行處理（補料、清潔、重啟、換耗材）或問題已自行恢復"}
+    }
+  },
+  "q_spc_action": {
+    "category": "Q", "kind": "choice", "n_options": 4,
+    "instructions": "依 SPC 判讀規則，應採取的動作？",
+    "options": {
+      "A": {"label": "持續監控", "criteria": "所有點在管制界限內且無違反連串規則，製程穩定"},
+      "B": {"label": "抽檢", "criteria": "出現趨勢或連串（如連續 7 點同側、連續 6 點單向）但尚未超出管制界限，需加抽樣確認"},
+      "C": {"label": "停線複檢", "criteria": "有點超出管制界限或規格界限，需停止該站並複檢已生產品"},
+      "D": {"label": "呼叫 QE", "criteria": "超限且已連續多點、或涉及多站／多料號、或複檢後仍異常，需品質工程師介入判定"}
+    }
+  },
+  "q_defect_root": {
+    "category": "Q", "kind": "choice", "n_options": 6,
+    "instructions": "這個不良現象最可能的根因站別？",
+    "options": {
+      "A": {"label": "錫膏", "criteria": "錫膏印刷：少錫、多錫、偏移、塌陷、橋接來自印刷、錫膏過期或攪拌不足"},
+      "B": {"label": "貼片", "criteria": "貼片機：元件偏移、翻件、側立、缺件、極性反、拋料造成的漏件"},
+      "C": {"label": "回焊", "criteria": "回焊爐：冷焊、空焊、錫珠、立碑、爐溫曲線或速度造成的焊點問題"},
+      "D": {"label": "來料", "criteria": "元件或 PCB 本身：氧化、批次不良、板彎、焊墊缺陷、料號規格不符"},
+      "E": {"label": "治具", "criteria": "鋼網、載具、治具磨損、開孔堵塞、定位銷偏移等治工具問題"},
+      "F": {"label": "人為", "criteria": "操作錯誤：上錯料、程式選錯、手修不當、未依 SOP 操作"}
+    }
+  },
+  "p_uph_anomaly": {
+    "category": "P", "kind": "noul", "n_options": 2,
+    "instructions": "依描述，產能（UPH / CT）是否異常？",
+    "options": {
+      "A": {"label": "是", "criteria": "UPH 明顯低於目標（低 10% 以上）、CT 明顯拉長、或出現突然下滑／間歇性掉產能"},
+      "B": {"label": "否", "criteria": "UPH 在目標附近或高於目標，波動在正常範圍內（±5%）"}
+    }
+  },
+  "p_line_change": {
+    "category": "P", "kind": "choice", "n_options": 3,
+    "instructions": "這個工單狀態屬於哪一種？",
+    "options": {
+      "A": {"label": "正常換線", "criteria": "依排程完成上一工單後換線，正在換鋼網、程式、feeder 或首件確認"},
+      "B": {"label": "缺料等待", "criteria": "因物料未到、料件短缺、待倉庫發料而停止或無法開工"},
+      "C": {"label": "設備待修", "criteria": "因機台故障、待維修、待零件、待校正而停止"}
+    }
+  },
+  "x_ticket_route": {
+    "category": "X", "kind": "choice", "n_options": 4,
+    "instructions": "這張工單應派給哪個單位？",
+    "options": {
+      "A": {"label": "產線", "criteria": "生產排程、換線、人力、物料補給、操作員可處理的現場問題，由線長／生產單位處理"},
+      "B": {"label": "設備", "criteria": "機台故障、維修、零件更換、校正、預防保養，由設備工程師處理"},
+      "C": {"label": "IT", "criteria": "MES、看板、網路、條碼掃描器連線、帳號權限、伺服器、資料未上傳等資訊系統問題"},
+      "D": {"label": "品保", "criteria": "不良判定、SPC 異常、客訴、量測儀器校驗、檢驗標準、特採，由品保／QE 處理"}
+    }
+  },
+  "x_escalate": {
+    "category": "X", "kind": "noul", "n_options": 2,
+    "instructions": "這件事是否需要立即升級通知線長？",
+    "options": {
+      "A": {"label": "是", "criteria": "影響整線出貨、停線超過 30 分鐘、批量品質問題、安全事故、或需要跨單位協調"},
+      "B": {"label": "否", "criteria": "單站短暫問題、已依 SOP 處理完畢、或屬例行事務"}
+    }
+  },
+  "x_10way_intent": {
+    "category": "X", "kind": "choice", "n_options": 10,
+    "instructions": "這則訊息的意圖是哪一種？",
+    "options": {
+      "A": {"label": "查詢工單進度", "criteria": "詢問某工單目前的完成數量、狀態或預計完工時間"},
+      "B": {"label": "查詢機台狀態", "criteria": "詢問某機台目前是否運轉、稼動率或 alarm 狀況"},
+      "C": {"label": "回報機台異常", "criteria": "通報某機台發生故障或 alarm，請求處理"},
+      "D": {"label": "回報品質異常", "criteria": "通報不良品、SPC 異常或檢驗不合格"},
+      "E": {"label": "申請物料", "criteria": "請求倉庫發料、補料或追加物料"},
+      "F": {"label": "申請維修", "criteria": "請求設備單位安排維修或更換零件（非緊急通報）"},
+      "G": {"label": "申請換線", "criteria": "請求排程調整、提前或延後換線、插單"},
+      "H": {"label": "申請權限或帳號", "criteria": "請求 MES／看板／系統的帳號、密碼或功能權限"},
+      "I": {"label": "詢問 SOP 或參數", "criteria": "詢問作業標準、機台參數設定值或製程規格"},
+      "J": {"label": "回報完工", "criteria": "通知工單已完成、換線已完成或維修已完成"}
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{"task": "p_line_change", "default": "A",
+ "rules": [
+   {"pattern": "缺料|短缺|料未到|料沒到|料還沒到|待發料|等發料|等料|催料|料不夠|欠料", "label": "B", "note": "物料短缺"},
+   {"pattern": "倉庫|WH\\b|warehouse|發料|領料|備料未完|kitting", "label": "B", "note": "待倉庫發料"},
+   {"pattern": "MATERIAL (SHORT|SHORTAGE|NOT ARRIVED|WAIT)|SHORTAGE|WAITING (FOR )?MATERIAL|KIT INCOMPLETE|PART SHORT", "label": "B", "note": "英文缺料"},
+   {"pattern": "故障|當機|死機|壞掉|壞了|異音|報警|alarm|error|fault", "label": "C", "note": "機台故障"},
+   {"pattern": "待修|維修|檢修|修理|待零件|待備品|等零件|等備品|更換.*(馬達|皮帶|軸|感測器|吸嘴頭|板卡|驅動)", "label": "C", "note": "維修或待零件"},
+   {"pattern": "校正|校準|待校|calibrat|MACHINE DOWN|BREAKDOWN|UNDER REPAIR|WAIT(ING)? (FOR )?(SPARE|PART|ME)|SERVO|OVERLOAD", "label": "C", "note": "待校正/英文設備停機"},
+   {"pattern": "設備工程師|ME 到|ME到|ME 處理|ME處理|叫 ?ME|ME 在", "label": "C", "note": "設備工程師介入"},
+   {"pattern": "鋼網|stencil", "label": "A", "note": "換鋼網"},
+   {"pattern": "換程式|載入程式|切程式|program (change|load)|recipe", "label": "A", "note": "換程式"},
+   {"pattern": "feeder|上料架|料站表|換料架|排 ?feeder", "label": "A", "note": "換 feeder"},
+   {"pattern": "首件|first article|FAI|試產確認", "label": "A", "note": "首件確認"},
+   {"pattern": "換線|切換工單|轉線|changeover|C/O", "label": "A", "note": "換線中"},
+   {"pattern": "排程|schedule|依計畫|照計畫", "label": "A", "note": "依排程"}
+ ]}

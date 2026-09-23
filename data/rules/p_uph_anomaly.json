@@ -1,0 +1,13 @@
+{"task": "p_uph_anomaly", "default": "B",
+ "rules": [
+   {"pattern": "掉(產能|到|了)|下滑|驟降|突然(掉|降|下)|大幅(下|降|低)|急降|DROP|PLUNGE|FELL", "label": "A", "note": "突然下滑"},
+   {"pattern": "間歇|忽高忽低|時好時壞|一直停|一直被.*卡|反覆停|每.*停|STALL|INTERMITTENT|SPORADIC", "label": "A", "note": "間歇性掉產能"},
+   {"pattern": "(明顯|嚴重|遠)?低於目標|未達目標|沒達標|達不到|不到目標|只有.*目標|BELOW (TGT|TARGET)|UNDER TARGET|SHORT OF", "label": "A", "note": "低於目標"},
+   {"pattern": "CT.*(拉長|變長|變慢|增加|多了|升到|UP TO|LONGER|INCREASE)|(拉長|變長|變慢).*CT|CYCLE TIME (UP|INCREASE|LONGER)", "label": "A", "note": "CT 拉長"},
+   {"pattern": "低\\s*(1\\d|[2-9]\\d)\\s*%|少\\s*(1\\d|[2-9]\\d)\\s*%|-\\s*(1\\d|[2-9]\\d)\\s*%|(1\\d|[2-9]\\d)\\s*% (LOW|BELOW|DOWN|SHORT)", "label": "A", "note": "低 10% 以上"},
+   {"pattern": "好慘|很慘|慘|拖|落後|BEHIND SCHEDULE|LAGGING", "label": "A", "note": "口語落後"},
+   {"pattern": "達標|超標|高於目標|超過目標|接近目標|目標附近|ON TARGET|ABOVE (TGT|TARGET)|MEETS? TARGET|WITHIN (TARGET|RANGE)", "label": "B", "note": "達標或高於目標"},
+   {"pattern": "正常|穩定|沒(啥|什麼)?波動|沒掉|沒問題|STABLE|NORMAL|OK\\b|NOMINAL", "label": "B", "note": "穩定正常"},
+   {"pattern": "±\\s*[0-5]\\s*%|\\+/-\\s*[0-5]\\s*%|波動.*[0-5]\\s*%|[0-5]\\s*% (VARIATION|NOISE)", "label": "B", "note": "波動在 5% 內"},
+   {"pattern": "已恢復|恢復正常|RECOVERED|BACK TO NORMAL", "label": "B", "note": "已恢復"}
+ ]}

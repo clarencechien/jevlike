@@ -1,0 +1,17 @@
+{"task": "x_ticket_route", "default": "A",
+ "rules": [
+   {"pattern": "MES|看板|kanban|dashboard|網路|network|LAN|wifi|IP\\b|伺服器|server|帳號|密碼|權限|login|登入|資料(未|沒)上傳|upload fail|不能上傳|上傳失敗|連線|timeout|逾時|斷線|系統當|系統壞|軟體更新|SFC\\b|ERP|資料庫|database", "label": "C", "note": "資訊系統"},
+   {"pattern": "掃描器|scanner|barcode reader|條碼槍|刷不到|掃不到|讀不到條碼", "label": "C", "note": "條碼掃描器連線"},
+   {"pattern": "客訴|customer complaint|RMA|特採|deviation|waiver|MRB", "label": "D", "note": "客訴/特採"},
+   {"pattern": "SPC|CPK|管制圖|X-bar|連續 ?\\d+ ?點|超出管制", "label": "D", "note": "SPC"},
+   {"pattern": "不良判定|判定|判退|判 ?NG|允收|AQL|檢驗標準|SIP|檢驗規範|限度樣品|判讀標準", "label": "D", "note": "判定/檢驗標準"},
+   {"pattern": "儀器校驗|校驗|量測儀器|卡尺|游標|厚度計|calibration cert|量規|gauge", "label": "D", "note": "儀器校驗"},
+   {"pattern": "QE|QA|品保|品質工程", "label": "D", "note": "品保"},
+   {"pattern": "故障|壞掉|壞了|當機|異音|漏氣|漏油|卡料|卡板|alarm|error|fault|servo|overload|temp high|vacuum low", "label": "B", "note": "機台故障"},
+   {"pattern": "維修|待修|修理|檢修|repair|更換.*(零件|馬達|皮帶|軸承|感測器|吸嘴|板卡|驅動|加熱器|燈管)|零件|備品|spare", "label": "B", "note": "維修/零件"},
+   {"pattern": "校正|校準|calibrat|保養|PM\\b|preventive|maintenance|點檢異常", "label": "B", "note": "校正/保養"},
+   {"pattern": "設備工程師|ME\\b", "label": "B", "note": "設備工程師"},
+   {"pattern": "排程|schedule|換線|changeover|插單|延後|提前|人力|人手|加班|支援|調人", "label": "A", "note": "排程/人力"},
+   {"pattern": "補料|補給|叫料|發料|領料|上料|缺料|料架|feeder 空|slot.*empty|料用完", "label": "A", "note": "物料補給"},
+   {"pattern": "操作員|線長|OP\\b|自行|SOP", "label": "A", "note": "現場處理"}
+ ]}

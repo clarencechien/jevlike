@@ -23,7 +23,8 @@ matplotlib.rcParams["axes.unicode_minus"] = False
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TASKS = json.load(open(os.path.join(ROOT, "data/seeds/tasks.json"), encoding="utf-8"))
-ACC_DIR = os.path.join(ROOT, "results/modal/accuracy")
+ACC_DIR = os.path.join(ROOT, os.environ.get("ACC_DIR", "results/modal/accuracy"))
+SUFFIX = os.environ.get("ACC_SUFFIX", "")
 FIG_DIR = os.path.join(ROOT, "results/fig")
 LC_TASKS = ["m_alarm_category", "x_ticket_route", "q_spc_action"]
 LC_N = [25, 50, 100, 200, 500]
@@ -333,11 +334,11 @@ def analyze_task(task, seed):
     arms = [("raw", P0[te].max(1), P0[te].argmax(1) == y[te], res["raw_test"]["ece"]),
             (f"temperature T={T:.2f}", Pt[te].max(1), Pt[te].argmax(1) == y[te], res["temp_test"]["ece"]),
             ("affine (bias)", Pa[te].max(1), Pa[te].argmax(1) == y[te], res["affine_test"]["ece"])]
-    reliability_fig(task, arms, os.path.join(FIG_DIR, f"reliability-{task}.png"))
+    reliability_fig(task, arms, os.path.join(FIG_DIR, f"reliability-{task}{SUFFIX}.png"))
     # learning curve
     if task in LC_TASKS:
         res["learning_curve"] = learning_curve(task, Z, y, states, ca, te, K, seed)
-        learning_curve_fig(task, res["learning_curve"], os.path.join(FIG_DIR, f"learning-curve-{task}.png"))
+        learning_curve_fig(task, res["learning_curve"], os.path.join(FIG_DIR, f"learning-curve-{task}{SUFFIX}.png"))
     return res
 
 
@@ -425,7 +426,7 @@ def write_report(all_res, path):
         lc = r.get("learning_curve")
         if not lc:
             continue
-        L += [f"### {r['task']}", "", f"![](fig/learning-curve-{r['task']}.png)", "",
+        L += [f"### {r['task']}", "", f"![](fig/learning-curve-{r['task']}{SUFFIX}.png)", "",
               "| N | TF-IDF+LR | typed 零樣本 | typed 校準後 acc | typed sel@0.9 acc | coverage | ECE |", "|---|---|---|---|---|---|---|"]
         for n in lc["N"]:
             n = str(n)
@@ -438,7 +439,7 @@ def write_report(all_res, path):
         for i, row in enumerate(r["confusion"]):
             L.append(f"| {ls[i]} {TASKS[r['task']]['options'][ls[i]]['label']} | " + " | ".join(str(v) for v in row) + " |")
         L.append("")
-    L += ["## 8. Reliability diagrams", ""] + [f"![](fig/reliability-{r['task']}.png)" for r in all_res] + [""]
+    L += ["## 8. Reliability diagrams", ""] + [f"![](fig/reliability-{r['task']}{SUFFIX}.png)" for r in all_res] + [""]
     open(path, "w", encoding="utf-8").write("\n".join(L))
 
 
@@ -454,8 +455,8 @@ def main():
             rt = r["raw_test"]
             print(f"{task:18s} n={r['n_all']} acc_test={rt['acc']:.3f} ece={rt['ece']:.3f} sel90={rt['sel90']['acc']:.3f}@{rt['sel90']['coverage']:.2f} "
                   f"affine_acc={r['affine_test']['acc']:.3f} rules={r.get('rules_acc_test', float('nan')):.3f} tfidf={r['tfidf_acc_test']:.3f} ctrl={r.get('control',{}).get('acc', float('nan')):.3f}")
-    json.dump(all_res, open(os.path.join(ROOT, "results/analysis.json"), "w"), ensure_ascii=False, indent=1, default=float)
-    write_report(all_res, os.path.join(ROOT, "results/04-accuracy.md"))
+    json.dump(all_res, open(os.path.join(ROOT, f"results/analysis{SUFFIX}.json"), "w"), ensure_ascii=False, indent=1, default=float)
+    write_report(all_res, os.path.join(ROOT, f"results/04-accuracy{SUFFIX}.md"))
     print("wrote results/04-accuracy.md")
 
 

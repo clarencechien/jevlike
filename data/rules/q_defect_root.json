@@ -1,0 +1,13 @@
+{"task": "q_defect_root", "default": "C",
+ "rules": [
+   {"pattern": "上錯料|錯料|掃錯|裝反|反裝|程式(選|載入|用)錯|版本錯|舊版程式|手修|重工|熱風|未依 ?SOP|沒照 ?SOP|關掉|OVERRIDE|SKIP VERIFY|WRONG (REEL|PROGRAM|PN LOADED)|OPERATOR", "label": "F", "note": "操作錯誤 / 人為"},
+   {"pattern": "鋼網.*(堵|塞|磨損|變形|張力|開孔|裂)|開孔.*(堵|塞|磨損|變大|變小)|堵孔|載具|治具|定位銷|STENCIL|CARRIER|FIXTURE|LOCATING PIN|TENSION|APERTURE", "label": "E", "note": "治工具"},
+   {"pattern": "氧化|發黑|板彎|翹曲|WARP|OXID|焊墊(缺|殘留|不沾)|綠漆殘留|可焊性|批次|同批|換 ?lot|LOT|供應商|包裝錯|規格不符|IQC|PCB 廠|DATE ?CODE|\\bDC ?\\d{4}\\b", "label": "D", "note": "來料"},
+   {"pattern": "SPI.*(少錫|多錫|體積|面積|VOLUME|AREA|REJECT|標|報)|少錫|多錫|塌陷|錫膏(過期|開罐|攪拌|太久|沒回溫)|刮刀|印刷(偏|不良|參數)|PRINT|PASTE (LOT|EXPIRED|VOLUME)|印完就", "label": "A", "note": "錫膏印刷"},
+   {"pattern": "缺件|漏件|拋料|翻件|側立|極性|反向|ROTATED|POLARITY|MISSING|PICKUP|NOZZLE|吸嘴|HEAD ?\\d|FEEDER|貼片後.*(偏|移)|爐前.*(偏|移)|PRE-REFLOW.*(OFFSET|SHIFT)", "label": "B", "note": "貼片"},
+   {"pattern": "冷焊|空焊|錫珠|立碑|HEAD-IN-PILLOW|HIP|縮錫|不熔|爐溫|PROFILE|升溫|斜率|PEAK|TAL|ZONE ?\\d|傳送速度|CHAIN SPEED|加熱器|REFLOW|過爐後才|爐後才", "label": "C", "note": "回焊"},
+   {"pattern": "橋接|短路|BRIDGE|SHORT", "label": "A", "note": "橋接預設歸印刷"},
+   {"pattern": "偏移|OFFSET|SHIFT", "label": "B", "note": "偏移預設歸貼片"},
+   {"pattern": "焊點|SOLDER JOINT|JOINT", "label": "C", "note": "焊點問題預設歸回焊"},
+   {"pattern": "料號|PN|VALUE|值錯|阻值|容值", "label": "F", "note": "料號不符預設歸人為"}
+ ]}

@@ -24,7 +24,7 @@ EXAMPLES = [
 ]
 
 
-def main(base_url, out_dir, args=""):
+def main(base_url, out_dir, args="", **kw):
     os.makedirs(out_dir, exist_ok=True)
     rep = {"ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
     props = requests.get(f"{base_url}/props", timeout=30).json()

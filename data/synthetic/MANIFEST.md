@@ -4,7 +4,8 @@ seed=7, easy per task=140, en share=0.2
 
 | task | kind | n | easy | hard | zh | en | pairs (easy/hard) | gold distribution | hard types |
 |---|---|---|---|---|---|---|---|---|---|
-| m_alarm_severity | score | 140 | 140 | 0 | 112 | 28 | 70/0 | A:48, B:42, C:50 |  |
+| m_alarm_category | choice | 140 | 140 | 0 | 112 | 28 | 70/0 | A:30, B:29, C:28, D:28, E:25 |  |
+| m_needs_dispatch | noul | 140 | 140 | 0 | 112 | 28 | 70/0 | A:70, B:70 |  |
 
 ## 產法
 

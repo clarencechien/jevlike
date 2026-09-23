@@ -1,0 +1,19 @@
+{"task": "q_spc_action", "default": "A",
+ "rules": [
+   {"pattern": "複檢後?仍|複量.*仍|重測.*仍|再量.*(仍|還是)|STILL (OOC|OUT|BELOW|ABOVE|EXCEED)", "label": "D", "note": "複檢後仍異常"},
+   {"pattern": "多站|兩站|多料號|兩個料號|不只一站|AND .*(BREACH|OOC)|MULTIPLE (STATION|PN|PART)", "label": "D", "note": "涉及多站或多料號"},
+   {"pattern": "連續\\s*[2-9]\\s*(個)?(子組|點|班).*(超出?|低於|高於|以下|以上).*(UCL|LCL|USL|LSL|界限)", "label": "D", "note": "連續多點超限"},
+   {"pattern": "(UCL|LCL|USL|LSL|界限).*(連續|接連)\\s*[2-9]", "label": "D", "note": "超限且連續多點（語序反轉）"},
+   {"pattern": "[2-9] CONSECUTIVE .*(OOC|BELOW LCL|ABOVE UCL|OUT OF)|ALL (BELOW|ABOVE) (LCL|UCL)", "label": "D", "note": "英文連續多點超限"},
+   {"pattern": "品質工程師|QE 介入|QE 判定", "label": "D", "note": "明示需 QE 介入"},
+   {"pattern": "超(出|過|越)\\s*(UCL|LCL|USL|LSL|上管制|下管制|管制界限|規格界限|上限|下限)", "label": "C", "note": "超出管制或規格界限"},
+   {"pattern": "(低於|小於|高於|大於|跌破|突破)\\s*(UCL|LCL|USL|LSL|管制界限|規格界限|管制下限|管制上限)", "label": "C", "note": "低於/高於界限"},
+   {"pattern": "\\b(OOC|OOS)\\b|OUT OF (CONTROL|SPEC)|(BELOW|UNDER) LCL|(ABOVE|OVER|EXCEED\\w*) (UCL|USL)|BREACH", "label": "C", "note": "英文超限"},
+   {"pattern": "紅點|標紅|超規|超限|飛點", "label": "C", "note": "紅點/超限口語"},
+   {"pattern": "連續\\s*([7-9]|1\\d)\\s*(個)?(子組|點|班).*(同側|上方|下方|以上|以下|之上|之下)", "label": "B", "note": "連續 7 點同側"},
+   {"pattern": "連續\\s*([6-9]|1\\d)\\s*(個)?(子組|點|班).*(單向|上升|下降|遞增|遞減|往上|往下|變大|變小)", "label": "B", "note": "連續 6 點單向"},
+   {"pattern": "2 of 3|三個子組.*兩個.*2σ|2σ.*(兩|2)\\s*(個|點)|2 OF LAST 3|TWO OF THREE", "label": "B", "note": "2 of 3 超過 2σ"},
+   {"pattern": "趨勢|連串|run rule|RUNRULE|RULE\\s*[2-8]|SHIFT|TREND|一路(往上|往下|變大|變小)|逐班(上升|下降)", "label": "B", "note": "趨勢或連串規則"},
+   {"pattern": "[7-9] CONSECUTIVE|1\\d CONSECUTIVE|(ABOVE|BELOW) (CL|CENTER|MEAN)", "label": "B", "note": "英文連續同側"},
+   {"pattern": "全綠|界限內|沒有.*超|未超|WITHIN|NO OOC|NONE|正常|穩定", "label": "A", "note": "全部在界限內"}
+ ]}

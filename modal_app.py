@@ -116,7 +116,7 @@ def run_bench(which: str, args: str = "", n_parallel: int = 4, ctx: int = 16384)
         mod = __import__(f"bench.{which}", fromlist=["main"])
         out_dir = f"/results/{which}"
         os.makedirs(out_dir, exist_ok=True)
-        ret = mod.main(base_url="http://127.0.0.1:8080", out_dir=out_dir, args=args)
+        ret = mod.main(base_url="http://127.0.0.1:8080", out_dir=out_dir, args=args, commit=results.commit)
         with open(f"/results/{which}/_run.json", "a") as f:
             f.write(json.dumps({"which": which, "args": args, "gpu": GPU, "n_parallel": n_parallel, "ctx": ctx,
                                 "server_start_s": round(t_ready - t_start, 1),

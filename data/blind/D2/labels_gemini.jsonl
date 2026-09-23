@@ -163,3 +163,63 @@
 {"id": "m_needs_dispatch-d2-042", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "操作員自行排除卡板並重置後即恢復正常。", "annotator": "gemini-3.5-flash"}
 {"id": "m_needs_dispatch-d2-043", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "壓力傳感器失效且清潔後無效，需要設備工程師更換零件。", "annotator": "gemini-3.5-flash"}
 {"id": "m_needs_dispatch-d2-044", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "操作員自行切換至正確程式後，軌道自動調寬恢復正常。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-045", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "SSR 控制端短路且加熱器持續加熱，超出操作員處理範圍，需要設備工程師更換零件。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-046", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "廠務重啟空壓機後氣壓恢復，機台重置後已可正常生產，操作員可自行處理。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-047", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "取料 XY 軸偏移導致持續拋料，更換吸嘴無效，需要設備工程師進行校正。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-048", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "組長依 SOP 拆下並清洗吸嘴後拋料率恢復正常，暫不需叫修。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-049", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "傳送皮帶斷裂，需要設備工程師更換皮帶。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-050", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "條碼太淡導致掃碼失敗，線長手動輸入後過板，非機台故障。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-051", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "電磁閥故障導致漏氣，OP 更換 O-ring 無效，需設備工程師更換電磁閥。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-052", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "OP 執行系統重啟後通訊恢復正常，已穩定生產，無需派工。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-053", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "鋼網夾爪無法夾緊且按鍵無反應，需要設備工程師檢修氣缸或夾爪機構。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-054", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "料帶裝反導致報警，OP 重新穿料調整後已恢復正常。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-055", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "雷射高度感測器異常，清潔後仍無法讀取，需要設備工程師檢修或更換感測器。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-056", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "鋼網開孔有殘錫導致錫膏不足，線長手動擦拭乾淨後已恢復正常。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-057", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "Slot 接腳歪斜損壞導致讀不到 Feeder ID，需要設備工程師更換或修復接腳。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-058", "task": "m_needs_dispatch", "label": "B", "confidence": 1.0, "reason": "感測器上有錫渣導致報警，OP 清潔乾淨後測試已恢復正常。", "annotator": "gemini-3.5-flash"}
+{"id": "m_needs_dispatch-d2-059", "task": "m_needs_dispatch", "label": "A", "confidence": 1.0, "reason": "XY 軸皮帶過鬆導致貼片嚴重偏移，需要設備工程師調整皮帶張力。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-000", "task": "q_spc_action", "label": "A", "confidence": 1.0, "reason": "X-bar 隨機分佈且 Cpk 正常，製程穩定，持續監控即可。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-001", "task": "q_spc_action", "label": "B", "confidence": 0.95, "reason": "偵測到連續上升趨勢且接近管制上限，需加強抽樣確認。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-002", "task": "q_spc_action", "label": "C", "confidence": 1.0, "reason": "單點超出管制上限，已暫停生產並安排重新印製複檢。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-003", "task": "q_spc_action", "label": "D", "confidence": 1.0, "reason": "連續多點超限且涉及其他產線，需品質工程師介入判定。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-004", "task": "q_spc_action", "label": "A", "confidence": 1.0, "reason": "數據在管制界限內隨機分佈，製程穩定。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-005", "task": "q_spc_action", "label": "B", "confidence": 0.9, "reason": "連續多點接近管制上限，採取手動量測進行抽檢確認。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-006", "task": "q_spc_action", "label": "C", "confidence": 1.0, "reason": "單點超出管制下限，已停機並安排手動複檢。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-007", "task": "q_spc_action", "label": "D", "confidence": 1.0, "reason": "重複發生異常且懷疑設計問題，需品質與工程介入判定。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-008", "task": "q_spc_action", "label": "A", "confidence": 1.0, "reason": "數據波動極小且穩定，無異常，持續監控。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-009", "task": "q_spc_action", "label": "C", "confidence": 0.9, "reason": "單點超出管制下限，需依規定停線並進行複檢。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-010", "task": "q_spc_action", "label": "B", "confidence": 1.0, "reason": "連續 6 點單向下降趨勢但未超限，需進行手動抽檢確認。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-011", "task": "q_spc_action", "label": "D", "confidence": 1.0, "reason": "涉及多條產線集體異常，需品質工程師介入判定材料問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-012", "task": "q_spc_action", "label": "A", "confidence": 1.0, "reason": "製程能力良好且無異常趨勢，持續監控。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-013", "task": "q_spc_action", "label": "B", "confidence": 0.95, "reason": "數據偏向單側但未出界，安排手動點檢以確認品質。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-014", "task": "q_spc_action", "label": "C", "confidence": 1.0, "reason": "拋料率超限觸發警報，已暫停機台並安排清潔後複檢。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-015", "task": "q_spc_action", "label": "D", "confidence": 1.0, "reason": "ME調整後仍未改善且Cpk過低，需拉品質工程師（QE）介入發CAR。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-016", "task": "q_spc_action", "label": "B", "confidence": 1.0, "reason": "連續6點在CL以下但未出界，出現連串趨勢，需準備手動量測（抽檢）。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-017", "task": "q_spc_action", "label": "A", "confidence": 1.0, "reason": "點皆在管制界限內且無單邊飄移趨勢，製程穩定，持續監控即可。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-018", "task": "q_spc_action", "label": "C", "confidence": 1.0, "reason": "溫度低於LCL，已執行停線，並準備重新過溫板進行複檢。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-019", "task": "q_spc_action", "label": "D", "confidence": 1.0, "reason": "連續3點超限，系統已停機且重新校準無效，明確需要QE介入判定。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-020", "task": "q_spc_action", "label": "A", "confidence": 1.0, "reason": "最近10點在CL上下隨機跳動且未超出UCL/LCL，無連續偏移，製程穩定。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-021", "task": "q_spc_action", "label": "C", "confidence": 1.0, "reason": "錫量超出UCL，已暫停印刷機（停線），並安排人員檢查鋼網（複檢）。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-022", "task": "q_spc_action", "label": "C", "confidence": 1.0, "reason": "溫度超出UCL，製程已阻擋（停線），需等待重設並重新跑測試板（複檢）。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-023", "task": "q_spc_action", "label": "D", "confidence": 1.0, "reason": "厚度超標且ME調整兩次後仍降不下來，屬於複檢後仍異常，需QE介入。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-024", "task": "q_spc_action", "label": "B", "confidence": 1.0, "reason": "連續5點呈現下滑趨勢但尚未超出LCL，需加強抽樣確認。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-025", "task": "q_spc_action", "label": "A", "confidence": 1.0, "reason": "Cpk達1.65且SPC圖形漂亮，製程非常穩定，維持正常生產與監控。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-026", "task": "q_spc_action", "label": "A", "confidence": 1.0, "reason": "15點皆為正常隨機變異，Cpk達1.82，無警報，持續監控即可。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-027", "task": "q_spc_action", "label": "D", "confidence": 1.0, "reason": "更換新錫膏後，三個不同料號的SPC同時衝過UCL，涉及多料號且懷疑批次料異常，需QE介入。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-028", "task": "q_spc_action", "label": "B", "confidence": 1.0, "reason": "連續7點上升且接近上限但未超限，符合連串趨勢，需多抽幾片（抽檢）確認吃錫狀況。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-029", "task": "q_spc_action", "label": "C", "confidence": 1.0, "reason": "吸料率警報且機台鎖住（停線），需先停機清理吸嘴並重新確認（複檢）。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-030", "task": "q_spc_action", "label": "D", "confidence": 0.95, "reason": "Cpk連續三組降至0.85且偏差顯著，明確指出需要工程部門介入判定。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-031", "task": "q_spc_action", "label": "C", "confidence": 1.0, "reason": "單點數值超過UCL，且MES指示暫停設備並對前五片進行手動複檢。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-032", "task": "q_spc_action", "label": "D", "confidence": 1.0, "reason": "不良率連續三天超限，且調整無效，需開立CAR請品保/QE介入。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-033", "task": "q_spc_action", "label": "B", "confidence": 0.9, "reason": "連續6點偏在中心線單側，雖未超限但有異常趨勢，需加強抽檢確認。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-034", "task": "q_spc_action", "label": "A", "confidence": 1.0, "reason": "數據在中心線左右隨機波動，無偏向或超限，製程穩定，持續監控。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-035", "task": "q_spc_action", "label": "B", "confidence": 1.0, "reason": "連續6組數據持續下降，呈現明顯趨勢但尚未超限，指示提高抽樣率。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-036", "task": "q_spc_action", "label": "D", "confidence": 1.0, "reason": "Cpk未達客戶要求且自行調整無效，需找QE介入判定或修改規範。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-037", "task": "q_spc_action", "label": "C", "confidence": 1.0, "reason": "最新一點跌破LCL，機台發出警報，要求先不下板並對前幾片進行複檢。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-038", "task": "q_spc_action", "label": "A", "confidence": 1.0, "reason": "數據呈隨機分布且無連串傾向，Cpk符合量產水準，維持現狀生產。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-039", "task": "q_spc_action", "label": "B", "confidence": 0.95, "reason": "連續5點偏向單側，雖未超限但有異常趨勢，要求巡檢多量兩片進行抽檢。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-040", "task": "q_spc_action", "label": "A", "confidence": 1.0, "reason": "連續5點在中心線上下隨機跳動，無偏向且未超限，製程穩定。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-041", "task": "q_spc_action", "label": "A", "confidence": 1.0, "reason": "所有點均在管制界限內，且無任何異常趨勢，持續監控即可。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-042", "task": "q_spc_action", "label": "A", "confidence": 1.0, "reason": "最近8次量測均在中心線上下隨機跳動，無超限或連串異常，持續監控。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-043", "task": "q_spc_action", "label": "A", "confidence": 1.0, "reason": "數據在管制界限內隨機跳動，製程表現穩定，持續監控。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-044", "task": "q_spc_action", "label": "A", "confidence": 1.0, "reason": "量測點皆落在中心線附近，波形正常無超限，持續監控。", "annotator": "gemini-3.5-flash"}

@@ -45,8 +45,8 @@ GB10 記憶體頻寬與 L4 相近但算力較弱，prefill 主導的數字（206
 | 零樣本夠用 | `x_ticket_route`、`x_escalate`、`x_10way_intent` | 1.00 | hard 0.97–1.00 |
 | 零樣本夠用 | `m_needs_dispatch`、`p_line_change`、`m_alarm_category`、`q_defect_root` | 0.98–0.99 | hard 0.92–1.00；錯的都是 borderline / distractor |
 | 要校準門檻（排序能力好） | `p_uph_anomaly` | 0.93 → 0.95（AUROC 0.991） | hard 0.80；incomplete / distractor 型 0.67–0.71 |
-| 要校準 + 改 criteria | `q_spc_action` | 0.86 → 0.92（top-2 0.99） | hard 0.75；混淆集中在 B 抽檢 ↔ C 停線複檢、C ↔ D 呼叫 QE，criteria 的「連串 vs 超限」「單點 vs 多點」邊界要寫成可數的規則 |
-| 要校準 + 改 criteria | `m_alarm_severity` | 0.82 → 0.90（top-2 1.00） | hard 0.75、en 0.71；B 盡快 ↔ C 停線邊界（機台仍運作但有品質風險）模型偏向 C |
+| 要校準 + 改 criteria | `q_spc_action` | 0.86 → 0.92（top-2 0.99）；**改寫 criteria 為可數規則後 0.95（held-out 0.945），見 `05-criteria-v2.md`** | hard 0.75；混淆集中在 B 抽檢 ↔ C 停線複檢、C ↔ D 呼叫 QE，criteria 的「連串 vs 超限」「單點 vs 多點」邊界要寫成可數的規則 |
+| 要校準 + 改 criteria | `m_alarm_severity` | 0.82 → 0.90（top-2 1.00）；**改寫 criteria 後 0.90（held-out 0.875）** | hard 0.75、en 0.71；B 盡快 ↔ C 停線邊界（機台仍運作但有品質風險）模型偏向 C |
 | 校準也救不回 | （無） | — | 三個弱 task 的 top-2 / AUROC 都 ≥ 0.99，是門檻與 criteria 問題，不需 fine-tune |
 
 Smoke 就看到的現象在全量上重現：raw confidence 平均 0.99–1.00，`m_alarm_severity` raw ECE 0.178、`q_spc_action` 0.137——**模型幾乎永遠說自己有 99% 把握**，temperature 要拉到 T≈6 才校準得回來。
@@ -135,4 +135,4 @@ Smoke 就看到的現象在全量上重現：raw confidence 平均 0.99–1.00�
 1. Phase 0 盤點：引擎、模型檔、`/completion` + `n_probs` 是否可用；**確認 `--swa-full` 或等效設定**。
 2. 用 `bench/latency.py` 重跑 L1–L7（`--only` 可分段）。
 3. 用 `bench/accuracy.py` 在 200–500 筆真實 alarm／工單上讀 logprob，`bench/analyze.py` 重算 Q6 門檻；若模型檔不同，合成集也重跑一次比對。
-4. 依 Q2 改寫 `q_spc_action`、`m_alarm_severity` 的 criteria（可數的邊界），重跑後決定是否仍需校準。
+4. ~~依 Q2 改寫 criteria~~ 已做（`05-criteria-v2.md`）：SPC 0.815 → 0.95、急迫度 0.81 → 0.885；用真實資料再驗一次，急迫度可能還要一輪。

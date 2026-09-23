@@ -59,6 +59,8 @@ def main(base_url, out_dir, args="", **kw):
     limit = int(a.get("--limit", 0))
     commit = kw.get("commit")
     criteria = json.load(open(a["--criteria"], encoding="utf-8")) if a.get("--criteria") else {}
+    global DATA_DIR
+    DATA_DIR = a.get("--data-dir", DATA_DIR)
     if a.get("--out-sub"):
         out_dir = os.path.join(out_dir, a["--out-sub"])
         os.makedirs(out_dir, exist_ok=True)

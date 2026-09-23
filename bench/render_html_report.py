@@ -42,6 +42,11 @@ for t in ("m_alarm_severity", "q_spc_action"):
     for ver in ("v1", "v2"):
         rows = [json.loads(l) for l in open(os.path.join(ROOT, f"results/modal/accuracy/heldout_{ver}/{t}.jsonl"))]
         HO[(t, ver)] = sum(r["correct"] for r in rows) / len(rows)
+LAD = json.load(open(os.path.join(ROOT, "results/ladder.json")))
+H2 = ["m_alarm_category", "m_needs_dispatch", "q_defect_root", "m_alarm_severity", "q_spc_action", "p_uph_anomaly"]
+H1 = ["p_line_change", "x_ticket_route", "x_escalate", "x_10way_intent"]
+d2_agree = sum(k["n"] for k in LAD["kappa"].values())
+d2_rate = 584 / 600
 strong = [t for t in ORDER if A[t]["raw_test"]["acc"] >= 0.98]
 weak = [t for t in ORDER if A[t]["raw_test"]["acc"] < 0.98]
 sev, spc, uph = A["m_alarm_severity"], A["q_spc_action"], A["p_uph_anomaly"]
@@ -101,6 +106,32 @@ def learning_curve_chart():
     return "\n".join(out), legend, table
 
 
+def ladder_chart():
+    order = H2 + H1
+    h = 34 * len(order) + 30
+    x0, x1 = 190, 570
+    out = [f'<svg viewBox="0 0 640 {h}" role="img" aria-label="十類題目在三個大小的模型上的答對率，D0 test 集">']
+    for g in (0.5, 0.75, 1.0):
+        x = x0 + (x1 - x0) * g
+        out.append(f'<line class="grid" x1="{x:.0f}" y1="8" x2="{x:.0f}" y2="{h - 22}"/>')
+        out.append(f'<text class="axis" x="{x:.0f}" y="{h - 6}" text-anchor="middle">{g * 100:.0f}%</text>')
+    for i, t in enumerate(order):
+        y = 10 + 34 * i
+        out.append(f'<text class="axis" x="{x0 - 8}" y="{y + 16}" text-anchor="end">{e(ZH[t])}</text>')
+        for j, (m, col) in enumerate((("26b", "--c1"), ("e4b", "--c2"), ("e2b", "--c3"))):
+            v = LAD["results"][t]["D0"][m]["acc"]
+            w = (x1 - x0) * v
+            out.append(f'<rect class="bar" x="{x0}" y="{y + j * 8}" width="{w:.1f}" height="7" fill="var({col})"/>')
+        v26 = LAD["results"][t]["D0"]["26b"]["acc"]; ve2 = LAD["results"][t]["D0"]["e2b"]["acc"]
+        out.append(f'<text class="label" x="{x0 + (x1 - x0) * max(v26, ve2) + 6:.1f}" y="{y + 16}">{v26 * 100:.0f} / {ve2 * 100:.0f}</text>')
+    out.append("</svg>")
+    table = "".join(f'<tr><td>{e(ZH[t])}<span class="sub">{"26B 真的強" if t in H2 else "題目對小模型也簡單"}</span></td>'
+                    + "".join(f'<td class="num">{LAD["results"][t]["D0"][m]["acc"] * 100:.0f}%</td>' for m in ("26b", "e4b", "e2b"))
+                    + f'<td class="num">{LAD["results"][t]["D2"]["26b"]["acc"] * 100:.0f}%</td><td class="num">{LAD["results"][t]["D2"]["e4b"]["acc"] * 100:.0f}%</td></tr>' for t in order)
+    return "\n".join(out), table
+
+
+lad_svg, lad_table = ladder_chart()
 acc_svg, acc_table = acc_bar_chart()
 lc_svg, lc_legend, lc_table = learning_curve_chart()
 
@@ -232,7 +263,7 @@ page = f"""<!doctype html>
     <p class="head">TL;DR</p>
     <ol>
       <li><strong>判定：值得做，用現有模型自己做，不採購 Jev。</strong>Jev 是閉源雲端服務，資料出不了廠；我們要的能力，現有的 26B 模型加幾十行程式就有。</li>
-      <li><strong>準確率：十類題目七類直接達標。</strong>不做任何標註，{len(strong)} 類答對率 98% 以上；其餘三類 {min(A[t]['raw_test']['acc'] for t in weak) * 100:.0f}–{max(A[t]['raw_test']['acc'] for t in weak) * 100:.0f}%，錯在相鄰等級的邊界。<strong>把其中兩類的判斷標準改寫成可數規則後，SPC 處置升到 {V2['q_spc_action']['raw_test']['acc'] * 100:.0f}%、警報急迫度升到 {V2['m_alarm_severity']['raw_test']['acc'] * 100:.0f}%</strong>，在模型沒看過的新題上也成立。不需要訓練新模型。</li>
+      <li><strong>準確率：十類題目七類直接達標，而且分得出「題目簡單」和「模型真的強」。</strong>不做任何標註，{len(strong)} 類答對率 98% 以上。拿更小的 Gemma 4 E2B / E4B 跑同一批題：四類小模型也做得到（題目對這一級太簡單），六類 26B 比 E4B 高 6–13 個百分點、比 E2B 高 9–30 個百分點（是真的強）。另請 Gemini 盲寫 600 題、兩個大模型獨立標答，一致率 {d2_rate * 100:.0f}%，26B 在這批題上平均 {sum(LAD['results'][t]['D2']['26b']['acc'] for t in ORDER) / 10 * 100:.0f}%，已到兩個大模型互相一致的水準。</li>
       <li><strong>速度：一次判斷 {L1['p50'] / 1000:.1f} 秒，比讓模型寫答案快 {speed:.1f} 倍。</strong>同一份現場狀況一次問十題，開對設定後每題再降到 {per_q_swa / 1000:.2f} 秒。</li>
       <li><strong>標註：比主管報告承諾的還少。</strong>多數題目零筆；較弱的題目標 25 筆就能校準。傳統機器學習標 100 筆還到不了 90%。</li>
       <li><strong>三個上線條件：</strong>部署時開啟前綴快取設定、「有把握才自動處理」的門檻要用真實資料校準、GB10 上重量一次速度。都是幾小時到幾天的事，不是幾個月。</li>
@@ -294,6 +325,35 @@ page = f"""<!doctype html>
     <p class="head">這算不算先射箭再畫靶</p>
     <p>一半算。答案沒有動，改的是我們自己定的判斷規格，這是正當的；但新標準是看著錯題改出來的，同一批題上的數字偏樂觀。所以另外產了一批模型沒看過的題再測一次，改善幅度幾乎相同，證明它不是記住特定句子。真正的驗證還是要等真實警報與工單。</p>
   </div>
+
+  <p class="eyebrow">02c · 題目簡單，還是模型強</p>
+  <h2>拿小模型跑同一批題，十類分成兩種</h2>
+  <p>「七類近滿分」有兩種解釋：題目太簡單，任何會讀中文的模型都會；或 26B 真的強。分辨方法是拿同一家更小的模型（Gemma 4 E2B 約 2B、E4B 約 4B）跑一模一樣的題。小模型也滿分，就是題目簡單；小模型明顯掉，就是 26B 的能力。判讀規則在跑之前就寫死（差距 ≥ 5 個百分點且統計檢定 p &lt; 0.05 才算「明顯掉」）。</p>
+
+  <figure class="reveal">
+    <p class="title">十類題目在三個大小的模型上的答對率</p>
+    <p class="subtitle">前六類 26B 明顯高於小模型；後四類三個模型都在 95% 以上。標籤數字是 26B / E2B。</p>
+    <div class="chart">
+{lad_svg}
+    </div>
+    <div class="legend">
+      <span class="key"><span class="swatch" style="background:var(--c1)"></span>Gemma 4 26B（現在用的）</span>
+      <span class="key"><span class="swatch" style="background:var(--c2)"></span>Gemma 4 E4B（約 4B）</span>
+      <span class="key"><span class="swatch" style="background:var(--c3)"></span>Gemma 4 E2B（約 2B）</span>
+    </div>
+    <details class="datatable">
+      <summary>看數字</summary>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>題型</th><th class="num">26B</th><th class="num">E4B</th><th class="num">E2B</th><th class="num">盲寫題 26B</th><th class="num">盲寫題 E4B</th></tr></thead>
+          <tbody>{lad_table}</tbody>
+        </table>
+      </div>
+    </details>
+    <figcaption>錯字擾動下差距不變（26B 幾乎不掉）。把題目裡和判斷標準重疊的字換掉，26B 也沒有掉，不是靠對字作答。</figcaption>
+  </figure>
+
+  <p>這對 GB10 的部署有直接意義：<span class="mark">六類要用 26B，四類（工單狀態、派給誰、要不要升級、訊息意圖）小到 2B 的模型就夠</span>，可以獨立放一個小模型做高頻判斷。另一個結果是反向的：原本想用 Gemini 盲寫的 600 題當「更難的題」，結果它比合成題容易——不看標準寫題，反而把線索寫得很完整，兩個大模型獨立標答一致率 {d2_rate * 100:.0f}%。所以真正拉開差距的是合成題裡刻意寫得資訊不全、邊界模糊的那三成難題，之後跟其他模型比要用那一批。</p>
 
   <p class="eyebrow">03 · 標註量</p>
   <h2>「幾百筆」的承諾，實測是「幾十筆或零筆」</h2>
@@ -373,7 +433,7 @@ page = f"""<!doctype html>
   <p class="eyebrow">07 · 下一步</p>
   <h2>建議的三個動作</h2>
   <ol>
-    <li><strong>GB10 上重跑速度測試</strong>（半小時）：確認每次判斷的真實秒數與併發能力。</li>
+    <li><strong>GB10 上重跑速度測試</strong>（半小時）：確認每次判斷的真實秒數與併發能力；順便量 E4B，四類簡單題可交給它。</li>
     <li><strong>收 200–500 筆真實警報與工單</strong>（一到兩天）：校準門檻，確認零標註在真實資料上的答對率。</li>
     <li><strong>改寫兩類題目的判斷標準</strong>：已做。SPC 處置 {A['q_spc_action']['raw_test']['acc'] * 100:.0f}% → {V2['q_spc_action']['raw_test']['acc'] * 100:.0f}%，警報急迫度 {A['m_alarm_severity']['raw_test']['acc'] * 100:.0f}% → {V2['m_alarm_severity']['raw_test']['acc'] * 100:.0f}%。急迫度剩下的錯集中在「AOI 一片誤判」這類，等真實資料再調一輪。</li>
   </ol>

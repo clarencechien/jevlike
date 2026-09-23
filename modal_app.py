@@ -16,8 +16,12 @@ import urllib.request
 
 import modal
 
-MODEL_REPO = "unsloth/gemma-4-26B-A4B-it-GGUF"
-MODEL_FILE = "gemma-4-26B-A4B-it-UD-Q4_K_M.gguf"  # 16.95 GB on HF (checked 2026-09-23)
+MODELS = {  # short name -> (HF repo, file)
+    "26b": ("unsloth/gemma-4-26B-A4B-it-GGUF", "gemma-4-26B-A4B-it-UD-Q4_K_M.gguf"),  # 16.95 GB
+    "e4b": ("unsloth/gemma-4-E4B-it-GGUF", "gemma-4-E4B-it-Q8_0.gguf"),  # 8.19 GB
+    "e2b": ("unsloth/gemma-4-E2B-it-GGUF", "gemma-4-E2B-it-Q8_0.gguf"),  # 5.05 GB
+}
+MODEL_REPO, MODEL_FILE = MODELS["26b"]
 GPU = os.environ.get("GB10_GPU", "L4")
 SERVER_BIN = "/app/llama-server"
 
@@ -36,10 +40,11 @@ image = (
 
 
 @app.function(image=image, volumes={"/models": models}, timeout=60 * 60)
-def download():
+def download(model: str = "26b"):
     from huggingface_hub import hf_hub_download
 
-    p = hf_hub_download(MODEL_REPO, MODEL_FILE, local_dir="/models")
+    repo, fname = MODELS[model]
+    p = hf_hub_download(repo, fname, local_dir="/models")
     models.commit()
     return {"path": p, "bytes": os.path.getsize(p)}
 
@@ -78,9 +83,9 @@ def probe():
     return info
 
 
-def start_server(n_parallel=4, ctx=16384, port=8080, extra=()):
+def start_server(n_parallel=4, ctx=16384, port=8080, extra=(), model_file=MODEL_FILE):
     cmd = [
-        SERVER_BIN, "-m", f"/models/{MODEL_FILE}",
+        SERVER_BIN, "-m", f"/models/{model_file}",
         "-ngl", "99", "-c", str(ctx), "-np", str(n_parallel),
         "--port", str(port), "--host", "127.0.0.1",
         "--jinja", "--reasoning-budget", "0",
@@ -104,21 +109,21 @@ def start_server(n_parallel=4, ctx=16384, port=8080, extra=()):
 
 
 @app.function(image=image, gpu=GPU, volumes={"/models": models, "/results": results}, timeout=60 * 60 * 3)
-def run_bench(which: str, args: str = "", n_parallel: int = 4, ctx: int = 16384, server_extra: str = ""):
+def run_bench(which: str, args: str = "", n_parallel: int = 4, ctx: int = 16384, server_extra: str = "", model: str = "26b"):
     """which in {smoke, latency, accuracy}; writes /results/<which>/..."""
     import sys
 
     sys.path.insert(0, "/root")
     t_start = time.time()
-    proc = start_server(n_parallel=n_parallel, ctx=ctx, extra=tuple(server_extra.split()))
+    proc = start_server(n_parallel=n_parallel, ctx=ctx, extra=tuple(server_extra.split()), model_file=MODELS[model][1])
     t_ready = time.time()
     try:
         mod = __import__(f"bench.{which}", fromlist=["main"])
-        out_dir = f"/results/{which}"
+        out_dir = f"/results/{which}" if model == "26b" else f"/results/{which}/{model}"
         os.makedirs(out_dir, exist_ok=True)
-        ret = mod.main(base_url="http://127.0.0.1:8080", out_dir=out_dir, args=args, commit=results.commit)
+        ret = mod.main(base_url="http://127.0.0.1:8080", out_dir=out_dir, args=args, commit=results.commit, model=model)
         with open(f"/results/{which}/_run.json", "a") as f:
-            f.write(json.dumps({"which": which, "args": args, "gpu": GPU, "n_parallel": n_parallel, "ctx": ctx, "server_extra": server_extra,
+            f.write(json.dumps({"which": which, "args": args, "gpu": GPU, "n_parallel": n_parallel, "ctx": ctx, "server_extra": server_extra, "model": model, "model_file": MODELS[model][1],
                                 "server_start_s": round(t_ready - t_start, 1),
                                 "bench_s": round(time.time() - t_ready, 1), "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}) + "\n")
         results.commit()
@@ -128,11 +133,11 @@ def run_bench(which: str, args: str = "", n_parallel: int = 4, ctx: int = 16384,
 
 
 @app.local_entrypoint()
-def main(which: str = "smoke", args: str = "", n_parallel: int = 4, n_ctx: int = 16384, server_extra: str = ""):
+def main(which: str = "smoke", args: str = "", n_parallel: int = 4, n_ctx: int = 16384, server_extra: str = "", model: str = "26b"):
     if which == "download":
-        print(json.dumps(download.remote(), indent=2))
+        print(json.dumps(download.remote(model), indent=2))
     elif which == "probe":
         print(json.dumps(probe.remote(), indent=2, ensure_ascii=False))
     else:
-        ret = run_bench.remote(which, args, n_parallel, n_ctx, server_extra)
+        ret = run_bench.remote(which, args, n_parallel, n_ctx, server_extra, model)
         print(json.dumps(ret, indent=2, ensure_ascii=False, default=str)[:4000])

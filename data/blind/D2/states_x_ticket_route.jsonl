@@ -38,3 +38,23 @@
 {"id": "x_ticket_route-d2-037", "task": "x_ticket_route", "state": "【工單】SMT-L2 產出板子經 FCT 測試發現有 3 片會斷電，拆開看發現 C45 焊接微裂，這是錫膏問題還是過爐溫度問題？需開立異常分析單。", "writer": "gemini-3.5-flash"}
 {"id": "x_ticket_route-d2-038", "task": "x_ticket_route", "state": "LINE群：DIP 站的看盤（SFC看板）首頁全部變成空白，網址打不開，報工電腦顯示「502 Bad Gateway」，現在大家都沒辦法看排程。", "writer": "gemini-3.5-flash"}
 {"id": "x_ticket_route-d2-039", "task": "x_ticket_route", "state": "【工單】SMT-L2 跑完這批 WO-20231022-004 後，因為下一張工單的治具還在清洗，線邊需要清線（Line Clearance）並安排人員去受訓 2 小時。", "writer": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-040", "task": "x_ticket_route", "state": "ERROR 2026-10-12 08:34:21 [MES_GATEWAY] Connection timeout to database 10.120.3.45:1521. SMT-L3 Shop Floor system frozen, unable to check in WO-20261012-05.", "writer": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-041", "task": "x_ticket_route", "state": "【工單】SMT-L1 Fuji NXT III 貼片時 X軸馬達 過熱警報 E-3202 頻發，重新開機後手動移動仍有異音，需拆殼上油並點檢滑軌螺桿", "writer": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-042", "task": "x_ticket_route", "state": "T-3501 DIP-L2: 客戶來信反應昨晚出貨的 WO-20261009-08 樣品錫裂，查出爐溫 profile 沒問題，需開 AAR 並追查這批 FQC 留樣與出貨檢驗記錄", "writer": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-043", "task": "x_ticket_route", "state": "【工單】SMT-L5 剛接到通知，等一下 15:30 要臨時插單生產 400pcs，L5 的 A/B 班今天有人請假，需要從 L1 借調兩個人過來幫忙貼條碼與包裝", "writer": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-044", "task": "x_ticket_route", "state": "ALARM 1024: SMT-L2 DEK NeoHorizon squeegee pressure sensor feedback out of range (0.01 kgf/cm2). Squeegee calibration failed. Cycle stopped.", "writer": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-045", "task": "x_ticket_route", "state": "T-3512 SMT-L3: 上午換班後，所有操作員用個人工號登入 MES 刷過站都顯示 'Invalid Employee ID'，線上現在卡住 15 分鐘了，沒辦法開工", "writer": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-046", "task": "x_ticket_route", "state": "【工單】SMT-L4 爐後 AOI 抓到 R12-0402 偏移 15 片，IPQC 判定是真偏移，但製程 PE 說這款板子焊墊偏小可允收，需要協助開立特採單會簽", "writer": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-047", "task": "x_ticket_route", "state": "T-3515 DIP-L3: 線上轉載具的 Tray 盤不夠用，大夜班剛下班前漏了清潔，現在都是錫膏，需要派人先把這批 50 個載具手動清乾淨才能上線", "writer": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-048", "task": "x_ticket_route", "state": "CRITICAL SMT-L6: Label printer Zebra 110Xi4 ping failed. Local IP 192.168.42.115 unreachable. Switch port status LED is amber. All barcode printing halted.", "writer": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-049", "task": "x_ticket_route", "state": "【工單】SMT-L2 MPM 印刷機的自動擦拭無塵紙馬達咬死，擦拭帶拉不動一直報 E-0883，手動轉也卡住，這台要拆馬達下來修", "writer": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-050", "task": "x_ticket_route", "state": "T-3522 SMT-L6: 剛才量測 3pcs 首件，用 L6 線邊的微米千分尺，量出來高度跟 Gerber 差 0.15mm，懷疑千分尺歪掉，幫忙拿標準件來重新校對一下", "writer": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-051", "task": "x_ticket_route", "state": "【工單】SMT-L1 WO-20261011-09 缺 U12 晶片，倉庫說料還在待驗區，需要派人去待驗區推車把這批 2 捲料拉回來線上，不然 20 分鐘後要停線了", "writer": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-052", "task": "x_ticket_route", "state": "T-3530 SMT-L5: 迴焊爐 Reflow-03 第 6 溫區熱風馬達運轉時有雜音，且溫度比設定值低了 15 度，警報一直響，要進去檢查加熱棒跟馬達皮帶", "writer": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-053", "task": "x_ticket_route", "state": "【工單】SMT-L4 上班刷進站，看板顯示 WO-20261012-03 已在 L4 開工，但現場明明是在跑 02，系統工單狀態錯亂，沒辦法刷實體板子過站", "writer": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-054", "task": "x_ticket_route", "state": "T-3541 DIP-L1: 客戶反應這批 PCB 有綠漆起泡現象，在波焊爐後很明顯，需開 HLR 暫留此批 500 片，並通知廠商來現場分析是板材還是爐溫問題", "writer": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-055", "task": "x_ticket_route", "state": "【工單】DIP-L2 手插件作業員 5 人今天去上 SOP 複訓課程，下午 14:00 到 16:00 線上會缺人，需要從包裝組那邊調人過來支援手插零件", "writer": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-056", "task": "x_ticket_route", "state": "ERROR SMT-L3 YAMAHA YSM20 nozzle head #4 vacuum pressure insufficient (under -70kPa) during pick-and-place. Continuous drop at feeder slot 18.", "writer": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-057", "task": "x_ticket_route", "state": "T-3555 SMT-L1: 線上檢驗站的 IP Cam 畫面在電腦上打不開，重啟串流伺服器沒用，看防火牆設定是不是把 8080 port 擋掉了，現場沒辦法監控", "writer": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-058", "task": "x_ticket_route", "state": "【工單】SMT-L2 換線首件確認，WO-20261012-11 規格書寫要貼 2D 條碼，但現場打出來是 1D 條碼，需確認是 BOM 表給錯還是客戶規範有變更", "writer": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-059", "task": "x_ticket_route", "state": "T-3560 SMT-L3: 這批板子下線後，操作員忘記刷 outfeed 結報就直接疊進 Tray 盤，現在有 120 片漏刷，需要去包裝區把這批整疊抱回來手動補刷", "writer": "gemini-3.5-flash"}

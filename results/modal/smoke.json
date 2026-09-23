@@ -1,0 +1,2210 @@
+{
+  "ts": "2026-09-23T08:54:57Z",
+  "props": {
+    "default_generation_settings": {
+      "params": {
+        "seed": 4294967295,
+        "temperature": 1.0,
+        "dynatemp_range": 0.0,
+        "dynatemp_exponent": 1.0,
+        "top_k": 64,
+        "top_p": 0.949999988079071,
+        "min_p": 0.05000000074505806,
+        "top_n_sigma": -1.0,
+        "xtc_probability": 0.0,
+        "xtc_threshold": 0.10000000149011612,
+        "typical_p": 1.0,
+        "repeat_last_n": 64,
+        "repeat_penalty": 1.0,
+        "presence_penalty": 0.0,
+        "frequency_penalty": 0.0,
+        "dry_multiplier": 0.0,
+        "dry_base": 1.75,
+        "dry_allowed_length": 2,
+        "dry_penalty_last_n": 64,
+        "mirostat": 0,
+        "mirostat_tau": 5.0,
+        "mirostat_eta": 0.10000000149011612,
+        "adaptive_target": -1.0,
+        "adaptive_decay": 0.8999999761581421,
+        "max_tokens": -1,
+        "n_predict": -1,
+        "n_keep": 0,
+        "n_discard": 0,
+        "ignore_eos": false,
+        "stream": false,
+        "n_probs": 0,
+        "min_keep": 0,
+        "chat_format": "Content-only",
+        "reasoning_format": "none",
+        "reasoning_in_content": false,
+        "generation_prompt": "",
+        "samplers": [
+          "penalties",
+          "dry",
+          "top_n_sigma",
+          "top_k",
+          "typ_p",
+          "top_p",
+          "min_p",
+          "xtc",
+          "temperature"
+        ],
+        "speculative.types": "none",
+        "timings_per_token": false,
+        "post_sampling_probs": false,
+        "backend_sampling": false,
+        "lora": []
+      },
+      "n_ctx": 4096
+    },
+    "total_slots": 4,
+    "model_path": "/models/gemma-4-26B-A4B-it-UD-Q4_K_M.gguf",
+    "chat_template": "{%- macro format_parameters(properties, required, filter_keys=false) -%}\n    {%- set standard_keys = ['description', 'type', 'properties', 'required', 'nullable'] -%}\n    {%- set ns = namespace(found_first=false) -%}\n    {%- for key, value in properties | dictsort -%}\n        {%- set add_comma = false -%}\n        {%- if not filter_keys or key not in standard_keys -%}\n            {%- if ns.found_first %},{% endif -%}\n            {%- set ns.found_first = true -%}\n            {{ key }}:{\n            {%- if value['description'] -%}\n                description:<|\"|>{{ value['description'] }}<|\"|>\n                {%- set add_comma = true -%}\n            {%- endif -%}\n            {%- if value['type'] | upper == 'STRING' -%}\n                {%- if value['enum'] -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    enum:{{ format_argument(value['enum']) }}\n                {%- endif -%}\n            {%- elif value['type'] | upper == 'ARRAY' -%}\n                {%- if value['items'] is mapping and value['items'] -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    items:{\n                    {%- set ns_items = namespace(found_first=false) -%}\n                    {%- for item_key, item_value in value['items'] | dictsort -%}\n                        {%- if item_value is not none -%}\n                            {%- if ns_items.found_first %},{% endif -%}\n                            {%- set ns_items.found_first = true -%}\n                            {%- if item_key == 'properties' -%}\n                                properties:{\n                                {%- if item_value is mapping -%}\n                                    {{- format_parameters(item_value, value['items']['required'] | default([])) -}}\n                                {%- endif -%}\n                                }\n                            {%- elif item_key == 'required' -%}\n                                required:[\n                                {%- for req_item in item_value -%}\n                                    <|\"|>{{- req_item -}}<|\"|>\n                                    {%- if not loop.last %},{% endif -%}\n                                {%- endfor -%}\n                                ]\n                            {%- elif item_key == 'type' -%}\n                                {%- if item_value is string -%}\n                                    type:{{ format_argument(item_value | upper) }}\n                                {%- else -%}\n                                    type:{{ format_argument(item_value | map('upper') | list) }}\n                                {%- endif -%}\n                            {%- else -%}\n                                {{ item_key }}:{{ format_argument(item_value) }}\n                            {%- endif -%}\n                        {%- endif -%}\n                    {%- endfor -%}\n                    }\n                {%- endif -%}\n            {%- endif -%}\n            {%- if value['nullable'] %}\n                {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                nullable:true\n            {%- endif -%}\n            {%- if value['type'] | upper == 'OBJECT' -%}\n                {%- if value['properties'] is defined and value['properties'] is mapping -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    properties:{\n                    {{- format_parameters(value['properties'], value['required'] | default([])) -}}\n                    }\n                {%- elif value is mapping -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    properties:{\n                    {{- format_parameters(value, value['required'] | default([]), filter_keys=true) -}}\n                    }\n                {%- endif -%}\n                {%- if value['required'] -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    required:[\n                    {%- for item in value['required'] | default([]) -%}\n                        <|\"|>{{- item -}}<|\"|>\n                        {%- if not loop.last %},{% endif -%}\n                    {%- endfor -%}\n                    ]\n                {%- endif -%}\n            {%- endif -%}\n            {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n            type:<|\"|>{{ value['type'] | upper }}<|\"|>}\n        {%- endif -%}\n    {%- endfor -%}\n{%- endmacro -%}\n{%- macro format_function_declaration(tool_data) -%}\n    declaration:{{- tool_data['function']['name'] -}}{description:<|\"|>{{- tool_data['function']['description'] -}}<|\"|>\n    {%- set params = tool_data['function']['parameters'] -%}\n    {%- if params -%}\n        ,parameters:{\n        {%- if params['properties'] -%}\n            properties:{ {{- format_parameters(params['properties'], params['required']) -}} },\n        {%- endif -%}\n        {%- if params['required'] -%}\n            required:[\n            {%- for item in params['required'] -%}\n                <|\"|>{{- item -}}<|\"|>\n                {{- ',' if not loop.last -}}\n            {%- endfor -%}\n            ],\n        {%- endif -%}\n        {%- if params['type'] -%}\n            type:<|\"|>{{- params['type'] | upper -}}<|\"|>}\n        {%- endif -%}\n    {%- endif -%}\n    {%- if 'response' in tool_data['function'] -%}\n        {%- set response_declaration = tool_data['function']['response'] -%}\n        ,response:{\n        {%- if response_declaration['description'] -%}\n            description:<|\"|>{{- response_declaration['description'] -}}<|\"|>,\n        {%- endif -%}\n        {%- if response_declaration['type'] | upper == 'OBJECT' -%}\n            type:<|\"|>{{- response_declaration['type'] | upper -}}<|\"|>}\n        {%- endif -%}\n    {%- endif -%}\n    }\n{%- endmacro -%}\n{%- macro format_argument(argument, escape_keys=True) -%}\n    {%- if argument is none -%}\n        {{- 'null' -}}\n    {%- elif argument is string -%}\n        {{- '<|\"|>' + argument + '<|\"|>' -}}\n    {%- elif argument is boolean -%}\n        {{- 'true' if argument else 'false' -}}\n    {%- elif argument is mapping -%}\n        {{- '{' -}}\n        {%- set ns = namespace(found_first=false) -%}\n        {%- for key, value in argument | dictsort -%}\n            {%- if ns.found_first %},{% endif -%}\n            {%- set ns.found_first = true -%}\n            {%- if escape_keys -%}\n                {{- '<|\"|>' + key + '<|\"|>' -}}\n            {%- else -%}\n                {{- key -}}\n            {%- endif -%}\n            :{{- format_argument(value, escape_keys=escape_keys) -}}\n        {%- endfor -%}\n        {{- '}' -}}\n    {%- elif argument is sequence -%}\n        {{- '[' -}}\n        {%- for item in argument -%}\n            {{- format_argument(item, escape_keys=escape_keys) -}}\n            {%- if not loop.last %},{% endif -%}\n        {%- endfor -%}\n        {{- ']' -}}\n    {%- else -%}\n        {{- argument -}}\n    {%- endif -%}\n{%- endmacro -%}\n{%- macro strip_thinking(text) -%}\n    {%- set ns = namespace(result='') -%}\n    {%- for part in text.split('<channel|>') -%}\n        {%- if '<|channel>' in part -%}\n            {%- set ns.result = ns.result + part.split('<|channel>')[0] -%}\n        {%- else -%}\n            {%- set ns.result = ns.result + part -%}\n        {%- endif -%}\n    {%- endfor -%}\n    {{- ns.result | trim -}}\n{%- endmacro -%}\n\n{%- macro format_tool_response_block(tool_name, response) -%}\n    {{- '<|tool_response>' -}}\n    {%- if response is mapping -%}\n        {{- 'response:' + tool_name + '{' -}}\n        {%- for key, value in response | dictsort -%}\n            {{- key -}}:{{- format_argument(value, escape_keys=False) -}}\n            {%- if not loop.last %},{% endif -%}\n        {%- endfor -%}\n        {{- '}' -}}\n    {%- else -%}\n        {{- 'response:' + tool_name + '{value:' + format_argument(response, escape_keys=False) + '}' -}}\n    {%- endif -%}\n    {{- '<tool_response|>' -}}\n{%- endmacro -%}\n\n{#- ===== SETUP ===== -#}\n{%- set ns = namespace(prev_message_type=None, prev_non_tool_role=None) -%}\n{%- set loop_messages = messages -%}\n{%- set enable_thinking = enable_thinking | default(false) -%}\n{%- set preserve_thinking = preserve_thinking | default(false) -%}\n{{- bos_token -}}\n{#- Handle System/Tool Definitions Block -#}\n{%- if enable_thinking or tools or (messages and messages[0]['role'] in ['system', 'developer']) -%}\n    {{- '<|turn>system\\n' -}}\n    {#- Inject Thinking token at the very top of the FIRST system turn -#}\n    {%- if enable_thinking -%}\n        {{- '<|think|>\\n' -}}\n        {%- set ns.prev_message_type = 'think' -%}\n    {%- endif -%}\n    {%- if messages and messages[0]['role'] in ['system', 'developer'] -%}\n        {%- if messages[0]['content'] is string -%}\n            {{- messages[0]['content'] | trim -}}\n        {%- elif messages[0]['content'] is sequence -%}\n            {%- for item in messages[0]['content'] -%}\n                {{- item['text'] | trim + ' '-}}\n            {%- endfor -%}\n        {%- endif -%}\n        {%- set loop_messages = messages[1:] -%}\n    {%- endif -%}\n    {%- if tools -%}\n        {%- for tool in tools %}\n            {{- '<|tool>' -}}\n            {{- format_function_declaration(tool) | trim -}}\n            {{- '<tool|>' -}}\n        {%- endfor %}\n        {%- set ns.prev_message_type = 'tool' -%}\n    {%- endif -%}\n    {{- '<turn|>\\n' -}}\n{%- endif %}\n\n{#- Pre-scan: find last user message index for reasoning guard -#}\n{%- set ns_turn = namespace(last_user_idx=-1) -%}\n{%- for i in range(loop_messages | length) -%}\n    {%- if loop_messages[i]['role'] == 'user' -%}\n        {%- set ns_turn.last_user_idx = i -%}\n    {%- endif -%}\n{%- endfor -%}\n\n{#- Loop through messages -#}\n{%- for message in loop_messages -%}\n    {%- if message['role'] != 'tool' -%}\n    {%- set ns.prev_message_type = None -%}\n    {%- set role = 'model' if message['role'] == 'assistant' else message['role'] -%}\n    {#- Detect continuation using tracked state — O(1) instead of O(n) backward scan -#}\n    {%- set continue_same_model_turn = (role == 'model' and ns.prev_non_tool_role == 'assistant') -%}\n    {%- if not continue_same_model_turn -%}\n        {{- '<|turn>' + role + '\\n' }}\n\n    {%- endif -%}\n\n    {#- Render reasoning/reasoning_content as thinking channel -#}\n    {%- set thinking_text = message.get('reasoning') or message.get('reasoning_content') -%}\n    {%- set thinking_gate = (loop.index0 > ns_turn.last_user_idx) or (preserve_thinking and message.get('tool_calls')) -%}\n    {%- if thinking_text and thinking_gate -%}\n        {{- '<|channel>thought\\n' + thinking_text + '\\n<channel|>' -}}\n    {%- endif -%}\n\n            {%- if message.get('tool_calls') -%}\n                {%- for tool_call in message.get('tool_calls') -%}\n                    {%- set function = tool_call['function'] -%}\n                    {{- '<|tool_call>call:' + function['name'] + '{' -}}\n                    {%- if function['arguments'] is mapping -%}\n                        {%- set ns_args = namespace(found_first=false) -%}\n                        {%- for key, value in function['arguments'] | dictsort -%}\n                            {%- if ns_args.found_first %},{% endif -%}\n                            {%- set ns_args.found_first = true -%}\n                            {{- key -}}:{{- format_argument(value, escape_keys=False) -}}\n                        {%- endfor -%}\n                    {%- elif function['arguments'] is none -%}\n                    {%- elif function['arguments'] is string -%}\n                        {#- Pre-serialized args (e.g. an OpenAI JSON string). We cannot JSON-parse\n                            portably in-template, so render non-fatally instead of erroring. Strip an\n                            outer {...} so it composes with the DSL braces rather than double-wrapping.\n                            Prefer passing arguments as a mapping for exact Gemma DSL. -#}\n                        {%- set argstr = function['arguments'] | trim -%}\n                        {%- if argstr[:1] == '{' and argstr[-1:] == '}' -%}\n                            {{- argstr[1:-1] -}}\n                        {%- else -%}\n                            {{- function['arguments'] -}}\n                        {%- endif -%}\n                    {%- endif -%}\n                    {{- '}<tool_call|>' -}}\n                {%- endfor -%}\n                {%- set ns.prev_message_type = 'tool_call' -%}\n            {%- endif -%}\n\n            {%- set ns_tr_out = namespace(flag=false) -%}\n            {%- if message.get('tool_responses') -%}\n                {#- Legacy: tool_responses embedded on the assistant message (Google/Gemma native) -#}\n                {%- for tool_response in message.get('tool_responses') -%}\n                    {{- format_tool_response_block(tool_response['name'] | default('unknown', true), tool_response['response']) -}}\n                    {%- set ns_tr_out.flag = true -%}\n                    {%- set ns.prev_message_type = 'tool_response' -%}\n                {%- endfor -%}\n            {%- elif message.get('tool_calls') -%}\n                {#- OpenAI Chat Completions: forward-scan consecutive role:tool messages -#}\n                {%- set ns_tool_scan = namespace(stopped=false) -%}\n                {%- for k in range(loop.index0 + 1, loop_messages | length) -%}\n                    {%- if ns_tool_scan.stopped -%}\n                    {%- elif loop_messages[k]['role'] != 'tool' -%}\n                        {%- set ns_tool_scan.stopped = true -%}\n                    {%- else -%}\n                        {%- set follow = loop_messages[k] -%}\n                        {#- Resolve tool_call_id to function name -#}\n                        {%- set ns_tname = namespace(name=follow.get('name') or 'unknown') -%}\n                        {%- for tc in message.get('tool_calls') -%}\n                            {%- if tc.get('id') == follow.get('tool_call_id') -%}\n                                {%- set ns_tname.name = tc['function']['name'] -%}\n                            {%- endif -%}\n                        {%- endfor -%}\n                        {#- Handle content as string or content-parts array -#}\n                        {%- set tool_body = follow.get('content') -%}\n                        {%- if tool_body is string -%}\n                            {{- format_tool_response_block(ns_tname.name, tool_body) -}}\n                        {%- elif tool_body is sequence and tool_body is not string -%}\n                            {%- set ns_txt = namespace(s='') -%}\n                            {%- for part in tool_body -%}\n                                {%- if part.get('type') == 'text' -%}\n                                    {%- set ns_txt.s = ns_txt.s + (part.get('text') | default('')) -%}\n                                {%- endif -%}\n                            {%- endfor -%}\n                            {{- format_tool_response_block(ns_tname.name, ns_txt.s) -}}\n                            {%- for part in tool_body -%}\n                                {%- if part.get('type') in ['image', 'image_url'] -%}\n                                    {{- '<|image|>' -}}\n                                {%- elif part.get('type') in ['audio', 'input_audio'] -%}\n                                    {{- '<|audio|>' -}}\n                                {%- elif part.get('type') == 'video' -%}\n                                    {{- '<|video|>' -}}\n                                {%- endif -%}\n                            {%- endfor -%}\n                        {%- else -%}\n                            {{- format_tool_response_block(ns_tname.name, tool_body) -}}\n                        {%- endif -%}\n                        {%- set ns_tr_out.flag = true -%}\n                        {%- set ns.prev_message_type = 'tool_response' -%}\n                    {%- endif -%}\n                {%- endfor -%}\n            {%- endif -%}\n\n            {%- set captured_content -%}\n            {%- if message.get('content') is string -%}\n                {%- if role == 'model' -%}\n                    {{- strip_thinking(message['content']) -}}\n                {%- else -%}\n                    {{- message['content'] | trim -}}\n                {%- endif -%}\n            {%- elif message.get('content') is sequence -%}\n                {%- for item in message['content'] -%}\n                    {%- if item.get('type') == 'text' -%}\n                        {%- if role == 'model' -%}\n                            {{- strip_thinking(item['text']) -}}\n                        {%- else -%}\n                            {{- item['text'] | trim -}}\n                        {%- endif -%}\n                    {%- elif item.get('type') in ['image', 'image_url'] -%}\n                        {{- '<|image|>' -}}\n                    {%- elif item.get('type') in ['audio', 'input_audio'] -%}\n                        {{- '<|audio|>' -}}\n                    {%- elif item.get('type') == 'video' -%}\n                        {{- '<|video|>' -}}\n                    {%- endif -%}\n                {%- endfor -%}\n            {%- endif -%}\n            {%- endset -%}\n\n            {{- captured_content -}}\n            {%- set has_content = captured_content | trim | length > 0 -%}\n\n        {#- Forward-scan: find next non-tool message role for continuation detection -#}\n        {%- set next_nt = namespace(role=None, found=false) -%}\n        {%- for j in range(loop.index0 + 1, loop_messages | length) -%}\n            {%- if not next_nt.found -%}\n                {%- if loop_messages[j]['role'] != 'tool' -%}\n                    {%- set next_nt.role = loop_messages[j]['role'] -%}\n                    {%- set next_nt.found = true -%}\n                {%- endif -%}\n            {%- endif -%}\n        {%- endfor -%}\n\n        {%- set continues_into_next = (\n            role == 'model'\n            and next_nt.role == 'assistant'\n            and (not message.get('tool_calls') or ns_tr_out.flag)\n        ) -%}\n\n        {%- if ns.prev_message_type == 'tool_call' and not ns_tr_out.flag -%}\n            {{- '<|tool_response>' -}}\n        {%- elif continues_into_next -%}\n        {%- elif not (ns_tr_out.flag and not has_content and not next_nt.found) -%}\n            {{- '<turn|>\\n' -}}\n        {%- endif -%}\n\n    {#- Track previous non-tool role for next iteration (avoids O(n) backward scan) -#}\n    {%- set ns.prev_non_tool_role = message['role'] -%}\n    {%- endif -%}\n{%- endfor -%}\n\n{%- if add_generation_prompt -%}\n    {%- if ns.prev_message_type != 'tool_response' and ns.prev_message_type != 'tool_call' -%}\n        {{- '<|turn>model\\n' -}}\n        {%- if not enable_thinking -%}\n            {{- '<|channel>thought\\n<channel|>' -}}\n        {%- endif -%}\n    {%- elif ns.prev_message_type == 'tool_response' and enable_thinking -%}\n        {{- '<|channel>thought\\n' -}}\n    {%- endif -%}\n{%- endif -%}",
+    "build_info": "b11118-e6ab7c1a4",
+    "modalities": {
+      "vision": false,
+      "video": false,
+      "audio": false
+    }
+  },
+  "tokenize": {
+    "A": [
+      [
+        236776,
+        "A"
+      ]
+    ],
+    " A": [
+      [
+        562,
+        " A"
+      ]
+    ],
+    "B": [
+      [
+        236799,
+        "B"
+      ]
+    ],
+    " B": [
+      [
+        603,
+        " B"
+      ]
+    ],
+    "答案：": [
+      [
+        56996,
+        "答案"
+      ],
+      [
+        237184,
+        "："
+      ]
+    ],
+    "答案：A": [
+      [
+        56996,
+        "答案"
+      ],
+      [
+        237184,
+        "："
+      ],
+      [
+        236776,
+        "A"
+      ]
+    ],
+    "答案： A": [
+      [
+        56996,
+        "答案"
+      ],
+      [
+        237184,
+        "："
+      ],
+      [
+        562,
+        " A"
+      ]
+    ],
+    "答案：\nA": [
+      [
+        56996,
+        "答案"
+      ],
+      [
+        237184,
+        "："
+      ],
+      [
+        107,
+        "\n"
+      ],
+      [
+        236776,
+        "A"
+      ]
+    ]
+  },
+  "variants": {
+    "sys+prefill_答案：": {
+      "template": "<|turn>system\n<|think|>\n§SYSMARK§<turn|>\n<|turn>user\n§USRMARK§<turn|>\n<|turn>model\n",
+      "example_prompt": "<|turn>system\n<|think|>\n你是產線決策引擎。只回答一個字母。<turn|>\n<|turn>user\n【狀態】\nSMT-L3 回焊爐 R-02 第 4 區溫度 245°C 超上限 10°C 持續 3 分鐘，板子仍在爐內\n\n【問題】這則 alarm 的處置急迫度？\nA. 不急\nB. 盡快\nC. 停線\n\n只回答代表正確選項的字母。<turn|>\n<|turn>model\n答案：",
+      "rows": [
+        {
+          "probs": {
+            "A": 0.6806780896756925,
+            "B": 0.2302374841235535,
+            "C": 0.08908442620075402
+          },
+          "missing": [],
+          "latency_ms": 398.84942799999834,
+          "first_token": "答案",
+          "first_token_id": 56996,
+          "prompt_tokens": 117,
+          "tokens_cached": 117,
+          "raw_logprobs": {
+            "A": -3.973565101623535,
+            "B": -5.0575432777404785,
+            "C": -6.007070064544678
+          },
+          "top_tokens": [
+            {
+              "token": "答案",
+              "logprob": -0.032805927097797394
+            },
+            {
+              "token": "A",
+              "logprob": -3.973565101623535
+            },
+            {
+              "token": "B",
+              "logprob": -5.0575432777404785
+            },
+            {
+              "token": "C",
+              "logprob": -6.007070064544678
+            },
+            {
+              "token": "**",
+              "logprob": -7.2242326736450195
+            },
+            {
+              "token": "_",
+              "logprob": -7.61191463470459
+            },
+            {
+              "token": "ans",
+              "logprob": -8.290995597839355
+            },
+            {
+              "token": "^{(",
+              "logprob": -8.431060791015625
+            },
+            {
+              "token": "[",
+              "logprob": -8.433248519897461
+            },
+            {
+              "token": "\\",
+              "logprob": -9.0826416015625
+            }
+          ],
+          "server_prompt_ms": 391.408,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 117,
+          "server_cache_n": 0,
+          "id": "s1",
+          "gold": "C",
+          "rep": 0,
+          "chosen": "A"
+        },
+        {
+          "probs": {
+            "A": 0.7016430385865238,
+            "B": 0.20427931211796574,
+            "C": 0.09407764929551046
+          },
+          "missing": [],
+          "latency_ms": 108.1837219999997,
+          "first_token": "答案",
+          "first_token_id": 56996,
+          "prompt_tokens": 117,
+          "tokens_cached": 117,
+          "raw_logprobs": {
+            "A": -3.650249719619751,
+            "B": -4.884186267852783,
+            "C": -5.6595540046691895
+          },
+          "top_tokens": [
+            {
+              "token": "答案",
+              "logprob": -0.046741168946027756
+            },
+            {
+              "token": "A",
+              "logprob": -3.650249719619751
+            },
+            {
+              "token": "B",
+              "logprob": -4.884186267852783
+            },
+            {
+              "token": "C",
+              "logprob": -5.6595540046691895
+            },
+            {
+              "token": "**",
+              "logprob": -6.379807949066162
+            },
+            {
+              "token": "[",
+              "logprob": -7.544886112213135
+            },
+            {
+              "token": "_",
+              "logprob": -7.618194580078125
+            },
+            {
+              "token": "ans",
+              "logprob": -7.860772609710693
+            },
+            {
+              "token": "^{(",
+              "logprob": -8.060750007629395
+            },
+            {
+              "token": " ",
+              "logprob": -8.37329387664795
+            }
+          ],
+          "server_prompt_ms": 99.342,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 5,
+          "server_cache_n": 112,
+          "id": "s1",
+          "gold": "C",
+          "rep": 1,
+          "chosen": "A"
+        },
+        {
+          "probs": {
+            "A": 0.6693891391721153,
+            "E": 0.25455069849277784,
+            "B": 0.07606016233510683
+          },
+          "missing": [
+            "C",
+            "D"
+          ],
+          "latency_ms": 172.64398400000047,
+          "first_token": "答案",
+          "first_token_id": 56996,
+          "prompt_tokens": 102,
+          "tokens_cached": 102,
+          "raw_logprobs": {
+            "A": -7.957228660583496,
+            "E": -8.924094200134277,
+            "B": -10.13206958770752
+          },
+          "top_tokens": [
+            {
+              "token": "答案",
+              "logprob": -0.002732370514422655
+            },
+            {
+              "token": "答え",
+              "logprob": -7.948818206787109
+            },
+            {
+              "token": "A",
+              "logprob": -7.957228660583496
+            },
+            {
+              "token": " ",
+              "logprob": -8.430769920349121
+            },
+            {
+              "token": "ans",
+              "logprob": -8.849984169006348
+            },
+            {
+              "token": "E",
+              "logprob": -8.924094200134277
+            },
+            {
+              "token": "ANS",
+              "logprob": -9.5632905960083
+            },
+            {
+              "token": "^{(",
+              "logprob": -9.66225528717041
+            },
+            {
+              "token": "對",
+              "logprob": -9.745894432067871
+            },
+            {
+              "token": "B",
+              "logprob": -10.13206958770752
+            }
+          ],
+          "server_prompt_ms": 128.934,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 102,
+          "server_cache_n": 0,
+          "id": "s2",
+          "gold": "A",
+          "rep": 0,
+          "chosen": "A"
+        },
+        {
+          "probs": {
+            "A": 0.801288483648661,
+            "E": 0.12712658042570654,
+            "B": 0.0615458167241883,
+            "D": 0.010039119201444256
+          },
+          "missing": [
+            "C"
+          ],
+          "latency_ms": 81.16125099999749,
+          "first_token": "答案",
+          "first_token_id": 56996,
+          "prompt_tokens": 102,
+          "tokens_cached": 102,
+          "raw_logprobs": {
+            "A": -6.052340984344482,
+            "E": -7.893378734588623,
+            "B": -8.618780136108398,
+            "D": -10.432072639465332
+          },
+          "top_tokens": [
+            {
+              "token": "答案",
+              "logprob": -0.005925354082137346
+            },
+            {
+              "token": "A",
+              "logprob": -6.052340984344482
+            },
+            {
+              "token": "E",
+              "logprob": -7.893378734588623
+            },
+            {
+              "token": " ",
+              "logprob": -8.090056419372559
+            },
+            {
+              "token": "答え",
+              "logprob": -8.31635570526123
+            },
+            {
+              "token": "B",
+              "logprob": -8.618780136108398
+            },
+            {
+              "token": "^{(",
+              "logprob": -8.702404975891113
+            },
+            {
+              "token": "**",
+              "logprob": -9.153162002563477
+            },
+            {
+              "token": "_",
+              "logprob": -9.214625358581543
+            },
+            {
+              "token": "ans",
+              "logprob": -9.261490821838379
+            }
+          ],
+          "server_prompt_ms": 72.37,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 5,
+          "server_cache_n": 97,
+          "id": "s2",
+          "gold": "A",
+          "rep": 1,
+          "chosen": "A"
+        },
+        {
+          "probs": {
+            "B": 0.9429909261255737,
+            "A": 0.05700907387442626
+          },
+          "missing": [],
+          "latency_ms": 179.60140599999974,
+          "first_token": "答案",
+          "first_token_id": 56996,
+          "prompt_tokens": 119,
+          "tokens_cached": 119,
+          "raw_logprobs": {
+            "B": -5.323361396789551,
+            "A": -8.129207611083984
+          },
+          "top_tokens": [
+            {
+              "token": "答案",
+              "logprob": -0.008588853292167187
+            },
+            {
+              "token": "B",
+              "logprob": -5.323361396789551
+            },
+            {
+              "token": " ",
+              "logprob": -7.420250415802002
+            },
+            {
+              "token": "ans",
+              "logprob": -8.104978561401367
+            },
+            {
+              "token": "A",
+              "logprob": -8.129207611083984
+            },
+            {
+              "token": "_",
+              "logprob": -8.29681396484375
+            },
+            {
+              "token": "[",
+              "logprob": -8.303422927856445
+            },
+            {
+              "token": "\\",
+              "logprob": -9.137969970703125
+            },
+            {
+              "token": "答え",
+              "logprob": -9.341468811035156
+            },
+            {
+              "token": "**",
+              "logprob": -9.399055480957031
+            }
+          ],
+          "server_prompt_ms": 141.036,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 119,
+          "server_cache_n": 0,
+          "id": "s3",
+          "gold": "B",
+          "rep": 0,
+          "chosen": "B"
+        },
+        {
+          "probs": {
+            "B": 0.8910252777106664,
+            "A": 0.10897472228933353
+          },
+          "missing": [],
+          "latency_ms": 83.0266129999977,
+          "first_token": "答案",
+          "first_token_id": 56996,
+          "prompt_tokens": 119,
+          "tokens_cached": 119,
+          "raw_logprobs": {
+            "B": -4.6457719802856445,
+            "A": -6.747028827667236
+          },
+          "top_tokens": [
+            {
+              "token": "答案",
+              "logprob": -0.014910201542079449
+            },
+            {
+              "token": "B",
+              "logprob": -4.6457719802856445
+            },
+            {
+              "token": "A",
+              "logprob": -6.747028827667236
+            },
+            {
+              "token": " ",
+              "logprob": -7.347139358520508
+            },
+            {
+              "token": "_",
+              "logprob": -7.718771934509277
+            },
+            {
+              "token": "ans",
+              "logprob": -8.245576858520508
+            },
+            {
+              "token": "[",
+              "logprob": -8.298012733459473
+            },
+            {
+              "token": "\\",
+              "logprob": -8.541245460510254
+            },
+            {
+              "token": "**",
+              "logprob": -8.862579345703125
+            },
+            {
+              "token": "答え",
+              "logprob": -9.404638290405273
+            }
+          ],
+          "server_prompt_ms": 76.312,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 5,
+          "server_cache_n": 114,
+          "id": "s3",
+          "gold": "B",
+          "rep": 1,
+          "chosen": "B"
+        },
+        {
+          "probs": {
+            "A": 1.0
+          },
+          "missing": [
+            "B",
+            "C",
+            "D"
+          ],
+          "latency_ms": 181.7255220000007,
+          "first_token": "答案",
+          "first_token_id": 56996,
+          "prompt_tokens": 112,
+          "tokens_cached": 112,
+          "raw_logprobs": {
+            "A": -8.600763320922852
+          },
+          "top_tokens": [
+            {
+              "token": "答案",
+              "logprob": -0.0021503425668925047
+            },
+            {
+              "token": " ",
+              "logprob": -7.611294746398926
+            },
+            {
+              "token": "A",
+              "logprob": -8.600763320922852
+            },
+            {
+              "token": "ans",
+              "logprob": -8.62018871307373
+            },
+            {
+              "token": "_",
+              "logprob": -8.925948143005371
+            },
+            {
+              "token": "對",
+              "logprob": -9.080178260803223
+            },
+            {
+              "token": "[",
+              "logprob": -9.660151481628418
+            },
+            {
+              "token": "答え",
+              "logprob": -9.834141731262207
+            },
+            {
+              "token": "^{(",
+              "logprob": -9.99051284790039
+            },
+            {
+              "token": "ANS",
+              "logprob": -10.492430686950684
+            }
+          ],
+          "server_prompt_ms": 134.948,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 112,
+          "server_cache_n": 0,
+          "id": "s4",
+          "gold": "B",
+          "rep": 0,
+          "chosen": "A"
+        },
+        {
+          "probs": {
+            "A": 1.0
+          },
+          "missing": [
+            "B",
+            "C",
+            "D"
+          ],
+          "latency_ms": 75.37303100000159,
+          "first_token": "答案",
+          "first_token_id": 56996,
+          "prompt_tokens": 112,
+          "tokens_cached": 112,
+          "raw_logprobs": {
+            "A": -8.624893188476562
+          },
+          "top_tokens": [
+            {
+              "token": "答案",
+              "logprob": -0.001827836618758738
+            },
+            {
+              "token": " ",
+              "logprob": -8.291779518127441
+            },
+            {
+              "token": "A",
+              "logprob": -8.624893188476562
+            },
+            {
+              "token": "_",
+              "logprob": -8.642526626586914
+            },
+            {
+              "token": "ans",
+              "logprob": -8.738387107849121
+            },
+            {
+              "token": "[",
+              "logprob": -9.329047203063965
+            },
+            {
+              "token": "對",
+              "logprob": -9.503458976745605
+            },
+            {
+              "token": "答え",
+              "logprob": -9.510482788085938
+            },
+            {
+              "token": "^{(",
+              "logprob": -9.92191219329834
+            },
+            {
+              "token": "\\",
+              "logprob": -10.66408920288086
+            }
+          ],
+          "server_prompt_ms": 69.074,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 5,
+          "server_cache_n": 107,
+          "id": "s4",
+          "gold": "B",
+          "rep": 1,
+          "chosen": "A"
+        },
+        {
+          "probs": {
+            "B": 0.9015471227560674,
+            "A": 0.0984528772439327
+          },
+          "missing": [],
+          "latency_ms": 173.7157879999991,
+          "first_token": "答案",
+          "first_token_id": 56996,
+          "prompt_tokens": 115,
+          "tokens_cached": 115,
+          "raw_logprobs": {
+            "B": -5.856131076812744,
+            "A": -8.07066535949707
+          },
+          "top_tokens": [
+            {
+              "token": "答案",
+              "logprob": -0.004661500453948975
+            },
+            {
+              "token": "B",
+              "logprob": -5.856131076812744
+            },
+            {
+              "token": "A",
+              "logprob": -8.07066535949707
+            },
+            {
+              "token": " ",
+              "logprob": -8.131587982177734
+            },
+            {
+              "token": "[",
+              "logprob": -8.954863548278809
+            },
+            {
+              "token": "_",
+              "logprob": -8.972638130187988
+            },
+            {
+              "token": "ans",
+              "logprob": -9.478482246398926
+            },
+            {
+              "token": "\\",
+              "logprob": -9.911162376403809
+            },
+            {
+              "token": "答え",
+              "logprob": -10.114705085754395
+            },
+            {
+              "token": "**",
+              "logprob": -10.155878067016602
+            }
+          ],
+          "server_prompt_ms": 129.486,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 115,
+          "server_cache_n": 0,
+          "id": "s5",
+          "gold": "B",
+          "rep": 0,
+          "chosen": "B"
+        },
+        {
+          "probs": {
+            "B": 0.8508515226952126,
+            "A": 0.14914847730478747
+          },
+          "missing": [],
+          "latency_ms": 79.0213460000011,
+          "first_token": "答案",
+          "first_token_id": 56996,
+          "prompt_tokens": 115,
+          "tokens_cached": 115,
+          "raw_logprobs": {
+            "B": -6.2407145500183105,
+            "A": -7.9820098876953125
+          },
+          "top_tokens": [
+            {
+              "token": "答案",
+              "logprob": -0.0034244812559336424
+            },
+            {
+              "token": "B",
+              "logprob": -6.2407145500183105
+            },
+            {
+              "token": "A",
+              "logprob": -7.9820098876953125
+            },
+            {
+              "token": " ",
+              "logprob": -8.620988845825195
+            },
+            {
+              "token": "ans",
+              "logprob": -9.245160102844238
+            },
+            {
+              "token": "[",
+              "logprob": -9.282736778259277
+            },
+            {
+              "token": "_",
+              "logprob": -9.340317726135254
+            },
+            {
+              "token": "^{(",
+              "logprob": -10.1524658203125
+            },
+            {
+              "token": "對",
+              "logprob": -10.332897186279297
+            },
+            {
+              "token": "\\",
+              "logprob": -10.402122497558594
+            }
+          ],
+          "server_prompt_ms": 72.638,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 5,
+          "server_cache_n": 110,
+          "id": "s5",
+          "gold": "B",
+          "rep": 1,
+          "chosen": "B"
+        }
+      ]
+    },
+    "sys+noprefill": {
+      "template": "<|turn>system\n<|think|>\n§SYSMARK§<turn|>\n<|turn>user\n§USRMARK§<turn|>\n<|turn>model\n",
+      "example_prompt": "<|turn>system\n<|think|>\n你是產線決策引擎。只回答一個字母。<turn|>\n<|turn>user\n【狀態】\nSMT-L3 回焊爐 R-02 第 4 區溫度 245°C 超上限 10°C 持續 3 分鐘，板子仍在爐內\n\n【問題】這則 alarm 的處置急迫度？\nA. 不急\nB. 盡快\nC. 停線\n\n只回答代表正確選項的字母。<turn|>\n<|turn>model\n",
+      "rows": [
+        {
+          "probs": {},
+          "missing": [
+            "A",
+            "B",
+            "C"
+          ],
+          "latency_ms": 100.05401500000133,
+          "first_token": "<|channel>",
+          "first_token_id": 100,
+          "prompt_tokens": 115,
+          "tokens_cached": 115,
+          "raw_logprobs": {},
+          "top_tokens": [
+            {
+              "token": "<|channel>",
+              "logprob": 0.0
+            },
+            {
+              "token": " think",
+              "logprob": -27.606464385986328
+            },
+            {
+              "token": " <",
+              "logprob": -28.28388786315918
+            },
+            {
+              "token": " start",
+              "logprob": -28.485944747924805
+            },
+            {
+              "token": "在",
+              "logprob": -29.011445999145508
+            },
+            {
+              "token": " >",
+              "logprob": -30.042016983032227
+            },
+            {
+              "token": "ไป",
+              "logprob": -30.231807708740234
+            },
+            {
+              "token": "<",
+              "logprob": -30.262487411499023
+            },
+            {
+              "token": "서",
+              "logprob": -30.37123680114746
+            },
+            {
+              "token": " inner",
+              "logprob": -30.60379981994629
+            }
+          ],
+          "server_prompt_ms": 45.413,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 3,
+          "server_cache_n": 112,
+          "id": "s1",
+          "gold": "C",
+          "rep": 0,
+          "chosen": null
+        },
+        {
+          "probs": {},
+          "missing": [
+            "A",
+            "B",
+            "C"
+          ],
+          "latency_ms": 55.181134000001464,
+          "first_token": "<|channel>",
+          "first_token_id": 100,
+          "prompt_tokens": 115,
+          "tokens_cached": 115,
+          "raw_logprobs": {},
+          "top_tokens": [
+            {
+              "token": "<|channel>",
+              "logprob": 0.0
+            },
+            {
+              "token": " think",
+              "logprob": -28.509946823120117
+            },
+            {
+              "token": " <",
+              "logprob": -29.259307861328125
+            },
+            {
+              "token": " start",
+              "logprob": -29.808534622192383
+            },
+            {
+              "token": "在",
+              "logprob": -30.452434539794922
+            },
+            {
+              "token": " >",
+              "logprob": -30.975849151611328
+            },
+            {
+              "token": " inner",
+              "logprob": -30.979816436767578
+            },
+            {
+              "token": "<",
+              "logprob": -31.768537521362305
+            },
+            {
+              "token": "เป็น",
+              "logprob": -31.951004028320312
+            },
+            {
+              "token": "서",
+              "logprob": -32.00004959106445
+            }
+          ],
+          "server_prompt_ms": 48.929,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 4,
+          "server_cache_n": 111,
+          "id": "s1",
+          "gold": "C",
+          "rep": 1,
+          "chosen": null
+        },
+        {
+          "probs": {},
+          "missing": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E"
+          ],
+          "latency_ms": 86.81319500000129,
+          "first_token": "<|channel>",
+          "first_token_id": 100,
+          "prompt_tokens": 100,
+          "tokens_cached": 100,
+          "raw_logprobs": {},
+          "top_tokens": [
+            {
+              "token": "<|channel>",
+              "logprob": 0.0
+            },
+            {
+              "token": " >",
+              "logprob": -25.22039222717285
+            },
+            {
+              "token": " <",
+              "logprob": -25.488422393798828
+            },
+            {
+              "token": " think",
+              "logprob": -25.62559700012207
+            },
+            {
+              "token": "ใน",
+              "logprob": -28.27991485595703
+            },
+            {
+              "token": "เป็น",
+              "logprob": -28.404544830322266
+            },
+            {
+              "token": "think",
+              "logprob": -28.60126495361328
+            },
+            {
+              "token": " Ha",
+              "logprob": -28.832935333251953
+            },
+            {
+              "token": " inner",
+              "logprob": -28.88106918334961
+            },
+            {
+              "token": "ת",
+              "logprob": -28.947410583496094
+            }
+          ],
+          "server_prompt_ms": 46.806,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 3,
+          "server_cache_n": 97,
+          "id": "s2",
+          "gold": "A",
+          "rep": 0,
+          "chosen": null
+        },
+        {
+          "probs": {},
+          "missing": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E"
+          ],
+          "latency_ms": 56.59195099999792,
+          "first_token": "<|channel>",
+          "first_token_id": 100,
+          "prompt_tokens": 100,
+          "tokens_cached": 100,
+          "raw_logprobs": {},
+          "top_tokens": [
+            {
+              "token": "<|channel>",
+              "logprob": 0.0
+            },
+            {
+              "token": " >",
+              "logprob": -23.465896606445312
+            },
+            {
+              "token": " think",
+              "logprob": -23.75104522705078
+            },
+            {
+              "token": " <",
+              "logprob": -23.857824325561523
+            },
+            {
+              "token": " inner",
+              "logprob": -25.154678344726562
+            },
+            {
+              "token": " Ha",
+              "logprob": -25.72779083251953
+            },
+            {
+              "token": "ת",
+              "logprob": -26.718894958496094
+            },
+            {
+              "token": " start",
+              "logprob": -27.261688232421875
+            },
+            {
+              "token": "ใน",
+              "logprob": -27.266206741333008
+            },
+            {
+              "token": "think",
+              "logprob": -27.2799129486084
+            }
+          ],
+          "server_prompt_ms": 49.838,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 4,
+          "server_cache_n": 96,
+          "id": "s2",
+          "gold": "A",
+          "rep": 1,
+          "chosen": null
+        },
+        {
+          "probs": {},
+          "missing": [
+            "A",
+            "B"
+          ],
+          "latency_ms": 84.01000699999983,
+          "first_token": "<|channel>",
+          "first_token_id": 100,
+          "prompt_tokens": 117,
+          "tokens_cached": 117,
+          "raw_logprobs": {},
+          "top_tokens": [
+            {
+              "token": "<|channel>",
+              "logprob": 0.0
+            },
+            {
+              "token": "<",
+              "logprob": -23.628808975219727
+            },
+            {
+              "token": " think",
+              "logprob": -24.742918014526367
+            },
+            {
+              "token": "men",
+              "logprob": -24.743885040283203
+            },
+            {
+              "token": " Ha",
+              "logprob": -26.156850814819336
+            },
+            {
+              "token": " <",
+              "logprob": -26.23092269897461
+            },
+            {
+              "token": "종",
+              "logprob": -26.31307601928711
+            },
+            {
+              "token": "think",
+              "logprob": -26.490142822265625
+            },
+            {
+              "token": "차",
+              "logprob": -27.134000778198242
+            },
+            {
+              "token": "of",
+              "logprob": -27.208646774291992
+            }
+          ],
+          "server_prompt_ms": 46.154,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 3,
+          "server_cache_n": 114,
+          "id": "s3",
+          "gold": "B",
+          "rep": 0,
+          "chosen": null
+        },
+        {
+          "probs": {},
+          "missing": [
+            "A",
+            "B"
+          ],
+          "latency_ms": 55.88565000000045,
+          "first_token": "<|channel>",
+          "first_token_id": 100,
+          "prompt_tokens": 117,
+          "tokens_cached": 117,
+          "raw_logprobs": {},
+          "top_tokens": [
+            {
+              "token": "<|channel>",
+              "logprob": 0.0
+            },
+            {
+              "token": "<",
+              "logprob": -23.51277732849121
+            },
+            {
+              "token": "men",
+              "logprob": -24.691450119018555
+            },
+            {
+              "token": " think",
+              "logprob": -24.698366165161133
+            },
+            {
+              "token": " Ha",
+              "logprob": -25.96047592163086
+            },
+            {
+              "token": " <",
+              "logprob": -26.01954460144043
+            },
+            {
+              "token": "종",
+              "logprob": -26.13088035583496
+            },
+            {
+              "token": "think",
+              "logprob": -26.209941864013672
+            },
+            {
+              "token": "차",
+              "logprob": -26.836509704589844
+            },
+            {
+              "token": "of",
+              "logprob": -26.84271240234375
+            }
+          ],
+          "server_prompt_ms": 49.571,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 4,
+          "server_cache_n": 113,
+          "id": "s3",
+          "gold": "B",
+          "rep": 1,
+          "chosen": null
+        },
+        {
+          "probs": {},
+          "missing": [
+            "A",
+            "B",
+            "C",
+            "D"
+          ],
+          "latency_ms": 91.59738600000011,
+          "first_token": "<|channel>",
+          "first_token_id": 100,
+          "prompt_tokens": 110,
+          "tokens_cached": 110,
+          "raw_logprobs": {},
+          "top_tokens": [
+            {
+              "token": "<|channel>",
+              "logprob": 0.0
+            },
+            {
+              "token": "or",
+              "logprob": -24.142974853515625
+            },
+            {
+              "token": " start",
+              "logprob": -26.007570266723633
+            },
+            {
+              "token": "<",
+              "logprob": -26.190593719482422
+            },
+            {
+              "token": "---",
+              "logprob": -26.565208435058594
+            },
+            {
+              "token": " think",
+              "logprob": -26.813833236694336
+            },
+            {
+              "token": "ת",
+              "logprob": -26.92000961303711
+            },
+            {
+              "token": "Untuk",
+              "logprob": -27.2032527923584
+            },
+            {
+              "token": "在",
+              "logprob": -27.774272918701172
+            },
+            {
+              "token": "统计",
+              "logprob": -28.74969482421875
+            }
+          ],
+          "server_prompt_ms": 47.713,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 3,
+          "server_cache_n": 107,
+          "id": "s4",
+          "gold": "B",
+          "rep": 0,
+          "chosen": null
+        },
+        {
+          "probs": {},
+          "missing": [
+            "A",
+            "B",
+            "C",
+            "D"
+          ],
+          "latency_ms": 57.65790299999907,
+          "first_token": "<|channel>",
+          "first_token_id": 100,
+          "prompt_tokens": 110,
+          "tokens_cached": 110,
+          "raw_logprobs": {},
+          "top_tokens": [
+            {
+              "token": "<|channel>",
+              "logprob": 0.0
+            },
+            {
+              "token": "or",
+              "logprob": -24.176315307617188
+            },
+            {
+              "token": " start",
+              "logprob": -25.83171272277832
+            },
+            {
+              "token": "---",
+              "logprob": -25.95768928527832
+            },
+            {
+              "token": "<",
+              "logprob": -25.974485397338867
+            },
+            {
+              "token": " think",
+              "logprob": -26.72381591796875
+            },
+            {
+              "token": "ת",
+              "logprob": -27.010040283203125
+            },
+            {
+              "token": "Untuk",
+              "logprob": -27.15237045288086
+            },
+            {
+              "token": "在",
+              "logprob": -27.400407791137695
+            },
+            {
+              "token": "種",
+              "logprob": -28.614364624023438
+            }
+          ],
+          "server_prompt_ms": 50.541,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 4,
+          "server_cache_n": 106,
+          "id": "s4",
+          "gold": "B",
+          "rep": 1,
+          "chosen": null
+        },
+        {
+          "probs": {},
+          "missing": [
+            "A",
+            "B"
+          ],
+          "latency_ms": 98.02845599999799,
+          "first_token": "<|channel>",
+          "first_token_id": 100,
+          "prompt_tokens": 113,
+          "tokens_cached": 113,
+          "raw_logprobs": {},
+          "top_tokens": [
+            {
+              "token": "<|channel>",
+              "logprob": 0.0
+            },
+            {
+              "token": " think",
+              "logprob": -21.1591796875
+            },
+            {
+              "token": "<",
+              "logprob": -23.86200523376465
+            },
+            {
+              "token": " <",
+              "logprob": -25.004413604736328
+            },
+            {
+              "token": " start",
+              "logprob": -25.363086700439453
+            },
+            {
+              "token": "think",
+              "logprob": -26.271743774414062
+            },
+            {
+              "token": "ไป",
+              "logprob": -27.671117782592773
+            },
+            {
+              "token": " inner",
+              "logprob": -28.486265182495117
+            },
+            {
+              "token": ")",
+              "logprob": -28.59721565246582
+            },
+            {
+              "token": "종",
+              "logprob": -28.610807418823242
+            }
+          ],
+          "server_prompt_ms": 48.21,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 3,
+          "server_cache_n": 110,
+          "id": "s5",
+          "gold": "B",
+          "rep": 0,
+          "chosen": null
+        },
+        {
+          "probs": {},
+          "missing": [
+            "A",
+            "B"
+          ],
+          "latency_ms": 56.80406799999815,
+          "first_token": "<|channel>",
+          "first_token_id": 100,
+          "prompt_tokens": 113,
+          "tokens_cached": 113,
+          "raw_logprobs": {},
+          "top_tokens": [
+            {
+              "token": "<|channel>",
+              "logprob": 0.0
+            },
+            {
+              "token": " think",
+              "logprob": -21.333471298217773
+            },
+            {
+              "token": "<",
+              "logprob": -24.50027847290039
+            },
+            {
+              "token": " <",
+              "logprob": -25.19570541381836
+            },
+            {
+              "token": " start",
+              "logprob": -25.70158576965332
+            },
+            {
+              "token": "think",
+              "logprob": -26.418882369995117
+            },
+            {
+              "token": "ไป",
+              "logprob": -27.468446731567383
+            },
+            {
+              "token": "종",
+              "logprob": -28.417606353759766
+            },
+            {
+              "token": " inner",
+              "logprob": -28.613689422607422
+            },
+            {
+              "token": "1",
+              "logprob": -28.631738662719727
+            }
+          ],
+          "server_prompt_ms": 50.51,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 4,
+          "server_cache_n": 109,
+          "id": "s5",
+          "gold": "B",
+          "rep": 1,
+          "chosen": null
+        }
+      ]
+    },
+    "nosys+prefill_答案：": {
+      "template": "<|turn>system\n<|think|>\n<turn|>\n<|turn>user\n§USRMARK§<turn|>\n<|turn>model\n",
+      "example_prompt": "<|turn>system\n<|think|>\n<turn|>\n<|turn>user\n【狀態】\nSMT-L3 回焊爐 R-02 第 4 區溫度 245°C 超上限 10°C 持續 3 分鐘，板子仍在爐內\n\n【問題】這則 alarm 的處置急迫度？\nA. 不急\nB. 盡快\nC. 停線\n\n只回答代表正確選項的字母。<turn|>\n<|turn>model\n答案：",
+      "rows": [
+        {
+          "probs": {
+            "B": 0.6105568629776477,
+            "A": 0.3894431370223524
+          },
+          "missing": [
+            "C"
+          ],
+          "latency_ms": 165.036685999997,
+          "first_token": "B",
+          "first_token_id": 236799,
+          "prompt_tokens": 105,
+          "tokens_cached": 105,
+          "raw_logprobs": {
+            "B": -0.5407260060310364,
+            "A": -0.9903795719146729
+          },
+          "top_tokens": [
+            {
+              "token": "B",
+              "logprob": -0.5407260060310364
+            },
+            {
+              "token": "A",
+              "logprob": -0.9903795719146729
+            },
+            {
+              "token": "**",
+              "logprob": -3.1867754459381104
+            },
+            {
+              "token": "答案",
+              "logprob": -5.903498649597168
+            },
+            {
+              "token": " B",
+              "logprob": -7.29816198348999
+            },
+            {
+              "token": " A",
+              "logprob": -7.680131435394287
+            },
+            {
+              "token": " **",
+              "logprob": -8.40773868560791
+            },
+            {
+              "token": "D",
+              "logprob": -9.156315803527832
+            },
+            {
+              "token": "𝐵",
+              "logprob": -9.847537994384766
+            },
+            {
+              "token": "Ｂ",
+              "logprob": -9.926356315612793
+            }
+          ],
+          "server_prompt_ms": 130.439,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 105,
+          "server_cache_n": 0,
+          "id": "s1",
+          "gold": "C",
+          "rep": 0,
+          "chosen": "B"
+        },
+        {
+          "probs": {
+            "B": 0.5054717114641066,
+            "A": 0.49452828853589337
+          },
+          "missing": [
+            "C"
+          ],
+          "latency_ms": 85.30682700000014,
+          "first_token": "A",
+          "first_token_id": 236776,
+          "prompt_tokens": 105,
+          "tokens_cached": 105,
+          "raw_logprobs": {
+            "B": -0.7629914879798889,
+            "A": -0.784879207611084
+          },
+          "top_tokens": [
+            {
+              "token": "B",
+              "logprob": -0.7629914879798889
+            },
+            {
+              "token": "A",
+              "logprob": -0.784879207611084
+            },
+            {
+              "token": "**",
+              "logprob": -2.7355504035949707
+            },
+            {
+              "token": "答案",
+              "logprob": -5.055104732513428
+            },
+            {
+              "token": " A",
+              "logprob": -6.011145114898682
+            },
+            {
+              "token": " B",
+              "logprob": -6.35114049911499
+            },
+            {
+              "token": " **",
+              "logprob": -7.326897144317627
+            },
+            {
+              "token": "D",
+              "logprob": -8.568641662597656
+            },
+            {
+              "token": "R",
+              "logprob": -9.245171546936035
+            },
+            {
+              "token": "𝐵",
+              "logprob": -9.512350082397461
+            }
+          ],
+          "server_prompt_ms": 78.717,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 5,
+          "server_cache_n": 100,
+          "id": "s1",
+          "gold": "C",
+          "rep": 1,
+          "chosen": "B"
+        },
+        {
+          "probs": {
+            "A": 0.7346636761244947,
+            "B": 0.2547257839220728,
+            "E": 0.009751401284239175,
+            "D": 0.0008591386691933682
+          },
+          "missing": [
+            "C"
+          ],
+          "latency_ms": 156.76602899999992,
+          "first_token": "A",
+          "first_token_id": 236776,
+          "prompt_tokens": 90,
+          "tokens_cached": 90,
+          "raw_logprobs": {
+            "A": -0.4724384546279907,
+            "B": -1.5316636562347412,
+            "E": -4.794440269470215,
+            "D": -7.2236762046813965
+          },
+          "top_tokens": [
+            {
+              "token": "A",
+              "logprob": -0.4724384546279907
+            },
+            {
+              "token": "B",
+              "logprob": -1.5316636562347412
+            },
+            {
+              "token": "**",
+              "logprob": -2.3799147605895996
+            },
+            {
+              "token": "答案",
+              "logprob": -2.9918923377990723
+            },
+            {
+              "token": "E",
+              "logprob": -4.794440269470215
+            },
+            {
+              "token": " A",
+              "logprob": -6.771327018737793
+            },
+            {
+              "token": " B",
+              "logprob": -6.910581111907959
+            },
+            {
+              "token": "D",
+              "logprob": -7.2236762046813965
+            },
+            {
+              "token": " **",
+              "logprob": -7.340394496917725
+            },
+            {
+              "token": "Ｂ",
+              "logprob": -8.123175621032715
+            }
+          ],
+          "server_prompt_ms": 117.878,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 90,
+          "server_cache_n": 0,
+          "id": "s2",
+          "gold": "A",
+          "rep": 0,
+          "chosen": "A"
+        },
+        {
+          "probs": {
+            "A": 0.6841079061666548,
+            "B": 0.30726809829102514,
+            "E": 0.006966772134902427,
+            "D": 0.0016572234074176643
+          },
+          "missing": [
+            "C"
+          ],
+          "latency_ms": 74.43114400000184,
+          "first_token": "B",
+          "first_token_id": 236799,
+          "prompt_tokens": 90,
+          "tokens_cached": 90,
+          "raw_logprobs": {
+            "A": -0.7427434921264648,
+            "B": -1.5431385040283203,
+            "E": -5.329707145690918,
+            "D": -6.765715599060059
+          },
+          "top_tokens": [
+            {
+              "token": "A",
+              "logprob": -0.7427434921264648
+            },
+            {
+              "token": "B",
+              "logprob": -1.5431385040283203
+            },
+            {
+              "token": "答案",
+              "logprob": -1.6260247230529785
+            },
+            {
+              "token": "**",
+              "logprob": -2.323859453201294
+            },
+            {
+              "token": "E",
+              "logprob": -5.329707145690918
+            },
+            {
+              "token": "D",
+              "logprob": -6.765715599060059
+            },
+            {
+              "token": " A",
+              "logprob": -7.021100997924805
+            },
+            {
+              "token": " B",
+              "logprob": -7.095015048980713
+            },
+            {
+              "token": "𝐵",
+              "logprob": -7.432056903839111
+            },
+            {
+              "token": " **",
+              "logprob": -7.747344017028809
+            }
+          ],
+          "server_prompt_ms": 67.902,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 5,
+          "server_cache_n": 85,
+          "id": "s2",
+          "gold": "A",
+          "rep": 1,
+          "chosen": "A"
+        },
+        {
+          "probs": {
+            "B": 0.9087524555226691,
+            "A": 0.09124754447733087
+          },
+          "missing": [],
+          "latency_ms": 159.76243900000142,
+          "first_token": "A",
+          "first_token_id": 236776,
+          "prompt_tokens": 107,
+          "tokens_cached": 107,
+          "raw_logprobs": {
+            "B": -0.10758574306964874,
+            "A": -2.4060823917388916
+          },
+          "top_tokens": [
+            {
+              "token": "B",
+              "logprob": -0.10758574306964874
+            },
+            {
+              "token": "A",
+              "logprob": -2.4060823917388916
+            },
+            {
+              "token": "答案",
+              "logprob": -5.266373157501221
+            },
+            {
+              "token": "**",
+              "logprob": -5.321310043334961
+            },
+            {
+              "token": " B",
+              "logprob": -6.8523969650268555
+            },
+            {
+              "token": " A",
+              "logprob": -9.024942398071289
+            },
+            {
+              "token": "_",
+              "logprob": -10.267102241516113
+            },
+            {
+              "token": " **",
+              "logprob": -10.275166511535645
+            },
+            {
+              "token": "В",
+              "logprob": -10.284612655639648
+            },
+            {
+              "token": "ans",
+              "logprob": -10.299195289611816
+            }
+          ],
+          "server_prompt_ms": 128.456,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 107,
+          "server_cache_n": 0,
+          "id": "s3",
+          "gold": "B",
+          "rep": 0,
+          "chosen": "B"
+        },
+        {
+          "probs": {
+            "B": 0.9207767269528517,
+            "A": 0.07922327304714834
+          },
+          "missing": [],
+          "latency_ms": 79.62496800000096,
+          "first_token": "B",
+          "first_token_id": 236799,
+          "prompt_tokens": 107,
+          "tokens_cached": 107,
+          "raw_logprobs": {
+            "B": -0.08735194057226181,
+            "A": -2.540299415588379
+          },
+          "top_tokens": [
+            {
+              "token": "B",
+              "logprob": -0.08735194057226181
+            },
+            {
+              "token": "A",
+              "logprob": -2.540299415588379
+            },
+            {
+              "token": "**",
+              "logprob": -5.849480628967285
+            },
+            {
+              "token": "答案",
+              "logprob": -6.753540515899658
+            },
+            {
+              "token": " B",
+              "logprob": -7.588255405426025
+            },
+            {
+              "token": " A",
+              "logprob": -10.146879196166992
+            },
+            {
+              "token": " **",
+              "logprob": -10.622331619262695
+            },
+            {
+              "token": "В",
+              "logprob": -11.183680534362793
+            },
+            {
+              "token": "ans",
+              "logprob": -11.377403259277344
+            },
+            {
+              "token": "_",
+              "logprob": -11.444186210632324
+            }
+          ],
+          "server_prompt_ms": 72.972,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 5,
+          "server_cache_n": 102,
+          "id": "s3",
+          "gold": "B",
+          "rep": 1,
+          "chosen": "B"
+        },
+        {
+          "probs": {
+            "A": 0.9689830320144606,
+            "B": 0.030433779080307245,
+            "D": 0.0005831889052322668
+          },
+          "missing": [
+            "C"
+          ],
+          "latency_ms": 161.9106919999993,
+          "first_token": "答案",
+          "first_token_id": 56996,
+          "prompt_tokens": 100,
+          "tokens_cached": 100,
+          "raw_logprobs": {
+            "A": -1.2165669202804565,
+            "B": -4.677260875701904,
+            "D": -8.632058143615723
+          },
+          "top_tokens": [
+            {
+              "token": "**",
+              "logprob": -0.9963439702987671
+            },
+            {
+              "token": "答案",
+              "logprob": -1.145607352256775
+            },
+            {
+              "token": "A",
+              "logprob": -1.2165669202804565
+            },
+            {
+              "token": "B",
+              "logprob": -4.677260875701904
+            },
+            {
+              "token": " A",
+              "logprob": -6.2583231925964355
+            },
+            {
+              "token": " **",
+              "logprob": -6.607264518737793
+            },
+            {
+              "token": "Ａ",
+              "logprob": -8.269495010375977
+            },
+            {
+              "token": "le",
+              "logprob": -8.574677467346191
+            },
+            {
+              "token": "D",
+              "logprob": -8.632058143615723
+            },
+            {
+              "token": "𝐵",
+              "logprob": -8.692554473876953
+            }
+          ],
+          "server_prompt_ms": 118.791,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 100,
+          "server_cache_n": 0,
+          "id": "s4",
+          "gold": "B",
+          "rep": 0,
+          "chosen": "A"
+        },
+        {
+          "probs": {
+            "A": 0.9872244469155426,
+            "B": 0.012181941573514621,
+            "D": 0.0005936115109429054
+          },
+          "missing": [
+            "C"
+          ],
+          "latency_ms": 76.30468300000004,
+          "first_token": "答案",
+          "first_token_id": 56996,
+          "prompt_tokens": 100,
+          "tokens_cached": 100,
+          "raw_logprobs": {
+            "A": -0.8962936401367188,
+            "B": -5.291236400604248,
+            "D": -8.312721252441406
+          },
+          "top_tokens": [
+            {
+              "token": "A",
+              "logprob": -0.8962936401367188
+            },
+            {
+              "token": "答案",
+              "logprob": -0.948761522769928
+            },
+            {
+              "token": "**",
+              "logprob": -1.650792121887207
+            },
+            {
+              "token": "B",
+              "logprob": -5.291236400604248
+            },
+            {
+              "token": " A",
+              "logprob": -5.7866034507751465
+            },
+            {
+              "token": " **",
+              "logprob": -7.378213405609131
+            },
+            {
+              "token": "D",
+              "logprob": -8.312721252441406
+            },
+            {
+              "token": "𝐀",
+              "logprob": -8.515209197998047
+            },
+            {
+              "token": "𝐵",
+              "logprob": -8.656160354614258
+            },
+            {
+              "token": "Ａ",
+              "logprob": -8.724530220031738
+            }
+          ],
+          "server_prompt_ms": 69.884,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 5,
+          "server_cache_n": 95,
+          "id": "s4",
+          "gold": "B",
+          "rep": 1,
+          "chosen": "A"
+        },
+        {
+          "probs": {
+            "B": 0.9583086691248399,
+            "A": 0.04169133087516013
+          },
+          "missing": [],
+          "latency_ms": 164.80589500000065,
+          "first_token": "**",
+          "first_token_id": 1018,
+          "prompt_tokens": 103,
+          "tokens_cached": 103,
+          "raw_logprobs": {
+            "B": -0.09686781466007233,
+            "A": -3.2317445278167725
+          },
+          "top_tokens": [
+            {
+              "token": "B",
+              "logprob": -0.09686781466007233
+            },
+            {
+              "token": "A",
+              "logprob": -3.2317445278167725
+            },
+            {
+              "token": "答案",
+              "logprob": -3.987194776535034
+            },
+            {
+              "token": "**",
+              "logprob": -4.113274574279785
+            },
+            {
+              "token": " B",
+              "logprob": -4.16643762588501
+            },
+            {
+              "token": "Ｂ",
+              "logprob": -7.759711265563965
+            },
+            {
+              "token": "𝐵",
+              "logprob": -7.8542914390563965
+            },
+            {
+              "token": " A",
+              "logprob": -8.79977798461914
+            },
+            {
+              "token": "В",
+              "logprob": -9.009809494018555
+            },
+            {
+              "token": "_",
+              "logprob": -9.419210433959961
+            }
+          ],
+          "server_prompt_ms": 125.657,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 103,
+          "server_cache_n": 0,
+          "id": "s5",
+          "gold": "B",
+          "rep": 0,
+          "chosen": "B"
+        },
+        {
+          "probs": {
+            "B": 0.9026776085986966,
+            "A": 0.09732239140130347
+          },
+          "missing": [],
+          "latency_ms": 77.08810899999818,
+          "first_token": "B",
+          "first_token_id": 236799,
+          "prompt_tokens": 103,
+          "tokens_cached": 103,
+          "raw_logprobs": {
+            "B": -0.15949800610542297,
+            "A": -2.3868343830108643
+          },
+          "top_tokens": [
+            {
+              "token": "B",
+              "logprob": -0.15949800610542297
+            },
+            {
+              "token": "A",
+              "logprob": -2.3868343830108643
+            },
+            {
+              "token": "答案",
+              "logprob": -3.773859739303589
+            },
+            {
+              "token": "**",
+              "logprob": -3.9943301677703857
+            },
+            {
+              "token": " B",
+              "logprob": -4.54124641418457
+            },
+            {
+              "token": "Ｂ",
+              "logprob": -7.569706439971924
+            },
+            {
+              "token": "𝐵",
+              "logprob": -7.996281623840332
+            },
+            {
+              "token": " A",
+              "logprob": -8.283754348754883
+            },
+            {
+              "token": "В",
+              "logprob": -8.723962783813477
+            },
+            {
+              "token": "_",
+              "logprob": -9.006068229675293
+            }
+          ],
+          "server_prompt_ms": 70.561,
+          "server_predicted_ms": 0.001,
+          "server_prompt_n": 5,
+          "server_cache_n": 98,
+          "id": "s5",
+          "gold": "B",
+          "rep": 1,
+          "chosen": "B"
+        }
+      ]
+    }
+  },
+  "chat_control": [
+    {
+      "content": "```json\n{\"answer\": \"C\"}\n```",
+      "reasoning": null,
+      "latency_ms": 398.83665499999665,
+      "usage": {
+        "completion_tokens": 15,
+        "prompt_tokens": 128,
+        "total_tokens": 143,
+        "prompt_tokens_details": {
+          "cached_tokens": 110
+        }
+      },
+      "finish_reason": "stop",
+      "id": "s1"
+    },
+    {
+      "content": "{\"answer\": \"A\"}",
+      "reasoning": null,
+      "latency_ms": 338.25560900000085,
+      "usage": {
+        "completion_tokens": 10,
+        "prompt_tokens": 113,
+        "total_tokens": 123,
+        "prompt_tokens_details": {
+          "cached_tokens": 95
+        }
+      },
+      "finish_reason": "stop",
+      "id": "s2"
+    }
+  ]
+}

@@ -28,16 +28,36 @@ def build_messages(state: str, question: dict, system: str = SYSTEM) -> list[dic
 
 
 class TemplateRenderer:
-    def __init__(self, base_url: str, prefill: str = "答案：", use_system: bool = True):
+    """Learns the server's chat template once (with thinking disabled) and renders locally.
+
+    Gemma 4 template: enable_thinking=True injects '<|think|>\n' at the top of the system turn;
+    enable_thinking=False omits it and appends an empty thought block
+    '<|channel>thought\n<channel|>' after '<|turn>model\n' so the next token is the answer.
+    """
+
+    THINK_ON = "<|think|>\n"
+    EMPTY_THOUGHT = "<|channel>thought\n<channel|>"
+
+    def __init__(self, base_url: str, prefill: str = "答案：", use_system: bool = True, enable_thinking: bool = False):
         self.base_url = base_url
         self.prefill = prefill
         self.use_system = use_system
+        self.enable_thinking = enable_thinking
         msgs = [{"role": "system", "content": SYS_MARK}, {"role": "user", "content": USR_MARK}]
         if not use_system:
             msgs = msgs[1:]
-        r = requests.post(f"{base_url}/apply-template", json={"messages": msgs}, timeout=60)
+        r = requests.post(f"{base_url}/apply-template",
+                          json={"messages": msgs, "chat_template_kwargs": {"enable_thinking": enable_thinking}}, timeout=60)
         r.raise_for_status()
-        self.template = r.json()["prompt"]
+        t = r.json()["prompt"]
+        self.server_honored_kwargs = True
+        if not enable_thinking and self.THINK_ON in t:
+            # server ignored chat_template_kwargs; patch by hand to match the template's own logic
+            self.server_honored_kwargs = False
+            t = t.replace(self.THINK_ON, "", 1)
+            if not t.endswith(self.EMPTY_THOUGHT):
+                t = t + self.EMPTY_THOUGHT
+        self.template = t
         if USR_MARK not in self.template or (use_system and SYS_MARK not in self.template):
             raise RuntimeError(f"apply-template lost markers: {self.template!r}")
 

@@ -38,9 +38,11 @@ def main(base_url, out_dir, args=""):
     rep["tokenize"] = tok
 
     variants = {
-        "sys+prefill_答案：": dict(use_system=True, prefill="答案："),
-        "sys+noprefill": dict(use_system=True, prefill=""),
-        "nosys+prefill_答案：": dict(use_system=False, prefill="答案："),
+        "nothink+sys+prefill_答案：": dict(use_system=True, prefill="答案：", enable_thinking=False),
+        "nothink+sys+noprefill": dict(use_system=True, prefill="", enable_thinking=False),
+        "nothink+nosys+noprefill": dict(use_system=False, prefill="", enable_thinking=False),
+        "nothink+sys+prefill_答案：空白": dict(use_system=True, prefill="答案： ", enable_thinking=False),
+        "think+sys+prefill_答案：": dict(use_system=True, prefill="答案：", enable_thinking=True),
     }
     rep["variants"] = {}
     for vname, kw in variants.items():
@@ -58,7 +60,7 @@ def main(base_url, out_dir, args=""):
                 r.update(id=ex["id"], gold=ex["gold"], rep=rep_i,
                          chosen=max(r["probs"], key=r["probs"].get) if r["probs"] else None)
                 rows.append(r)
-        rep["variants"][vname] = {"template": tr.template, "example_prompt": tr.render(EXAMPLES[0]["state"], EXAMPLES[0]["question"]), "rows": rows}
+        rep["variants"][vname] = {"template": tr.template, "server_honored_kwargs": tr.server_honored_kwargs, "example_prompt": tr.render(EXAMPLES[0]["state"], EXAMPLES[0]["question"]), "rows": rows}
         print(f"== {vname}", flush=True)
         for r in rows:
             print(f"  {r['id']} rep{r['rep']} first={r['first_token']!r} chosen={r['chosen']} gold={r['gold']} "

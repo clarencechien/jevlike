@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="zh-Hant">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="imitator-style" content="v3">
+<meta name="imitator-register" content="判定備忘 — Jev 式決策層值不值得做，給長官一頁講完">
+<meta name="imitator-reference" content="1980 年代工廠 QC 課點陣印表機印在連續報表紙上的實驗紀錄 — 編號所見、判定欄、等寬欄位">
+<meta name="imitator-paper" content="hsl(120 18% 94%)">
+<meta name="imitator-accent" content="hsl(178 58% 26%)">
+<title>Jev 式決策，值得，而且不用買</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* imitator report chassis — v3
+ *
+ * Source: https://github.com/clarencechien/imitator/blob/main/style/report.css
+ * How to use it: https://github.com/clarencechien/imitator/blob/main/style/STYLE.md
+ *
+ * This is NOT a house style. A report here is an essay with a point of view —
+ * it should look like someone made it, not like it came off a line. So this
+ * file fixes only what every report must get right no matter its voice:
+ * readability, structure, responsiveness, dark mode, motion hygiene, print.
+ *
+ * Everything that carries voice — paper and ink colours, the accent, which
+ * typefaces do which job, how big the headline is, how sections are signposted
+ * — is yours to choose per report. The tokens in §1 are the seams: override
+ * them in a <style> block AFTER this one and the whole chassis follows.
+ *
+ * Paste this file verbatim. Do not link it at runtime.
+ */
+
+/* ── §1 Tokens ───────────────────────────────────────────────────────────
+ *
+ * Override any of these per report. The defaults are a plain warm neutral —
+ * deliberately unremarkable, so a report that overrides nothing is readable
+ * but obviously unfinished. Redefine BOTH modes: dark is chosen, never an
+ * automatic flip.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  /* --- voice: expect to override every one of these --- */
+  --paper: #fbfbfa;        /* page */
+  --card: #ffffff;         /* raised surface */
+  --ink: #1a1a19;          /* primary text */
+  --ink-2: #4a4a46;        /* secondary text */
+  --mist: #6b6b68;         /* labels, captions, axis ticks */
+  --rule: #e6e6e3;         /* hairlines */
+  --rule-hard: #d3d3ce;    /* the one heavy rule per section */
+  --accent: #b0552b;       /* links, the coloured word, section numbers */
+  --accent-soft: #efe7df;  /* accent at wash strength — chips, marks */
+
+  /* --- faces: four jobs. Give them real families; --disp and --serif may be
+         the same as --sans if the report's voice is plain. --- */
+  --sans:  ui-sans-serif, system-ui, -apple-system, "Noto Sans TC",
+           "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --serif: "Noto Serif TC", "Songti TC", "PMingLiU", Georgia, serif;
+  --disp:  var(--sans);    /* headlines */
+  --mono:  ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* --- type scale ---
+     Body is deliberately large: this is long-form prose in Chinese, read on a
+     phone as often as a laptop. 17px is the floor, not the target. */
+  --fs-body: clamp(1.0625rem, 1.01rem + .28vw, 1.1875rem);   /* 17 → 19 */
+  --fs-sm:   clamp(.875rem, .85rem + .12vw, .9375rem);       /* 14 → 15 */
+  --fs-xs:   .8125rem;                                        /* 13 — labels only */
+  --lh-body: 1.85;         /* CJK needs more leading than Latin */
+
+  --fs-display: clamp(2.6rem, 1.4rem + 5.4vw, 5.25rem);      /* the one big headline */
+  --fs-1: clamp(1.85rem, 1.45rem + 1.9vw, 2.75rem);
+  --fs-2: clamp(1.4rem, 1.24rem + .78vw, 1.85rem);
+  --fs-3: clamp(1.14rem, 1.08rem + .3vw, 1.32rem);
+
+  /* --- spacing --- */
+  --sp-1: .25rem; --sp-2: .5rem;  --sp-3: .75rem; --sp-4: 1.15rem;
+  --sp-5: 1.75rem; --sp-6: 2.75rem; --sp-7: 4.5rem;
+
+  --radius: 10px;
+  --measure: 34em;         /* prose column ≈ 34 CJK characters */
+  --page: 46rem;           /* text column */
+  --page-wide: 66rem;      /* wide devices: tables, figures, tile rows */
+
+  /* How far a wide device spills into the gutter on each side. Bounded by the
+     gutter that actually exists, so it can never push the page sideways. */
+  --bleed: min((var(--page-wide) - var(--page)) / 2, max(0px, (100vw - var(--page)) / 2));
+
+  /* --- motion ---
+     Strong curves only. The built-in CSS easings are too weak to read as
+     intentional, and ease-in on anything a reader is watching feels sluggish. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --dur-fast: 160ms;
+  --dur: 240ms;
+  --dur-slow: 420ms;       /* entrances only — never a UI response */
+}
+
+/* Dark is a second set of choices, not an inversion. Declared under both
+   scopes so an in-page toggle wins either way. A report that overrides the
+   light tokens MUST override these too. */
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    --paper: #191917; --card: #222220;
+    --ink: #eeeeec; --ink-2: #b8b8b3; --mist: #9a9a95;
+    --rule: #333331; --rule-hard: #454542;
+    --accent: #e08a5c; --accent-soft: #3a2f28;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #191917; --card: #222220;
+  --ink: #eeeeec; --ink-2: #b8b8b3; --mist: #9a9a95;
+  --rule: #333331; --rule-hard: #454542;
+  --accent: #e08a5c; --accent-soft: #3a2f28;
+}
+
+/* Chart series colours are NOT part of the voice. They are the one palette a
+   report must not re-pick: the order is what keeps adjacent series apart under
+   colour blindness, and it was validated with a tool rather than an eye. Use
+   them in order, never cycle past --c6. */
+:root {
+  --c1: #2a78d6; --c2: #eb6834; --c3: #1baf7a;
+  --c4: #eda100; --c5: #e87ba4; --c6: #008300;
+  --good: #0ca30c; --warn: #fab219; --critical: #d03b3b;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    --c1: #3987e5; --c2: #d95926; --c3: #199e70;
+    --c4: #c98500; --c5: #d55181; --c6: #008300;
+  }
+}
+:root[data-theme="dark"] {
+  --c1: #3987e5; --c2: #d95926; --c3: #199e70;
+  --c4: #c98500; --c5: #d55181; --c6: #008300;
+}
+
+/* ── §2 Base & readability ───────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: var(--fs-body)/var(--lh-body) var(--sans);
+  overflow-wrap: break-word;
+  line-break: strict;
+  -webkit-text-size-adjust: 100%;
+  /* Progressive: tightens CJK punctuation where the browser supports it. */
+  text-spacing-trim: trim-start;
+}
+
+p { text-wrap: pretty; }
+h1, h2, h3, h4, .display { text-wrap: balance; }
+
+img, svg, video, canvas { max-width: 100%; height: auto; }
+a { color: var(--accent); text-underline-offset: .2em; text-decoration-thickness: from-font; }
+a:focus-visible, button:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px;
+}
+::selection { background: var(--accent-soft); }
+
+/* ── §3 Layout ───────────────────────────────────────────────────────────── */
+
+.report {
+  max-width: var(--page);
+  margin: 0 auto;
+  padding: clamp(2rem, 1.2rem + 3.5vw, 5rem) clamp(1.15rem, .7rem + 2.4vw, 2.5rem) 6rem;
+}
+.report > * { max-width: var(--measure); }
+/* Figures, tables and full-width devices opt out of the prose measure. A
+   <section> or <article> is a pass-through: it must not inherit the measure,
+   or every table inside it is trapped at 34em — so the prose cap is re-applied
+   to its children instead. */
+.report :is(figure, .table-scroll, .wide, hr, .tiles, .cols, .banner) { max-width: none; }
+.report > :is(section, article) { max-width: none; }
+.report > :is(section, article) > * { max-width: var(--measure); }
+.report > :is(section, article) > :is(figure, .table-scroll, .wide, hr, .tiles, .cols, .banner) { max-width: none; }
+/* Grid items get min-width: 0 so one unbreakable string cannot widen the track.
+   Any grid you write yourself needs the same — see STYLE.md. */
+.cols > *, .tiles > * { min-width: 0; }
+.cols  { display: grid; gap: var(--sp-5); grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); }
+.tiles { display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); margin-block: var(--sp-5); }
+.card  { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: var(--sp-5); }
+
+/* The text column stays narrow; the wide devices breathe out into the gutter.
+   Tables get this by default — a table trapped at the prose measure is the
+   single most common way a report becomes unusable on a desktop. .wide opts
+   anything else in (a tile row, a chart, a figure).
+
+   It widens by whatever gutter actually exists and no more, so it can never
+   push the page sideways — which the obvious `width + 50% margin` breakout
+   does the moment its percentage resolves against the wrong box.
+   Declared last on purpose: any component using the `margin` shorthand would
+   otherwise zero out the inline margins this depends on. */
+.wide, .table-scroll { margin-inline: calc(-1 * var(--bleed)); }
+
+/* ── §4 Structure & editorial devices ────────────────────────────────────── */
+
+/* The headline. .display is the one oversized thing in the document; a
+   coloured <em> inside it is the report's signature — use it once. */
+.display {
+  font-family: var(--disp);
+  font-size: var(--fs-display);
+  line-height: 1.04;
+  letter-spacing: -.025em;
+  font-weight: 700;
+  margin: 0 0 var(--sp-4);
+}
+.display em { font-style: normal; color: var(--accent); }
+
+h1, h2, h3 { font-family: var(--disp); line-height: 1.25; letter-spacing: -.012em; margin: 0; font-weight: 680; }
+h1 { font-size: var(--fs-1); }
+h2 { font-size: var(--fs-2); margin: var(--sp-7) 0 var(--sp-4); }
+h3 { font-size: var(--fs-3); margin: var(--sp-5) 0 var(--sp-2); }
+h2 + h3 { margin-top: var(--sp-4); }
+p, ul, ol { margin: 0 0 var(--sp-4); }
+li + li { margin-top: var(--sp-2); }
+
+/* The signpost. Mono, letterspaced, small — it gives a document a spine:
+   序幕 · PROLOGUE / 01 · VOCABULARY / 第一幕 · 1973 */
+.eyebrow {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: flex; align-items: center; gap: var(--sp-3);
+  margin: var(--sp-7) 0 var(--sp-2);
+}
+.eyebrow::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+.eyebrow + h2 { margin-top: 0; }
+
+.lede { font-size: 1.15em; line-height: 1.7; color: var(--ink-2); }
+.byline { font-family: var(--mono); font-size: var(--fs-xs); letter-spacing: .06em; color: var(--mist); }
+
+/* A sentence worth stopping on. Not a highlighter pen on a whole paragraph. */
+.mark { background: var(--accent-soft); box-shadow: 0 0 0 .18em var(--accent-soft); border-radius: 2px; }
+
+/* An inverted label that interrupts the column: 接回 VOL.1 */
+.chip {
+  display: inline-block; background: var(--ink); color: var(--paper);
+  font-family: var(--mono); font-size: var(--fs-xs); letter-spacing: .08em;
+  padding: .2em .55em; border-radius: 3px; vertical-align: .08em;
+}
+.chip.soft { background: var(--accent-soft); color: var(--ink-2); }
+
+/* A line pulled out of the argument, set large. Never a repeat of the lede. */
+.pull {
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 1.1rem + 1.2vw, 1.9rem);
+  line-height: 1.5; color: var(--ink);
+  border-left: 3px solid var(--accent);
+  padding: var(--sp-2) 0 var(--sp-2) var(--sp-5);
+  margin-block: var(--sp-6);
+}
+
+blockquote { margin-block: var(--sp-5); padding-left: var(--sp-5); border-left: 2px solid var(--rule-hard); color: var(--ink-2); }
+.note { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: var(--radius); background: var(--card); padding: var(--sp-5); margin-block: var(--sp-6); }
+.note > :last-child { margin-bottom: 0; }
+.note .head { font-weight: 680; margin-bottom: var(--sp-2); }
+.note.good { border-left-color: var(--good); }
+.note.warn { border-left-color: var(--warn); }
+.note.critical { border-left-color: var(--critical); }
+
+code, kbd, samp { font-family: var(--mono); font-size: .88em; }
+/* A URL or a scope string inside <code> has no break opportunity, so it becomes
+   the min-content width of everything containing it. Inside a grid track — whose
+   default min-width is auto, i.e. min-content — that one string widens the track
+   past the viewport and the whole page scrolls sideways. Breaking it here fixes
+   the cause; see also the note on custom grids in STYLE.md. */
+:not(pre) > code {
+  background: var(--accent-soft); padding: .12em .4em; border-radius: 4px;
+  overflow-wrap: anywhere;
+}
+pre {
+  background: var(--card); border: 1px solid var(--rule);
+  border-top: 3px solid var(--accent); border-radius: var(--radius);
+  padding: var(--sp-5); overflow-x: auto;
+  font-size: var(--fs-sm); line-height: 1.7;
+}
+hr { border: 0; border-top: 1px solid var(--rule); margin-block: var(--sp-7); }
+
+/* ── §5 Figures, charts, tables ──────────────────────────────────────────── */
+
+.stat { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: var(--sp-3) var(--sp-4); }
+.stat .label { font-size: var(--fs-xs); color: var(--mist); margin: 0 0 var(--sp-1); }
+.stat .value { font-family: var(--disp); font-size: 1.75rem; font-weight: 680; line-height: 1.15; letter-spacing: -.02em; }
+.stat .delta { font-size: var(--fs-xs); color: var(--ink-2); margin-top: var(--sp-1); display: flex; align-items: center; gap: .3em; }
+.delta.up::before   { content: "▲"; font-size: .8em; color: var(--good); }
+.delta.down::before { content: "▼"; font-size: .8em; color: var(--critical); }
+
+/* At most one per report. */
+.hero { font-family: var(--disp); font-size: clamp(3rem, 2rem + 4vw, 5rem); font-weight: 700; line-height: 1; letter-spacing: -.03em; margin: var(--sp-2) 0; }
+
+figure { margin-block: var(--sp-6); }
+figure > .title { font-family: var(--disp); font-size: var(--fs-3); font-weight: 680; margin: 0 0 var(--sp-1); }
+figure > .subtitle, figure > figcaption { font-size: var(--fs-sm); color: var(--mist); }
+figure > .subtitle { margin: 0 0 var(--sp-4); }
+figure > figcaption { margin-top: var(--sp-3); }
+
+/* A viewBox scales the TEXT too: let a chart shrink freely to a 375px screen
+   and its 12px labels render at 6px. So the rendered width is bounded and the
+   chart scrolls in its own box below the floor, like a wide table.
+   Author charts on a 640-unit viewBox with font-size 12. */
+.chart { width: 100%; overflow-x: auto; }
+.chart svg { display: block; height: auto; width: 100%; min-width: 34rem; max-width: 44rem; overflow: visible; }
+.chart .grid  { stroke: var(--rule); stroke-width: 1; }
+.chart .axis  { fill: var(--mist); font-size: 12px; font-family: var(--sans); font-variant-numeric: tabular-nums; }
+.chart .label { fill: var(--ink-2); font-size: 12px; font-family: var(--sans); }
+.chart .line  { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.chart .dot   { stroke: var(--card); stroke-width: 2; }
+.chart .bar   { rx: 4; }
+
+.legend { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4); font-size: var(--fs-sm); color: var(--ink-2); margin-top: var(--sp-3); }
+.legend .key { display: inline-flex; align-items: center; gap: .45em; }
+.legend .swatch { width: .7em; height: .7em; border-radius: 2px; flex: none; }
+
+.datatable > summary {
+  cursor: pointer; font-size: var(--fs-sm); color: var(--mist);
+  padding: var(--sp-2) 0; min-height: 44px;
+  display: flex; align-items: center; gap: .4em; list-style: none;
+}
+.datatable > summary::-webkit-details-marker { display: none; }
+.datatable > summary::before { content: "▸"; transition: transform var(--dur-fast) var(--ease-out); }
+.datatable[open] > summary::before { transform: rotate(90deg); }
+
+/* Every table lives in this wrapper: it scrolls itself instead of widening
+   the page. On a desktop it should never need to — cells wrap and the wrapper
+   widens into the gutter. On a phone a table with real columns still has to
+   scroll, and that is the correct trade: a model number broken across three
+   lines is worse than a swipe. `overscroll-behavior-inline` keeps that swipe
+   inside the table instead of dragging the page or triggering back-navigation. */
+.table-scroll { overflow-x: auto; overscroll-behavior-inline: contain; margin-block: var(--sp-5); border: 1px solid var(--rule); border-radius: var(--radius); background: var(--card); }
+
+/* Phone: the first column is the row's label — pin it, so what you are reading
+   the specs OF stays on screen while you swipe through them, and the shadow at
+   its edge says there is more to the right. Add .plain to opt a table out (a
+   two-column table, or one whose first column is not a label). Semantics are
+   untouched: nothing here changes `display`, so the table is still a table to
+   a screen reader. */
+@media (max-width: 40rem) {
+  .table-scroll:not(.plain) :is(th, td):first-child {
+    position: sticky; left: 0; z-index: 1; background: var(--card);
+    box-shadow: 1px 0 0 var(--rule), 7px 0 7px -7px rgb(0 0 0 / .22);
+  }
+  .table-scroll:not(.plain) th:first-child { z-index: 2; }
+}
+table { border-collapse: collapse; width: 100%; font-size: var(--fs-sm); }
+th, td { padding: .7rem .9rem; text-align: left; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 620; color: var(--ink-2); background: var(--card); position: sticky; top: 0; }
+tbody tr:last-child td { border-bottom: 0; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+/* Cells wrap by default: nowrap makes a table's min-content width the sum of
+   every cell's longest unbroken line, which is what forces the horizontal
+   scroll. Opt individual cells out — a model number, a date, a figure — with
+   .nowrap. (`.wrap` is the old opt-in, kept so it stays a no-op.) */
+.nowrap, td.nowrap, th.nowrap { white-space: nowrap; }
+td.wrap { white-space: normal; }
+/* A mono sub-label under a term, the way a glossary sets it. */
+td .sub { display: block; font-family: var(--mono); font-size: var(--fs-xs); letter-spacing: .08em; color: var(--mist); text-transform: uppercase; margin-top: .15em; }
+
+/* ── §6 Motion ───────────────────────────────────────────────────────────────
+ *
+ * A report is read, not operated, so motion here has exactly one job: mark
+ * arrival. Entrances only, on the reader's own scroll, and only for elements
+ * that carry a beat — a section opening, a figure, a pulled line. Never on
+ * body paragraphs, and never anything that has to finish before the reader
+ * can read.
+ *
+ * All of it is progressive: without scroll-driven animation support every
+ * element is simply already visible. Nothing is gated behind motion.
+ */
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+    @keyframes reveal-in {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: none; }
+    }
+    /* Group entrance: 30–80ms between items reads as one gesture. Longer
+       feels slow, and it is decorative — nothing waits for it. */
+    .stagger > * { animation: reveal-in var(--dur-slow) var(--ease-out) both; }
+    .stagger > :nth-child(2) { animation-delay: 60ms; }
+    .stagger > :nth-child(3) { animation-delay: 120ms; }
+    .stagger > :nth-child(4) { animation-delay: 180ms; }
+    .stagger > :nth-child(n+5) { animation-delay: 240ms; }
+  }
+}
+
+/* The theme toggle: one fixed button that flips data-theme on <html>. It exists
+   because a reader whose every device is dark can otherwise never see the light
+   palette a report designed — and vice versa. State lives in a variable (storage
+   APIs throw in the sandbox), so it resets on reload; that is the correct trade.
+   Until the reader clicks, <html> stays un-stamped and the page follows the
+   system. Markup and the five-line script are in STYLE.md, floor item 5. */
+.theme-toggle {
+  position: fixed; top: 1rem; right: 1rem; z-index: 20;
+  min-height: 44px; padding: .4rem .85rem;
+  background: var(--card); color: var(--ink-2);
+  border: 1px solid var(--rule); border-radius: var(--radius);
+  font: var(--fs-xs)/1 var(--mono); letter-spacing: .06em; cursor: pointer;
+}
+.theme-toggle:hover { border-color: var(--accent); color: var(--ink); }
+@media (max-width: 40rem) { .theme-toggle { top: auto; bottom: 1rem; } }
+
+/* Reading progress, drawn by the scroll position itself — no JS, no listener. */
+.progress {
+  position: fixed; inset: 0 0 auto 0; height: 2px; z-index: 10;
+  background: var(--accent); transform-origin: 0 50%; transform: scaleX(0);
+}
+@supports (animation-timeline: scroll()) {
+  .progress { animation: progress linear both; animation-timeline: scroll(root block); }
+  @keyframes progress { to { transform: scaleX(1); } }
+}
+@media (prefers-reduced-motion: reduce) { .progress { display: none; } }
+
+/* Pressable things acknowledge the press. Hover motion is gated — a touch
+   device fires :hover on tap and the animation reads as a glitch. */
+@media (hover: hover) and (pointer: fine) {
+  a[href], .chip, summary { transition: color var(--dur-fast) var(--ease-out); }
+}
+button:active, summary:active { transform: scale(.98); }
+button, summary { transition: transform var(--dur-fast) var(--ease-out); }
+
+@media (prefers-reduced-motion: reduce) {
+  /* Gentler, not zero: colour and opacity stay, movement goes. */
+  *, *::before, *::after {
+    animation-duration: .01ms !important; animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important; scroll-behavior: auto !important;
+  }
+}
+
+/* ── §7 Print & forced colours ───────────────────────────────────────────── */
+
+@media print {
+  :root { --paper: #fff; --card: #fff; --ink: #000; --ink-2: #333; --mist: #555; --rule: #ccc; }
+  .report { max-width: none; padding: 0; }
+  .report > * { max-width: none; }
+  .progress, .theme-toggle, .datatable > summary { display: none; }
+  .datatable { display: block; }
+  /* A scroll-driven entrance never runs on paper — without this, everything
+     marked .reveal prints as blank space. Content is never gated behind
+     motion; this is the rule that keeps that true. */
+  .reveal, .stagger > * { animation: none !important; opacity: 1 !important; transform: none !important; }
+  figure, .card, .stat, .table-scroll, .note, pre { break-inside: avoid; }
+  h2, h3, .eyebrow { break-after: avoid; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .8em; color: #555; }
+}
+
+@media (forced-colors: active) {
+  .card, .stat, .table-scroll, .note, pre, .chip { border: 1px solid CanvasText; }
+  .mark { background: Mark; color: MarkText; box-shadow: none; }
+}
+
+/* REGISTER:  判定備忘 — 給長官的一頁：Jev 式決策層值不值得做。先給結論與代價，再把八個問題
+              一題一題用白話講「問題是什麼、答案是什麼、這代表什麼」。工程細節收進條件與附錄。
+   REFERENCE: 1980 年代工廠 QC 課的實驗紀錄 — 點陣印表機印在連續報表紙（greenbar）上，
+              編號的所見、判定欄、等寬體的欄位，所見與判定分開寫。
+   PAPER:     連續報表紙的淡綠 — hsl(120 18% 94%)。
+   VOICE:     終端機青綠只給裁決、章節號和連結；標題用 IBM Plex Sans Condensed 壓 Noto Sans TC；
+              判定用等寬體標籤：已答 / 上界 / 方法成立。
+   NOT:       儀表板，也不是工程報告。每個數字後面跟一句「這代表」。
+   RECENT:    paper 355° 50° 20° · accent 205° 216° 282° — 同一 slug 的改版，沿用第一版的
+              greenbar 120° + 青綠 178°；178° 離 205° 有 27°。 */
+:root {
+  --paper: hsl(120 18% 94%);
+  --card: hsl(120 22% 97%);
+  --ink: hsl(140 14% 12%);
+  --ink-2: hsl(140 9% 30%);
+  --mist: hsl(140 7% 42%);
+  --rule: hsl(120 14% 84%);
+  --rule-hard: hsl(120 12% 70%);
+  --accent: hsl(178 58% 26%);
+  --accent-soft: hsl(178 35% 88%);
+  --disp: "IBM Plex Sans Condensed", "Noto Sans TC", sans-serif;
+  --sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    --paper: hsl(140 12% 8%);
+    --card: hsl(140 11% 11%);
+    --ink: hsl(110 14% 90%);
+    --ink-2: hsl(110 9% 74%);
+    --mist: hsl(110 6% 60%);
+    --rule: hsl(140 9% 20%);
+    --rule-hard: hsl(140 8% 32%);
+    --accent: hsl(176 48% 58%);
+    --accent-soft: hsl(178 30% 18%);
+  }
+}
+:root[data-theme="dark"] {
+  --paper: hsl(140 12% 8%);
+  --card: hsl(140 11% 11%);
+  --ink: hsl(110 14% 90%);
+  --ink-2: hsl(110 9% 74%);
+  --mist: hsl(110 6% 60%);
+  --rule: hsl(140 9% 20%);
+  --rule-hard: hsl(140 8% 32%);
+  --accent: hsl(176 48% 58%);
+  --accent-soft: hsl(178 30% 18%);
+}
+/* greenbar: a faint band behind every other table row, the way the paper carried it */
+.table-scroll tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--accent-soft) 45%, transparent); }
+.verdict { font-family: var(--mono); font-size: var(--fs-xs); letter-spacing: .08em; color: var(--accent); }
+/* the eight questions: one numbered entry each, like a findings column — not a table on a phone */
+.qlist .q { border-top: 1px solid var(--rule); padding: var(--sp-4) 0 var(--sp-3); }
+.qlist .q:last-child { border-bottom: 1px solid var(--rule-hard); }
+.qlist .q h3 { margin: var(--sp-1) 0 var(--sp-2); font-size: var(--fs-3); }
+.qlist .q p { margin: 0 0 var(--sp-2); }
+.qlist .q .verdict { margin: 0; }
+.qlist .q .so { color: var(--ink-2); }
+/* the TL;DR: a ruled block, the verdict line set in the display face */
+.tldr { border-top: 3px solid var(--accent); border-bottom: 1px solid var(--rule-hard); padding: var(--sp-4) 0 var(--sp-3); margin-block: var(--sp-6); }
+.tldr .head { font-family: var(--disp); font-size: var(--fs-2); font-weight: 700; margin: 0 0 var(--sp-3); }
+.tldr ol { margin: 0; padding-left: 1.4em; }
+.tldr li + li { margin-top: var(--sp-2); }
+.route table { min-width: 40rem; }
+</style>
+<body>
+<div class="progress"></div>
+<button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">theme · auto</button>
+
+<main class="report">
+
+  <p class="eyebrow">判定備忘 · Jev 式決策層 · 2026-09-23</p>
+  <h1 class="display">Jev 式決策，<br>值得做，<br>而且<em>不用買</em></h1>
+  <p class="lede">用我們已經部署的 Gemma 4 26B，加一層「只從固定選項裡選答案、不寫文章」的決策 API。十類產線判斷題有七類不用任何標註就能上線，每次判斷約 0.2 秒。本次驗證花費約一美元的雲端 GPU。</p>
+  <p class="byline">實驗於 Modal 雲端 L4 顯示卡進行 · 合成資料 10 類 × 200 題 · 工程細節與原始數據在 results/REPORT.md</p>
+
+  <div class="tldr">
+    <p class="head">TL;DR</p>
+    <ol>
+      <li><strong>判定：值得做，用現有模型自己做，不採購 Jev。</strong>Jev 是閉源雲端服務，資料出不了廠；我們要的能力，現有的 26B 模型加幾十行程式就有。</li>
+      <li><strong>準確率：十類題目七類直接達標。</strong>不做任何標註，7 類答對率 98% 以上；其餘三類 82–93%，錯在相鄰等級的邊界，把標準寫清楚、用幾十筆資料調門檻即可，不需要訓練新模型。</li>
+      <li><strong>速度：一次判斷 0.2 秒，比讓模型寫答案快 2.4 倍。</strong>同一份現場狀況一次問十題，開對設定後每題再降到 0.07 秒。</li>
+      <li><strong>標註：比主管報告承諾的還少。</strong>多數題目零筆；較弱的題目標 25 筆就能校準。傳統機器學習標 100 筆還到不了 90%。</li>
+      <li><strong>三個上線條件：</strong>部署時開啟前綴快取設定、「有把握才自動處理」的門檻要用真實資料校準、GB10 上重量一次速度。都是幾小時到幾天的事，不是幾個月。</li>
+    </ol>
+  </div>
+
+  <div class="tiles wide stagger">
+    <div class="stat"><p class="label">不標註就達 98% 的題型</p><div class="value">7 / 10</div><div class="delta">其餘三類要調門檻</div></div>
+    <div class="stat"><p class="label">一次判斷</p><div class="value">0.2 秒</div><div class="delta">租用 L4；GB10 待實測</div></div>
+    <div class="stat"><p class="label">比模型寫答案快</p><div class="value">2.4 倍</div><div class="delta">一次問十題可再降</div></div>
+    <div class="stat"><p class="label">本次驗證的 GPU 費用</p><div class="value">≈ $1</div><div class="delta">約 0.85 小時</div></div>
+  </div>
+
+  <p class="eyebrow">01 · 這是什麼</p>
+  <h2>六十秒說明 Jev 式決策</h2>
+  <p>今天讓大模型做產線判斷，通常是丟一段描述請它「寫出」判斷結果，再從那段文字裡撈答案。慢、貴、而且偶爾撈不到。Jev 是一家新創推出的做法：<span class="mark">不讓模型寫，只讓它從我們給的幾個選項裡選一個，並附上它有多大把握</span>。一次判斷只算一步，所以快；答案永遠是選項之一，所以不會亂答；有把握度，所以可以「有把握就自動處理、沒把握就轉人」。</p>
+  <p>Jev 本身是閉源雲端服務，產線資料送不出去。這次驗證的是：<strong>用我們自己的 Gemma 4 26B 做同一件事，行不行。</strong>做法是讓模型只回答一個字母，讀它對每個字母的機率。不重新部署模型，不訓練，加一層程式而已。</p>
+
+  <p class="eyebrow">02 · 準確率</p>
+  <h2>十類題目，七類不用教就會</h2>
+  <p>我們做了十類產線判斷題，每類 200 題：七成是規則展開的一般題，三成是刻意寫得資訊不全、夾錯字、放干擾資訊的難題。全部由另一家模型出題與定答案，避免自己考自己；再由獨立審核抽查 10%，錯題率為零，可爭議的 2.5%。</p>
+
+  <figure class="reveal">
+    <p class="title">十類判斷題，不做任何標註時的答對率</p>
+    <p class="subtitle">同一模型改讓它寫出答案、傳統機器學習、關鍵字規則三種對照在表裡。</p>
+    <div class="chart">
+<svg viewBox="0 0 640 290" role="img" aria-label="十類產線判斷題，不做任何標註時的答對率">
+<line class="grid" x1="380" y1="8" x2="380" y2="268"/>
+<text class="axis" x="380" y="284" text-anchor="middle">50%</text>
+<line class="grid" x1="475" y1="8" x2="475" y2="268"/>
+<text class="axis" x="475" y="284" text-anchor="middle">75%</text>
+<line class="grid" x1="570" y1="8" x2="570" y2="268"/>
+<text class="axis" x="570" y="284" text-anchor="middle">100%</text>
+<text class="axis" x="182" y="26" text-anchor="end">工單該派給哪個單位</text>
+<rect class="bar" x="190" y="12" width="380.0" height="18" fill="var(--c1)"/>
+<text class="label" x="576.0" y="26">100%</text>
+<text class="axis" x="182" y="52" text-anchor="end">要不要通知線長</text>
+<rect class="bar" x="190" y="38" width="380.0" height="18" fill="var(--c1)"/>
+<text class="label" x="576.0" y="52">100%</text>
+<text class="axis" x="182" y="78" text-anchor="end">訊息是十種意圖的哪一種</text>
+<rect class="bar" x="190" y="64" width="380.0" height="18" fill="var(--c1)"/>
+<text class="label" x="576.0" y="78">100%</text>
+<text class="axis" x="182" y="104" text-anchor="end">要不要派設備工程師</text>
+<rect class="bar" x="190" y="90" width="376.2" height="18" fill="var(--c1)"/>
+<text class="label" x="572.2" y="104">99%</text>
+<text class="axis" x="182" y="130" text-anchor="end">工單為什麼停</text>
+<rect class="bar" x="190" y="116" width="376.2" height="18" fill="var(--c1)"/>
+<text class="label" x="572.2" y="130">99%</text>
+<text class="axis" x="182" y="156" text-anchor="end">機台警報是哪類問題</text>
+<rect class="bar" x="190" y="142" width="372.4" height="18" fill="var(--c1)"/>
+<text class="label" x="568.4" y="156">98%</text>
+<text class="axis" x="182" y="182" text-anchor="end">不良品是哪一站造成</text>
+<rect class="bar" x="190" y="168" width="372.4" height="18" fill="var(--c1)"/>
+<text class="label" x="568.4" y="182">98%</text>
+<text class="axis" x="182" y="208" text-anchor="end">產能是否異常</text>
+<rect class="bar" x="190" y="194" width="353.4" height="18" fill="var(--c1)"/>
+<text class="label" x="549.4" y="208">93%</text>
+<text class="axis" x="182" y="234" text-anchor="end">SPC 管制圖該怎麼處置</text>
+<rect class="bar" x="190" y="220" width="326.8" height="18" fill="var(--c1)"/>
+<text class="label" x="522.8" y="234">86%</text>
+<text class="axis" x="182" y="260" text-anchor="end">機台警報有多急</text>
+<rect class="bar" x="190" y="246" width="311.6" height="18" fill="var(--c1)"/>
+<text class="label" x="507.6" y="260">82%</text>
+</svg>
+    </div>
+    <details class="datatable">
+      <summary>看數字</summary>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>題型</th><th class="num">Jev 式</th><th class="num">難題</th><th class="num">模型寫答案</th><th class="num">傳統 ML</th><th class="num">關鍵字規則</th></tr></thead>
+          <tbody><tr><td>工單該派給哪個單位<span class="sub">x_ticket_route</span></td><td class="num">100%</td><td class="num">97%</td><td class="num">98%</td><td class="num">84%</td><td class="num">67%</td></tr><tr><td>要不要通知線長<span class="sub">x_escalate</span></td><td class="num">100%</td><td class="num">100%</td><td class="num">100%</td><td class="num">91%</td><td class="num">70%</td></tr><tr><td>訊息是十種意圖的哪一種<span class="sub">x_10way_intent</span></td><td class="num">100%</td><td class="num">98%</td><td class="num">96%</td><td class="num">74%</td><td class="num">64%</td></tr><tr><td>要不要派設備工程師<span class="sub">m_needs_dispatch</span></td><td class="num">99%</td><td class="num">98%</td><td class="num">99%</td><td class="num">91%</td><td class="num">86%</td></tr><tr><td>工單為什麼停<span class="sub">p_line_change</span></td><td class="num">99%</td><td class="num">100%</td><td class="num">99%</td><td class="num">95%</td><td class="num">87%</td></tr><tr><td>機台警報是哪類問題<span class="sub">m_alarm_category</span></td><td class="num">98%</td><td class="num">92%</td><td class="num">97%</td><td class="num">85%</td><td class="num">75%</td></tr><tr><td>不良品是哪一站造成<span class="sub">q_defect_root</span></td><td class="num">98%</td><td class="num">97%</td><td class="num">96%</td><td class="num">82%</td><td class="num">67%</td></tr><tr><td>產能是否異常<span class="sub">p_uph_anomaly</span></td><td class="num">93%</td><td class="num">80%</td><td class="num">88%</td><td class="num">75%</td><td class="num">74%</td></tr><tr><td>SPC 管制圖該怎麼處置<span class="sub">q_spc_action</span></td><td class="num">86%</td><td class="num">75%</td><td class="num">72%</td><td class="num">77%</td><td class="num">47%</td></tr><tr><td>機台警報有多急<span class="sub">m_alarm_severity</span></td><td class="num">82%</td><td class="num">75%</td><td class="num">79%</td><td class="num">81%</td><td class="num">59%</td></tr></tbody>
+        </table>
+      </div>
+    </details>
+    <figcaption>三類較弱的題目，錯的集中在「盡快處理 vs 立刻停線」「加抽檢 vs 停線複檢」這種相鄰等級之間，是判斷標準寫法的問題，不是模型能力的問題。</figcaption>
+  </figure>
+
+  <div class="note warn">
+    <p class="head">一個要小心的地方：模型太有自信</p>
+    <p>不管對錯，模型幾乎每題都說自己有 99% 把握。所以「有把握就自動處理」的門檻不能直接用模型原始的把握度，要先用一百筆左右的資料校準。校準後，它說有把握的題目答對率可以到 96–100%，代價是它會把一到六成的題目交給人。這是可以接受的分工，但門檻要用真實資料定。</p>
+  </div>
+
+  <p class="eyebrow">03 · 標註量</p>
+  <h2>「幾百筆」的承諾，實測是「幾十筆或零筆」</h2>
+  <p>主管版報告承諾 Jev 式做法能把標註需求從每題幾千筆降到幾百筆。下圖是最弱的一類題目（SPC 管制圖處置）：傳統機器學習標到 100 筆還在 77%，Jev 式零筆就 86%，標 25 筆校準後在它敢答的八成題目上有 95%。</p>
+
+  <figure class="reveal">
+    <p class="title">SPC 處置這一題：標註筆數對答對率</p>
+    <p class="subtitle">三個做法共用一條 y 軸。第三條是校準後只回答有把握的題，它敢答的比例在表裡。</p>
+    <div class="chart">
+<svg viewBox="0 0 640 280" role="img" aria-label="SPC 處置這一題：標註筆數對答對率，三個做法的比較">
+<line class="grid" x1="60" y1="240.0" x2="600" y2="240.0"/>
+<text class="axis" x="52" y="244.0" text-anchor="end">40%</text>
+<line class="grid" x1="60" y1="165.3" x2="600" y2="165.3"/>
+<text class="axis" x="52" y="169.3" text-anchor="end">60%</text>
+<line class="grid" x1="60" y1="90.7" x2="600" y2="90.7"/>
+<text class="axis" x="52" y="94.7" text-anchor="end">80%</text>
+<line class="grid" x1="60" y1="16.0" x2="600" y2="16.0"/>
+<text class="axis" x="52" y="20.0" text-anchor="end">100%</text>
+<text class="axis" x="60.0" y="260" text-anchor="middle">標註 25 筆</text>
+<text class="axis" x="330.0" y="260" text-anchor="middle">標註 50 筆</text>
+<text class="axis" x="600.0" y="260" text-anchor="middle">標註 100 筆</text>
+<path class="line" d="M60.0 213.9 L330.0 136.7 L600.0 101.9" stroke="var(--c1)"/>
+<circle class="dot" cx="60.0" cy="213.9" r="4.5" fill="var(--c1)"/>
+<circle class="dot" cx="330.0" cy="136.7" r="4.5" fill="var(--c1)"/>
+<circle class="dot" cx="600.0" cy="101.9" r="4.5" fill="var(--c1)"/>
+<text class="label" x="608.0" y="105.9">77%</text>
+<path class="line" d="M60.0 68.3 L330.0 68.3 L600.0 68.3" stroke="var(--c2)"/>
+<circle class="dot" cx="60.0" cy="68.3" r="4.5" fill="var(--c2)"/>
+<circle class="dot" cx="330.0" cy="68.3" r="4.5" fill="var(--c2)"/>
+<circle class="dot" cx="600.0" cy="68.3" r="4.5" fill="var(--c2)"/>
+<text class="label" x="608.0" y="72.3">86%</text>
+<path class="line" d="M60.0 33.4 L330.0 34.2 L600.0 29.0" stroke="var(--c3)"/>
+<circle class="dot" cx="60.0" cy="33.4" r="4.5" fill="var(--c3)"/>
+<circle class="dot" cx="330.0" cy="34.2" r="4.5" fill="var(--c3)"/>
+<circle class="dot" cx="600.0" cy="29.0" r="4.5" fill="var(--c3)"/>
+<text class="label" x="608.0" y="33.0">97%</text>
+</svg>
+    </div>
+    <div class="legend"><span class="key"><span class="swatch" style="background:var(--c1)"></span>傳統機器學習，用 N 筆標註訓練</span><span class="key"><span class="swatch" style="background:var(--c2)"></span>Jev 式，完全不標註</span><span class="key"><span class="swatch" style="background:var(--c3)"></span>Jev 式，用 N 筆標註校準後只回答有把握的題</span></div>
+    <details class="datatable">
+      <summary>看數字</summary>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>標註</th><th class="num">傳統 ML</th><th class="num">Jev 式零筆</th><th class="num">Jev 式校準後</th><th class="num">敢答的比例</th></tr></thead>
+          <tbody><tr><td>25 筆</td><td class="num">47%</td><td class="num">86%</td><td class="num">95%</td><td class="num">79%</td></tr><tr><td>50 筆</td><td class="num">68%</td><td class="num">86%</td><td class="num">95%</td><td class="num">82%</td></tr><tr><td>100 筆</td><td class="num">77%</td><td class="num">86%</td><td class="num">97%</td><td class="num">86%</td></tr></tbody>
+        </table>
+      </div>
+    </details>
+    <figcaption>資料集每類只有 200 題，所以標註筆數最多量到 100。</figcaption>
+  </figure>
+
+  <p class="eyebrow">04 · 八個問題</p>
+  <h2>一題一題講：問題是什麼，答案是什麼</h2>
+  <p>實驗設計時列了八個要回答的問題。<span class="chip">已答</span> 是在合成資料上完整回答、與硬體無關的；<span class="chip soft">上界</span> 是速度類，租用的顯示卡記憶體頻寬與 GB10 相近但算力較弱，只能當保守估計；<span class="chip soft">方法成立</span> 是門檻類，做法對了，數值要用真實資料重做。</p>
+
+  <div class="qlist"><div class="q"><p class="verdict">Q1 · 上界，GB10 待實測</p><h3>一次判斷要多久？比讓模型寫一段答案快多少？</h3><p><strong>答案</strong>　在租來的 L4 顯示卡上，一次判斷約 0.2 秒；同一題改讓模型寫出答案要 0.5 秒，Jev 式快 2.4 倍。若一次問十題（同一份現場狀況），開對設定後平均每題只要 0.07 秒。</p><p class="so"><strong>這代表</strong>　夠快。產線上每天幾百到幾千次的判斷，這個速度可以即時回應。GB10 的真實數字要再量一次，租來的卡只能當保守估計。</p></div><div class="q"><p class="verdict">Q2 · 已答</p><h3>十類判斷題裡，哪些不用訓練就能用？哪些要再調？</h3><p><strong>答案</strong>　7 類完全不標註就有 98% 以上答對率。剩下 3 類（產能是否異常、SPC 管制圖該怎麼處置、機台警報有多急）落在 82–93%，錯的都在相鄰等級的邊界，例如「盡快處理」和「立刻停線」之間。</p><p class="so"><strong>這代表</strong>　不需要為這件事訓練新模型。三類較弱的題目，把判斷標準寫得更明確、再用幾十筆資料調整門檻就夠。</p></div><div class="q"><p class="verdict">Q3 · 已答</p><h3>同一份現場狀況一次問好幾題，成本會不會倍增？</h3><p><strong>答案</strong>　預設設定下會：問十題要 7 倍時間。開啟一個伺服器設定後降到 3.9 倍，第二題起每題只要 0.07 秒。</p><p class="so"><strong>這代表</strong>　可以一次問五到十題，把「這則警報有多急、是哪類問題、要不要派工」一起問掉。部署時要記得開那個設定。</p></div><div class="q"><p class="verdict">Q4 · 上界，GB10 待實測</p><h3>機台同時在讓模型寫報告時，判斷會被拖慢多少？</h3><p><strong>答案</strong>　背景持續寫長文時，判斷從 0.2 秒變 0.3 秒（1.4 倍）。同時來 8 個請求時每個要等 1.4 秒，租來的卡每秒最多處理 6 次判斷。</p><p class="so"><strong>這代表</strong>　每秒五次以內共用一台就夠。尖峰更高的話要在 GB10 上實測，再決定要不要另外放一個小模型專門做判斷。</p></div><div class="q"><p class="verdict">Q5 · 已答</p><h3>中文夾機台代碼的警報，會不會比英文差？</h3><p><strong>答案</strong>　不會。中文普遍不輸英文；英文警報碼在四類題目略差（例如警報急迫度：英文 71%、中文 84%），主要是英文警報訊息本身太短。</p><p class="so"><strong>這代表</strong>　現場的中文工單和警報可以直接用，不用先翻譯或整理格式。</p></div><div class="q"><p class="verdict">Q6 · 方法成立，數字待真實資料</p><h3>模型說「我有把握」的時候，可以信到什麼程度？</h3><p><strong>答案</strong>　原始狀態不能信：模型幾乎每一題都說有 99% 把握，對錯都一樣。以警報急迫度為例，它自稱有把握的題目裡只有 84% 答對。用一百筆資料校準後，它說有把握的題目答對率變成 100%，但只剩 40% 的題目它敢答；SPC 處置校準後是 97% 答對、86% 敢答。</p><p class="so"><strong>這代表</strong>　「有把握就自動處理、沒把握就轉人或轉大模型」這個機制可行，但門檻一定要用真實資料校準過才能上線。</p></div><div class="q"><p class="verdict">Q7 · 已答</p><h3>還需要標多少資料？</h3><p><strong>答案</strong>　傳統機器學習標 100 筆還到不了 90%（SPC 處置只有 77%）。Jev 式七類題目零筆就 98% 以上；較弱的三類標 25 筆校準，就能在八成左右的題目上做到 95% 以上。</p><p class="so"><strong>這代表</strong>　主管版報告承諾「從每題幾千筆降到幾百筆」，實測比承諾更好：多數題目零筆，其餘幾十筆。</p></div><div class="q"><p class="verdict">Q8 · 已答</p><h3>用關鍵字規則就夠的題目，有沒有？</h3><p><strong>答案</strong>　沒有。十類題目用工程師手寫的關鍵字規則，最好的一類也只有 87%（工單為什麼停），其餘 47–87%。</p><p class="so"><strong>這代表</strong>　規則可以留著當第一道過濾，但不能只靠規則。</p></div></div>
+
+  <p class="eyebrow">05 · 怎麼分工</p>
+  <h2>哪些判斷交給它，哪些不交</h2>
+
+  <div class="table-scroll wide route">
+    <table>
+      <thead><tr><th>判斷的長相</th><th>交給誰</th><th>依據</th></tr></thead>
+      <tbody>
+        <tr><td>答案是固定幾個選項、每天百次以上（派工、分類、要不要通知）</td><td class="nowrap"><span class="verdict">JEV 式 · 直接上</span></td><td>七類題目 98% 以上，且說有把握時 99% 以上答對</td></tr>
+        <tr><td>選項多到十種以上的細分類</td><td class="nowrap"><span class="verdict">JEV 式 · 不必拆題</span></td><td>十種相近意圖 100% 答對，多選項幾乎不影響速度</td></tr>
+        <tr><td>模糊、需要「以上皆非」、要能轉人</td><td class="nowrap"><span class="verdict">JEV 式 · 校準後才上</span></td><td>門檻要用真實資料校準，否則模型永遠說有把握</td></tr>
+        <tr><td>純數字的判斷（產能、CT、SPC 是否超限）</td><td class="nowrap"><span class="verdict">程式公式</span></td><td>讓模型讀數字序列只有 93%，公式是 100%</td></tr>
+        <tr><td>關鍵字就能認的</td><td class="nowrap"><span class="verdict">規則 · 只當前置過濾</span></td><td>規則最好的一類 87%，不能單獨用</td></tr>
+        <tr><td>要寫出原因、要多步推理、要查資料</td><td class="nowrap"><span class="verdict">大模型生成</span></td><td>本質上要文字；由 Jev 式判斷「沒把握」時觸發</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="eyebrow">06 · 上線條件</p>
+  <h2>值得，前提是做到這三件事</h2>
+
+  <div class="cols">
+    <div class="card"><p class="verdict">條件一 · 部署設定</p><p>Gemma 4 的注意力機制讓伺服器預設無法重用「同一份現場狀況」的計算。要開一個設定（<code>--swa-full</code>），否則一次問十題就是十倍時間。GB10 記憶體夠，開了沒有代價。</p></div>
+    <div class="card"><p class="verdict">條件二 · 真實資料校準</p><p>這次全部是合成資料。零標註的答對率在真實工單上預期會降一些，「有把握才自動處理」的門檻必須用 200–500 筆真實警報與工單重新校準，估計一到兩天。</p></div>
+    <div class="card"><p class="verdict">條件三 · GB10 實測</p><p>速度數字全部來自租用的 L4。GB10 上重跑同一套測試約半小時，可以得到真實的秒數，以及機台同時在寫報告時的併發表現，再決定要不要另放一個小模型專做判斷。</p></div>
+  </div>
+
+  <p class="pull">不買 Jev，不換模型，不訓練。加一層程式，七類判斷今天就能用，三類再調一調。</p>
+
+  <p class="eyebrow">07 · 下一步</p>
+  <h2>建議的三個動作</h2>
+  <ol>
+    <li><strong>GB10 上重跑速度測試</strong>（半小時）：確認每次判斷的真實秒數與併發能力。</li>
+    <li><strong>收 200–500 筆真實警報與工單</strong>（一到兩天）：校準門檻，確認零標註在真實資料上的答對率。</li>
+    <li><strong>改寫兩類題目的判斷標準</strong>（半天）：警報急迫度與 SPC 處置，把「連續幾點、超限幾次、停線多久」寫成可數的邊界。</li>
+  </ol>
+
+  <div class="note">
+    <p class="head">這一版沒說到的</p>
+    <p>Jev 官方另一個賣點是「校準過的把握度」，我們的替代方案要自己校準，這是條件二。獨立的小模型（Laya 之類）零標註接近亂猜，這次沒用。AI Studio 上的 Gemma 4 不提供選項機率，雲端對照因此沒做。實際 GPU 費用約 0.85 小時、約一美元，比原估的 4–6 小時低很多。</p>
+  </div>
+
+  <p class="byline">repo clarencechien/jevlike · 工程版報告 results/REPORT.md · 原始數據 results/analysis.json · results/modal/</p>
+
+</main>
+
+<script>
+(() => {
+  const root = document.documentElement, btn = document.getElementById('theme-toggle');
+  let dark = matchMedia('(prefers-color-scheme: dark)').matches;
+  btn.textContent = 'theme · ' + (dark ? 'dark' : 'light');
+  btn.addEventListener('click', () => {
+    dark = !dark; root.dataset.theme = dark ? 'dark' : 'light';
+    btn.textContent = 'theme · ' + (dark ? 'dark' : 'light'); btn.setAttribute('aria-pressed', 'true');
+  });
+})();
+</script>
+</body>
+</html>

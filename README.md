@@ -1,6 +1,6 @@
 # jevlike — Jev 式 typed decision on Gemma 4 26B（GB10 前置實驗，Modal L4 版）
 
-讀選項字母的第一個 token logprob 當決策 API；不生成文字。報告：`results/REPORT.md`。
+讀選項字母的第一個 token logprob 當決策 API；不生成文字。報告：`results/REPORT.md`；HTML 版（公開）：<https://imitator.ai-apps.work/r/gb10-typed-decisions>（`scripts/publish_report.sh` 重新產生並發佈）。
 
 ## Quickstart（3 行）
 

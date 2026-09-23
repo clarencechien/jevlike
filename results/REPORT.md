@@ -3,7 +3,7 @@
 日期：2026-09-23。執行：Claude Code web + Modal（L4）+ AI Studio（僅能力探測）。
 模型：`unsloth/gemma-4-26B-A4B-it-GGUF` / `gemma-4-26B-A4B-it-UD-Q4_K_M.gguf`（16.95 GB），llama-server b11118。
 資料：合成 10 task × 200 筆（`data/synthetic/`，MANIFEST + 10% 獨立抽查：不合理率 2.5%、0 筆錯）。
-分項報告：`00-env.md`、`01-smoke.md`、`03-latency.md`、`04-accuracy.md`、`cost.md`。
+分項報告：`00-env.md`、`01-smoke.md`、`03-latency.md`、`04-accuracy.md`、`cost.md`。HTML 整理版（公開）：<https://imitator.ai-apps.work/r/gb10-typed-decisions>。
 
 ## 0. 一句話結論
 

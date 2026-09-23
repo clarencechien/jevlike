@@ -223,3 +223,378 @@
 {"id": "q_spc_action-d2-042", "task": "q_spc_action", "label": "A", "confidence": 1.0, "reason": "最近8次量測均在中心線上下隨機跳動，無超限或連串異常，持續監控。", "annotator": "gemini-3.5-flash"}
 {"id": "q_spc_action-d2-043", "task": "q_spc_action", "label": "A", "confidence": 1.0, "reason": "數據在管制界限內隨機跳動，製程表現穩定，持續監控。", "annotator": "gemini-3.5-flash"}
 {"id": "q_spc_action-d2-044", "task": "q_spc_action", "label": "A", "confidence": 1.0, "reason": "量測點皆落在中心線附近，波形正常無超限，持續監控。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-045", "task": "q_spc_action", "label": "B", "confidence": 1.0, "reason": "連續 6 點呈現下降趨勢但尚未超出管制界限，符合抽檢標準。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-046", "task": "q_spc_action", "label": "B", "confidence": 1.0, "reason": "連續 6 點呈現上升趨勢且未超出管制界限，符合抽檢標準。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-047", "task": "q_spc_action", "label": "B", "confidence": 1.0, "reason": "連續 7 點落在中線以下且未超出管制界限，需加抽樣確認。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-048", "task": "q_spc_action", "label": "B", "confidence": 1.0, "reason": "極差連續 6 點變大但未超出管制界限，符合抽檢標準。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-049", "task": "q_spc_action", "label": "B", "confidence": 1.0, "reason": "連續 7 點偏向中線同一側且未超出管制界限，需多量幾點確認。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-050", "task": "q_spc_action", "label": "C", "confidence": 1.0, "reason": "數據超出管制上限，需停線並鎖定已生產品進行複檢。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-051", "task": "q_spc_action", "label": "C", "confidence": 1.0, "reason": "數據超出管制下限且設備已自動停機，需對該批次進行缺陷檢查。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-052", "task": "q_spc_action", "label": "C", "confidence": 1.0, "reason": "數據超出管制上限，操作員已暫停產線，符合停線複檢。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-053", "task": "q_spc_action", "label": "C", "confidence": 1.0, "reason": "溫度超出管制上限，已通知前站停止投料並拉回產品重工。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-054", "task": "q_spc_action", "label": "C", "confidence": 1.0, "reason": "錫膏量低於管制下限，需 hold 住產品並進行鋼板清潔與複檢。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-055", "task": "q_spc_action", "label": "D", "confidence": 1.0, "reason": "經 ME 調整及多次清潔後異常仍持續，需呼叫 QA/QE 介入判定。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-056", "task": "q_spc_action", "label": "D", "confidence": 1.0, "reason": "設備校準後問題依然存在，需轉至品質管制（Q-Hold）並由 QE 判定。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-057", "task": "q_spc_action", "label": "D", "confidence": 1.0, "reason": "持續超出管制上限且 ME 確認設備無誤，需等待品質工程師（QE）判定。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-058", "task": "q_spc_action", "label": "D", "confidence": 1.0, "reason": "ME 維修更換零件後波動仍大，需聯絡 QA 進行簽核判定。", "annotator": "gemini-3.5-flash"}
+{"id": "q_spc_action-d2-059", "task": "q_spc_action", "label": "D", "confidence": 1.0, "reason": "設備正常但 SPC 異常，懷疑為來料問題，需找 QA 拆包檢驗。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-000", "task": "q_defect_root", "label": "F", "confidence": 0.95, "reason": "刮刀壓力忘了調回來，屬於操作人員疏忽的人為錯誤。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-001", "task": "q_defect_root", "label": "E", "confidence": 0.95, "reason": "鋼網開孔堵塞（STENCIL APERTURE CLOGGED）屬於治具問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-002", "task": "q_defect_root", "label": "A", "confidence": 0.9, "reason": "錫膏退冰超過18小時未用完導致變質，屬於錫膏過期問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-003", "task": "q_defect_root", "label": "B", "confidence": 0.95, "reason": "貼片機拋料率高且貼件位置嚴重偏移，屬於貼片機問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-004", "task": "q_defect_root", "label": "F", "confidence": 0.85, "reason": "Feeder Pitch 設定與規格不符（2mm vs 4mm），屬於程式選錯或人為設定錯誤。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-005", "task": "q_defect_root", "label": "B", "confidence": 0.9, "reason": "貼片機吸嘴高度設定異常導致零件壓迫錫膏，屬於貼片機問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-006", "task": "q_defect_root", "label": "C", "confidence": 0.95, "reason": "回焊爐實際溫度異常掉溫，屬於回焊爐溫控制問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-007", "task": "q_defect_root", "label": "C", "confidence": 0.95, "reason": "回焊爐傳送帶速度波動導致立碑與偏移，屬於回焊爐速度問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-008", "task": "q_defect_root", "label": "C", "confidence": 0.95, "reason": "回焊爐預熱段升溫斜率過快導致氣泡過高，屬於回焊爐溫曲線問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-009", "task": "q_defect_root", "label": "D", "confidence": 0.95, "reason": "PCB 裸板焊墊氧化導致不沾錫，屬於來料缺陷。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-010", "task": "q_defect_root", "label": "D", "confidence": 0.95, "reason": "零件引腳共面度不良（來料即歪斜），屬於元件本身來料問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-011", "task": "q_defect_root", "label": "D", "confidence": 0.95, "reason": "二極體在料帶中極性相反，屬於元件來料包裝不良。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-012", "task": "q_defect_root", "label": "D", "confidence": 0.95, "reason": "PCB 薄板嚴重板彎導致過爐後變形空焊，屬於來料問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-013", "task": "q_defect_root", "label": "E", "confidence": 0.95, "reason": "載具壓扣鬆動導致過爐時板子位移，屬於治具磨損問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-014", "task": "q_defect_root", "label": "E", "confidence": 0.95, "reason": "過爐夾具支撐柱變形下陷，屬於治具損壞問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-015", "task": "q_defect_root", "label": "E", "confidence": 1.0, "reason": "載具 (Carrier Jig) 鎖定機構故障導致 PCB 在傳送中滑動偏移", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-016", "task": "q_defect_root", "label": "F", "confidence": 1.0, "reason": "換線時人員裝錯料槽且未依規定測試首件，屬於人為操作疏失", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-017", "task": "q_defect_root", "label": "F", "confidence": 1.0, "reason": "操作員拿錯鋼網版本導致印刷位置與腳位不符", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-018", "task": "q_defect_root", "label": "F", "confidence": 1.0, "reason": "技術人員私自放大元件辨識公差，屬於未依 SOP 操作的人為疏失", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-019", "task": "q_defect_root", "label": "F", "confidence": 1.0, "reason": "操作員接料帶方向接反，導致極性元件整排反向", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-020", "task": "q_defect_root", "label": "F", "confidence": 1.0, "reason": "作業員未確認料盤方向且未落實自主檢查，屬於人為操作錯誤", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-021", "task": "q_defect_root", "label": "F", "confidence": 0.9, "reason": "操作員未依 SOP 讓錫膏充分回溫即上線使用，導致印刷缺錫", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-022", "task": "q_defect_root", "label": "D", "confidence": 1.0, "reason": "元件腳氧化導致無法上錫而產生空焊", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-023", "task": "q_defect_root", "label": "E", "confidence": 1.0, "reason": "載具壓扣變形無法扣緊，導致板子晃動產生偏移", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-024", "task": "q_defect_root", "label": "C", "confidence": 1.0, "reason": "回焊爐熱風馬達故障導致熔融時間不足與空焊", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-025", "task": "q_defect_root", "label": "B", "confidence": 0.9, "reason": "貼片機吸嘴破損導致真空度不足及拋料漏件", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-026", "task": "q_defect_root", "label": "D", "confidence": 1.0, "reason": "PCB 來料焊墊尺寸異常與鋼網不符，導致立碑", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-027", "task": "q_defect_root", "label": "A", "confidence": 1.0, "reason": "錫膏在網板上放置過久變質，導致黏度異常與印刷橋接", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-028", "task": "q_defect_root", "label": "F", "confidence": 0.8, "reason": "換線時人員漏放支撐頂針，屬於未依 SOP 操作的人為疏失", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-029", "task": "q_defect_root", "label": "F", "confidence": 0.9, "reason": "Feeder 步進距離參數設定錯誤，屬於人為設定疏失", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-030", "task": "q_defect_root", "label": "F", "confidence": 1.0, "reason": "操作員繞過系統上錯料號，屬於典型的人為操作錯誤。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-031", "task": "q_defect_root", "label": "C", "confidence": 1.0, "reason": "回焊爐溫差過大及冷卻風扇異常導致元件被吹偏立碑，屬於回焊爐設備問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-032", "task": "q_defect_root", "label": "D", "confidence": 1.0, "reason": "供應商料帶混料且貼錯標籤，屬於來料不良。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-033", "task": "q_defect_root", "label": "E", "confidence": 1.0, "reason": "鋼網開孔堵塞且無法擦拭清除，屬於鋼網治具問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-034", "task": "q_defect_root", "label": "F", "confidence": 1.0, "reason": "手修人員未戴靜電手環且操作不當將 IC 貼反，屬於人為操作錯誤。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-035", "task": "q_defect_root", "label": "E", "confidence": 1.0, "reason": "載具/托盤變形超出平整度限制，屬於治具問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-036", "task": "q_defect_root", "label": "B", "confidence": 0.95, "reason": "貼片機吸嘴堵塞膠屑導致真空不足而連續拋料，屬於貼片機台維護問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-037", "task": "q_defect_root", "label": "C", "confidence": 1.0, "reason": "回焊爐排氣閥損壞導致氧含量超標，進而造成焊墊氧化與空焊，屬於回焊爐問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-038", "task": "q_defect_root", "label": "A", "confidence": 1.0, "reason": "印刷機刮刀壓力過大導致錫膏外溢與橋接，屬於錫膏印刷製程問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-039", "task": "q_defect_root", "label": "D", "confidence": 1.0, "reason": "PCB 焊墊化金厚度不足導致鎳層氧化不沾錫，屬於來料板材缺陷。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-040", "task": "q_defect_root", "label": "A", "confidence": 0.85, "reason": "刮刀壓力與脫模速度設定不當導致錫膏外溢橋接，屬於錫膏印刷參數問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-041", "task": "q_defect_root", "label": "A", "confidence": 1.0, "reason": "錫膏在鋼網上放置過久未攪拌導致黏度失效，屬於錫膏管理與攪拌不足問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-042", "task": "q_defect_root", "label": "A", "confidence": 1.0, "reason": "錫膏退冰時間嚴重不足即上線使用，屬於錫膏準備與管理問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-043", "task": "q_defect_root", "label": "B", "confidence": 1.0, "reason": "貼片機吸嘴橡膠磨損龜裂導致真空不足而缺件，屬於貼片機台零件磨損問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-044", "task": "q_defect_root", "label": "B", "confidence": 1.0, "reason": "貼片機吸嘴遭灰塵堵塞、壓力不足導致元件偏移，屬於貼片機台問題。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-045", "task": "q_defect_root", "label": "B", "confidence": 0.95, "reason": "貼片機Z軸吸嘴下壓高度設定錯誤，導致元件未壓入錫膏。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-046", "task": "q_defect_root", "label": "C", "confidence": 1.0, "reason": "回焊爐第四區實際溫度異常偏低，導致空焊。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-047", "task": "q_defect_root", "label": "C", "confidence": 1.0, "reason": "回焊爐第8區加熱器跳脫降溫，導致冷焊。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-048", "task": "q_defect_root", "label": "C", "confidence": 1.0, "reason": "回焊爐升溫斜率過高，導致兩端受熱不均而立碑。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-049", "task": "q_defect_root", "label": "D", "confidence": 1.0, "reason": "元件引腳上有油汙導致吃錫不良，屬於來料缺陷。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-050", "task": "q_defect_root", "label": "D", "confidence": 1.0, "reason": "PCB焊墊銅箔裸露及基板氧化，屬於來料不良。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-051", "task": "q_defect_root", "label": "D", "confidence": 1.0, "reason": "廠商包裝標籤貼錯導致混料，屬於來料規格不符。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-052", "task": "q_defect_root", "label": "E", "confidence": 1.0, "reason": "載具定位銷歪斜鬆動，導致板子未卡緊而偏移。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-053", "task": "q_defect_root", "label": "E", "confidence": 1.0, "reason": "載具夾具鬆動及彈簧疲勞，無法在回焊時壓平PCB。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-054", "task": "q_defect_root", "label": "E", "confidence": 1.0, "reason": "過爐防爆板治具壓條磨損變形產生毛邊，刮傷板子。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-055", "task": "q_defect_root", "label": "F", "confidence": 1.0, "reason": "操作人員刻意繞過防錯機制，導致上錯料的人為失誤。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-056", "task": "q_defect_root", "label": "F", "confidence": 0.95, "reason": "操作人員刻意規避系統鎖定，未依SOP使用過期錫膏。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-057", "task": "q_defect_root", "label": "F", "confidence": 1.0, "reason": "操作人員手動補料時將元件方向放反，屬於人為操作錯誤。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-058", "task": "q_defect_root", "label": "F", "confidence": 1.0, "reason": "操作人員裝錯產品鋼網，屬於嚴重的人為操作失誤。", "annotator": "gemini-3.5-flash"}
+{"id": "q_defect_root-d2-059", "task": "q_defect_root", "label": "F", "confidence": 1.0, "reason": "操作人員私自關閉鋼網自動清洗設定，未依SOP操作。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-000", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "SPI CT拉長至快70秒且一直塞板，屬於產能異常", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-001", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "CT與SOP相當，量產速度正常", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-002", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "UPH明顯低於目標900", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-003", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "CT在目標42秒附近，運行穩定", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-004", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "UPH因拋料問題從1100大幅下滑至720", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-005", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "UPH高於目標，生產進度良好", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-006", "task": "p_uph_anomaly", "label": "A", "confidence": 0.95, "reason": "AOI卡板導致CT飆升至55秒，產能異常", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-007", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "實際產出高於目標產出，產能正常", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-008", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "UPH僅510，遠低於目標850", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-009", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "CT維持在目標值附近，波動在正常範圍", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-010", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "CT拉長至58.2秒，明顯超出目標45秒", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-011", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "UPH穩定維持在目標1100附近", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-012", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "CT被拉長至快90秒，遠高於SOP的55秒", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-013", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "平均UPH高於計劃目標，生產正常完成", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-014", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "設備故障停線導致該小時UPH嚴重下滑", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-015", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "UPH為1250，與排程預估的1200差不多，產能正常。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-016", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "CT拉長了15%，明顯高於10%的異常標準。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-017", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "平均CT為35.2秒，與標準35秒相比波動極小，產能正常。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-018", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "UPH（750-810）明顯低於目標1050，低了20%以上。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-019", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "UPH為1805，高於目標1800，產能正常。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-020", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "UPH從1200驟降至650，出現突然下滑的異常狀況。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-021", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "CT約30.2秒與目標30秒相近，UPH穩定，產能正常。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-022", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "CT為42.1秒，與目標42秒相比波動在正常範圍內。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-023", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "CT從24秒飆升至38秒，拉長了58%，產能嚴重異常。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-024", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "逐時產出在900附近，與目標900相符，產能正常。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-025", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "UPH只有預期的一半，產能嚴重下滑。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-026", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "CT為58.3秒，遠高於目標32秒，產能明顯異常。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-027", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "CT穩定在55秒左右且達標，產能正常。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-028", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "CT從45秒拉長到85秒，產能明顯異常且造成堵塞。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-029", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "CT約18秒，與標準18秒幾乎無落差，產能正常。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-030", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "實際 UPH 接近目標 1800，且訊息明確指出在穩定範圍內。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-031", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "UPH 出現間歇性大幅下滑（從 1200 降至 580/650），波動過大。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-032", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "實際 UPH (740-760) 與目標 750 相當，產出穩定。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-033", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "傳送帶堵塞導致 CT 從 15 秒拉長至 120 秒，嚴重異常。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-034", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "回流焊異常導致鏈條變慢，CT 從 28 秒拉長至 45 秒。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-035", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "實際 UPH 維持在 1480 左右，與目標 1500 差距在 5% 以內。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-036", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "UPH 出現持續且明顯的下滑趨勢（從 1100 降至 710）。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-037", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "平均 UPH 約 997，與目標 1000 幾乎一致，產能非常穩定。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-038", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "手動貼裝時間拉長，實際 CT 52 秒明顯高於目標 35 秒。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-039", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "平均 UPH 約 1004，與標準產能相當，無異常。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-040", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "吸嘴異常導致 UPH 從平常的 800 以上腰斬至 420。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-041", "task": "p_uph_anomaly", "label": "B", "confidence": 0.95, "reason": "實際 CT 12.5 秒與標準 12 秒相近，波動在正常範圍內。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-042", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "實際 UPH 穩定維持在目標 1500 附近，波動極小。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-043", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "錫膏偏位報警導致進板 CT 拉長至近兩分鐘，後續製程停滯乾等。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-044", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "AOI 報警顯示實際 CT 185 秒嚴重超出目標 90 秒。", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-045", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "實際產出高於目標，無影響進度", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-046", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "實際產出遠低於目標，且頻繁卡機", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-047", "task": "p_uph_anomaly", "label": "B", "confidence": 0.8, "reason": "UPH 穩定，無異常描述", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-048", "task": "p_uph_anomaly", "label": "A", "confidence": 0.9, "reason": "因缺料人為降速，UPH 從 1100 降至 300，產能明顯下滑", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-049", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "CT 明顯拉長（45s 到 95s），產能異常", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-050", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "CT 穩定在目標 45s 附近，運行正常", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-051", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "實際 UPH 高於目標，運行順暢", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-052", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "CT 飆升至 110s 且導致前段停等，產能異常", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-053", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "UPH 驟降至 150，遠低於目標 950", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-054", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "實際產出符合調整後的目標，無異常", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-055", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "CT 翻倍且頻繁報警，產能嚴重受阻", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-056", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "實際產量在標準 UPH 附近，運行順暢", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-057", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "設備暫停且無產出，CT 無限大，產能中斷", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-058", "task": "p_uph_anomaly", "label": "B", "confidence": 1.0, "reason": "UPH 在目標的 ±5% 容許範圍內", "annotator": "gemini-3.5-flash"}
+{"id": "p_uph_anomaly-d2-059", "task": "p_uph_anomaly", "label": "A", "confidence": 1.0, "reason": "治具損壞導致 CT 翻倍，產能嚴重受阻", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-000", "task": "p_line_change", "label": "A", "confidence": 1.0, "reason": "前工單已結，正在進行鋼網架設、程式對條碼及首件確認。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-001", "task": "p_line_change", "label": "B", "confidence": 1.0, "reason": "因電阻物料尚未送達而無法開工，人員先開早會等待。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-002", "task": "p_line_change", "label": "C", "confidence": 1.0, "reason": "回焊爐出口皮帶斷裂卡板且高溫警報，已通知設備工程師維修。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-003", "task": "p_line_change", "label": "A", "confidence": 1.0, "reason": "MES狀態為換線，正在進行回焊爐升溫、鋼網確認及等待首件。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-004", "task": "p_line_change", "label": "B", "confidence": 0.9, "reason": "前製程SMT尚未交接中框小板，導致後段FCT無板可裝而停工等待。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-005", "task": "p_line_change", "label": "C", "confidence": 1.0, "reason": "貼片機吸嘴更換後仍出現真空錯誤，等待製程工程師校正。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-006", "task": "p_line_change", "label": "A", "confidence": 1.0, "reason": "清線完畢，正在設定軌道寬度、頂針、核對條碼及進行首件確認。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-007", "task": "p_line_change", "label": "C", "confidence": 1.0, "reason": "AOI相機光源熄滅且重開無效，疑似控制板燒毀，已報修廠商。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-008", "task": "p_line_change", "label": "B", "confidence": 1.0, "reason": "MES顯示因IC缺料而HOLD線，倉庫無庫存，產線待命。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-009", "task": "p_line_change", "label": "A", "confidence": 1.0, "reason": "換線物料已到線，參數載入完畢，等待首件SPI測試後開拉。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-010", "task": "p_line_change", "label": "C", "confidence": 1.0, "reason": "SPI軌道馬達報警夾板異常，設備工程師正在排查故障。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-011", "task": "p_line_change", "label": "B", "confidence": 1.0, "reason": "缺少BGA物料，因IQC暫扣導致倉庫延遲發料，產線等待中。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-012", "task": "p_line_change", "label": "A", "confidence": 1.0, "reason": "前工單順結，正在進行新工單的換模與feeder對料。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-013", "task": "p_line_change", "label": "C", "confidence": 1.0, "reason": "回焊爐溫控異常，熱電偶可能損壞，已請保養課攜帶備品維修。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-014", "task": "p_line_change", "label": "B", "confidence": 0.9, "reason": "新工單的PCB裸板仍在烘烤中無法上線，屬於待料停工狀態。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-015", "task": "p_line_change", "label": "C", "confidence": 1.0, "reason": "刮刀壓力感測器故障並已報修，屬於設備故障待修。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-016", "task": "p_line_change", "label": "A", "confidence": 1.0, "reason": "新工單切換完成，正在等待首件檢驗簽核，屬於正常換線流程。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-017", "task": "p_line_change", "label": "B", "confidence": 1.0, "reason": "散熱片盤點數量不對且庫房找料中，屬於缺料等待。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-018", "task": "p_line_change", "label": "C", "confidence": 1.0, "reason": "貼片機Z軸螺桿卡死已報修，等待原廠工程師與零件，屬於設備待修。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-019", "task": "p_line_change", "label": "A", "confidence": 1.0, "reason": "新工單開始進料並進行鋼網對位與首件準備，屬於正常換線。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-020", "task": "p_line_change", "label": "A", "confidence": 1.0, "reason": "新工單鋼網已放上，正在對mark點準備首件，屬於正常換線。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-021", "task": "p_line_change", "label": "B", "confidence": 1.0, "reason": "轉產過程中找不到電阻料捲，物料去倉庫翻料，屬於缺料等待。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-022", "task": "p_line_change", "label": "C", "confidence": 1.0, "reason": "貼片機Z軸報錯且可能需要拆馬達維修，屬於設備待修。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-023", "task": "p_line_change", "label": "A", "confidence": 1.0, "reason": "回焊爐溫度切換與升溫中，屬於正常換線的設備調整階段。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-024", "task": "p_line_change", "label": "C", "confidence": 1.0, "reason": "送板馬達軸承燒毀，工程師正在尋找備件更換，屬於設備待修。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-025", "task": "p_line_change", "label": "B", "confidence": 1.0, "reason": "晶片數量不足且等待倉儲發料，屬於缺料等待。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-026", "task": "p_line_change", "label": "C", "confidence": 1.0, "reason": "料架底座通訊失敗，工程師排障中，屬於設備待修。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-027", "task": "p_line_change", "label": "A", "confidence": 1.0, "reason": "新工單換線中，正在進行首件比對，屬於正常換線。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-028", "task": "p_line_change", "label": "B", "confidence": 1.0, "reason": "電容無庫存且卡在IQC待驗，導致換線中斷無法開工，屬於缺料等待。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-029", "task": "p_line_change", "label": "B", "confidence": 1.0, "reason": "BGA晶片未到，產線停線等待倉庫送發料，屬於缺料等待。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-030", "task": "p_line_change", "label": "C", "confidence": 1.0, "reason": "SPI鏡頭雷射高度校正失敗且懷疑控制板損壞，已聯繫廠商報修，屬於設備故障待修。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-031", "task": "p_line_change", "label": "A", "confidence": 1.0, "reason": "新工單換線中，feeder已上完，正在核對條碼並準備印刷首件。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-032", "task": "p_line_change", "label": "B", "confidence": 1.0, "reason": "因五金件未送達導致停線，屬於缺料等待。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-033", "task": "p_line_change", "label": "A", "confidence": 1.0, "reason": "換線進度90%，正在載入程式並等待首件確認。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-034", "task": "p_line_change", "label": "C", "confidence": 1.0, "reason": "印刷機刮刀壓力異常，懷疑氣壓閥損壞正在拆檢，屬於設備待修。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-035", "task": "p_line_change", "label": "B", "confidence": 1.0, "reason": "下一單所需的屏蔽罩缺料，全線等料中，屬於缺料等待。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-036", "task": "p_line_change", "label": "A", "confidence": 1.0, "reason": "舊工單結單並排入新工單，鋼網刷洗中準備試跑，屬於正常換線。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-037", "task": "p_line_change", "label": "C", "confidence": 1.0, "reason": "回焊爐熱電偶斷線導致溫度異常，工程師正在拆換，屬於設備待修。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-038", "task": "p_line_change", "label": "B", "confidence": 1.0, "reason": "下個機種的24pin插座卡在報關行尚未進來，屬於缺料等待。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-039", "task": "p_line_change", "label": "A", "confidence": 1.0, "reason": "下張工單的料架已在台車備妥，準備無縫接軌換線。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-040", "task": "p_line_change", "label": "A", "confidence": 1.0, "reason": "結單後準備更換feeder並導入新程式，預計15分鐘後拉首件，屬於正常換線。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-041", "task": "p_line_change", "label": "A", "confidence": 1.0, "reason": "換線中，鋼網已對位好，正在等待QC進行首件錫膏厚度量測。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-042", "task": "p_line_change", "label": "A", "confidence": 1.0, "reason": "新工單進站，正在調整載具寬度、測試爐溫及設定波焊機參數，屬於正常換線。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-043", "task": "p_line_change", "label": "A", "confidence": 1.0, "reason": "工單結束，正在為下一批次載入新程式並調整軌道寬度，屬於正常換線。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-044", "task": "p_line_change", "label": "A", "confidence": 1.0, "reason": "正在轉機種換線，料表已刷完，目前正在等待首件出爐。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-045", "task": "p_line_change", "label": "A", "confidence": 1.0, "reason": "上一工單剛跑完，正在洗鋼網與準備新工單的錫膏，屬於正常換線流程。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-046", "task": "p_line_change", "label": "A", "confidence": 1.0, "reason": "正在進行鋼網更換與雷雕機設定，準備進行首件試跑，屬於正常換線。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-047", "task": "p_line_change", "label": "B", "confidence": 1.0, "reason": "因缺少 MCU 且貨物卡在海關，導致停線，屬於缺料等待。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-048", "task": "p_line_change", "label": "B", "confidence": 1.0, "reason": "新工單所需的電阻數量不足，正在與倉管確認中，屬於缺料等待。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-049", "task": "p_line_change", "label": "B", "confidence": 1.0, "reason": "主晶片 BGA 庫存帳目不對且短缺，生管正在找料，屬於缺料等待。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-050", "task": "p_line_change", "label": "B", "confidence": 1.0, "reason": "產線因等待連接器且倉庫無庫存而停工，屬於缺料等待。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-051", "task": "p_line_change", "label": "B", "confidence": 1.0, "reason": "PCB 裸板因交通塞車尚未送達，現場無板可印，屬於缺料等待。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-052", "task": "p_line_change", "label": "B", "confidence": 1.0, "reason": "因發錯電容料號，正在聯絡倉庫緊急補領正確料號，屬於缺料等待。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-053", "task": "p_line_change", "label": "B", "confidence": 1.0, "reason": "物料驗證失敗，線邊倉缺少快閃記憶體晶片，屬於缺料等待。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-054", "task": "p_line_change", "label": "C", "confidence": 1.0, "reason": "SPI 設備皮帶斷裂導致報警停機，正在尋找備件維修，屬於設備待修。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-055", "task": "p_line_change", "label": "C", "confidence": 1.0, "reason": "貼片機吸嘴故障且打件歪斜，需等待廠商下午帶儀器來校正，屬於設備待修。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-056", "task": "p_line_change", "label": "C", "confidence": 1.0, "reason": "回焊爐發熱管燒掉導致溫控異常，需要至少 3 小時更換，屬於設備待修。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-057", "task": "p_line_change", "label": "C", "confidence": 1.0, "reason": "AOI 相機故障且影像擷取逾時，維修團隊判定為影像卡損壞並修理中，屬於設備待修。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-058", "task": "p_line_change", "label": "C", "confidence": 0.9, "reason": "雖然剛換完線，但印刷機跳壓力和軌道卡死故障，PE 正在排查，屬於設備待修。", "annotator": "gemini-3.5-flash"}
+{"id": "p_line_change-d2-059", "task": "p_line_change", "label": "C", "confidence": 1.0, "reason": "點膠機控制閥堵塞罷工，可能需要整組換新並聯絡代理商，屬於設備待修。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-000", "task": "x_ticket_route", "label": "A", "confidence": 1.0, "reason": "涉及人員請假與產線人力調度支援，屬於生產單位現場管理問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-001", "task": "x_ticket_route", "label": "A", "confidence": 1.0, "reason": "涉及晚班備料人員排班、領料單簽核與拉料，屬於物料補給與人力排程問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-002", "task": "x_ticket_route", "label": "A", "confidence": 0.9, "reason": "漏刷條碼需派人拆箱回拉重刷，屬於操作員可處理的現場作業問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-003", "task": "x_ticket_route", "label": "A", "confidence": 1.0, "reason": "新人操作不熟練需班長現場指導，屬於生產現場人力與操作培訓問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-004", "task": "x_ticket_route", "label": "A", "confidence": 1.0, "reason": "包裝材料短缺導致停線並調整生產排程，屬於物料補給與排程問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-005", "task": "x_ticket_route", "label": "B", "confidence": 1.0, "reason": "機台軌道卡板、夾爪異音及感測器異常，屬於機台故障維修問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-006", "task": "x_ticket_route", "label": "B", "confidence": 1.0, "reason": "SPI量測儀器投影光源故障、鏡頭未亮，屬於設備硬體故障與維修問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-007", "task": "x_ticket_route", "label": "B", "confidence": 1.0, "reason": "回焊爐風扇不轉、溫度異常及面板報警，屬於設備故障維修問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-008", "task": "x_ticket_route", "label": "B", "confidence": 1.0, "reason": "Feeder馬達過載且送料不穩，需要更換Feeder零件，屬於設備維修問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-009", "task": "x_ticket_route", "label": "B", "confidence": 1.0, "reason": "網板清洗裝置鋼帶斷裂、酒精噴灑異常，需要緊急更換零件，屬於設備維修問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-010", "task": "x_ticket_route", "label": "C", "confidence": 1.0, "reason": "MES資料庫主機連線逾時，屬於資訊系統與網路連線問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-011", "task": "x_ticket_route", "label": "C", "confidence": 1.0, "reason": "系統不認UID且提示無工單權限，需要開通後台權限，屬於資訊系統權限問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-012", "task": "x_ticket_route", "label": "C", "confidence": 1.0, "reason": "MES帳號登入密碼錯誤鎖定，且忘記密碼功能失效，屬於資訊系統帳號權限問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-013", "task": "x_ticket_route", "label": "C", "confidence": 1.0, "reason": "ShopFloor服務停止、伺服器異常導致掃描器凍結，屬於資訊系統問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-014", "task": "x_ticket_route", "label": "C", "confidence": 1.0, "reason": "測試報表無法存入共用磁碟，提示空間不足或拒絕存取，屬於伺服器與網路硬碟權限問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-015", "task": "x_ticket_route", "label": "D", "confidence": 1.0, "reason": "涉及 SPC 異常與過爐與否的不良判定，由品保處理", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-016", "task": "x_ticket_route", "label": "D", "confidence": 0.9, "reason": "AOI 檢出連續連錫缺陷，需品保進行不良判定與後續處置", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-017", "task": "x_ticket_route", "label": "D", "confidence": 1.0, "reason": "首件 FAI 報告異常，懷疑混料，需品保進行判定", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-018", "task": "x_ticket_route", "label": "D", "confidence": 1.0, "reason": "涉及客訴、限度樣品簽回與放行判定，由品保處理", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-019", "task": "x_ticket_route", "label": "D", "confidence": 1.0, "reason": "氣泡率超標，需判定要特採還是重工，屬品保職責", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-020", "task": "x_ticket_route", "label": "C", "confidence": 1.0, "reason": "防錯系統出現資料庫連線逾時，屬於資訊系統與網路問題", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-021", "task": "x_ticket_route", "label": "B", "confidence": 1.0, "reason": "機台吸嘴拋料且真空吸力異常，屬機台故障與維修問題", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-022", "task": "x_ticket_route", "label": "D", "confidence": 1.0, "reason": "OQC 抽檢發現極性反向，需品保判定是否整批全檢", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-023", "task": "x_ticket_route", "label": "A", "confidence": 1.0, "reason": "人員請假導致產能不足，需調度人手，屬產線人力管理", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-024", "task": "x_ticket_route", "label": "C", "confidence": 1.0, "reason": "現場系統無法登入且 LDAP 同步異常，屬 IT 帳號與伺服器問題", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-025", "task": "x_ticket_route", "label": "B", "confidence": 1.0, "reason": "迴焊爐加熱器故障警報且溫度異常，屬設備維修範疇", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-026", "task": "x_ticket_route", "label": "D", "confidence": 1.0, "reason": "客戶要求制定黃金樣品判定基準，屬品保檢驗標準制定", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-027", "task": "x_ticket_route", "label": "A", "confidence": 0.9, "reason": "操作員貼錯標籤，需拉回線邊重新貼標，屬現場操作員可處理問題", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-028", "task": "x_ticket_route", "label": "C", "confidence": 1.0, "reason": "量測主機連線顯示 IP 衝突，屬於網路與資訊系統問題", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-029", "task": "x_ticket_route", "label": "B", "confidence": 1.0, "reason": "貼片機吸頭軸向馬達過熱停機，屬機台故障維修", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-030", "task": "x_ticket_route", "label": "D", "confidence": 0.95, "reason": "涉及 AOI 檢測結果的不良判定與爭議，需要品保專家進行最終判定。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-031", "task": "x_ticket_route", "label": "A", "confidence": 0.95, "reason": "涉及臨時追加生產數量與確認原物料是否足夠續跑，屬於生產排程與物料管理。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-032", "task": "x_ticket_route", "label": "C", "confidence": 1.0, "reason": "掃描器無法連線 MES、TCP/IP 斷線及伺服器 ping 無回應，屬於 IT 資訊系統與網路問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-033", "task": "x_ticket_route", "label": "B", "confidence": 1.0, "reason": "印刷機硬體機構卡住及馬達過載警報，屬於設備故障維修。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-034", "task": "x_ticket_route", "label": "D", "confidence": 1.0, "reason": "涉及客戶外觀客訴及外觀缺陷允收標準的制定，屬於品保職責。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-035", "task": "x_ticket_route", "label": "A", "confidence": 0.9, "reason": "涉及生產交接、操作員打件確認及物料核對，屬於生產現場管理。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-036", "task": "x_ticket_route", "label": "B", "confidence": 1.0, "reason": "貼片機驅動器故障、過電流且需更換驅動模組，屬於設備維修。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-037", "task": "x_ticket_route", "label": "D", "confidence": 0.9, "reason": "涉及產品焊接不良原因分析及開立異常分析單，屬於品保/QE 範疇。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-038", "task": "x_ticket_route", "label": "C", "confidence": 1.0, "reason": "看板系統網頁無法開啟並顯示 502 錯誤，屬於 IT 資訊系統問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-039", "task": "x_ticket_route", "label": "A", "confidence": 0.95, "reason": "涉及線邊清線與生產空檔的人員培訓安排，屬於生產現場與人力管理。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-040", "task": "x_ticket_route", "label": "C", "confidence": 1.0, "reason": "MES 閘道器與資料庫連線逾時導致現場系統凍結，屬於 IT 資訊系統故障。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-041", "task": "x_ticket_route", "label": "B", "confidence": 1.0, "reason": "貼片機馬達警報、異音及滑軌螺桿點檢上油，屬於設備維修與保養。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-042", "task": "x_ticket_route", "label": "D", "confidence": 1.0, "reason": "處理客戶品質客訴，需追查 FQC 留樣與出貨檢驗記錄，屬於品保職責。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-043", "task": "x_ticket_route", "label": "A", "confidence": 1.0, "reason": "涉及臨時插單生產與產線人員借調支援，屬於生產排程與人力管理。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-044", "task": "x_ticket_route", "label": "B", "confidence": 1.0, "reason": "印刷機刮刀壓力感測器異常及校正失敗，屬於設備故障與校正問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-045", "task": "x_ticket_route", "label": "C", "confidence": 1.0, "reason": "操作員無法登入 MES 系統且顯示無效工號，屬於資訊系統與帳號權限問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-046", "task": "x_ticket_route", "label": "D", "confidence": 1.0, "reason": "涉及 IPQC 判定與開立特採單會簽，屬於品保單位的職責。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-047", "task": "x_ticket_route", "label": "A", "confidence": 0.95, "reason": "載具髒污需要手動清潔，屬於現場操作員可自行處理的現場問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-048", "task": "x_ticket_route", "label": "C", "confidence": 1.0, "reason": "條碼印表機 IP 無法連線且交換器連接埠異常，屬於網路與資訊設備連線問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-049", "task": "x_ticket_route", "label": "B", "confidence": 1.0, "reason": "印刷機擦拭馬達咬死需要拆卸維修，屬於機台故障與零件更換。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-050", "task": "x_ticket_route", "label": "D", "confidence": 0.95, "reason": "量測儀器（千分尺）懷疑失準，需要使用標準件重新校對，屬於量測儀器校驗範疇。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-051", "task": "x_ticket_route", "label": "A", "confidence": 1.0, "reason": "產線缺料需要派人去待驗區拉料，屬於物料補給與現場人力處理範疇。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-052", "task": "x_ticket_route", "label": "B", "confidence": 1.0, "reason": "迴焊爐馬達異音、溫度異常，需要檢查加熱棒與馬達皮帶，屬於設備維修。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-053", "task": "x_ticket_route", "label": "C", "confidence": 1.0, "reason": "系統工單狀態錯亂導致無法刷過站，屬於 MES 資訊系統問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-054", "task": "x_ticket_route", "label": "D", "confidence": 1.0, "reason": "客戶反應品質問題，需要開立 HLR 暫留產品並進行不良分析，屬於品保客訴與異常處理。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-055", "task": "x_ticket_route", "label": "A", "confidence": 1.0, "reason": "因人員培訓導致線上缺人，需要調度支援，屬於產線人力調配問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-056", "task": "x_ticket_route", "label": "B", "confidence": 1.0, "reason": "置晶機吸嘴真空壓力不足導致連續拋料，屬於機台故障與設備維護。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-057", "task": "x_ticket_route", "label": "C", "confidence": 1.0, "reason": "IP Cam 畫面打不開，懷疑防火牆擋住 port，屬於網路與伺服器等 IT 資訊問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-058", "task": "x_ticket_route", "label": "D", "confidence": 0.9, "reason": "換線首件確認時發現條碼規格不符，需確認 BOM 表或客戶規範，屬於品保檢驗標準與確認。", "annotator": "gemini-3.5-flash"}
+{"id": "x_ticket_route-d2-059", "task": "x_ticket_route", "label": "A", "confidence": 0.95, "reason": "操作員漏刷過站，需要手動補刷，屬於操作員可處理的現場作業問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-000", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "單站短暫停機4分鐘且已排除恢復生產。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-001", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "停線已達50分鐘且尚未排除，符合停線超過30分鐘之標準。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-002", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "單站吸嘴髒污更換，已恢復正常生產。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-003", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "回流爐溫度異常導致120片板子有批量冷焊風險，屬批量品質問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-004", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "設備冒煙且有燒焦味，存在安全事故隱患，需立即升級。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-005", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "調整參數後測試正常並已繼續生產，屬單站已排除之事務。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-006", "task": "x_escalate", "label": "A", "confidence": 0.95, "reason": "拋料率高且更換飛達無效，造成高價值IC批量損耗且未排除。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-007", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "誤觸安全鎖已重置並恢復生產，無影響產出。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-008", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "人員因公受傷且站點無人接替，屬於安全事故與人力調配問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-009", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "例行週保養且進度正常。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-010", "task": "x_escalate", "label": "A", "confidence": 0.95, "reason": "影響結單出貨且涉及已入庫產品漏刷，需跨單位協調處理。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-011", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "耗材更換已完成且測試正常，無停線。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-012", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "潮濕敏感元件未依規範烘烤即上料打件達80片，屬批量品質風險。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-013", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "短暫網路異常已由IT修復，已恢復正常過站。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-014", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "機台嚴重故障需聯絡原廠維修，將導致長時間停線。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-015", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "例行轉線且一切正常，無異常狀況。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-016", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "客供料變形無法生產且影響今日出貨，需跨單位與客戶協調。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-017", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "單站短暫拋料問題，已由ME處理完畢並結案。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-018", "task": "x_escalate", "label": "A", "confidence": 0.9, "reason": "Reflow爐內卡板且溫度異常無法降溫，屬嚴重設備異常，可能導致長時間停線。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-019", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "多發料問題已依SOP處理完畢退庫。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-020", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "單站短暫異常，已依SOP處理完畢並恢復生產。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-021", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "出現批量品質問題（連續15片fail）且導致整線塞車。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-022", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "單站設備短暫故障，已由ME排除並恢復生產。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-023", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "發生批量打錯料品質事故（50片），且目前全線停工。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-024", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "單台條碼掃描問題，已手動排除且後續正常。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-025", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "客戶緊急Hold單且已生產百餘片，涉及批量影響與跨單位協調。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-026", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "單站設備短暫警報，已由OP快速排除且無不良品。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-027", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "設備異常冒煙且排風故障，導致現場人員不適，屬安全與健康事故。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-028", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "單站拋料問題已由ME處理改善，目前持續觀察中。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-029", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "新機種上線缺少治具導致機台空等，需跨單位（PE）協調處理。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-030", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "已依 SOP 處理完畢且僅耽誤 2 分鐘，屬單站短暫問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-031", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "連續出現品質問題且 PE 調整無效，需跨單位協調決策是否改鋼網。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-032", "task": "x_escalate", "label": "B", "confidence": 0.9, "reason": "延誤時間短且料已到齊，進度可自行追回，未達停線 30 分鐘標準。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-033", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "設備損壞且今天可能無法修復，將導致嚴重停線超過 30 分鐘。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-034", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "重啟測試程式後已恢復正常，屬單站短暫問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-035", "task": "x_escalate", "label": "A", "confidence": 0.95, "reason": "缺料且找不到庫存，需跨單位協調尋料以防整線停線。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-036", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "已依 SOP 處理完畢，機台已恢復正常運作。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-037", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "整批 400 台因嚴重刮傷被判退重工，屬重大批量品質問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-038", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "系統已恢復連線且僅耽誤 5 分鐘，全線已繼續生產。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-039", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "重要客戶稽核發現嚴重違規並拍照記錄，屬重大異常事件需立即升級。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-040", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "例行換料且首件比對已過，無異常，屬例行事務。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-041", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "120pcs 已過爐且裝錯料，屬批量品質問題，需安排重工。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-042", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "已依 SOP 處理完畢且未耽誤生產，屬單站短暫問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-043", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "撞機且無備品需聯絡原廠，將導致長時間停線，需跨單位協調。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-044", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "重開機後已恢復正常，僅耽誤 4 分鐘，屬單站短暫問題。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-045", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "客戶貼Hold單且整線停線，屬於重大品質與停線事件。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-046", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "警報已自動恢復，無停機且稼動率正常。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-047", "task": "x_escalate", "label": "A", "confidence": 0.9, "reason": "設備嚴重故障斷電，需跨單位ME協調且可能造成長時間停線。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-048", "task": "x_escalate", "label": "A", "confidence": 0.95, "reason": "批量板子繞過檢驗站，需QA跨單位介入調查。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-049", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "例行交接班報告，生產一切正常。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-050", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "設備異常高溫且PE未回應，有批量報廢及安全風險。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-051", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "短暫保養且已恢復生產，屬例行事務。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-052", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "人員嚴重不足影響當晚出貨時程，需協調人力。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-053", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "單站短暫問題，已依SOP處理完畢。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-054", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "嚴重批量品質問題，整批產品面臨報廢風險。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-055", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "例行換線作業，進度正常無異常。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-056", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "系統故障導致全廠停線，影響重大。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-057", "task": "x_escalate", "label": "B", "confidence": 1.0, "reason": "單站短暫堵料，已依SOP快速排除。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-058", "task": "x_escalate", "label": "A", "confidence": 1.0, "reason": "誤用錫膏導致30片板子批量品質異常。", "annotator": "gemini-3.5-flash"}
+{"id": "x_escalate-d2-059", "task": "x_escalate", "label": "B", "confidence": 0.95, "reason": "缺料問題已由PE即時解決，無停機且繼續生產。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-000", "task": "x_10way_intent", "label": "A", "confidence": 1.0, "reason": "詢問工單剩餘數量及預計完工入庫時間", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-001", "task": "x_10way_intent", "label": "A", "confidence": 1.0, "reason": "詢問工單投產進度與預計換單時間", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-002", "task": "x_10way_intent", "label": "B", "confidence": 0.9, "reason": "詢問保養後的機台是否已恢復可生產狀態", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-003", "task": "x_10way_intent", "label": "B", "confidence": 1.0, "reason": "系統自動查詢並顯示機台目前的離線狀態", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-004", "task": "x_10way_intent", "label": "C", "confidence": 0.9, "reason": "通報機台拋料率異常及吸料失敗並已停機", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-005", "task": "x_10way_intent", "label": "C", "confidence": 1.0, "reason": "系統發出機台驅動器過載的 Alarm 異常通報", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-006", "task": "x_10way_intent", "label": "D", "confidence": 1.0, "reason": "通報產出板子連續出現墓碑與貼片偏位之品質異常", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-007", "task": "x_10way_intent", "label": "D", "confidence": 1.0, "reason": "通報 SPI 檢測連續判定錫少之品質異常，並請求 QE 協助", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-008", "task": "x_10way_intent", "label": "E", "confidence": 1.0, "reason": "請求倉管針對下一單的主晶片進行發料", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-009", "task": "x_10way_intent", "label": "E", "confidence": 0.9, "reason": "回報並請求補足生產所需的電容物料", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-010", "task": "x_10way_intent", "label": "F", "confidence": 0.8, "reason": "請求設備工程師（ME）前來調整刮刀壓力，屬非緊急維修調整", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-011", "task": "x_10way_intent", "label": "C", "confidence": 0.8, "reason": "通報回流焊爐風扇轉速降為零之機台故障，要求立即派人處理", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-012", "task": "x_10way_intent", "label": "E", "confidence": 0.7, "reason": "請求備料組遞送下一單所需的鋼網與 Feeder 等生產工具物料", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-013", "task": "x_10way_intent", "label": "G", "confidence": 0.9, "reason": "生管指示調整排程，要求此單完工後直接換線生產指定工單", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-014", "task": "x_10way_intent", "label": "H", "confidence": 1.0, "reason": "申請 MES 系統的登入與生產過站功能權限", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-015", "task": "x_10way_intent", "label": "H", "confidence": 1.0, "reason": "訊息中明確提到權限不足（permission denied）並請求授權（Please authorize）。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-016", "task": "x_10way_intent", "label": "I", "confidence": 1.0, "reason": "詢問吃錫標準及是否有 SOP 貼紙，屬於詢問作業標準與規格。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-017", "task": "x_10way_intent", "label": "I", "confidence": 1.0, "reason": "詢問錫膏回溫時間的標準設定值，屬於詢問 SOP 或參數。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-018", "task": "x_10way_intent", "label": "J", "confidence": 1.0, "reason": "通知工單已過完 FQA 並正式結單，屬於回報完工。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-019", "task": "x_10way_intent", "label": "J", "confidence": 1.0, "reason": "通知工單最後一板已進 AOI 且全部做完達標，屬於回報完工。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-020", "task": "x_10way_intent", "label": "A", "confidence": 1.0, "reason": "詢問特定工單還差幾片，屬於查詢工單進度。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-021", "task": "x_10way_intent", "label": "A", "confidence": 1.0, "reason": "詢問特定工單是否跑完 SMT，屬於查詢工單進度。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-022", "task": "x_10way_intent", "label": "B", "confidence": 1.0, "reason": "詢問機台目前是否在過板運轉，屬於查詢機台狀態。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-023", "task": "x_10way_intent", "label": "C", "confidence": 0.9, "reason": "系統通報機台連線中斷且狀態未知，屬於回報機台異常。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-024", "task": "x_10way_intent", "label": "C", "confidence": 1.0, "reason": "通報 Reflow 爐溫異常且 Alarm 持續鳴叫，屬於回報機台異常。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-025", "task": "x_10way_intent", "label": "C", "confidence": 1.0, "reason": "系統 Alarm 通報真空壓力低且板子卡在傳送軌道，屬於回報機台異常。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-026", "task": "x_10way_intent", "label": "D", "confidence": 1.0, "reason": "通報 AOI 連續出現空焊不良品，屬於回報品質異常。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-027", "task": "x_10way_intent", "label": "D", "confidence": 1.0, "reason": "通報首件 X-ray 檢驗氣泡率超標，屬於回報品質異常。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-028", "task": "x_10way_intent", "label": "E", "confidence": 1.0, "reason": "請求倉管補特定料號的物料，屬於申請物料。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-029", "task": "x_10way_intent", "label": "E", "confidence": 1.0, "reason": "請求倉庫加發少發的錫膏，屬於申請物料。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-030", "task": "x_10way_intent", "label": "C", "confidence": 0.95, "reason": "通報貼片機 nozzle shaft 歪斜及拋料異常，並請求 ME 派人處理", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-031", "task": "x_10way_intent", "label": "C", "confidence": 0.95, "reason": "通報 AOI 校準失敗與傳送帶震動異常，請求 ME 支援", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-032", "task": "x_10way_intent", "label": "G", "confidence": 0.9, "reason": "因鋼網與 Feeder 未到，請求生管調整排程先做其他線，屬於申請換線或排程調整", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-033", "task": "x_10way_intent", "label": "G", "confidence": 0.7, "reason": "詢問轉跑新工單的治具與鋼板準備狀況，與換線準備工作相關", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-034", "task": "x_10way_intent", "label": "H", "confidence": 1.0, "reason": "請求系統科開通新員工的 Shopfloor 系統帳號", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-035", "task": "x_10way_intent", "label": "H", "confidence": 1.0, "reason": "請求開通 MES 系統中開首件的權限", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-036", "task": "x_10way_intent", "label": "I", "confidence": 1.0, "reason": "詢問貼片機的貼裝高度參數設定值", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-037", "task": "x_10way_intent", "label": "I", "confidence": 1.0, "reason": "詢問迴焊爐在特定 Profile 下的傳送帶速度限制參數", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-038", "task": "x_10way_intent", "label": "J", "confidence": 1.0, "reason": "通知特定工單已全數完成 AOI 報工並清理產線", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-039", "task": "x_10way_intent", "label": "J", "confidence": 1.0, "reason": "系統通知工單已完工且產線正在清理中", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-040", "task": "x_10way_intent", "label": "A", "confidence": 1.0, "reason": "詢問特定工單目前的生產進度與預計完工出貨時間", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-041", "task": "x_10way_intent", "label": "A", "confidence": 0.9, "reason": "查詢工單在 Reflow 站點的投入與產出數量以確認進度", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-042", "task": "x_10way_intent", "label": "B", "confidence": 1.0, "reason": "詢問機台目前的運轉狀態（Try run、未開機或異常黃燈）", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-043", "task": "x_10way_intent", "label": "B", "confidence": 1.0, "reason": "詢問機台目前是在加工工單還是處於閒置狀態", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-044", "task": "x_10way_intent", "label": "C", "confidence": 1.0, "reason": "通報機台持續跳出 sensor error 異常，請求 ME 協助處理", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-045", "task": "x_10way_intent", "label": "C", "confidence": 1.0, "reason": "系統發出加熱元件故障與溫度異常警報，屬於回報機台異常。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-046", "task": "x_10way_intent", "label": "D", "confidence": 1.0, "reason": "通報 AOI 檢驗出墓碑與缺件等不良品狀況，屬於回報品質異常。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-047", "task": "x_10way_intent", "label": "D", "confidence": 1.0, "reason": "首件 X-Ray 檢驗發現氣泡比例過高，詢問是否判定合格，屬於回報品質異常。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-048", "task": "x_10way_intent", "label": "E", "confidence": 1.0, "reason": "線邊物料用盡，請求倉管人員送物料過來，屬於申請物料。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-049", "task": "x_10way_intent", "label": "E", "confidence": 1.0, "reason": "明確指出缺料並請求倉庫緊急發料，屬於申請物料。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-050", "task": "x_10way_intent", "label": "C", "confidence": 0.9, "reason": "機台馬達燒毀導致卡板，屬於緊急的機台故障通報，故選回報機台異常。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-051", "task": "x_10way_intent", "label": "F", "confidence": 1.0, "reason": "將已卸下的故障 feeder 移交設備課安排今日維修，屬於非緊急的申請維修。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-052", "task": "x_10way_intent", "label": "G", "confidence": 0.8, "reason": "因當前工單即將結束，請求提前準備下一張工單的換線工具，屬於申請換線的準備協調。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-053", "task": "x_10way_intent", "label": "G", "confidence": 1.0, "reason": "因客供料問題請求調整排程、切換生產工單，屬於申請換線。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-054", "task": "x_10way_intent", "label": "H", "confidence": 1.0, "reason": "請求資訊部為新員工開通 MES 系統帳號，屬於申請權限或帳號。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-055", "task": "x_10way_intent", "label": "H", "confidence": 1.0, "reason": "請求相關人員刷卡授權 Supervisor 權限以修改參數，屬於申請權限或帳號。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-056", "task": "x_10way_intent", "label": "I", "confidence": 1.0, "reason": "詢問特定板厚對應的 Reflow 速度參數設定，屬於詢問 SOP 或參數。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-057", "task": "x_10way_intent", "label": "I", "confidence": 1.0, "reason": "詢問載具卡扣扣合位置的作業標準，屬於詢問 SOP 或參數。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-058", "task": "x_10way_intent", "label": "J", "confidence": 1.0, "reason": "回報特定工單已全數通過 AOI 檢驗並完成清尾，屬於回報完工。", "annotator": "gemini-3.5-flash"}
+{"id": "x_10way_intent-d2-059", "task": "x_10way_intent", "label": "J", "confidence": 1.0, "reason": "MES 系統自動發送工單生產完成並移至包裝的通知，屬於回報完工。", "annotator": "gemini-3.5-flash"}

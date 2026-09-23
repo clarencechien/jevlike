@@ -1,0 +1,60 @@
+{"id": "m_alarm_severity-d2-000", "task": "m_alarm_severity", "state": "SMT-L2 NXT-03 軌道寬度調整馬達卡死，WO20231022 改板寬時調不動，目前整線卡在印錫後無法投板，ME 正在查，可能要換馬達。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-001", "task": "m_alarm_severity", "state": "SMT-L6 AOI-01 顯示過濾網更換提示，已過期 3 天，不影響檢測能力，等這班下班或保養時間再讓 ME 換就可以了。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-002", "task": "m_alarm_severity", "state": "L1 的 NPM-02 拋料率有點高，0402 電阻這捲料一直拋，吸著率剩 92.5%，再這樣下去一小時內會觸發 90% 警報，線長可以先叫 ME 來調一下 feeder 嗎？", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-003", "task": "m_alarm_severity", "state": "ALARM E2201 EXHAUST PRESSURE TOO LOW | L3-REFLOW-01 | OVEN TEMP DROPPING FAST | 12 BOARDS IN CHAMBER | CONVEYOR STOPPED", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-004", "task": "m_alarm_severity", "state": "備註：WO-20231109 鋼網張力量測 32N 偏低，但仍在 30-50N 規範內，下個 shift 結單拆下來後再送去張力校正，這次生產繼續用。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-005", "task": "m_alarm_severity", "state": "L5 SPI-01 剛連 3 片刮錫不均報 NG，人工看鋼網孔沒堵，疑似是刮刀壓力跑掉，請 PE 來看一下，不要等進爐才發現。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-006", "task": "m_alarm_severity", "state": "靠北喔，L3 貼片機 M05 突然發出喀喀聲然後整台跳 E5014 SERVO ERROR 縮下去了，卡板在裡面完全動不了，機台鎖死。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-007", "task": "m_alarm_severity", "state": "WARNING W1042 FSU BATTERY VOLTAGE LOW | SMT-L2-AOI-02 | SYSTEM RUNNING NORMAL | REPLACE BATTERY ON NEXT PLANNED MAINTENANCE", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-008", "task": "m_alarm_severity", "state": "L4 回焊爐第 10 區冷卻風扇有雜音，溫度目前 48 度正常，但轉速掉到 1800RPM，下個換線空檔（約兩小時後）請 ME 來換一下。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-009", "task": "m_alarm_severity", "state": "L1 爐後手檢發現 U2 BGA 四個角都有浮翹，連三片都這樣，SPI 和貼片沒報警，這批貨要先 HOLD 住，叫 IPQC 快來！", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-010", "task": "m_alarm_severity", "state": "L3-DIP 氮氣流量計讀數有點飄，比平時少 5L/min，但爐內氧氣殘留量 450ppm 正常，等明天早上大保養再叫廠務看。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-011", "task": "m_alarm_severity", "state": "ERR A3029 FEEDER SHUTTLE SLIDE SLOW | L4-NXT2 | SLOT 32 | REPEATED RETRY SUCCESSFUL | CYCLE TIME INCREASED BY 15%", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-012", "task": "m_alarm_severity", "state": "剛剛 A 棟跳電一下，L5 SPI 系統進不去，MES 沒辦法過站，現在整線停在那裡等 IT 重設，大家先停手不要亂動。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-013", "task": "m_alarm_severity", "state": "SMT-L2 印刷機 DEK 擦拭紙快用完了，備料區沒有 410mm 的，請物料小姐去 B 棟調一下，還有 4 片的量，動作快！", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-014", "task": "m_alarm_severity", "state": "報告線長，L1 貼片機 M02 燈光校正失敗過一次，重試後 OK，這班跑完再請 ME 清潔一下鏡頭就好，不影響現在 CT。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-015", "task": "m_alarm_severity", "state": "完了，L6 貼片機吸嘴吸到異物，整個 nozzle 撞歪，head 5 直接鎖死，現在機台亮紅燈跳 E0043，動都不敢動。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-016", "task": "m_alarm_severity", "state": "爐後 AOI-02 報 C15 缺件率突然變高，十片裡有三片被判缺件，但看起來是陰影造成的誤判，PE 能來調一下演算法閾值嗎？", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-017", "task": "m_alarm_severity", "state": "FATAL ERROR F9023 INTERLOCK SENSOR SYSTEM FAILURE | SMT-L5-YSM02 | MACHINE FORCE STOPPED | REBOOT FAILED | CALL SERVICE", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-018", "task": "m_alarm_severity", "state": "備註：WO-99824 散熱片改為 2nd source 替代料（PN-0023B），QE 已簽核，不需重做 program，直接上料生產。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-019", "task": "m_alarm_severity", "state": "L3 的 YSM-02 飛達第 14 軌拋料異常，目前拋了 12 顆 10uF 電容，雖然還沒到 threshold，但再不弄下半班會不夠料。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-020", "task": "m_alarm_severity", "state": "SMT-L2 貼片機 YSM-02 軸卡報警 E2013 Z-AXIS MOTOR OVERHEAT, 伴隨明顯焦味，已按 E-stop，WO-2024102201 快跑完了，這批急單怎麼辦？", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-021", "task": "m_alarm_severity", "state": "SPI-03 鋼網擦拭紙快用完了，系統顯示還有 12% 剩餘，等這班下班交接前再叫小黃去庫房領兩捲來放就好，不影響現在跑。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-022", "task": "m_alarm_severity", "state": "WARNING: REFLOW-02 ZONE 5 TEMP DRIFT +3.5C (SETPOINT 245C) | CONVEYOR SPEED OK | 15 BOARDS IN OVEN | MONITORING FOR 2 MINS", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-023", "task": "m_alarm_severity", "state": "SMT-L1 印刷機 DEK-01 突然夾板氣缸卡死，板子進不去，手動也退不出來，已經卡了 10 分鐘，ME 還在別線處理，整線現在都空等。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-024", "task": "m_alarm_severity", "state": "SMT-L4 ICT-01 針床治具的壓棒有一個稍微鬆動，PE 來看過說不影響測試接觸，等今晚換線的時候再叫設備順便鎖緊就行。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-025", "task": "m_alarm_severity", "state": "L5 的 YSM-03 Feeder slot 28 那顆 0402 電阻貼片率掉到 94% 了，拋料盒裡面一堆，老大你要叫 ME 來換吸嘴還是調 feeder 軌道？", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-026", "task": "m_alarm_severity", "state": "E5044 HEAD1 VISION ALIGNMENT ERROR | YSM-20 | REPEATED PICK FAILURE COG-0805 | LINE PAUSED | OPERATOR ACTION REQUIRED IMMEDIATELY", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-027", "task": "m_alarm_severity", "state": "SMT-L3 錫膏自動分發機報低液位警報，估計還能撐 30 分鐘，攪拌機那邊還有一罐剛好退冰完，等一下派人去拿。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-028", "task": "m_alarm_severity", "state": "L8 AOI-02 報 C112 缺件，但看實物其實有打，是陰影誤判。這型號這種板子這點本來就容易誤判，先按 pass，等下下班再叫 PE 微調參數。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-029", "task": "m_alarm_severity", "state": "靠北 L3 爐子出口傳送帶卡板！兩片板子疊在一起卡在 Reflow-01 出口導軌，後面還有板子一直出來，阿全快去按爐子入口 stop！", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-030", "task": "m_alarm_severity", "state": "MESSAGE: DEK-02 SQUEEGEE BLADE LIFE COUNT REACHED 48000/50000 | RECOMMEND REPLACE DURING NEXT PREVENTIVE MAINTENANCE OR MODEL CHANGE", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-031", "task": "m_alarm_severity", "state": "SMT-L6 SPI-02 檢測到 C4 錫膏量連續三片都在下限邊緣（82%），這批板子鋼網是不是堵孔了？可能要擦一下鋼網。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-032", "task": "m_alarm_severity", "state": "SMT-L5 廠務冰水主機跳閘，回焊爐排風機溫度開始拉高，再不處理怕過熱熔毀，PE 叫我們先把爐口擋板降下來、降溫停線。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-033", "task": "m_alarm_severity", "state": "SMT-L1 貼片機 NXT-02 廢料帶剪切盒滿了，機台亮黃燈提示，這個等這盤料打完暫停 10 秒倒一下垃圾就行。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-034", "task": "m_alarm_severity", "state": "MES FEEDER STATUS: WO-20241025-003 SLOT 12 (PART: 100-00241) QTY LEFT 150 PCS, ESTIMATED RUN TIME 12 MIN. REFILL REQ SENT TO WH.", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-035", "task": "m_alarm_severity", "state": "夭壽，L2 AOI 出口出來的板子，怎麼 C12 電容全部都移位整顆立碑？已經連續五片都這樣了，前面貼片機是不是拋料偏移沒校對？", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-036", "task": "m_alarm_severity", "state": "SMT-L7 氮氣流量計顯示 180L/min 偏低（規範 200），氧含量已經上升到 800ppm，再高怕會氧化，快叫廠務切備用氮氣。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-037", "task": "m_alarm_severity", "state": "剛剛 MES 系統刷工單一直轉圈圈，PE 說可能主機在備份慢了點，不影響過站，大家先用紙本記錄序號，等一下系統順了再補刷。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-038", "task": "m_alarm_severity", "state": "SMT-L3 貼片機 SIPLACE-01 發生吸嘴吸取高度異常，把 PCB 板面直接撞出一個凹痕，現在 Head 1 鎖死動不了，報 E332 錯誤。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-039", "task": "m_alarm_severity", "state": "L4 線長，那個大顆 BGA（U3）專用的吸嘴好容易黏片，剛剛又出現一次真空氣壓不足拋料，這小時已經拋第三顆了，一顆 200 塊美金很貴捏。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-040", "task": "m_alarm_severity", "state": "L1 回焊爐氮氣流量計那顆電池低電量閃黃燈，讀數還正常，等交接班再換就好。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-041", "task": "m_alarm_severity", "state": "WARNING - SMT-L2 NPM-01 CAMERA CALIBRATION DUE IN 48 HOURS. MACHINE RUNNING.", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-042", "task": "m_alarm_severity", "state": "L5 的某個 feeder 讀卡有點不順，不過多插幾次就 OK，等這批 WO 跑完換線再給 ME 處理。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-043", "task": "m_alarm_severity", "state": "ICT-03 測試針載台油壓管有微量滲油，不影響壓力值，機台已貼綠單，下週大保養再行更換。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-044", "task": "m_alarm_severity", "state": "SMT-L4 溫溼度計顯示 62% 略高於標準 60%，防潮櫃運作正常，已請廠務調整空調設定。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-045", "task": "m_alarm_severity", "state": "SMT-L3 AOI-01 系統提示 C 槽硬碟空間剩餘 5GB，不影響目前備份，系統提醒本週內清空暫存。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-046", "task": "m_alarm_severity", "state": "SMT-L3 SPI 剛剛連兩片警報錫膏面積偏上限，手動量測雖然過關，但鋼板要擦了，等這 batch 跑完。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-047", "task": "m_alarm_severity", "state": "ALARM - SMT-L6 SMT-FEEDER-05 TAPE TENSION HIGH. AUTO-CORRECTION ACTIVE. ATTENTION REQUIRED.", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-048", "task": "m_alarm_severity", "state": "L8 貼片機吸嘴 No. 4 拋料率這兩小時偏高 (3.2%)，工單快打完了，等下塞料前先用酒精擦一下看看。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-049", "task": "m_alarm_severity", "state": "MES 顯示 L2 AOI 的 Golden Sample 再 15 分鐘過期，要找 QE 重新簽核，不然等下到期會自動鎖機。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-050", "task": "m_alarm_severity", "state": "L4 IPQC 抽檢到有一顆 LDO 腳稍微偏位，在 IPC-A-610 允收邊緣，再兩板就過完了，通知 PE 來調 offset。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-051", "task": "m_alarm_severity", "state": "SMT-L3 DEK-01 SOLDER PASTE TEMPERATURE LOW WARNING (21.5C, REQ >22C). MONITORING ACTIVE.", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-052", "task": "m_alarm_severity", "state": "L7 NPM 軌道寬度手動微調那顆螺絲滑牙，現在固定得住但等下換線預計 40 分後一定調不了，先扣 ME。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-053", "task": "m_alarm_severity", "state": "L3 回焊爐突然斷電，面板全黑，爐內還有 5 片板子，推進馬達停了，速來！", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-054", "task": "m_alarm_severity", "state": "FATAL ERROR - SMT-L1 NXT-02 HEAD SHUTDOWN. X-AXIS SERVO OVERLOAD ERROR CODE E-4209", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-055", "task": "m_alarm_severity", "state": "L2 印刷機傳送帶斷掉，板子進不去，現在整線卡死，ME 正在庫房找材料，各站人員先待命。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-056", "task": "m_alarm_severity", "state": "完了，L5 ICT 壓下去黃煙冒出來，整片 PCBA 燒焦味，系統卡在 Loading... 已拉緊急停止掣。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-057", "task": "m_alarm_severity", "state": "CRITICAL - SMT-L4 SPI-02 COMM FAIL. MES SHUTDOWN INTERLOCK ACTIVATED. LINE STOPPED.", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-058", "task": "m_alarm_severity", "state": "L8 剛換完料手動過首件，結果 AOI 一直報全缺件，原來 OP 把料帶裝反正面朝下，這批進爐的 12 片要報廢了。", "writer": "gemini-3.5-flash"}
+{"id": "m_alarm_severity-d2-059", "task": "m_alarm_severity", "state": "L6 YSM 貼片頭在 2 號 station 撞車，z軸歪掉，還在發出噠噠噠的尖銳齒輪聲，我已經按 EMO。", "writer": "gemini-3.5-flash"}

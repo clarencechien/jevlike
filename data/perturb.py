@@ -36,16 +36,20 @@ def test_mask(rows, seed):
     return [(r.get("pair_id") or r["id"]) not in cal for r in rows]
 
 
+GENERIC_TERMS = {"問題", "狀態", "數值", "目標", "機台", "情形", "影響", "需要", "處理", "可以", "運作", "停止", "以上", "以下", "明顯", "持續",
+                 "正常", "異常", "本班", "例行", "工程師", "操作員", "單位", "系統", "資料", "文字", "描述", "程度", "範圍", "已有", "產線", "現場"}
+
+
 def criteria_ngrams(task):
-    text = TASKS[task]["instructions"] + " " + " ".join(v["label"] + " " + v["criteria"] for v in TASKS[task]["options"].values())
-    zh = re.findall(r"[一-鿿]+", text)
+    """Cue terms = the 、/，-separated technical terms listed in the option criteria (2–6 CJK chars),
+    minus generic words. Whole-term replacement only, so words are not cut in the middle."""
+    text = " ".join(v["criteria"] for v in TASKS[task]["options"].values())
+    toks = re.split(r"[、，,；;：:（）()／/。．\s]|或|與|及|和|等|例如|來自|造成的", text)
     grams = set()
-    for w in zh:
-        for n in (4, 3, 2):
-            for i in range(len(w) - n + 1):
-                g = w[i:i + n]
-                if g not in STOP:
-                    grams.add(g)
+    for tk in toks:
+        for w in re.findall(r"[\u4e00-\u9fff]{2,6}", tk):
+            if w not in STOP and w not in GENERIC_TERMS:
+                grams.add(w)
     en = {w.lower() for w in re.findall(r"[A-Za-z]{4,}", text)} - {s.lower() for s in STOP}
     return grams, en
 

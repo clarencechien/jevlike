@@ -80,12 +80,14 @@ def main(base_url, out_dir, args="", **kw):
     WARM = int(a.get("--warmup", 20))
     rng = random.Random(42)
     sess = requests.Session()
+    only = set(a.get("--only", "L1,L2,L3,L4,L5,L6,L7").split(","))
+    out_name = a.get("--out", "latency.json")
 
     def tokenize(text):
         return len(sess.post(f"{base_url}/tokenize", json={"content": text}, timeout=60).json()["tokens"])
 
     tr = TemplateRenderer(base_url)
-    out = {"gpu": os.environ.get("GB10_GPU", "L4"), "n": N, "warmup": WARM, "results": {}}
+    out = {"gpu": os.environ.get("GB10_GPU", "L4"), "n": N, "warmup": WARM, "only": sorted(only), "results": {}}
 
     def run(name, prompts_letters, n_warm=WARM, cache_prompt=True, note=""):
         samples = []
@@ -102,29 +104,32 @@ def main(base_url, out_dir, args="", **kw):
     # ---- L1: single question, ~100-token state, 2 options, distinct states (prefix cache only hits template)
     st100 = states(N + WARM, 100)
     q2 = question(2)
-    run("L1_single_100tok_2opt", [(tr.render(s, q2), letters_for(2)) for s in st100], note="每次不同 state；只有模板前綴命中 cache")
+    if "L1" in only:
+      run("L1_single_100tok_2opt", [(tr.render(s, q2), letters_for(2)) for s in st100], note="每次不同 state；只有模板前綴命中 cache")
     # same prompt repeated (full cache hit) as reference floor
-    p0 = tr.render(st100[0], q2)
-    run("L1_ref_same_prompt_repeated", [(p0, letters_for(2))] * (N + WARM), note="同一 prompt 重複；全 cache 命中，= 1 token decode 的地板")
+      p0 = tr.render(st100[0], q2)
+      run("L1_ref_same_prompt_repeated", [(p0, letters_for(2))] * (N + WARM), note="同一 prompt 重複；全 cache 命中，= 1 token decode 的地板")
     # no cache at all
-    run("L1_ref_nocache", [(tr.render(s, q2), letters_for(2)) for s in st100], cache_prompt=False, note="cache_prompt=false，全部重算")
+      run("L1_ref_nocache", [(tr.render(s, q2), letters_for(2)) for s in st100], cache_prompt=False, note="cache_prompt=false，全部重算")
 
     # ---- L2: state length
-    for tok in (500, 2000):
+    if "L2" in only:
+      for tok in (500, 2000):
         run(f"L2_state_{tok}tok", [(tr.render(s, q2), letters_for(2)) for s in states(N + WARM, tok)])
-    out["results"]["L2_state_100tok"] = out["results"]["L1_single_100tok_2opt"]
+      out["results"]["L2_state_100tok"] = out["results"]["L1_single_100tok_2opt"]
 
     # ---- L3: option count
-    for k in (5, 10):
+    if "L3" in only:
+      for k in (5, 10):
         qk = question(k)
         run(f"L3_{k}opt", [(tr.render(s, qk), letters_for(k)) for s in st100])
-    out["results"]["L3_2opt"] = out["results"]["L1_single_100tok_2opt"]
+      out["results"]["L3_2opt"] = out["results"]["L1_single_100tok_2opt"]
 
     # ---- L4: N questions sharing one state, cache on/off. Measure total wall time per state.
     qs = [question(2), question(3), question(4), question(5), question(2), question(3), question(4), question(5), question(2), question(3)]
     for i, q in enumerate(qs):
         q["instructions"] = f"問題 {i + 1}：" + q["instructions"]
-    for cache in (True, False):
+    for cache in ((True, False) if "L4" in only else ()):
         for nq in (1, 5, 10):
             n_states = max(20, N // nq)
             sts = states(n_states + 5, 300)
@@ -142,7 +147,7 @@ def main(base_url, out_dir, args="", **kw):
             print(f"{name}: total {json.dumps(out['results'][name]['summary'])} per_call {json.dumps(out['results'][name]['per_call'])}", flush=True)
 
     # ---- L5: concurrency
-    for conc in (1, 4, 8):
+    for conc in ((1, 4, 8) if "L5" in only else ()):
         sts = states(N + WARM, 100)
         prompts = [tr.render(s, q2) for s in sts]
         samples = []
@@ -164,41 +169,43 @@ def main(base_url, out_dir, args="", **kw):
     # ---- L6: background generation load (512-token generation running continuously)
     stop = threading.Event()
     gen_stats = {"n": 0, "tokens": 0}
+    if "L6" in only:
 
-    def bg_gen():
-        s2 = requests.Session()
-        while not stop.is_set():
-            try:
-                r = s2.post(f"{base_url}/completion", json={"prompt": "請詳細說明 SMT 產線回焊爐溫度曲線的設定原則與常見異常的處理方式：", "n_predict": 512, "temperature": 0.7, "cache_prompt": False}, timeout=600).json()
-                gen_stats["n"] += 1
-                gen_stats["tokens"] += r.get("tokens_predicted", 0)
-            except Exception:  # noqa: BLE001
-                time.sleep(0.5)
-    th = threading.Thread(target=bg_gen, daemon=True)
-    th.start()
-    time.sleep(3)
-    run("L6_with_bg_generation", [(tr.render(s, q2), letters_for(2)) for s in states(N + WARM, 100)], note="同容器另一執行緒持續生成 512 token")
-    stop.set()
-    th.join(timeout=120)
-    out["results"]["L6_with_bg_generation"]["bg_generation"] = gen_stats
-    out["results"]["L6_with_bg_generation"]["slowdown_p50"] = out["results"]["L6_with_bg_generation"]["summary"]["p50"] / out["results"]["L1_single_100tok_2opt"]["summary"]["p50"]
+      def bg_gen():
+          s2 = requests.Session()
+          while not stop.is_set():
+              try:
+                  r = s2.post(f"{base_url}/completion", json={"prompt": "請詳細說明 SMT 產線回焊爐溫度曲線的設定原則與常見異常的處理方式：", "n_predict": 512, "temperature": 0.7, "cache_prompt": False}, timeout=600).json()
+                  gen_stats["n"] += 1
+                  gen_stats["tokens"] += r.get("tokens_predicted", 0)
+              except Exception:  # noqa: BLE001
+                  time.sleep(0.5)
+      th = threading.Thread(target=bg_gen, daemon=True)
+      th.start()
+      time.sleep(3)
+      run("L6_with_bg_generation", [(tr.render(s, q2), letters_for(2)) for s in states(N + WARM, 100)], note="同容器另一執行緒持續生成 512 token")
+      stop.set()
+      th.join(timeout=120)
+      out["results"]["L6_with_bg_generation"]["bg_generation"] = gen_stats
+      out["results"]["L6_with_bg_generation"]["slowdown_p50"] = out["results"]["L6_with_bg_generation"]["summary"]["p50"] / out["results"]["L1_single_100tok_2opt"]["summary"]["p50"]
 
     # ---- L7: same question via chat completions generating JSON
     samples = []
-    for i, s in enumerate(states(N + WARM, 100)):
-        msgs = build_messages(s, q2, SYSTEM)
-        msgs[-1]["content"] += '\n\n以 JSON 回答：{"answer": "<字母>"}'
-        r = chat_json(base_url, msgs, max_tokens=32, session=sess)
-        if i >= WARM:
-            samples.append({"latency_ms": r["latency_ms"], "prompt_tokens": (r.get("usage") or {}).get("prompt_tokens"),
-                            "completion_tokens": (r.get("usage") or {}).get("completion_tokens"), "content": r["content"]})
-    summ = summarize(samples)
-    summ["completion_tokens_mean"] = statistics.fmean([x["completion_tokens"] for x in samples if x.get("completion_tokens")] or [0])
-    summ["speedup_vs_L1_p50"] = summ["p50"] / out["results"]["L1_single_100tok_2opt"]["summary"]["p50"]
-    out["results"]["L7_chat_json"] = {"summary": summ, "samples": samples}
-    print(f"L7_chat_json: {json.dumps(summ)}", flush=True)
+    if "L7" in only:
+      for i, s in enumerate(states(N + WARM, 100)):
+          msgs = build_messages(s, q2, SYSTEM)
+          msgs[-1]["content"] += '\n\n以 JSON 回答：{"answer": "<字母>"}'
+          r = chat_json(base_url, msgs, max_tokens=32, session=sess)
+          if i >= WARM:
+              samples.append({"latency_ms": r["latency_ms"], "prompt_tokens": (r.get("usage") or {}).get("prompt_tokens"),
+                              "completion_tokens": (r.get("usage") or {}).get("completion_tokens"), "content": r["content"]})
+      summ = summarize(samples)
+      summ["completion_tokens_mean"] = statistics.fmean([x["completion_tokens"] for x in samples if x.get("completion_tokens")] or [0])
+      summ["speedup_vs_L1_p50"] = summ["p50"] / out["results"]["L1_single_100tok_2opt"]["summary"]["p50"]
+      out["results"]["L7_chat_json"] = {"summary": summ, "samples": samples}
+      print(f"L7_chat_json: {json.dumps(summ)}", flush=True)
 
-    with open(os.path.join(out_dir, "latency.json"), "w") as f:
+    with open(os.path.join(out_dir, out_name), "w") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
     if kw.get("commit"):
         kw["commit"]()

@@ -16,6 +16,10 @@ import re
 import sys
 
 import numpy as np
+import matplotlib
+matplotlib.use("Agg")
+matplotlib.rcParams["font.family"] = ["WenQuanYi Zen Hei", "DejaVu Sans"]
+matplotlib.rcParams["axes.unicode_minus"] = False
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TASKS = json.load(open(os.path.join(ROOT, "data/seeds/tasks.json"), encoding="utf-8"))

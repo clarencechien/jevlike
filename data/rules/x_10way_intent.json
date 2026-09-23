@@ -1,0 +1,19 @@
+{"task": "x_10way_intent", "default": "C",
+ "rules": [
+   {"pattern": "帳號|密碼|權限|開通|登入不了|登不進|無法登入|account|password|permission|access|login", "label": "H", "note": "帳號／密碼／權限"},
+   {"pattern": "SOP|標準|規格|參數|設定值|幾度|多少|該設|要設|怎麼設|作業指導|WI|spec|parameter|setting", "label": "I", "note": "SOP／參數／規格詢問"},
+   {"pattern": "完工|做完|生產完|已完成|換線完成|修好了|修復完成|已修復|完成了|結案|done|completed|finished|closed", "label": "J", "note": "完工／換線完成／維修完成通知"},
+   {"pattern": "換線|排程|插單|提前|延後|改排|調整順序|先做|changeover|schedule|reschedule|rush order|swap", "label": "G", "note": "換線／排程調整／插單"},
+   {"pattern": "不良|NG|SPC|超出管制|管制界限|不合格|CPK|報廢|少錫|空焊|偏移|側立|立碑|錫珠|短路|defect|reject|out of control|fail", "label": "D", "note": "品質異常通報"},
+   {"pattern": "發料|補料|領料|叫料|追加|備料|倉庫|缺料|料不夠|料快用完|request material|issue material|kit|replenish|shortage", "label": "E", "note": "物料申請"},
+   {"pattern": "排.*(維修|保養|更換)|安排維修|安排更換|下次保養|預防保養|PM時|換新|報修|開維修單|schedule repair|replace part|next PM|maintenance request", "label": "F", "note": "非緊急維修／更換申請"},
+   {"pattern": "做到哪|做了幾|進度|完成數|還剩|幾點能完|什麼時候完|預計完工|投入數|產出數|progress|how many|ETA|status of WO|remaining", "label": "A", "note": "工單進度查詢"},
+   {"pattern": "有在跑嗎|在跑嗎|在動嗎|有沒有在跑|稼動|現在狀態|目前狀態|是不是停|還在停|running\\?|is .* up|status of|utilization|uptime", "label": "B", "note": "機台狀態查詢"},
+   {"pattern": "alarm|報警|跳警|故障|當機|卡板|卡料|停機|掛了|壞了|異音|漏氣|error|E\\d{4}|F-\\d{4}|SERVO|TIMEOUT|down", "label": "C", "note": "機台異常通報"},
+   {"pattern": "問一下|請問|幾度|多少|怎麼|如何|標準|參考|how to|what is|which", "label": "I", "note": "泛問句fallback"},
+   {"pattern": "維修|保養|更換|換零件|校正|repair|maintenance|calibrat", "label": "F", "note": "維修字眼fallback"},
+   {"pattern": "WO-?\\d{6,}|工單", "label": "A", "note": "提到工單但無其他線索→進度"},
+   {"pattern": "NXT|SIPLACE|DEK|SPI|AOI|ICT|FCT|R-0\\d|YSM|M-0\\d|SW-0\\d|X-?ray|機台", "label": "B", "note": "只提到機台→狀態"},
+   {"pattern": "MES|看板|系統|IT", "label": "H", "note": "系統相關→權限"},
+   {"pattern": "料號|R\\d{3}-|0402|0603|0805|QFN|BGA|錫膏|鋼網|feeder|料盤|料帶|連接器", "label": "E", "note": "只提到料件→申請物料"}
+ ]}

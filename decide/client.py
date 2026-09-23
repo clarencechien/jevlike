@@ -14,7 +14,7 @@ def _parse_candidates(r: dict):
     return top, cand
 
 
-def read_option_probs(base_url, prompt, letters, n_probs=20, cache_prompt=True, session=None, timeout=300, slot_id=None):
+def read_option_probs(base_url, prompt, letters, n_probs=40, cache_prompt=True, session=None, timeout=300, slot_id=None):
     """One forward pass (n_predict=1). Returns softmax over `letters` from the top-n_probs list.
 
     Tokens are matched after stripping whitespace, so 'A' and ' A' both count for letter A (max taken).

@@ -1,0 +1,13 @@
+{"task": "x_escalate", "default": "B",
+ "rules": [
+   {"pattern": "已依 ?SOP|依 ?SOP 處理完|已處理完|已恢復|已復機|已排除|已解決|已重啟恢復|resolved|recovered|cleared|back to normal|自行排除", "label": "B", "note": "已處理完畢"},
+   {"pattern": "例行|定期|每日|日常|routine|daily|例行保養|PM 排程", "label": "B", "note": "例行事務"},
+   {"pattern": "受傷|燙傷|割傷|夾傷|流血|觸電|起火|冒煙|燒焦|火花|漏電|安全|injur|burn|fire|smoke|spark|shock|safety", "label": "A", "note": "安全事故"},
+   {"pattern": "整線|全線|整條線|出貨|交期|shipment|ship|delivery|due date|客戶|customer", "label": "A", "note": "影響整線出貨"},
+   {"pattern": "批量|整批|整批.*不良|batch|lot|全數|已流到|流出|已經出貨|hold|扣留|凍結", "label": "A", "note": "批量品質"},
+   {"pattern": "跨單位|跨部門|協調|IT.*設備|設備.*IT|倉庫.*IT|多個單位|需要.*(品保|IT|倉庫|設備).*(及|和|與|跟).*(品保|IT|倉庫|設備)", "label": "A", "note": "跨單位協調"},
+   {"pattern": "(3[1-9]|[4-9]\\d|[1-9]\\d{2,}) ?分鐘|[1-9](\\.\\d+)? ?小時|\\d+ ?hr|\\d+ ?hours?|超過 ?30 ?分", "label": "A", "note": "停線超過 30 分鐘"},
+   {"pattern": "停線|line down|line stop|全線停", "label": "A", "note": "停線"},
+   {"pattern": "單站|單機|一站|短暫|一下子|幾分鐘|([1-9]|[12]\\d|30) ?分鐘|brief|momentar|single station", "label": "B", "note": "單站短暫"},
+   {"pattern": "補料|清潔|重啟|換耗材|換吸嘴|換料帶|接料", "label": "B", "note": "操作員例行處理"}
+ ]}

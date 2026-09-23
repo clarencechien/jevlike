@@ -38,7 +38,7 @@ class TemplateRenderer:
     THINK_ON = "<|think|>\n"
     EMPTY_THOUGHT = "<|channel>thought\n<channel|>"
 
-    def __init__(self, base_url: str, prefill: str = "答案：", use_system: bool = True, enable_thinking: bool = False):
+    def __init__(self, base_url: str, prefill: str = "", use_system: bool = True, enable_thinking: bool = False):
         self.base_url = base_url
         self.prefill = prefill
         self.use_system = use_system

@@ -6,6 +6,7 @@ marker strings, so per-call rendering is a local string substitution with no ser
 import requests
 
 SYSTEM = "你是產線決策引擎。只回答一個字母。"
+SYSTEM_EN = "You are a decision engine. Answer with exactly one letter."  # v8: JevBench (English) items
 LETTERS = "ABCDEFGHIJ"
 SYS_MARK, USR_MARK = "§SYSMARK§", "§USRMARK§"
 

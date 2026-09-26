@@ -1,5 +1,5 @@
 {
- "ts": "2026-09-26T05:46:20Z",
+ "ts": "2026-09-26T08:19:08Z",
  "rows": [
   {
    "id": "s1",
@@ -7,22 +7,22 @@
    "gold": "C",
    "chosen": "C",
    "probs": {
-    "C": 0.9606,
-    "B": 0.0394,
+    "C": 1.0,
+    "B": 0.0,
     "A": 0.0
    },
    "missing": [],
    "first_token": "C",
-   "prompt_tokens": 116,
-   "cached_tokens": 0,
-   "latency_ms": 811.1,
+   "prompt_tokens": 117,
+   "cached_tokens": 2,
+   "latency_ms": 126.7,
    "top": [
     "C",
     "B",
     "A",
-    "<",
-    "P",
-    "|"
+    "c",
+    "S",
+    "P"
    ],
    "probs_token_ids": null,
    "token_ids_max_abs_diff": null
@@ -33,254 +33,254 @@
    "gold": "C",
    "chosen": "C",
    "probs": {
-    "C": 0.9448,
-    "B": 0.0552,
+    "C": 1.0,
+    "B": 0.0,
     "A": 0.0
    },
    "missing": [],
    "first_token": "C",
-   "prompt_tokens": 116,
-   "cached_tokens": 115,
+   "prompt_tokens": 117,
+   "cached_tokens": 116,
+   "latency_ms": 52.7,
+   "top": [
+    "C",
+    "B",
+    "A",
+    "c",
+    "S",
+    "P"
+   ],
+   "probs_token_ids": {
+    "A": 9.789840132552763e-08,
+    "B": 1.079079923928516e-06,
+    "C": 0.9999988230216746
+   },
+   "token_ids_max_abs_diff": 0.0
+  },
+  {
+   "id": "s2",
+   "rep": 0,
+   "gold": "A",
+   "chosen": "A",
+   "probs": {
+    "A": 1.0,
+    "B": 0.0,
+    "C": 0.0,
+    "E": 0.0,
+    "D": 0.0
+   },
+   "missing": [],
+   "first_token": "A",
+   "prompt_tokens": 102,
+   "cached_tokens": 25,
+   "latency_ms": 50.6,
+   "top": [
+    "A",
+    "B",
+    "_",
+    "a",
+    "C",
+    "E"
+   ],
+   "probs_token_ids": null,
+   "token_ids_max_abs_diff": null
+  },
+  {
+   "id": "s2",
+   "rep": 1,
+   "gold": "A",
+   "chosen": "A",
+   "probs": {
+    "A": 1.0,
+    "B": 0.0,
+    "C": 0.0,
+    "E": 0.0,
+    "D": 0.0
+   },
+   "missing": [],
+   "first_token": "A",
+   "prompt_tokens": 102,
+   "cached_tokens": 101,
+   "latency_ms": 51.6,
+   "top": [
+    "A",
+    "B",
+    "_",
+    "a",
+    "[",
+    "C"
+   ],
+   "probs_token_ids": {
+    "A": 0.9999995266462529,
+    "B": 4.1947504706293796e-07,
+    "C": 2.7523660762968848e-08,
+    "D": 2.7938477278371347e-09,
+    "E": 2.3561191423238987e-08
+   },
+   "token_ids_max_abs_diff": 0.0
+  },
+  {
+   "id": "s3",
+   "rep": 0,
+   "gold": "B",
+   "chosen": "B",
+   "probs": {
+    "B": 1.0,
+    "A": 0.0
+   },
+   "missing": [],
+   "first_token": "B",
+   "prompt_tokens": 119,
+   "cached_tokens": 25,
+   "latency_ms": 744.1,
+   "top": [
+    "B",
+    " B",
+    "_",
+    "Ｂ",
+    "<turn|>",
+    "b"
+   ],
+   "probs_token_ids": null,
+   "token_ids_max_abs_diff": null
+  },
+  {
+   "id": "s3",
+   "rep": 1,
+   "gold": "B",
+   "chosen": "B",
+   "probs": {
+    "B": 1.0,
+    "A": 0.0
+   },
+   "missing": [],
+   "first_token": "B",
+   "prompt_tokens": 119,
+   "cached_tokens": 118,
+   "latency_ms": 53.9,
+   "top": [
+    "B",
+    " B",
+    "_",
+    "Ｂ",
+    "b",
+    "{"
+   ],
+   "probs_token_ids": {
+    "A": 4.847963504476126e-10,
+    "B": 0.9999999995152036
+   },
+   "token_ids_max_abs_diff": 0.0
+  },
+  {
+   "id": "s4",
+   "rep": 0,
+   "gold": "B",
+   "chosen": "C",
+   "probs": {
+    "C": 0.9337,
+    "D": 0.0441,
+    "B": 0.0218,
+    "A": 0.0003
+   },
+   "missing": [],
+   "first_token": "C",
+   "prompt_tokens": 112,
+   "cached_tokens": 25,
+   "latency_ms": 51.0,
+   "top": [
+    "C",
+    "D",
+    "B",
+    "A",
+    "E",
+    "一旦"
+   ],
+   "probs_token_ids": null,
+   "token_ids_max_abs_diff": null
+  },
+  {
+   "id": "s4",
+   "rep": 1,
+   "gold": "B",
+   "chosen": "C",
+   "probs": {
+    "C": 0.9561,
+    "D": 0.0278,
+    "B": 0.0159,
+    "A": 0.0002
+   },
+   "missing": [],
+   "first_token": "C",
+   "prompt_tokens": 112,
+   "cached_tokens": 111,
    "latency_ms": 52.2,
    "top": [
     "C",
+    "D",
     "B",
     "A",
-    "<",
-    "P",
-    "|"
+    "E",
+    "O"
    ],
    "probs_token_ids": {
-    "A": 7.709494412799804e-06,
-    "B": 0.05519691515238941,
-    "C": 0.9447953753531978
+    "A": 0.00020474666893610156,
+    "B": 0.01590741201941077,
+    "C": 0.9561113661552537,
+    "D": 0.02777647515639956
    },
    "token_ids_max_abs_diff": 0.0
   },
   {
-   "id": "s2",
+   "id": "s5",
    "rep": 0,
-   "gold": "A",
-   "chosen": "A",
+   "gold": "B",
+   "chosen": "B",
    "probs": {
-    "A": 0.9999,
-    "C": 0.0001,
-    "B": 0.0,
-    "E": 0.0,
-    "D": 0.0
+    "B": 1.0,
+    "A": 0.0
    },
    "missing": [],
-   "first_token": "A",
-   "prompt_tokens": 101,
-   "cached_tokens": 24,
-   "latency_ms": 49.5,
+   "first_token": "B",
+   "prompt_tokens": 115,
+   "cached_tokens": 25,
+   "latency_ms": 49.8,
    "top": [
-    "A",
-    "C",
     "B",
-    "|",
-    "<",
-    "E"
+    " B",
+    "_",
+    "<turn|>",
+    "Ｂ",
+    "{"
    ],
    "probs_token_ids": null,
    "token_ids_max_abs_diff": null
   },
   {
-   "id": "s2",
+   "id": "s5",
    "rep": 1,
-   "gold": "A",
-   "chosen": "A",
+   "gold": "B",
+   "chosen": "B",
    "probs": {
-    "A": 0.9999,
-    "C": 0.0001,
-    "B": 0.0,
-    "E": 0.0,
-    "D": 0.0
+    "B": 1.0,
+    "A": 0.0
    },
    "missing": [],
-   "first_token": "A",
-   "prompt_tokens": 101,
-   "cached_tokens": 100,
+   "first_token": "B",
+   "prompt_tokens": 115,
+   "cached_tokens": 114,
    "latency_ms": 51.3,
    "top": [
-    "A",
-    "C",
     "B",
-    "|",
-    "<",
-    "E"
-   ],
-   "probs_token_ids": {
-    "A": 0.9999108681708371,
-    "B": 9.033561810828908e-07,
-    "C": 8.781903996779826e-05,
-    "D": 9.49699111556372e-08,
-    "E": 3.144631030149748e-07
-   },
-   "token_ids_max_abs_diff": 0.0
-  },
-  {
-   "id": "s3",
-   "rep": 0,
-   "gold": "B",
-   "chosen": "B",
-   "probs": {
-    "B": 1.0,
-    "A": 0.0
-   },
-   "missing": [],
-   "first_token": "B",
-   "prompt_tokens": 118,
-   "cached_tokens": 24,
-   "latency_ms": 49.7,
-   "top": [
-    "B",
-    "Β",
-    "Ｂ",
-    "<|channel>",
-    "P",
-    "り"
-   ],
-   "probs_token_ids": null,
-   "token_ids_max_abs_diff": null
-  },
-  {
-   "id": "s3",
-   "rep": 1,
-   "gold": "B",
-   "chosen": "B",
-   "probs": {
-    "B": 1.0,
-    "A": 0.0
-   },
-   "missing": [],
-   "first_token": "B",
-   "prompt_tokens": 118,
-   "cached_tokens": 117,
-   "latency_ms": 50.4,
-   "top": [
-    "B",
-    "Β",
-    "Ｂ",
-    "P",
     "_",
-    "<|channel>"
-   ],
-   "probs_token_ids": {
-    "A": 2.1706320709325567e-09,
-    "B": 0.9999999978293679
-   },
-   "token_ids_max_abs_diff": 0.0
-  },
-  {
-   "id": "s4",
-   "rep": 0,
-   "gold": "B",
-   "chosen": "A",
-   "probs": {
-    "A": 0.9991,
-    "B": 0.0004,
-    "C": 0.0003,
-    "D": 0.0002
-   },
-   "missing": [],
-   "first_token": "A",
-   "prompt_tokens": 111,
-   "cached_tokens": 24,
-   "latency_ms": 49.1,
-   "top": [
-    "A",
-    "B",
-    "C",
-    "D",
-    "P",
-    "<|channel>"
-   ],
-   "probs_token_ids": null,
-   "token_ids_max_abs_diff": null
-  },
-  {
-   "id": "s4",
-   "rep": 1,
-   "gold": "B",
-   "chosen": "A",
-   "probs": {
-    "A": 0.9993,
-    "B": 0.0003,
-    "C": 0.0002,
-    "D": 0.0001
-   },
-   "missing": [],
-   "first_token": "A",
-   "prompt_tokens": 111,
-   "cached_tokens": 110,
-   "latency_ms": 50.4,
-   "top": [
-    "A",
-    "B",
-    "C",
-    "D",
-    "P",
-    "<|channel>"
-   ],
-   "probs_token_ids": {
-    "A": 0.9993056342771098,
-    "B": 0.0003204531493865341,
-    "C": 0.0002402540435869561,
-    "D": 0.0001336585299165621
-   },
-   "token_ids_max_abs_diff": 0.0
-  },
-  {
-   "id": "s5",
-   "rep": 0,
-   "gold": "B",
-   "chosen": "B",
-   "probs": {
-    "B": 1.0,
-    "A": 0.0
-   },
-   "missing": [],
-   "first_token": "B",
-   "prompt_tokens": 114,
-   "cached_tokens": 24,
-   "latency_ms": 49.2,
-   "top": [
-    "B",
+    "<turn|>",
+    " B",
     "Ｂ",
-    "A",
-    "Β",
-    "P",
-    "_"
-   ],
-   "probs_token_ids": null,
-   "token_ids_max_abs_diff": null
-  },
-  {
-   "id": "s5",
-   "rep": 1,
-   "gold": "B",
-   "chosen": "B",
-   "probs": {
-    "B": 1.0,
-    "A": 0.0
-   },
-   "missing": [],
-   "first_token": "B",
-   "prompt_tokens": 114,
-   "cached_tokens": 113,
-   "latency_ms": 50.7,
-   "top": [
-    "B",
-    "A",
-    "Ｂ",
-    "Β",
-    "P",
-    "<turn|>"
+    "N"
    ],
    "probs_token_ids": {
-    "A": 1.3334987853251415e-07,
-    "B": 0.9999998666501215
+    "A": 1.851677371170601e-09,
+    "B": 0.9999999981483225
    },
    "token_ids_max_abs_diff": 0.0
   }
@@ -297,22 +297,27 @@
   "I": 236777,
   "J": 236863
  },
+ "bos_check": {
+  "s1_prompt_tokens": 117,
+  "llama_v2_smoke_s1": 117,
+  "ok": true
+ },
  "batch": {
-  "wall_ms": 51.3,
+  "wall_ms": 53.3,
   "cached": [
-   71,
-   71,
-   71
+   72,
+   72,
+   72
   ],
   "prompt_tokens": [
-   120,
-   120,
-   120
+   121,
+   121,
+   121
   ],
   "chosen": [
-   "B",
-   "B",
-   "B"
+   "C",
+   "C",
+   "C"
   ],
   "missing": [
    [],

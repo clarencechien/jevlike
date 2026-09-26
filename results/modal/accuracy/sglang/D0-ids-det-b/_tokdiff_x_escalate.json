@@ -1,0 +1,162 @@
+[
+ {
+  "id": "x_escalate-e0000",
+  "n_llama": 154,
+  "n_hf": 153,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_escalate-e0001",
+  "n_llama": 148,
+  "n_hf": 147,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_escalate-e0002",
+  "n_llama": 159,
+  "n_hf": 158,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_escalate-e0003",
+  "n_llama": 162,
+  "n_hf": 161,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_escalate-e0004",
+  "n_llama": 150,
+  "n_hf": 149,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_escalate-e0005",
+  "n_llama": 155,
+  "n_hf": 154,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_escalate-e0006",
+  "n_llama": 185,
+  "n_hf": 184,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_escalate-e0007",
+  "n_llama": 171,
+  "n_hf": 170,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_escalate-e0008",
+  "n_llama": 163,
+  "n_hf": 162,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_escalate-e0009",
+  "n_llama": 162,
+  "n_hf": 161,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_escalate-e0010",
+  "n_llama": 163,
+  "n_hf": 162,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_escalate-e0011",
+  "n_llama": 164,
+  "n_hf": 163,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_escalate-e0012",
+  "n_llama": 156,
+  "n_hf": 155,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_escalate-e0013",
+  "n_llama": 150,
+  "n_hf": 149,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_escalate-e0014",
+  "n_llama": 153,
+  "n_hf": 152,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_escalate-e0015",
+  "n_llama": 158,
+  "n_hf": 157,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_escalate-e0016",
+  "n_llama": 149,
+  "n_hf": 148,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_escalate-e0017",
+  "n_llama": 141,
+  "n_hf": 140,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_escalate-e0018",
+  "n_llama": 166,
+  "n_hf": 165,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_escalate-e0019",
+  "n_llama": 149,
+  "n_hf": 148,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ }
+]

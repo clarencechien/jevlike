@@ -75,6 +75,12 @@ REPORT.md §3d 改寫結論。若 E1 命中，`06-comparison.md` 與 HTML 的「
 
 ## 4. 一句話結論（三選一，跑完填）
 
+**跑完（2026-09-26）**：E1 命中，差異在第 0 個 token：llama-server 加 `<bos>`、SGLang text 路徑不加；餵同樣 id 後平均 0.958 vs 0.959，護欄 8/10。
+E2 單獨開旗標（仍無 `<bos>`）一致率 99.2%；補上 `<bos>` 再開旗標 99.85%，2,000 題翻 3 題、1 題高把握，差門檻一題。
+速度代價：開旗標單題 63 → 81 ms、K=16 217 → 301 ms、c=32 111.7 → 85.5 dec/s，G2/G3 仍過、G1 沒過。
+→ 選第一句（掉分有解、不穩接近解），**SGLang 回到候選**；修正已進 `decide/prompt.py`（`GEMMA4_TEMPLATE_NOTHINK_BOS`），smoke 驗證 token 數一致。
+
+
 - 「掉分是 tokenizer 差異、不穩是 batch 數值路徑，兩個都有解，**SGLang 可回到候選**；重跑 v4 門檻。」
 - 「不穩解掉、掉分解不掉，SGLang **穩定地低 2–3 分**，只給可容忍的批次工作。」
 - 「兩個都沒解，**維持 llama-server**，GB10 上用多 slot 換併發。」

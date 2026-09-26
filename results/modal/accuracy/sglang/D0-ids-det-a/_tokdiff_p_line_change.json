@@ -1,0 +1,162 @@
+[
+ {
+  "id": "p_line_change-e0000",
+  "n_llama": 240,
+  "n_hf": 239,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_line_change-e0001",
+  "n_llama": 224,
+  "n_hf": 223,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_line_change-e0002",
+  "n_llama": 244,
+  "n_hf": 243,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_line_change-e0003",
+  "n_llama": 225,
+  "n_hf": 224,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_line_change-e0004",
+  "n_llama": 248,
+  "n_hf": 247,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_line_change-e0005",
+  "n_llama": 227,
+  "n_hf": 226,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_line_change-e0006",
+  "n_llama": 233,
+  "n_hf": 232,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_line_change-e0007",
+  "n_llama": 232,
+  "n_hf": 231,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_line_change-e0008",
+  "n_llama": 229,
+  "n_hf": 228,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_line_change-e0009",
+  "n_llama": 229,
+  "n_hf": 228,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_line_change-e0010",
+  "n_llama": 240,
+  "n_hf": 239,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_line_change-e0011",
+  "n_llama": 225,
+  "n_hf": 224,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_line_change-e0012",
+  "n_llama": 227,
+  "n_hf": 226,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_line_change-e0013",
+  "n_llama": 230,
+  "n_hf": 229,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_line_change-e0014",
+  "n_llama": 228,
+  "n_hf": 227,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_line_change-e0015",
+  "n_llama": 229,
+  "n_hf": 228,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_line_change-e0016",
+  "n_llama": 242,
+  "n_hf": 241,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_line_change-e0017",
+  "n_llama": 235,
+  "n_hf": 234,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_line_change-e0018",
+  "n_llama": 232,
+  "n_hf": 231,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_line_change-e0019",
+  "n_llama": 228,
+  "n_hf": 227,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ }
+]

@@ -1,0 +1,162 @@
+[
+ {
+  "id": "m_alarm_category-e0000",
+  "n_llama": 284,
+  "n_hf": 283,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "m_alarm_category-e0001",
+  "n_llama": 292,
+  "n_hf": 291,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "m_alarm_category-e0002",
+  "n_llama": 298,
+  "n_hf": 297,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "m_alarm_category-e0003",
+  "n_llama": 301,
+  "n_hf": 300,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "m_alarm_category-e0004",
+  "n_llama": 281,
+  "n_hf": 280,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "m_alarm_category-e0005",
+  "n_llama": 282,
+  "n_hf": 281,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "m_alarm_category-e0006",
+  "n_llama": 284,
+  "n_hf": 283,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "m_alarm_category-e0007",
+  "n_llama": 311,
+  "n_hf": 310,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "m_alarm_category-e0008",
+  "n_llama": 273,
+  "n_hf": 272,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "m_alarm_category-e0009",
+  "n_llama": 279,
+  "n_hf": 278,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "m_alarm_category-e0010",
+  "n_llama": 275,
+  "n_hf": 274,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "m_alarm_category-e0011",
+  "n_llama": 286,
+  "n_hf": 285,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "m_alarm_category-e0012",
+  "n_llama": 287,
+  "n_hf": 286,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "m_alarm_category-e0013",
+  "n_llama": 293,
+  "n_hf": 292,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "m_alarm_category-e0014",
+  "n_llama": 283,
+  "n_hf": 282,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "m_alarm_category-e0015",
+  "n_llama": 281,
+  "n_hf": 280,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "m_alarm_category-e0016",
+  "n_llama": 304,
+  "n_hf": 303,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "m_alarm_category-e0017",
+  "n_llama": 305,
+  "n_hf": 304,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "m_alarm_category-e0018",
+  "n_llama": 284,
+  "n_hf": 283,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "m_alarm_category-e0019",
+  "n_llama": 281,
+  "n_hf": 280,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ }
+]

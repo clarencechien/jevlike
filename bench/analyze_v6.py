@@ -143,6 +143,37 @@ def main():
         L += ["", f"判定：{v2}", ""]
         out["E2"] = {"tasks": e2, "agree": ag, "flips": flips_all, "flips_conf": flips_conf_all, "verdict": v2}
 
+    # ---------------- E2b: stability with the corrected input (<bos> via ids), with and without the deterministic flag
+    pairs = [("D0-ids", "D0-ids-b", "餵 llama ids，無旗標，兩次"), ("D0-ids-det-a", "D0-ids-det-b", "餵 llama ids + `--enable-deterministic-inference`，兩次")]
+    e2b = {}
+    for sa, sb, label in pairs:
+        ra = {t: rows_of(os.path.join(ACC, "sglang", sa, f"{t}.jsonl")) for t in TASKS}
+        rb = {t: rows_of(os.path.join(ACC, "sglang", sb, f"{t}.jsonl")) for t in TASKS}
+        if not (any(ra.values()) and any(rb.values())):
+            continue
+        if not e2b:
+            L += ["## E2b 修正輸入後的穩定性（E1 命中後重跑：SGLang 有了 `<bos>`）", "",
+                  "| 設定 | n | acc a | acc b（test） | 兩次答案一致率 | 翻掉題數 | 翻掉題中把握 >0.9 |", "|---|---|---|---|---|---|---|"]
+        same, flips, fc, aa, ab = [], 0, 0, [], []
+        for t in TASKS:
+            if not ra[t] or not rb[t]:
+                continue
+            common = sorted(set(ra[t]) & set(rb[t]))
+            same += [ra[t][i]["chosen"] == rb[t][i]["chosen"] for i in common]
+            fl = [i for i in common if ra[t][i]["chosen"] != rb[t][i]["chosen"]]
+            flips += len(fl); fc += sum(1 for i in fl if max(ra[t][i]["probs"].values()) > 0.9)
+            te = [i for i in common if i in test_ids(t)]
+            aa.append(float(np.mean([ra[t][i]["correct"] for i in te]))); ab.append(float(np.mean([rb[t][i]["correct"] for i in te])))
+        ag = float(np.mean(same))
+        stable = ag >= 0.995 and fc == 0
+        e2b[label] = {"agree": ag, "flips": flips, "flips_conf": fc, "acc_a": float(np.mean(aa)), "acc_b": float(np.mean(ab)), "stable": stable}
+        L.append(f"| {label} | {len(same)} | {np.mean(aa):.3f} | {np.mean(ab):.3f} | **{ag * 100:.2f}%** | {flips} | {fc} |")
+    if e2b:
+        L.append("（門檻：一致率 ≥ 99.5% 且翻掉的題沒有把握 >0.9 的。對照：無 `<bos>` 無旗標 97%，無 `<bos>` 有旗標 99.2%）")
+        ok = [k for k, v in e2b.items() if v["stable"]]
+        v2b = ("**不穩解掉**：" + "；".join(ok)) if ok else "**仍未達門檻**：" + "；".join(f"{k} 一致率 {v['agree'] * 100:.2f}%、高把握翻面 {v['flips_conf']} 題" for k, v in e2b.items())
+        L += ["", f"判定：{v2b}", ""]
+        out["E2b"] = {"settings": e2b, "verdict": v2b}
     open(os.path.join(ROOT, "results/09-sglang-stability.md"), "w", encoding="utf-8").write("\n".join(L) + "\n")
     json.dump(out, open(os.path.join(ROOT, "results/v6.json"), "w"), ensure_ascii=False, indent=1, default=float)
     print(json.dumps({k: v.get("verdict") for k, v in out.items() if isinstance(v, dict) and "verdict" in v}, ensure_ascii=False, indent=1))

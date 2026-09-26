@@ -198,5 +198,26 @@
   "flips": 16,
   "flips_conf": 12,
   "verdict": "**不穩另有原因**（一致率 99.20%，翻掉題中把握 >0.9 的有 12 題），記錄後停"
+ },
+ "E2b": {
+  "settings": {
+   "餵 llama ids，無旗標，兩次": {
+    "agree": 0.997,
+    "flips": 6,
+    "flips_conf": 4,
+    "acc_a": 0.958,
+    "acc_b": 0.9570000000000001,
+    "stable": false
+   },
+   "餵 llama ids + `--enable-deterministic-inference`，兩次": {
+    "agree": 0.9985,
+    "flips": 3,
+    "flips_conf": 1,
+    "acc_a": 0.961,
+    "acc_b": 0.959,
+    "stable": false
+   }
+  },
+  "verdict": "**仍未達門檻**：餵 llama ids，無旗標，兩次 一致率 99.70%、高把握翻面 4 題；餵 llama ids + `--enable-deterministic-inference`，兩次 一致率 99.85%、高把握翻面 1 題"
  }
 }

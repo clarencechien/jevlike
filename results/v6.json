@@ -1,0 +1,202 @@
+{
+ "E1_tokdiff": {
+  "n": 200,
+  "n_same": 0,
+  "median_first_diff": 0.0
+ },
+ "E1": {
+  "tasks": {
+   "m_alarm_severity": {
+    "n": 100,
+    "A1": 0.81,
+    "B1": 0.8,
+    "B1ids": 0.8,
+    "p": 1.0,
+    "ok": true
+   },
+   "m_alarm_category": {
+    "n": 100,
+    "A1": 0.98,
+    "B1": 0.94,
+    "B1ids": 0.98,
+    "p": 1.0,
+    "ok": true
+   },
+   "m_needs_dispatch": {
+    "n": 100,
+    "A1": 0.99,
+    "B1": 0.98,
+    "B1ids": 1.0,
+    "p": 1.0,
+    "ok": true
+   },
+   "q_spc_action": {
+    "n": 100,
+    "A1": 0.86,
+    "B1": 0.86,
+    "B1ids": 0.88,
+    "p": 0.5,
+    "ok": false
+   },
+   "q_defect_root": {
+    "n": 100,
+    "A1": 1.0,
+    "B1": 0.95,
+    "B1ids": 0.98,
+    "p": 0.5,
+    "ok": false
+   },
+   "p_uph_anomaly": {
+    "n": 100,
+    "A1": 0.96,
+    "B1": 0.93,
+    "B1ids": 0.95,
+    "p": 1.0,
+    "ok": true
+   },
+   "p_line_change": {
+    "n": 100,
+    "A1": 0.99,
+    "B1": 0.96,
+    "B1ids": 0.99,
+    "p": 1.0,
+    "ok": true
+   },
+   "x_ticket_route": {
+    "n": 100,
+    "A1": 1.0,
+    "B1": 0.97,
+    "B1ids": 1.0,
+    "p": 1.0,
+    "ok": true
+   },
+   "x_escalate": {
+    "n": 100,
+    "A1": 1.0,
+    "B1": 0.94,
+    "B1ids": 1.0,
+    "p": 1.0,
+    "ok": true
+   },
+   "x_10way_intent": {
+    "n": 101,
+    "A1": 1.0,
+    "B1": 0.9801980198019802,
+    "B1ids": 1.0,
+    "p": 1.0,
+    "ok": true
+   }
+  },
+  "pass": 8,
+  "total": 10,
+  "verdict": "**掉分是 tokenizer 造成**：餵同樣的 id 後護欄過，v4「後端固有」的結論撤回",
+  "mean": {
+   "A1": 0.959,
+   "B1": 0.9310198019801981,
+   "B1ids": 0.958
+  }
+ },
+ "E2_speed": {
+  "G1": false,
+  "G2": true,
+  "G3": true
+ },
+ "E2": {
+  "tasks": {
+   "m_alarm_severity": {
+    "n": 200,
+    "acc_a": 0.77,
+    "acc_b": 0.77,
+    "A1": 0.81,
+    "agree": 1.0,
+    "flips": 0,
+    "flips_conf": 0
+   },
+   "m_alarm_category": {
+    "n": 200,
+    "acc_a": 0.97,
+    "acc_b": 0.94,
+    "A1": 0.98,
+    "agree": 0.985,
+    "flips": 3,
+    "flips_conf": 2
+   },
+   "m_needs_dispatch": {
+    "n": 200,
+    "acc_a": 0.99,
+    "acc_b": 0.99,
+    "A1": 0.99,
+    "agree": 1.0,
+    "flips": 0,
+    "flips_conf": 0
+   },
+   "q_spc_action": {
+    "n": 200,
+    "acc_a": 0.84,
+    "acc_b": 0.84,
+    "A1": 0.86,
+    "agree": 0.99,
+    "flips": 2,
+    "flips_conf": 2
+   },
+   "q_defect_root": {
+    "n": 200,
+    "acc_a": 0.93,
+    "acc_b": 0.93,
+    "A1": 1.0,
+    "agree": 0.995,
+    "flips": 1,
+    "flips_conf": 1
+   },
+   "p_uph_anomaly": {
+    "n": 200,
+    "acc_a": 0.9,
+    "acc_b": 0.9,
+    "A1": 0.96,
+    "agree": 1.0,
+    "flips": 0,
+    "flips_conf": 0
+   },
+   "p_line_change": {
+    "n": 200,
+    "acc_a": 0.96,
+    "acc_b": 0.97,
+    "A1": 0.99,
+    "agree": 0.97,
+    "flips": 6,
+    "flips_conf": 4
+   },
+   "x_ticket_route": {
+    "n": 200,
+    "acc_a": 0.97,
+    "acc_b": 0.97,
+    "A1": 1.0,
+    "agree": 0.99,
+    "flips": 2,
+    "flips_conf": 2
+   },
+   "x_escalate": {
+    "n": 200,
+    "acc_a": 0.97,
+    "acc_b": 0.97,
+    "A1": 1.0,
+    "agree": 0.99,
+    "flips": 2,
+    "flips_conf": 1
+   },
+   "x_10way_intent": {
+    "n": 200,
+    "acc_a": 0.9801980198019802,
+    "acc_b": 0.9801980198019802,
+    "A1": 1.0,
+    "agree": 1.0,
+    "flips": 0,
+    "flips_conf": 0
+   }
+  },
+  "agree": 0.992,
+  "flips": 16,
+  "flips_conf": 12,
+  "verdict": "**不穩另有原因**（一致率 99.20%，翻掉題中把握 >0.9 的有 12 題），記錄後停"
+ }
+}

@@ -1,0 +1,102 @@
+{
+  "m_alarm_severity": {
+    "n": 200,
+    "acc": 0.81,
+    "acc_easy": 0.8,
+    "acc_hard": 0.8333333333333334,
+    "missing_rate": 0.225,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  },
+  "m_alarm_category": {
+    "n": 200,
+    "acc": 0.955,
+    "acc_easy": 0.9928571428571429,
+    "acc_hard": 0.8666666666666667,
+    "missing_rate": 0.74,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  },
+  "m_needs_dispatch": {
+    "n": 200,
+    "acc": 0.98,
+    "acc_easy": 0.9857142857142858,
+    "acc_hard": 0.9666666666666667,
+    "missing_rate": 0.0,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  },
+  "q_spc_action": {
+    "n": 200,
+    "acc": 0.785,
+    "acc_easy": 0.8285714285714286,
+    "acc_hard": 0.6833333333333333,
+    "missing_rate": 0.225,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  },
+  "q_defect_root": {
+    "n": 200,
+    "acc": 0.94,
+    "acc_easy": 0.9571428571428572,
+    "acc_hard": 0.9,
+    "missing_rate": 0.425,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  },
+  "p_uph_anomaly": {
+    "n": 200,
+    "acc": 0.89,
+    "acc_easy": 0.9357142857142857,
+    "acc_hard": 0.7833333333333333,
+    "missing_rate": 0.0,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  },
+  "p_line_change": {
+    "n": 200,
+    "acc": 0.975,
+    "acc_easy": 0.9642857142857143,
+    "acc_hard": 1.0,
+    "missing_rate": 0.605,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  },
+  "x_ticket_route": {
+    "n": 200,
+    "acc": 0.95,
+    "acc_easy": 0.9642857142857143,
+    "acc_hard": 0.9166666666666666,
+    "missing_rate": 0.625,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  },
+  "x_escalate": {
+    "n": 200,
+    "acc": 0.955,
+    "acc_easy": 0.9428571428571428,
+    "acc_hard": 0.9833333333333333,
+    "missing_rate": 0.0,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  },
+  "x_10way_intent": {
+    "n": 200,
+    "acc": 0.955,
+    "acc_easy": 0.9428571428571428,
+    "acc_hard": 0.9833333333333333,
+    "missing_rate": 0.83,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  }
+}

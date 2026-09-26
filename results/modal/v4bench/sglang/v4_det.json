@@ -1,0 +1,162 @@
+{
+ "backend": "sglang",
+ "model": "sglang-fp8",
+ "n": 200,
+ "warmup": 20,
+ "results": {
+  "L1_single_100tok_2opt": {
+   "summary": {
+    "n": 200,
+    "p50": 81.31581749998418,
+    "p95": 84.02433614998586,
+    "p99": 85.30319344999384,
+    "mean": 81.5032634799988,
+    "prompt_tokens_mean": 186.18,
+    "cache_n_mean": 34.28
+   },
+   "note": "",
+   "missing_rate": 0.0
+  },
+  "L1_ref_same_prompt_repeated": {
+   "summary": {
+    "n": 200,
+    "p50": 69.9936659999878,
+    "p95": 72.05885924996949,
+    "p99": 72.58586592999961,
+    "mean": 70.168682824997,
+    "prompt_tokens_mean": 211.0,
+    "cache_n_mean": 210.0
+   },
+   "note": "full cache hit = decode floor",
+   "missing_rate": 0.0
+  },
+  "L4_shared_1q": {
+   "summary": {
+    "n": 100,
+    "p50": 127.08307150001019,
+    "p95": 132.51863340003922,
+    "p99": 133.0537165700457,
+    "mean": 127.87993573999869,
+    "prompt_tokens_mean": 0.0,
+    "cache_n_mean": 0.0
+   },
+   "per_call": {
+    "n": 100,
+    "p50": 127.08307150001019,
+    "p95": 132.51863340003922,
+    "p99": 133.0537165700457,
+    "mean": 127.87993573999869,
+    "prompt_tokens_mean": 1227.27,
+    "cache_n_mean": 0.0
+   },
+   "cached_tokens_mean": 30.85,
+   "prefix_hit_rate": 0.025137092897243477,
+   "note": "total ms for K questions on one ~1100-token state; sglang=list batch, llama=warm"
+  },
+  "L4_shared_5q": {
+   "summary": {
+    "n": 40,
+    "p50": 208.7772180000229,
+    "p95": 214.80368480002028,
+    "p99": 218.50141605998715,
+    "mean": 209.726186650002,
+    "prompt_tokens_mean": 0.0,
+    "cache_n_mean": 0.0
+   },
+   "per_call": {
+    "n": 200,
+    "p50": 81.44119499999647,
+    "p95": 130.15874630001463,
+    "p99": 132.62355233999926,
+    "mean": 90.76640785499988,
+    "prompt_tokens_mean": 1235.15,
+    "cache_n_mean": 0.0
+   },
+   "cached_tokens_mean": 953.56,
+   "prefix_hit_rate": 0.7672023640853337,
+   "note": "total ms for K questions on one ~1100-token state; sglang=list batch, llama=warm"
+  },
+  "L4_shared_10q": {
+   "summary": {
+    "n": 20,
+    "p50": 230.15984000005574,
+    "p95": 239.5764769500545,
+    "p99": 269.3597969899553,
+    "mean": 233.04248330000237,
+    "prompt_tokens_mean": 0.0,
+    "cache_n_mean": 0.0
+   },
+   "per_call": {
+    "n": 200,
+    "p50": 102.6583440000195,
+    "p95": 130.63945659995395,
+    "p99": 145.97770599993964,
+    "mean": 107.00985366499823,
+    "prompt_tokens_mean": 1224.95,
+    "cache_n_mean": 0.0
+   },
+   "cached_tokens_mean": 1059.38,
+   "prefix_hit_rate": 0.8611439242418057,
+   "note": "total ms for K questions on one ~1100-token state; sglang=list batch, llama=warm"
+  },
+  "L4_shared_16q": {
+   "summary": {
+    "n": 20,
+    "p50": 301.1566134999839,
+    "p95": 308.1004517499366,
+    "p99": 308.4968183499939,
+    "mean": 301.9651245999796,
+    "prompt_tokens_mean": 0.0,
+    "cache_n_mean": 0.0
+   },
+   "per_call": {
+    "n": 320,
+    "p50": 171.56902599992918,
+    "p95": 174.34399700005088,
+    "p99": 176.2696580000238,
+    "mean": 169.2946954968754,
+    "prompt_tokens_mean": 1252.3375,
+    "cache_n_mean": 0.0
+   },
+   "cached_tokens_mean": 1126.74375,
+   "prefix_hit_rate": 0.895154498587641,
+   "note": "total ms for K questions on one ~1100-token state; sglang=list batch, llama=warm"
+  },
+  "L5_concurrency_1": {
+   "summary": {
+    "n": 200,
+    "p50": 81.54039600003671,
+    "p95": 84.1703397999936,
+    "p99": 84.75862126007314,
+    "mean": 81.73376834500232,
+    "prompt_tokens_mean": 185.81,
+    "cache_n_mean": 34.47,
+    "throughput_rps": 12.204995407546187
+   }
+  },
+  "L5_concurrency_8": {
+   "summary": {
+    "n": 200,
+    "p50": 195.75989149996076,
+    "p95": 199.8314744499794,
+    "p99": 200.8169583399865,
+    "mean": 195.30056653999964,
+    "prompt_tokens_mean": 185.7,
+    "cache_n_mean": 34.47,
+    "throughput_rps": 40.232884408494215
+   }
+  },
+  "L5_concurrency_32": {
+   "summary": {
+    "n": 200,
+    "p50": 364.94506150000916,
+    "p95": 378.6460020500214,
+    "p99": 421.5948272500111,
+    "mean": 362.91289432499866,
+    "prompt_tokens_mean": 186.75,
+    "cache_n_mean": 35.175,
+    "throughput_rps": 85.52351414247339
+   }
+  }
+ }
+}

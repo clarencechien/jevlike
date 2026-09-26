@@ -1,0 +1,162 @@
+[
+ {
+  "id": "q_spc_action-e0000",
+  "n_llama": 295,
+  "n_hf": 294,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_spc_action-e0001",
+  "n_llama": 284,
+  "n_hf": 283,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_spc_action-e0002",
+  "n_llama": 284,
+  "n_hf": 283,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_spc_action-e0003",
+  "n_llama": 293,
+  "n_hf": 292,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_spc_action-e0004",
+  "n_llama": 288,
+  "n_hf": 287,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_spc_action-e0005",
+  "n_llama": 276,
+  "n_hf": 275,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_spc_action-e0006",
+  "n_llama": 293,
+  "n_hf": 292,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_spc_action-e0007",
+  "n_llama": 283,
+  "n_hf": 282,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_spc_action-e0008",
+  "n_llama": 311,
+  "n_hf": 310,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_spc_action-e0009",
+  "n_llama": 311,
+  "n_hf": 310,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_spc_action-e0010",
+  "n_llama": 290,
+  "n_hf": 289,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_spc_action-e0011",
+  "n_llama": 266,
+  "n_hf": 265,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_spc_action-e0012",
+  "n_llama": 274,
+  "n_hf": 273,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_spc_action-e0013",
+  "n_llama": 280,
+  "n_hf": 279,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_spc_action-e0014",
+  "n_llama": 308,
+  "n_hf": 307,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_spc_action-e0015",
+  "n_llama": 294,
+  "n_hf": 293,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_spc_action-e0016",
+  "n_llama": 281,
+  "n_hf": 280,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_spc_action-e0017",
+  "n_llama": 292,
+  "n_hf": 291,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_spc_action-e0018",
+  "n_llama": 257,
+  "n_hf": 256,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_spc_action-e0019",
+  "n_llama": 277,
+  "n_hf": 276,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ }
+]

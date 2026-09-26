@@ -15,7 +15,7 @@ from concurrent.futures import ThreadPoolExecutor
 import requests
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from decide.client import chat_json, read_option_probs  # noqa: E402
+from decide.client import chat_json, read_option_probs, reader_for  # noqa: E402
 from decide.prompt import SYSTEM, TemplateRenderer, build_messages, letters_for  # noqa: E402
 
 DATA_DIR = "/root/data/synthetic"
@@ -64,7 +64,9 @@ def main(base_url, out_dir, args="", **kw):
     if a.get("--out-sub"):
         out_dir = os.path.join(out_dir, a["--out-sub"])
         os.makedirs(out_dir, exist_ok=True)
-    tr = TemplateRenderer(base_url)
+    backend = kw.get("backend", "llama")
+    read = reader_for(backend)
+    tr = TemplateRenderer(base_url, static=(backend == "sglang"))
     lock = threading.Lock()
     tls = threading.local()
 
@@ -98,7 +100,7 @@ def main(base_url, out_dir, args="", **kw):
             prompt = tr.render(r["state"], r["question"])
             for attempt in range(3):
                 try:
-                    res = read_option_probs(base_url, prompt, letters, session=sess())
+                    res = read(base_url, prompt, letters, session=sess())
                     break
                 except Exception as e:  # noqa: BLE001
                     if attempt == 2:
@@ -133,6 +135,8 @@ def main(base_url, out_dir, args="", **kw):
             rng.shuffle(pool)
             sel += pool[:control_n]
         sel = [r for r in sel if r["id"] not in skip]
+        if backend == "sglang":
+            sel = []  # control arm (chat JSON) only on llama-server
         print(f"[{task}] control arm: {len(sel)} rows", flush=True)
 
         def one_ctrl(r):

@@ -27,6 +27,9 @@ def build_messages(state: str, question: dict, system: str = SYSTEM) -> list[dic
     return [{"role": "system", "content": system}, {"role": "user", "content": user}]
 
 
+GEMMA4_TEMPLATE_NOTHINK = ("<|turn>system\n" + SYS_MARK + "<turn|>\n<|turn>user\n" + USR_MARK + "<turn|>\n<|turn>model\n<|channel>thought\n<channel|>")
+
+
 class TemplateRenderer:
     """Learns the server's chat template once (with thinking disabled) and renders locally.
 
@@ -38,11 +41,15 @@ class TemplateRenderer:
     THINK_ON = "<|think|>\n"
     EMPTY_THOUGHT = "<|channel>thought\n<channel|>"
 
-    def __init__(self, base_url: str, prefill: str = "", use_system: bool = True, enable_thinking: bool = False):
+    def __init__(self, base_url: str, prefill: str = "", use_system: bool = True, enable_thinking: bool = False, static: bool = False):
         self.base_url = base_url
         self.prefill = prefill
         self.use_system = use_system
         self.enable_thinking = enable_thinking
+        if static:  # backend has no /apply-template (e.g. SGLang): use the template llama-server rendered for Gemma 4
+            self.template = GEMMA4_TEMPLATE_NOTHINK
+            self.server_honored_kwargs = True
+            return
         msgs = [{"role": "system", "content": SYS_MARK}, {"role": "user", "content": USR_MARK}]
         if not use_system:
             msgs = msgs[1:]

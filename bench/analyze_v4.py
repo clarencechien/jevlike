@@ -28,7 +28,17 @@ def f(x, d=0):
 
 def load_arm(arm):
     p = os.path.join(V4, ARMS[arm])
-    return json.load(open(p))["results"] if os.path.exists(p) else None
+    if not os.path.exists(p):
+        return None
+    r = json.load(open(p))["results"]
+    alt = p.replace("v4.json", "v4_L4seq.json")  # llama-server: sequential same-slot variant of L4; keep the better one per K
+    if os.path.exists(alt):
+        r2 = json.load(open(alt))["results"]
+        for K in (1, 5, 10, 16):
+            k = f"L4_shared_{K}q"
+            if k in r2 and (k not in r or r2[k]["summary"]["p50"] < r[k]["summary"]["p50"]):
+                r[k] = dict(r2[k], note=r2[k].get("note", "") + " (seq chosen)")
+    return r
 
 
 def acc_rows(arm, ds, task):

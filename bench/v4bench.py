@@ -53,6 +53,7 @@ def main(base_url, out_dir, args="", backend="llama", **kw):
     N, WARM = int(a.get("--n", 200)), int(a.get("--warmup", 20))
     only = set(a.get("--only", "L1,L2,L4,L5,L6,S2,S3").split(","))
     out_name = a.get("--out", "v4.json")
+    l4_mode = a.get("--l4-mode", "par")  # llama-server: par = K threads (different slots), seq = one slot with cache reuse
     rng = random.Random(42)
     sess = requests.Session()
     read = reader_for(backend)
@@ -86,8 +87,11 @@ def main(base_url, out_dir, args="", backend="llama", **kw):
             res, wall = batch_read_option_probs_sglang(base_url, prompts, letters_list, session=sess)
             return wall, [r["server_cache_n"] for r in res], res
         t0 = time.perf_counter()
-        with ThreadPoolExecutor(len(prompts)) as ex:
-            res = list(ex.map(lambda pl: read(base_url, pl[0], pl[1], session=requests.Session()), zip(prompts, letters_list)))
+        if l4_mode == "seq":
+            res = [read(base_url, p, L, session=sess, slot_id=0) for p, L in zip(prompts, letters_list)]
+        else:
+            with ThreadPoolExecutor(len(prompts)) as ex:
+                res = list(ex.map(lambda pl: read(base_url, pl[0], pl[1], session=requests.Session()), zip(prompts, letters_list)))
         return (time.perf_counter() - t0) * 1000, [r["server_cache_n"] for r in res], res
 
     q2 = question(2)
@@ -118,7 +122,7 @@ def main(base_url, out_dir, args="", backend="llama", **kw):
             ptoks = statistics.fmean([r["prompt_tokens"] for r in per if r["prompt_tokens"]] or [0])
             hit = statistics.fmean([min(1.0, c / ptoks) for c in cached]) if ptoks else 0
             out["results"][f"L4_shared_{K}q"] = {"summary": summarize(walls), "per_call": summarize(per), "cached_tokens_mean": statistics.fmean(cached) if cached else 0,
-                                                 "prefix_hit_rate": hit, "note": "total ms for K questions on one ~1100-token state; sglang=list batch, llama=threads"}
+                                                 "prefix_hit_rate": hit, "note": f"total ms for K questions on one ~1100-token state; sglang=list batch, llama={l4_mode}"}
             print(f"L4_shared_{K}q", json.dumps(out["results"][f"L4_shared_{K}q"]["summary"]), "cached", round(statistics.fmean(cached) if cached else 0), "hit", round(hit, 2), flush=True)
     # ---- L5 concurrency
     if "L5" in only:

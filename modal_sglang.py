@@ -50,17 +50,18 @@ image = (
 
 
 @app.function(image=image, volumes={"/hf": weights}, timeout=60 * 60 * 2)
-def download():
+def download(model: str = "fp8"):
     from huggingface_hub import snapshot_download
 
-    p = snapshot_download(FP8_REPO, revision=FP8_REV, local_dir=f"/hf/{FP8_REPO}")
+    repo, rev = MODELS[model]
+    p = snapshot_download(repo, revision=rev, local_dir=f"/hf/{repo}", allow_patterns=["*.json", "*.safetensors", "*.jinja", "*.txt", "*.yaml", "*.model"])
     weights.commit()
     tot = sum(os.path.getsize(os.path.join(dp, f)) for dp, _, fs in os.walk(p) for f in fs)
     return {"path": p, "bytes": tot}
 
 
-def start_server(port=30000, ctx=4096, max_running=32, extra=()):
-    cmd = ["python3", "-m", "sglang.launch_server", "--model-path", f"/hf/{FP8_REPO}", "--context-length", str(ctx),
+def start_server(port=30000, ctx=4096, max_running=32, extra=(), model="fp8"):
+    cmd = ["python3", "-m", "sglang.launch_server", "--model-path", f"/hf/{MODELS[model][0]}", "--context-length", str(ctx),
            "--max-running-requests", str(max_running), "--mem-fraction-static", "0.8", "--host", "127.0.0.1", "--port", str(port),
            "--log-level", "warning", *extra]
     print("starting:", " ".join(cmd), flush=True)
@@ -80,22 +81,22 @@ def start_server(port=30000, ctx=4096, max_running=32, extra=()):
 
 
 @app.function(image=image, gpu=GPU, volumes={"/hf": weights, "/results": results}, timeout=60 * 60 * 3)
-def run(which: str, args: str = "", server_extra: str = ""):
+def run(which: str, args: str = "", server_extra: str = "", model: str = "fp8"):
     import sys
 
     sys.path.insert(0, "/root")
     smi = subprocess.run(["nvidia-smi", "--query-gpu=name,memory.total", "--format=csv,noheader"], capture_output=True, text=True).stdout.strip()
     ver = subprocess.run(["python3", "-c", "import sglang; print(sglang.__version__)"], capture_output=True, text=True).stdout.strip()
-    proc, t_start = start_server(extra=tuple(server_extra.split()))
+    proc, t_start = start_server(extra=tuple(server_extra.split()), model=model)
     mem = subprocess.run(["nvidia-smi", "--query-gpu=memory.used", "--format=csv,noheader"], capture_output=True, text=True).stdout.strip()
-    env = {"gpu": smi, "sglang_version": ver, "server_start_s": round(t_start, 1), "gpu_mem_after_load": mem, "repo": FP8_REPO, "rev": FP8_REV, "server_extra": server_extra}
+    env = {"gpu": smi, "sglang_version": ver, "server_start_s": round(t_start, 1), "gpu_mem_after_load": mem, "repo": MODELS[model][0], "rev": MODELS[model][1], "server_extra": server_extra}
     print(json.dumps(env), flush=True)
     try:
-        out_dir = f"/results/{which}/sglang" if SGL_MODEL == "fp8" else f"/results/{which}/sglang-{SGL_MODEL}"
+        out_dir = f"/results/{which}/sglang" if model == "fp8" else f"/results/{which}/sglang-{model}"
         os.makedirs(out_dir, exist_ok=True)
         json.dump(env, open(f"{out_dir}/_env.json", "w"), indent=1)
         mod = __import__(f"bench.{which}", fromlist=["main"])
-        ret = mod.main(base_url="http://127.0.0.1:30000", out_dir=out_dir, args=args, commit=results.commit, model=f"sglang-{SGL_MODEL}", backend="sglang")
+        ret = mod.main(base_url="http://127.0.0.1:30000", out_dir=out_dir, args=args, commit=results.commit, model=f"sglang-{model}", backend="sglang")
         results.commit()
         return ret
     finally:
@@ -103,8 +104,8 @@ def run(which: str, args: str = "", server_extra: str = ""):
 
 
 @app.local_entrypoint()
-def main(which: str = "probe", args: str = "", server_extra: str = ""):
+def main(which: str = "probe", args: str = "", server_extra: str = "", model: str = SGL_MODEL):
     if which == "download":
-        print(json.dumps(download.remote(), indent=2))
+        print(json.dumps(download.remote(model), indent=2))
     else:
-        print(json.dumps(run.remote(which, args, server_extra), indent=2, ensure_ascii=False, default=str)[:6000])
+        print(json.dumps(run.remote(which, args, server_extra, model), indent=2, ensure_ascii=False, default=str)[:6000])

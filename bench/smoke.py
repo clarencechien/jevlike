@@ -73,6 +73,11 @@ def main(base_url, out_dir, args="", **kw):
                   f"p={ {k: round(v, 3) for k, v in r['probs'].items()} } missing={r['missing']} "
                   f"lat={r['latency_ms']:.0f}ms ptok={r['prompt_tokens']} cached={r['tokens_cached']} top={[t['token'] for t in r['top_tokens'][:5]]}", flush=True)
 
+    # P2 (handoff v7): option-mass health check on the adopted variant; a broken template shows up as ~0
+    adopted = rep["variants"].get("nothink+sys+noprefill", {}).get("rows", [])
+    masses = [r.get("option_mass", 0.0) for r in adopted]
+    rep["option_mass_check"] = {"min": min(masses) if masses else None, "ok": bool(masses) and min(masses) >= 0.9}
+    print("option_mass_check", rep["option_mass_check"], flush=True)
     # control arm: chat completion generating JSON
     ctrl = []
     for ex in EXAMPLES[:2]:

@@ -1,0 +1,343 @@
+{
+ "acc_dir": "results/modal/accuracy",
+ "seed": 0,
+ "measure_requested": "top_prob",
+ "eps": [
+  0.02,
+  0.05,
+  0.1
+ ],
+ "commit": "2247923",
+ "tasks": {
+  "m_alarm_severity": {
+   "T": 6.229416821475039,
+   "measure": "top_prob",
+   "n_cal": 100,
+   "n_test": 100,
+   "acc_test": 0.82,
+   "eps": {
+    "0.02": {
+     "threshold": 0.539134707813759,
+     "coverage_cal": 0.99,
+     "coverage_test": 0.99,
+     "error_test": 0.18181818181818182,
+     "n_handled_test": 99,
+     "guarantee_holds": false
+    },
+    "0.05": {
+     "threshold": 0.5640888676489423,
+     "coverage_cal": 0.96,
+     "coverage_test": 0.95,
+     "error_test": 0.14736842105263157,
+     "n_handled_test": 95,
+     "guarantee_holds": false
+    },
+    "0.1": {
+     "threshold": 0.615141040663722,
+     "coverage_cal": 0.91,
+     "coverage_test": 0.9,
+     "error_test": 0.12222222222222222,
+     "n_handled_test": 90,
+     "guarantee_holds": false
+    }
+   }
+  },
+  "m_alarm_category": {
+   "T": 4.107171792459714,
+   "measure": "top_prob",
+   "n_cal": 100,
+   "n_test": 100,
+   "acc_test": 0.98,
+   "eps": {
+    "0.02": {
+     "threshold": 0.7945951534827197,
+     "coverage_cal": 0.99,
+     "coverage_test": 0.99,
+     "error_test": 0.010101010101010102,
+     "n_handled_test": 99,
+     "guarantee_holds": true
+    },
+    "0.05": {
+     "threshold": 0.8835237319257079,
+     "coverage_cal": 0.96,
+     "coverage_test": 0.99,
+     "error_test": 0.010101010101010102,
+     "n_handled_test": 99,
+     "guarantee_holds": true
+    },
+    "0.1": {
+     "threshold": 0.9674244831507005,
+     "coverage_cal": 0.91,
+     "coverage_test": 0.89,
+     "error_test": 0.0,
+     "n_handled_test": 89,
+     "guarantee_holds": true
+    }
+   }
+  },
+  "m_needs_dispatch": {
+   "T": 0.05000000000000001,
+   "measure": "top_prob",
+   "n_cal": 100,
+   "n_test": 100,
+   "acc_test": 0.99,
+   "eps": {
+    "0.02": {
+     "threshold": 1.0,
+     "coverage_cal": 1.0,
+     "coverage_test": 1.0,
+     "error_test": 0.01,
+     "n_handled_test": 100,
+     "guarantee_holds": true
+    },
+    "0.05": {
+     "threshold": 1.0,
+     "coverage_cal": 1.0,
+     "coverage_test": 1.0,
+     "error_test": 0.01,
+     "n_handled_test": 100,
+     "guarantee_holds": true
+    },
+    "0.1": {
+     "threshold": 1.0,
+     "coverage_cal": 1.0,
+     "coverage_test": 1.0,
+     "error_test": 0.01,
+     "n_handled_test": 100,
+     "guarantee_holds": true
+    }
+   }
+  },
+  "q_spc_action": {
+   "T": 5.811612343399262,
+   "measure": "top_prob",
+   "n_cal": 100,
+   "n_test": 100,
+   "acc_test": 0.86,
+   "eps": {
+    "0.02": {
+     "threshold": 0.492142600781301,
+     "coverage_cal": 0.98,
+     "coverage_test": 0.98,
+     "error_test": 0.12244897959183673,
+     "n_handled_test": 98,
+     "guarantee_holds": false
+    },
+    "0.05": {
+     "threshold": 0.5680753289107052,
+     "coverage_cal": 0.96,
+     "coverage_test": 0.96,
+     "error_test": 0.11458333333333333,
+     "n_handled_test": 96,
+     "guarantee_holds": false
+    },
+    "0.1": {
+     "threshold": 0.6605869201078266,
+     "coverage_cal": 0.91,
+     "coverage_test": 0.87,
+     "error_test": 0.08045977011494253,
+     "n_handled_test": 87,
+     "guarantee_holds": true
+    }
+   }
+  },
+  "q_defect_root": {
+   "T": 2.526315532667841,
+   "measure": "top_prob",
+   "n_cal": 100,
+   "n_test": 100,
+   "acc_test": 0.98,
+   "eps": {
+    "0.02": {
+     "threshold": 0.6162434531054457,
+     "coverage_cal": 0.99,
+     "coverage_test": 1.0,
+     "error_test": 0.02,
+     "n_handled_test": 100,
+     "guarantee_holds": true
+    },
+    "0.05": {
+     "threshold": 0.7768235909161789,
+     "coverage_cal": 0.96,
+     "coverage_test": 0.98,
+     "error_test": 0.0,
+     "n_handled_test": 98,
+     "guarantee_holds": true
+    },
+    "0.1": {
+     "threshold": 0.913520905134722,
+     "coverage_cal": 0.91,
+     "coverage_test": 0.93,
+     "error_test": 0.0,
+     "n_handled_test": 93,
+     "guarantee_holds": true
+    }
+   }
+  },
+  "p_uph_anomaly": {
+   "T": 6.016889203887947,
+   "measure": "top_prob",
+   "n_cal": 100,
+   "n_test": 100,
+   "acc_test": 0.93,
+   "eps": {
+    "0.02": {
+     "threshold": 0.6568724540731818,
+     "coverage_cal": 0.99,
+     "coverage_test": 0.96,
+     "error_test": 0.052083333333333336,
+     "n_handled_test": 96,
+     "guarantee_holds": false
+    },
+    "0.05": {
+     "threshold": 0.7629601194170369,
+     "coverage_cal": 0.96,
+     "coverage_test": 0.91,
+     "error_test": 0.03296703296703297,
+     "n_handled_test": 91,
+     "guarantee_holds": true
+    },
+    "0.1": {
+     "threshold": 0.8378120590334899,
+     "coverage_cal": 0.91,
+     "coverage_test": 0.86,
+     "error_test": 0.023255813953488372,
+     "n_handled_test": 86,
+     "guarantee_holds": true
+    }
+   }
+  },
+  "p_line_change": {
+   "T": 3.1112854183651155,
+   "measure": "top_prob",
+   "n_cal": 100,
+   "n_test": 100,
+   "acc_test": 0.99,
+   "eps": {
+    "0.02": {
+     "threshold": 0.7654777066530661,
+     "coverage_cal": 0.99,
+     "coverage_test": 1.0,
+     "error_test": 0.01,
+     "n_handled_test": 100,
+     "guarantee_holds": true
+    },
+    "0.05": {
+     "threshold": 0.9928881345628506,
+     "coverage_cal": 0.96,
+     "coverage_test": 0.91,
+     "error_test": 0.0,
+     "n_handled_test": 91,
+     "guarantee_holds": true
+    },
+    "0.1": {
+     "threshold": 0.9962457086888721,
+     "coverage_cal": 0.91,
+     "coverage_test": 0.9,
+     "error_test": 0.0,
+     "n_handled_test": 90,
+     "guarantee_holds": true
+    }
+   }
+  },
+  "x_ticket_route": {
+   "T": 2.707935689039737,
+   "measure": "top_prob",
+   "n_cal": 100,
+   "n_test": 100,
+   "acc_test": 1.0,
+   "eps": {
+    "0.02": {
+     "threshold": 0.8400154977963508,
+     "coverage_cal": 0.99,
+     "coverage_test": 0.98,
+     "error_test": 0.0,
+     "n_handled_test": 98,
+     "guarantee_holds": true
+    },
+    "0.05": {
+     "threshold": 0.8822132117911514,
+     "coverage_cal": 0.96,
+     "coverage_test": 0.97,
+     "error_test": 0.0,
+     "n_handled_test": 97,
+     "guarantee_holds": true
+    },
+    "0.1": {
+     "threshold": 0.9868856068319647,
+     "coverage_cal": 0.91,
+     "coverage_test": 0.94,
+     "error_test": 0.0,
+     "n_handled_test": 94,
+     "guarantee_holds": true
+    }
+   }
+  },
+  "x_escalate": {
+   "T": 0.05000000000000001,
+   "measure": "top_prob",
+   "n_cal": 100,
+   "n_test": 100,
+   "acc_test": 1.0,
+   "eps": {
+    "0.02": {
+     "threshold": 1.0,
+     "coverage_cal": 1.0,
+     "coverage_test": 1.0,
+     "error_test": 0.0,
+     "n_handled_test": 100,
+     "guarantee_holds": true
+    },
+    "0.05": {
+     "threshold": 1.0,
+     "coverage_cal": 1.0,
+     "coverage_test": 1.0,
+     "error_test": 0.0,
+     "n_handled_test": 100,
+     "guarantee_holds": true
+    },
+    "0.1": {
+     "threshold": 1.0,
+     "coverage_cal": 1.0,
+     "coverage_test": 1.0,
+     "error_test": 0.0,
+     "n_handled_test": 100,
+     "guarantee_holds": true
+    }
+   }
+  },
+  "x_10way_intent": {
+   "T": 3.452756760081164,
+   "measure": "top_prob",
+   "n_cal": 99,
+   "n_test": 101,
+   "acc_test": 1.0,
+   "eps": {
+    "0.02": {
+     "threshold": 0.8136731244155327,
+     "coverage_cal": 0.98989898989899,
+     "coverage_test": 0.9801980198019802,
+     "error_test": 0.0,
+     "n_handled_test": 99,
+     "guarantee_holds": true
+    },
+    "0.05": {
+     "threshold": 0.8904036709202385,
+     "coverage_cal": 0.9595959595959596,
+     "coverage_test": 0.9306930693069307,
+     "error_test": 0.0,
+     "n_handled_test": 94,
+     "guarantee_holds": true
+    },
+    "0.1": {
+     "threshold": 0.9032566404553067,
+     "coverage_cal": 0.9090909090909091,
+     "coverage_test": 0.9306930693069307,
+     "error_test": 0.0,
+     "n_handled_test": 94,
+     "guarantee_holds": true
+    }
+   }
+  }
+ }
+}

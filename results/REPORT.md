@@ -202,6 +202,24 @@ E4B 單題快 2.2 倍、十題快 1.8 倍，但 **decode 地板兩者一樣**（
 
 TypeLLM 本身不支援 Gemma 4（`06-comparison.md`），它的 JevBench 84.4% 是 Qwen3.8-27B 在 231 題公開子集，與 534 題的 74.4 不同尺。它的 thinking mode（84% → 98.7%，每題均 919 token）產線 gating 用不起；`depends_on` 依賴鏈與 nullable 語法等真實資料有鏈式題再開。
 
+## 3f. 從生態抄來的兩件事：option mass 與 conformal 門檻（v7 P2/P3，`11-option-mass.md`、`11-thresholds.md`、`thresholds.lock.json`）
+
+**一句話**：給 5% 錯誤預算，七類強題能自動處理 91–100%、實際錯誤率 0–3.3%，保證在 8/10 task 成立；門檻寫成 lock 檔，`bench/verify.py --check-lock` 可以抓到後端或模型換掉造成的漂移（SGLang 無 `<bos>` 那次會被抓出 10 項）。option mass 只當模板健康檢查。
+
+**P3 conformal 門檻（抄 poorjev / jevcal）**：Q6 原本報「信心 ≥ 0.9 時的準確率與 coverage」，是描述；這裡反過來，先定錯誤預算 ε，在 cal 半上取 1 − conf 的 ⌈(n+1)(1−ε)⌉/n 分位當門檻，test 半上驗證。信心用溫度校準後的 top_prob。
+
+| ε | 保證成立（test 錯誤率 ≤ ε） | 七類強題 coverage | 三類弱題 |
+|---|---|---|---|
+| 2% | 7/10 | 0.91–1.00 | 急迫度 err 0.182、SPC 0.122、UPH 0.052：**保證不成立** |
+| 5% | 8/10 | 最低 0.91、平均 0.97 | 急迫度 0.147、SPC 0.115 不成立；UPH 0.033 成立（coverage 0.91） |
+| 10% | 9/10 | — | 只剩急迫度不成立 |
+
+判定（門檻 ε=5% ≥ 8/10、ε=2% ≥ 6/10）：**過**；強題 coverage 門檻 0.95 差一點（最低 0.91，`p_line_change` 與 `p_uph_anomaly`）。弱題「保證不成立」的原因不是方法，是溫度校準後信心對急迫度、SPC 幾乎沒有鑑別力（T 高達 6，門檻壓到 0.56 仍放行 95%）：這兩題要靠 v2 改寫 criteria 與真實資料，門檻救不了。
+
+**lock 檔與漂移檢查**：`results/thresholds.lock.json` 記每 task × ε 的門檻、cal/test 筆數、T、commit。`verify.py --check-lock <dir>` 重算，錯誤率超過 ε×1.5 且比 lock 高 3 點以上、或 coverage 掉 10 點就 exit 1。實測：同權重重跑 0 項；Q8 權重 0 項；SGLang 無 `<bos>` **10 項**；SGLang 有 `<bos>` 2 項（都是急迫度）。這就是 GB10 換模型檔、換後端時要跑的 CI。
+
+**P2 option mass（抄 verdict）**：字母正規化前的總機率。回溯所有結果檔：正常時 p5 ≥ 0.9998；v2 smoke 裡「think 開」與「尾空白」兩個壞模板 mass 中位數 0.003 / 0.020，所以 smoke 加了門檻 0.9 的健康檢查。它抓不到 `<bos>` 這類錯（有無都是 1.000），跑前預期「與答對無關」也錯了：AUROC 0.6–0.88，但差異全在 1e-4 以下的尾巴，是信心的影子，能排序不能設門檻。
+
 ## 4. 本版的限制
 
 1. **延遲全部是 L4 上界**。GB10 實測待補（v1 §5 L1–L7，約 30 分鐘；記得 `--swa-full`）。

@@ -5,6 +5,12 @@ import time
 import requests
 
 
+def option_mass(logp: dict) -> float:
+    """Sum of the letters' raw probabilities before renormalisation (after verdict's 'option mass').
+    ~1.0 = the model wanted to answer a letter; ~0 = the template is broken (thinking on, stray whitespace, ...)."""
+    return float(sum(math.exp(v) for v in logp.values())) if logp else 0.0
+
+
 def _parse_candidates(r: dict):
     cp = r.get("completion_probabilities") or []
     if not cp:
@@ -50,6 +56,7 @@ def read_option_probs(base_url, prompt, letters, n_probs=40, cache_prompt=True, 
     timings = r.get("timings") or {}
     return {
         "probs": probs, "missing": missing, "latency_ms": dt,
+        "option_mass": option_mass(logp),  # P2 (handoff v7): raw mass on the letters before renormalising
         "first_token": r.get("content"),
         "first_token_id": (top or {}).get("id"),
         "prompt_tokens": r.get("tokens_evaluated"),
@@ -135,7 +142,7 @@ def read_option_probs_sglang(base_url, prompt, letters, n_probs=40, session=None
     meta = r.get("meta_info", {})
     probs, missing, logp, top = _sglang_parse(meta, letters, token_ids)
     return {"probs": probs, "missing": missing, "latency_ms": dt, "first_token": r.get("text"), "first_token_id": None,
-            "prompt_tokens": meta.get("prompt_tokens"), "tokens_cached": meta.get("cached_tokens"), "raw_logprobs": logp,
+            "prompt_tokens": meta.get("prompt_tokens"), "tokens_cached": meta.get("cached_tokens"), "raw_logprobs": logp, "option_mass": option_mass(logp),
             "top_tokens": top, "server_prompt_ms": None, "server_predicted_ms": None, "server_prompt_n": meta.get("prompt_tokens"),
             "server_cache_n": meta.get("cached_tokens"), "e2e_latency_s": meta.get("e2e_latency")}
 
@@ -154,7 +161,7 @@ def read_option_probs_sglang_ids(base_url, input_ids, letters, token_ids, sessio
     meta = r.get("meta_info", {})
     probs, missing, logp, top = _sglang_parse(meta, letters, token_ids)
     return {"probs": probs, "missing": missing, "latency_ms": dt, "first_token": r.get("text"), "first_token_id": None,
-            "prompt_tokens": meta.get("prompt_tokens"), "tokens_cached": meta.get("cached_tokens"), "raw_logprobs": logp,
+            "prompt_tokens": meta.get("prompt_tokens"), "tokens_cached": meta.get("cached_tokens"), "raw_logprobs": logp, "option_mass": option_mass(logp),
             "top_tokens": top, "server_prompt_ms": None, "server_predicted_ms": None, "server_prompt_n": meta.get("prompt_tokens"),
             "server_cache_n": meta.get("cached_tokens"), "e2e_latency_s": meta.get("e2e_latency")}
 
@@ -174,7 +181,7 @@ def batch_read_option_probs_sglang(base_url, prompts, letters_list, n_probs=40, 
         meta = r.get("meta_info", {})
         probs, missing, logp, top = _sglang_parse(meta, letters, token_ids)
         out.append({"probs": probs, "missing": missing, "latency_ms": dt, "first_token": r.get("text"), "prompt_tokens": meta.get("prompt_tokens"),
-                    "tokens_cached": meta.get("cached_tokens"), "raw_logprobs": logp, "top_tokens": top, "server_cache_n": meta.get("cached_tokens"),
+                    "tokens_cached": meta.get("cached_tokens"), "raw_logprobs": logp, "option_mass": option_mass(logp), "top_tokens": top, "server_cache_n": meta.get("cached_tokens"),
                     "server_prompt_ms": None, "server_predicted_ms": None, "server_prompt_n": meta.get("prompt_tokens")})
     return out, dt
 

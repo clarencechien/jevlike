@@ -143,7 +143,7 @@ def main(base_url, out_dir, args="", **kw):
             chosen = max(res["probs"], key=res["probs"].get) if res["probs"] else None
             return {"id": r["id"], "task": task, "gold": r["gold"], "chosen": chosen, "correct": chosen == r["gold"],
                     "difficulty": r["difficulty"], "lang": r["lang"], "pair_id": r.get("pair_id"), "hard_type": r.get("hard_type"),
-                    "probs": res["probs"], "raw_logprobs": res["raw_logprobs"], "missing": res["missing"],
+                    "probs": res["probs"], "raw_logprobs": res["raw_logprobs"], "missing": res["missing"], "option_mass": res.get("option_mass"),
                     "first_token": res["first_token"], "top_tokens": res["top_tokens"][:5],
                     "latency_ms": res["latency_ms"], "prompt_tokens": res["prompt_tokens"], "server_cache_n": res["server_cache_n"]}
 

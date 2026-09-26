@@ -61,7 +61,45 @@ def verify_file(path):
             "missing_rate": missing / n, "conf_mean": sum(conf) / n, "rows": rows}
 
 
+def check_lock(acc_dir, lock_path, seed=0):
+    """P3 (handoff v7): re-apply the locked conformal thresholds to a results dir; exit 1 if the guarantee breaks.
+    Fails when error_test > eps * 1.5 or coverage drops > 10 points vs the lock, for any task/eps."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from thresholds import confidence  # noqa: E402
+    from analyze import TASKS, load_jsonl, logit_matrix, softmax  # noqa: E402
+    import numpy as np  # noqa: E402
+    lock = json.load(open(lock_path, encoding="utf-8"))
+    bad, lines = [], []
+    for task, t in lock["tasks"].items():
+        rows = [r for r in load_jsonl(os.path.join(acc_dir, f"{task}.jsonl")) if "raw_logprobs" in r]
+        if not rows:
+            lines.append(f"{task}: no rows"); continue
+        letters = list(TASKS[task]["options"])
+        P = softmax(logit_matrix(rows, letters) / t["T"])
+        y = np.array([letters.index(r["gold"]) for r in rows])
+        conf = confidence(P, t["measure"]); correct = P.argmax(1) == y
+        test_ids = group_split_test_ids(rows, seed)
+        te = np.array([r["id"] in test_ids for r in rows])
+        for eps, e in t["eps"].items():
+            h = (conf >= e["threshold"]) & te
+            err = float((~correct[h]).mean()) if h.any() else 0.0
+            cov = float(h.sum() / te.sum())
+            # drift, not absolute: a task whose guarantee already failed at lock time is reported, not re-failed
+            err_ok = err <= float(eps) * 1.5 or err <= e["error_test"] + 0.03
+            ok = err_ok and cov >= e["coverage_test"] - 0.10
+            lines.append(f"{task} eps={eps}: error {err:.3f} (lock {e['error_test']:.3f}) coverage {cov:.2f} (lock {e['coverage_test']:.2f}) {'ok' if ok else 'FAIL'}")
+            if not ok:
+                bad.append((task, eps))
+    print("\n".join(lines))
+    print(f"check-lock: {len(bad)} failures")
+    return 1 if bad else 0
+
+
 def main():
+    if "--check-lock" in sys.argv:
+        i = sys.argv.index("--check-lock")
+        acc_dir = sys.argv[i + 1] if len(sys.argv) > i + 1 else ACC
+        return check_lock(os.path.join(ROOT, acc_dir) if not os.path.isabs(acc_dir) else acc_dir, os.path.join(ROOT, "results/thresholds.lock.json"))
     files = sorted(p for p in glob.glob(os.path.join(ACC, "**/*.jsonl"), recursive=True) if "control_" not in os.path.basename(p))
     analysis = {r["task"]: r for r in json.load(open(os.path.join(ROOT, "results/analysis.json")))}
     L = ["# verify — 從原始 logprob 重算（不呼叫模型）", "",

@@ -39,11 +39,14 @@ def make_state_factory(rng, tokenize):
                           d=rng.randint(10, 28), k=rng.randint(1000, 9999), m=rng.randint(500, 2000), u=rng.randint(900, 1300), g=rng.randint(1000, 1200))
 
     def make(target_tokens):
-        parts = [line()]
-        per_line = max(8, tokenize(parts[0]))
-        parts += [line() for _ in range(max(0, target_tokens // per_line - 1))]
-        while tokenize("\n".join(parts)) < target_tokens:
-            parts.append(line())
+        parts = [line(), line(), line()]
+        per_line = max(8, tokenize("\n".join(parts)) / 3)
+        parts += [line() for _ in range(max(0, int(target_tokens / per_line) - 3))]
+        n = tokenize("\n".join(parts))
+        while n > target_tokens * 1.15 and len(parts) > 1:  # trim overshoot (keep prompts well under the 4096 context)
+            parts.pop(); n = tokenize("\n".join(parts))
+        while n < target_tokens:
+            parts.append(line()); n = tokenize("\n".join(parts))
         return "\n".join(parts)
     return make
 

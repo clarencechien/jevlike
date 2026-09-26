@@ -21,10 +21,25 @@ weights = modal.Volume.from_name("gb10-decide-hf", create_if_missing=True)
 results = modal.Volume.from_name("gb10-decide-results", create_if_missing=True)
 
 image = (
-    modal.Image.from_registry("lmsysorg/sglang:gemma4", add_python=None)
+    modal.Image.from_registry(os.environ.get("SGLANG_IMAGE", "lmsysorg/sglang:gemma4"), add_python=None)
     .entrypoint([])
     .pip_install("huggingface_hub", "numpy", "requests")
     .env({"HF_HUB_ENABLE_HF_TRANSFER": "0"})
+    # L40S (Ada, 101 KB smem) has no tuned fused-MoE Triton config for Gemma 4's E=128,N=704 FP8 experts; the default
+    # block sizes need 147 KB and crash. Ship a conservative config so the kernel fits (not tuned for speed).
+    .run_commands(
+        "python3 - <<'PY'\n"
+        "import json, os\n"
+        "d='/sgl-workspace/sglang/python/sglang/srt/layers/moe/fused_moe_triton/configs/triton_3_5_1'\n"
+        "os.makedirs(d, exist_ok=True)\n"
+        "small={'BLOCK_SIZE_M':16,'BLOCK_SIZE_N':64,'BLOCK_SIZE_K':128,'GROUP_SIZE_M':1,'num_warps':4,'num_stages':3}\n"
+        "big={'BLOCK_SIZE_M':64,'BLOCK_SIZE_N':64,'BLOCK_SIZE_K':128,'GROUP_SIZE_M':8,'num_warps':4,'num_stages':3}\n"
+        "cfg={str(m):(small if m<=32 else big) for m in [1,2,4,8,16,24,32,48,64,96,128,256,512,1024,1536,2048,3072,4096]}\n"
+        "for n in ['E=128,N=704,device_name=NVIDIA_L40S,dtype=fp8_w8a8,per_channel_quant=True.json','E=128,N=704,device_name=NVIDIA_L40S,dtype=fp8_w8a8,per_channel_quant=True_down.json']:\n"
+        "    json.dump(cfg, open(os.path.join(d,n),'w'), indent=1)\n"
+        "print('wrote moe configs')\n"
+        "PY"
+    )
     .add_local_dir("decide", remote_path="/root/decide")
     .add_local_dir("bench", remote_path="/root/bench")
     .add_local_dir("data", remote_path="/root/data")

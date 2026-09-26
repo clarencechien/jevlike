@@ -1,0 +1,55 @@
+{
+ "template": "<|turn>system\n§SYSMARK§<turn|>\n<|turn>user\n§USRMARK§<turn|>\n<|turn>model\n<|channel>thought\n<channel|>",
+ "summary": {
+  "m_alarm_severity": {
+   "n": 200,
+   "tokens_mean": 188.205,
+   "s": 0.3
+  },
+  "m_alarm_category": {
+   "n": 200,
+   "tokens_mean": 278.345,
+   "s": 0.3
+  },
+  "m_needs_dispatch": {
+   "n": 200,
+   "tokens_mean": 162.97,
+   "s": 0.3
+  },
+  "q_spc_action": {
+   "n": 200,
+   "tokens_mean": 279.245,
+   "s": 0.3
+  },
+  "q_defect_root": {
+   "n": 200,
+   "tokens_mean": 316.525,
+   "s": 0.3
+  },
+  "p_uph_anomaly": {
+   "n": 200,
+   "tokens_mean": 175.52,
+   "s": 0.3
+  },
+  "p_line_change": {
+   "n": 200,
+   "tokens_mean": 220.17,
+   "s": 0.3
+  },
+  "x_ticket_route": {
+   "n": 200,
+   "tokens_mean": 241.505,
+   "s": 0.3
+  },
+  "x_escalate": {
+   "n": 200,
+   "tokens_mean": 158.755,
+   "s": 0.3
+  },
+  "x_10way_intent": {
+   "n": 200,
+   "tokens_mean": 321.26,
+   "s": 0.3
+  }
+ }
+}

@@ -38,6 +38,10 @@ def build_messages(state: str, question: dict, system: str = SYSTEM, answer_styl
 
 
 GEMMA4_TEMPLATE_NOTHINK = ("<|turn>system\n" + SYS_MARK + "<turn|>\n<|turn>user\n" + USR_MARK + "<turn|>\n<|turn>model\n<|channel>thought\n<channel|>")
+# v6 E1: llama-server prepends <bos> when tokenizing a string prompt; the HF Gemma 4 tokenizer (what SGLang uses for a
+# text prompt) does not. Without it SGLang lost 2-3 points (09-sglang-stability.md). The static (SGLang) template
+# therefore carries a literal <bos>, which the HF tokenizer maps to the special token id 2.
+GEMMA4_TEMPLATE_NOTHINK_BOS = "<bos>" + GEMMA4_TEMPLATE_NOTHINK
 
 
 class TemplateRenderer:
@@ -58,8 +62,8 @@ class TemplateRenderer:
         self.answer_style = answer_style
         self.use_system = use_system
         self.enable_thinking = enable_thinking
-        if static:  # backend has no /apply-template (e.g. SGLang): use the template llama-server rendered for Gemma 4
-            self.template = GEMMA4_TEMPLATE_NOTHINK
+        if static:  # backend has no /apply-template (e.g. SGLang): use the template llama-server rendered for Gemma 4, plus <bos>
+            self.template = GEMMA4_TEMPLATE_NOTHINK_BOS
             self.server_honored_kwargs = True
             return
         msgs = [{"role": "system", "content": SYS_MARK}, {"role": "user", "content": USR_MARK}]

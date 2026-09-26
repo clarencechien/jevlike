@@ -33,6 +33,10 @@ def main(base_url, out_dir, args="", **kw):
                    "probs_token_ids": r.get("probs_token_ids"), "token_ids_max_abs_diff": r.get("token_ids_max_abs_diff")}
             rep["rows"].append(row)
             print(json.dumps(row, ensure_ascii=False), flush=True)
+    # v6: with the literal <bos> in the static template, SGLang's prompt_tokens must equal llama-server's (117 for s1 in v2 smoke)
+    rep["bos_check"] = {"s1_prompt_tokens": rep["rows"][0]["prompt_tokens"], "llama_v2_smoke_s1": 117,
+                        "ok": rep["rows"][0]["prompt_tokens"] == 117}
+    print("bos_check", rep["bos_check"], flush=True)
     # shared-prefix batch: same state, 3 questions
     ex = EXAMPLES[0]
     qs = [dict(ex["question"], instructions=f"問題 {i}：" + ex["question"]["instructions"]) for i in range(3)]

@@ -1,0 +1,162 @@
+[
+ {
+  "id": "x_10way_intent-e0000",
+  "n_llama": 316,
+  "n_hf": 315,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_10way_intent-e0001",
+  "n_llama": 320,
+  "n_hf": 319,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_10way_intent-e0002",
+  "n_llama": 314,
+  "n_hf": 313,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_10way_intent-e0003",
+  "n_llama": 320,
+  "n_hf": 319,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_10way_intent-e0004",
+  "n_llama": 321,
+  "n_hf": 320,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_10way_intent-e0005",
+  "n_llama": 318,
+  "n_hf": 317,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_10way_intent-e0006",
+  "n_llama": 341,
+  "n_hf": 340,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_10way_intent-e0007",
+  "n_llama": 318,
+  "n_hf": 317,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_10way_intent-e0008",
+  "n_llama": 323,
+  "n_hf": 322,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_10way_intent-e0009",
+  "n_llama": 318,
+  "n_hf": 317,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_10way_intent-e0010",
+  "n_llama": 344,
+  "n_hf": 343,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_10way_intent-e0011",
+  "n_llama": 319,
+  "n_hf": 318,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_10way_intent-e0012",
+  "n_llama": 316,
+  "n_hf": 315,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_10way_intent-e0013",
+  "n_llama": 318,
+  "n_hf": 317,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_10way_intent-e0014",
+  "n_llama": 323,
+  "n_hf": 322,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_10way_intent-e0015",
+  "n_llama": 334,
+  "n_hf": 333,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_10way_intent-e0016",
+  "n_llama": 318,
+  "n_hf": 317,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_10way_intent-e0017",
+  "n_llama": 317,
+  "n_hf": 316,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_10way_intent-e0018",
+  "n_llama": 313,
+  "n_hf": 312,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "x_10way_intent-e0019",
+  "n_llama": 310,
+  "n_hf": 309,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ }
+]

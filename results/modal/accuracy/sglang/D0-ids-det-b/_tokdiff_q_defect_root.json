@@ -1,0 +1,162 @@
+[
+ {
+  "id": "q_defect_root-e0000",
+  "n_llama": 325,
+  "n_hf": 324,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_defect_root-e0001",
+  "n_llama": 337,
+  "n_hf": 336,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_defect_root-e0002",
+  "n_llama": 325,
+  "n_hf": 324,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_defect_root-e0003",
+  "n_llama": 335,
+  "n_hf": 334,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_defect_root-e0004",
+  "n_llama": 324,
+  "n_hf": 323,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_defect_root-e0005",
+  "n_llama": 326,
+  "n_hf": 325,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_defect_root-e0006",
+  "n_llama": 341,
+  "n_hf": 340,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_defect_root-e0007",
+  "n_llama": 323,
+  "n_hf": 322,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_defect_root-e0008",
+  "n_llama": 322,
+  "n_hf": 321,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_defect_root-e0009",
+  "n_llama": 321,
+  "n_hf": 320,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_defect_root-e0010",
+  "n_llama": 328,
+  "n_hf": 327,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_defect_root-e0011",
+  "n_llama": 317,
+  "n_hf": 316,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_defect_root-e0012",
+  "n_llama": 318,
+  "n_hf": 317,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_defect_root-e0013",
+  "n_llama": 340,
+  "n_hf": 339,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_defect_root-e0014",
+  "n_llama": 320,
+  "n_hf": 319,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_defect_root-e0015",
+  "n_llama": 334,
+  "n_hf": 333,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_defect_root-e0016",
+  "n_llama": 312,
+  "n_hf": 311,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_defect_root-e0017",
+  "n_llama": 342,
+  "n_hf": 341,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_defect_root-e0018",
+  "n_llama": 308,
+  "n_hf": 307,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "q_defect_root-e0019",
+  "n_llama": 317,
+  "n_hf": 316,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ }
+]

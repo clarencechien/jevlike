@@ -140,6 +140,25 @@ def read_option_probs_sglang(base_url, prompt, letters, n_probs=40, session=None
             "server_cache_n": meta.get("cached_tokens"), "e2e_latency_s": meta.get("e2e_latency")}
 
 
+def read_option_probs_sglang_ids(base_url, input_ids, letters, token_ids, session=None, timeout=300, **_):
+    """E1 (handoff v6): feed pre-tokenized ids (from llama-server /tokenize) instead of text, read exact letter logprobs."""
+    sess = session or requests
+    body = _sglang_body("", letters, 5, token_ids)
+    del body["text"]
+    body["input_ids"] = list(input_ids)
+    t0 = time.perf_counter()
+    resp = sess.post(f"{base_url}/generate", json=body, timeout=timeout)
+    dt = (time.perf_counter() - t0) * 1000
+    resp.raise_for_status()
+    r = resp.json()
+    meta = r.get("meta_info", {})
+    probs, missing, logp, top = _sglang_parse(meta, letters, token_ids)
+    return {"probs": probs, "missing": missing, "latency_ms": dt, "first_token": r.get("text"), "first_token_id": None,
+            "prompt_tokens": meta.get("prompt_tokens"), "tokens_cached": meta.get("cached_tokens"), "raw_logprobs": logp,
+            "top_tokens": top, "server_prompt_ms": None, "server_predicted_ms": None, "server_prompt_n": meta.get("prompt_tokens"),
+            "server_cache_n": meta.get("cached_tokens"), "e2e_latency_s": meta.get("e2e_latency")}
+
+
 def batch_read_option_probs_sglang(base_url, prompts, letters_list, n_probs=40, session=None, timeout=600, token_ids=None):
     """Send K prompts as one list request; RadixAttention shares the common prefix. Returns list of dicts + wall ms."""
     sess = session or requests

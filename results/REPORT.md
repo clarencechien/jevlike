@@ -7,7 +7,7 @@
 
 ## 0. 一句話結論
 
-在 L4 上，Gemma 4 26B-A4B 讀第一個 token 的選項 logprob 這條路**可行且零樣本就很強**：10 個 task 中 7 個 test 準確率 ≥ 0.98、選擇性準確率 @0.9 ≥ 0.99 且 coverage ≥ 0.99；3 個 task（alarm 急迫度、SPC 動作、UPH 異常）零樣本 0.82–0.93，且模型**極度過度自信**（raw confidence 平均 0.99），要靠 100 筆以內的校準把「信心門檻」變得可用。延遲在 L4 上單題 p50 206 ms（開 `--swa-full` 後 137 ms，共用 state 的後續題 73 ms），比 LLM 生成 JSON 快 2.4–3.6 倍，但 llama-server 在 L4 上併發不會加速（throughput 卡在 5.5 req/s）。 v4 追加：換 SGLang 後端，共用上下文快 3.7 倍、併發快 6 倍，但準確率低 2–3 點且重跑不穩，**即時決策層維持 llama-server**（§3d）。
+在 L4 上，Gemma 4 26B-A4B 讀第一個 token 的選項 logprob 這條路**可行且零樣本就很強**：10 個 task 中 7 個 test 準確率 ≥ 0.98、選擇性準確率 @0.9 ≥ 0.99 且 coverage ≥ 0.99；3 個 task（alarm 急迫度、SPC 動作、UPH 異常）零樣本 0.82–0.93，且模型**極度過度自信**（raw confidence 平均 0.99），要靠 100 筆以內的校準把「信心門檻」變得可用。延遲在 L4 上單題 p50 206 ms（開 `--swa-full` 後 137 ms，共用 state 的後續題 73 ms），比 LLM 生成 JSON 快 2.4–3.6 倍，但 llama-server 在 L4 上併發不會加速（throughput 卡在 5.5 req/s）。 v4/v6 追加：換 SGLang 後端，共用上下文快 2.7–3.7 倍、併發快 5–6 倍；v4 量到的低 2–3 分是 SGLang 不加 `<bos>` 造成，補上後與 llama-server 同準（§3d），**SGLang 回到候選**。
 
 ## 1. 分流表（v1 §7，實測後填）
 
@@ -162,35 +162,29 @@ E4B 單題快 2.2 倍、十題快 1.8 倍，但 **decode 地板兩者一樣**（
 
 **這樣做多值**：級聯（門檻 0.999）準確率 95.2% ≈ 全用 26B 的 95.5%，平均延遲 −20%（137 → 110 ms），**26B 的負載只剩三分之一**。在 GB10 上 26B 同時要做生成，這三分之二的判斷流量移走才是主要價值；純速度上的收益有限。四類簡單題若只放 E4B，記憶體 8 GB、單題 63 ms，可以放在更小的機器上。
 
-## 3d. 後端選擇：SGLang 值不值（v4，`07-sglang-speed.md`、`07-sglang-accuracy.md`、`07-env-sglang.md`）
+## 3d. 後端選擇：SGLang 值不值（v4 + v6，`07-sglang-*.md`、`09-sglang-stability.md`）
 
-**一句話**：SGLang 在多題共用上下文時快 3.7 倍、併發時快 6 倍、單題不退步，**但準確率平均低 2–3 點、而且同一題重跑答案會變**；即時決策層維持 llama-server，SGLang 只給可以容忍掉分的批次工作。
+**一句話**：SGLang 掉 2–3 分的原因找到了，是它的 text 路徑**不加 `<bos>`**，補上之後準確率與 llama-server 相同（0.958 vs 0.959）；多題共用上下文快 2.5–3.7 倍、併發快 5–6 倍。重跑穩定性補上 `<bos>` 加批次不變旗標後到 99.85%，比 llama-server 差但已可接受。**SGLang 回到候選**，GB10 上兩個後端都要實測。
 
-**怎麼比**：同一張 L40S、同一組 prompt 字串（`GEMMA4_TEMPLATE_NOTHINK`，比對過等於 llama-server 的模板輸出）、門檻跑前登記（`07-sglang-prereg.md`）。三個 arm：A0 llama-server UD-Q4_K_M、A1 llama-server Q8_0、B1 SGLang FP8（RedHatAI FP8-dynamic）。llama-server 用各自最佳做法（`--swa-full`、多 slot、同 slot 順序送），SGLang 先暖一題再整批送（RadixAttention 只重用已經在 cache 裡的前綴）。
+**v4 的結論怎麼被推翻的**：v4 排除了 FP8、RadixAttention、併發三個原因，寫成「後端固有」。v6 只做一件事：把 llama-server 切好的 token id 直接餵給 SGLang（兩邊 vocab 相同，字母 id 一致），差距就消失了。比對兩邊 tokenization，每一題都在第 0 個位置不同：llama-server 對字串 prompt 會加 `<bos>`，HF 的 Gemma 4 tokenizer 預設不加，SGLang 收到 text 就跟著不加。Gemma 少了 `<bos>` 會整體變鈍，剛好落在 2–3 分。v4 smoke 裡「同一 state 批次三題全答 B」的異常也是同一個原因，補上後三題都答對。修正：`GEMMA4_TEMPLATE_NOTHINK_BOS`（static 模板前面放字面 `<bos>`），smoke 驗證 prompt token 數與 llama-server 一致（117）。
 
-**速度（p50，ms）**：
+**數字（L40S，D0 test 每 task 100 題，A1 = llama-server Q8）**：
 
-| | A1 llama-server Q8 | B1 SGLang FP8 | 差 |
+| | A1 llama-server | B1 SGLang 無 `<bos>`（v4） | B1 SGLang 有 `<bos>`（v6） |
 |---|---|---|---|
-| 單題（~100 token state） | 61 | 63 | 持平（G1 過） |
-| decode 地板（全 cache） | 14 | 62 | SGLang 每請求固定開銷 ~60 ms |
-| 共用 state（1,100 token）問 16 題 | 813 | 217 | **3.7×**（G2 過） |
-| 併發 32 路 decisions/s | 16.6 | 111.7 | **6.7×**（G3 過） |
-| 背景生成時 p95 退化 | 1.38× | 1.04× | SGLang 較穩（G4 過） |
-| D0 test 1,001 題整批 | 67 s | 11 s | 6× |
+| 十類平均 acc | 0.959 | 0.931 | **0.958**（護欄 8/10 過；沒過的兩題 p=0.5、差 ±2 點） |
+| 同題重跑一致率 | ≈100% | 97% | 99.70%（無旗標）／ **99.85%**（+ `--enable-deterministic-inference`） |
+| 單題 p50 | 61 ms | 63 ms | 81 ms（開旗標；不開 63） |
+| 共用 state K=16 | 813 ms | 217 ms | 301 ms（2.7×；不開旗標 3.7×） |
+| 32 路併發 dec/s | 16.6 | 111.7 | 85.5（不開旗標 111.7） |
 
-**準確率護欄（D0 test，每 task 100 題，±2 點內且 McNemar p≥0.05）**：20 項只過 4 項。B1 比 A1 平均低 2.8 點（D0 0.959 → 0.931；D1-cue 0.954 → 0.904，低 5 點），`q_spc_action`、`q_defect_root` 在 D1-cue 各低 8 點。三個排除實驗：
+**剩下的差別**：補上 `<bos>` 後無旗標 2,000 題翻 6 題（4 題高把握），批次不變旗標下仍有 3 題翻面，其中 1 題原本把握 0.999；llama-server 沒有這個現象。開旗標讓單題慢 30%、併發少 25%。這些都不再是「不能用」的等級，而是分工時要知道的代價。
 
-1. **不是 FP8**：換成 bf16 權重、同一張 H100，SGLang 仍比 llama-server 低 2.6 點，答案只有 95.9% 一致。
-2. **不是併發、不是 RadixAttention**：workers=1 與 `--disable-radix-cache` 的準確率（0.930 / 0.930）和原本（0.931）一樣。
-3. **SGLang 同題重跑會變**：三次同設定的答案兩兩只 97% 一致；翻掉的 50 題裡 32 題原本給了 >0.9 的把握。這直接打到「拿信心當門檻」：門檻對 SGLang 不穩。
-
-**為什麼**：差在後端本身（Triton attention／MoE kernel 的數值路徑、HF tokenizer 與 GGUF tokenizer 差一個 token），不是我們的設定。L40S 上還要自己補 fused-MoE 的 Triton 設定檔才跑得起來（`07-env-sglang.md`），這是部署成本。
-
-**分工建議**：
-- 即時 gating、派工、升級判斷：**llama-server**（準確率高、重跑穩定、單題一樣快）。
-- 會議記錄事後整理、歷史工單 ETL、一次幾千題的批次標註：**SGLang**，快 5–6 倍，掉 2–3 點在可接受範圍時用；用它的結果做校準或門檻要另外校。
-- GB10 上：SGLang 需要 `xomoxcc/dgx-spark-sglang` 的 sm121 映像 + FP8 權重，MTP（推測解碼）對只讀一個 token 的決策沒用，不開。
+**分工建議（更新）**：
+- 即時 gating：GB10 上兩個後端各跑一次 L1/L4/L5，看併發需求決定；SGLang 一定要帶 `<bos>`，並用 `bench/verify.py` 確認 prompt token 數與 llama-server 一致。
+- 批次工作（會議記錄、ETL、大量重標）：SGLang，快 5–6 倍，不需要旗標。
+- 拿信心當門檻的場景：優先 llama-server，或 SGLang 開 `--enable-deterministic-inference`，校準用同一後端的輸出。
+- GB10 上：`xomoxcc/dgx-spark-sglang` sm121 映像 + FP8 權重，MTP 不開。
 
 ## 3e. 參考 TypeLLM 之後補的四件事（v5，`08-typellm-followups.md`、`verify.md`、`docs/handoff-v5-typellm.md`）
 
@@ -217,7 +211,7 @@ TypeLLM 本身不支援 Gemma 4（`06-comparison.md`），它的 JevBench 84.4% 
 5. **模型檔**：用 unsloth UD-Q4_K_M；若 GB10 用的是 Google QAT q4_0 或其他量化，M4 要在 GB10 重跑（同格式 raw logprobs 可直接進 `analyze.py`）。
 6. AI Studio 上的 Gemma 4 不開放 logprobs，31B dense 對照因此沒做。
 8. **順序置換平均只跑一次、每 task 100 筆 test**：−1.3 點在 McNemar 上不顯著（p 0.22–1.0），「不建議」是依門檻，不是證明它有害。
-7. **SGLang 對照只做到 Phase 1**：速度門檻全過、準確率護欄沒過，依預先登記沒進 Phase 2/3（grammar/數值欄位、GB10 sm121 實測）。SGLang 掉分的根因（哪個 kernel）沒有再往下挖；換 attention backend（flashinfer）或關掉 CUDA graph 是下一個可試的旋鈕。
+7. **SGLang 對照做到 v6**：掉分原因已找到（`<bos>`），Phase 2/3（grammar/數值欄位、GB10 sm121 實測）仍未做。批次不變模式下仍有 0.15% 的題重跑會翻，原因未查。
 
 ## 5. 接回 GB10 時要做的
 

@@ -1,0 +1,162 @@
+[
+ {
+  "id": "p_uph_anomaly-e0000",
+  "n_llama": 172,
+  "n_hf": 171,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_uph_anomaly-e0001",
+  "n_llama": 171,
+  "n_hf": 170,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_uph_anomaly-e0002",
+  "n_llama": 185,
+  "n_hf": 184,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_uph_anomaly-e0003",
+  "n_llama": 183,
+  "n_hf": 182,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_uph_anomaly-e0004",
+  "n_llama": 173,
+  "n_hf": 172,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_uph_anomaly-e0005",
+  "n_llama": 174,
+  "n_hf": 173,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_uph_anomaly-e0006",
+  "n_llama": 202,
+  "n_hf": 201,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_uph_anomaly-e0007",
+  "n_llama": 194,
+  "n_hf": 193,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_uph_anomaly-e0008",
+  "n_llama": 195,
+  "n_hf": 194,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_uph_anomaly-e0009",
+  "n_llama": 192,
+  "n_hf": 191,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_uph_anomaly-e0010",
+  "n_llama": 162,
+  "n_hf": 161,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_uph_anomaly-e0011",
+  "n_llama": 163,
+  "n_hf": 162,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_uph_anomaly-e0012",
+  "n_llama": 189,
+  "n_hf": 188,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_uph_anomaly-e0013",
+  "n_llama": 188,
+  "n_hf": 187,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_uph_anomaly-e0014",
+  "n_llama": 193,
+  "n_hf": 192,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_uph_anomaly-e0015",
+  "n_llama": 191,
+  "n_hf": 190,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_uph_anomaly-e0016",
+  "n_llama": 180,
+  "n_hf": 179,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_uph_anomaly-e0017",
+  "n_llama": 179,
+  "n_hf": 178,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_uph_anomaly-e0018",
+  "n_llama": 192,
+  "n_hf": 191,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ },
+ {
+  "id": "p_uph_anomaly-e0019",
+  "n_llama": 187,
+  "n_hf": 186,
+  "first_diff_pos": 0,
+  "llama_piece": "<bos><|turn>system",
+  "hf_piece": "<|turn>system\n"
+ }
+]

@@ -119,7 +119,9 @@ def main():
     out["gates"] = gates
 
     # ---- accuracy guardrail
-    A = ["# 07 — SGLang 後端評估：準確率護欄", "", "B1 vs A1：每 task acc 差 ±2 點內且 McNemar p ≥ 0.05；A0 vs A1 = 量化效應，A1 vs B1 = 後端效應。", ""]
+    A = ["# 07 — SGLang 後端評估：準確率護欄", "",
+         "> **v6 更正（`09-sglang-stability.md`）**：本檔的「掉分是後端固有」判讀已撤回。真正原因是 SGLang 的 text 路徑不加 `<bos>`（HF tokenizer 對 Gemma 4 預設不加），"
+         "llama-server 會加；改餵同樣的 token id 後 SGLang 平均 0.958 vs llama-server 0.959。下表數字是無 `<bos>` 的結果，保留作紀錄。", "", "B1 vs A1：每 task acc 差 ±2 點內且 McNemar p ≥ 0.05；A0 vs A1 = 量化效應，A1 vs B1 = 後端效應。", ""]
     acc = {}
     for ds in ("D0", "D1-cue"):
         A += [f"## {ds}", "", "| task | n | A0 | A1 | B1 | A1−A0（量化） | B1−A1（後端） | McNemar p（A1 vs B1） | AUROC A1 / B1 | 護欄 |", "|---|---|---|---|---|---|---|---|---|---|"]

@@ -52,6 +52,7 @@
 - 但 **JevBench 上 26B-A4B 只有 66.4，落後 Jev 8 分、落後 SemIf 的 4B 模型 6.7 分**。JevBench 的 220 道難題是刻意設計的邊界案例，和我們 hard 子集 0.91 的落差說明：我們的難題還是比 JevBench 溫和，真實資料上要預期往 JevBench 那個方向掉。
 - gemma-jev 的樣本數 n=12–40，只能當方向；我們每 task 200、外加 10% 獨立抽查，統計上比較站得住，但**資料是合成的**，這點和 JevBench（人工題）不同。
 - **TypeLLM 不支援 Gemma 4**（`protocol.py` 遇到 `<|turn>`+`<|channel>` 直接 raise）。他們 2026-09-22 用 E2B 實測 42 題只對 24：log 顯示第一個 token 是 `The`（logprob −0.001），A/B/C 全在 −11 以下，因為沒有放空的 thought channel。我們的 `GEMMA4_TEMPLATE_NOTHINK`（`<|channel>thought\n<channel|>` 空思考塊）解掉了這題。TypeLLM 的 84.4% 是 Qwen3.8-27B、231 題公開子集，與 JevBench 534 題的 74.4 分不是同一把尺；能對照的只有「無訓練也能到 84%，開思考到 98.7%」這個量級。後續要補的做法見 `docs/handoff-v5-typellm.md`。
+- **後端提醒（v6）**：用 HF tokenizer 的引擎（SGLang、vLLM、TypeLLM）對 Gemma 4 預設**不加 `<bos>`**，llama-server 會加。我們量到這一個 token 值 2–3 分（`09-sglang-stability.md`）。TypeLLM 的 Gemma 4 log 裡 prompt 也是以 `<bos>` 開頭，所以他們沒踩到這個，踩到的是空 thought channel。
 - Jev 的獨特賣點是校準過的信心；我們量到 raw 信心無鑑別力（ECE 0.18），gemma-jev 沒有報這一項。
 
 ## 一句話

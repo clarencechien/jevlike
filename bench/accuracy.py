@@ -15,7 +15,7 @@ from concurrent.futures import ThreadPoolExecutor
 import requests
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from decide.client import chat_json, read_option_probs, reader_for  # noqa: E402
+from decide.client import chat_json, read_option_probs, read_option_probs_sglang_ids, reader_for  # noqa: E402
 from decide.prompt import SYSTEM, VARIANTS, TemplateRenderer, build_messages, letters_for  # noqa: E402
 
 DATA_DIR = "/root/data/synthetic"
@@ -68,6 +68,23 @@ def main(base_url, out_dir, args="", **kw):
     read = reader_for(backend)
     variant = VARIANTS[a.get("--variant", "V0")]  # T1 (handoff v5)
     tr = TemplateRenderer(base_url, static=(backend == "sglang"), **variant)
+    # E1 (handoff v6): --ids-dir <dir with {task}.jsonl of llama-server token ids>; SGLang is fed input_ids instead of text
+    ids_dir = a.get("--ids-dir")
+    ids_map, token_ids, hf_tok = {}, None, None
+    if ids_dir:
+        assert backend == "sglang", "--ids-dir is for the SGLang backend"
+        from decide.labels import check_labels
+        token_ids = check_labels(base_url, "sglang")
+        try:
+            from transformers import AutoTokenizer
+            hf_tok = AutoTokenizer.from_pretrained(requests.get(f"{base_url}/get_model_info", timeout=30).json()["model_path"])
+        except Exception as e:  # noqa: BLE001
+            print("hf tokenizer unavailable for diff:", repr(e), flush=True)
+        for t in tasks:
+            for l in open(os.path.join(ids_dir, f"{t}.jsonl"), encoding="utf-8"):
+                d = json.loads(l)
+                ids_map[d["id"]] = d
+        print(f"[ids] loaded {len(ids_map)} pre-tokenized prompts from {ids_dir}; letter ids {token_ids}", flush=True)
     lock = threading.Lock()
     tls = threading.local()
 
@@ -97,11 +114,27 @@ def main(base_url, out_dir, args="", **kw):
         n_ok = 0
         t0 = time.time()
 
+        tokdiff = []
+        if ids_dir and hf_tok is not None:  # where do the two tokenizers first disagree? (first 20 rows per task)
+            for r in rows[:20]:
+                d = ids_map[r["id"]]
+                hf_ids = hf_tok.encode(d["prompt"], add_special_tokens=True)
+                gg = d["ids"]
+                k = next((i for i in range(min(len(gg), len(hf_ids))) if gg[i] != hf_ids[i]), None)
+                tokdiff.append({"id": r["id"], "n_llama": len(gg), "n_hf": len(hf_ids), "first_diff_pos": k,
+                                "llama_piece": hf_tok.decode(gg[k:k + 3]) if k is not None else None,
+                                "hf_piece": hf_tok.decode(hf_ids[k:k + 3]) if k is not None else None})
+            json.dump(tokdiff, open(os.path.join(out_dir, f"_tokdiff_{task}.json"), "w"), ensure_ascii=False, indent=1)
+            print(f"[{task}] tokenizer diff (first 3): {tokdiff[:3]}", flush=True)
+
         def one(r):
             prompt = tr.render(r["state"], r["question"])
             for attempt in range(3):
                 try:
-                    res = read(base_url, prompt, letters, session=sess())
+                    if ids_dir:
+                        res = read_option_probs_sglang_ids(base_url, ids_map[r["id"]]["ids"], letters, token_ids, session=sess())
+                    else:
+                        res = read(base_url, prompt, letters, session=sess())
                     break
                 except Exception as e:  # noqa: BLE001
                     if attempt == 2:

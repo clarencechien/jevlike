@@ -21,6 +21,7 @@ MODELS = {  # short name -> (HF repo, file)
     "e4b": ("unsloth/gemma-4-E4B-it-GGUF", "gemma-4-E4B-it-Q8_0.gguf"),  # 8.19 GB
     "e2b": ("unsloth/gemma-4-E2B-it-GGUF", "gemma-4-E2B-it-Q8_0.gguf"),  # 5.05 GB
     "q8": ("unsloth/gemma-4-26B-A4B-it-GGUF", "gemma-4-26B-A4B-it-Q8_0.gguf"),  # 26.86 GB, needs L40S
+    "bf16": ("unsloth/gemma-4-26B-A4B-it-GGUF", "BF16/gemma-4-26B-A4B-it-BF16-00001-of-00002.gguf"),  # 50.5 GB split, needs H100
 }
 MODEL_REPO, MODEL_FILE = MODELS["26b"]
 GPU = os.environ.get("GB10_GPU", "L4")
@@ -46,6 +47,8 @@ def download(model: str = "26b"):
 
     repo, fname = MODELS[model]
     p = hf_hub_download(repo, fname, local_dir="/models")
+    if "00001-of-00002" in fname:
+        hf_hub_download(repo, fname.replace("00001-of-00002", "00002-of-00002"), local_dir="/models")
     models.commit()
     return {"path": p, "bytes": os.path.getsize(p)}
 
@@ -122,9 +125,10 @@ def run_bench(which: str, args: str = "", n_parallel: int = 4, ctx: int = 16384,
         mod = __import__(f"bench.{which}", fromlist=["main"])
         out_dir = f"/results/{which}" if model == "26b" else f"/results/{which}/{model}"
         os.makedirs(out_dir, exist_ok=True)
-        ret = mod.main(base_url="http://127.0.0.1:8080", out_dir=out_dir, args=args, commit=results.commit, model=model)
+        ret = mod.main(base_url="http://127.0.0.1:8080", out_dir=out_dir, args=args, commit=results.commit, model=model, backend="llama")
+        smi = subprocess.run(["nvidia-smi", "--query-gpu=name", "--format=csv,noheader"], capture_output=True, text=True).stdout.strip()  # GPU env var is not propagated to the container, so record the real card
         with open(f"/results/{which}/_run.json", "a") as f:
-            f.write(json.dumps({"which": which, "args": args, "gpu": GPU, "n_parallel": n_parallel, "ctx": ctx, "server_extra": server_extra, "model": model, "model_file": MODELS[model][1],
+            f.write(json.dumps({"which": which, "args": args, "gpu": smi or GPU, "n_parallel": n_parallel, "ctx": ctx, "server_extra": server_extra, "model": model, "model_file": MODELS[model][1],
                                 "server_start_s": round(t_ready - t_start, 1),
                                 "bench_s": round(time.time() - t_ready, 1), "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}) + "\n")
         results.commit()

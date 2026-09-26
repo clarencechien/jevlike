@@ -50,6 +50,22 @@ d2_rate = 584 / 600
 CAS = json.load(open(os.path.join(ROOT, "results/cascade.json")))
 SPD = json.load(open(os.path.join(ROOT, "results/speed_ladder.json")))
 TASKDEF = json.load(open(os.path.join(ROOT, "data/seeds/tasks.json"), encoding="utf-8"))
+V4 = json.load(open(os.path.join(ROOT, "results/v4.json")))
+V4G = V4["gates"]; V4B = V4["bf16"]
+V4S = {arm: json.load(open(os.path.join(ROOT, "results/modal/v4bench", f)))["results"] for arm, f in (("A1", "q8/v4.json"), ("B1", "sglang/v4.json"))}
+for arm, alt in (("A1", "q8/v4_L4seq.json"), ("B1", "sglang/v4_L4warm.json")):  # best L4 mode per arm, as in analyze_v4
+    r2 = json.load(open(os.path.join(ROOT, "results/modal/v4bench", alt)))["results"]
+    for K in (1, 5, 10, 16):
+        k = f"L4_shared_{K}q"
+        if k in r2 and r2[k]["summary"]["p50"] < V4S[arm][k]["summary"]["p50"]:
+            V4S[arm][k] = r2[k]
+    for k in ("S3_d0_test_1001",):
+        if k in r2 and k not in V4S[arm]:
+            V4S[arm][k] = r2[k]
+v4p = lambda arm, k: V4S[arm][k]["summary"]["p50"]
+v4_guard_pass = sum(1 for v in V4["accuracy"].values() if v["ok"]); v4_guard_n = len(V4["accuracy"])
+v4_acc_A1 = sum(v["A1"] for k, v in V4["accuracy"].items() if k.startswith("D0/")) / 10
+v4_acc_B1 = sum(v["B1"] for k, v in V4["accuracy"].items() if k.startswith("D0/")) / 10
 
 
 def example_of(task):
@@ -275,7 +291,7 @@ page = f"""<!doctype html>
 
   <p class="eyebrow">判定備忘 · Jev 式決策層 · 2026-09-23</p>
   <h1 class="display">Jev 式決策，<br>值得做，<br>而且<em>不用買</em></h1>
-  <p class="lede">用我們已經部署的 Gemma 4 26B，加一層「只從固定選項裡選答案、不寫文章」的決策 API。十類產線判斷題有七類不用任何標註就能上線，每次判斷約 0.2 秒。本次驗證花費約一美元的雲端 GPU。</p>
+  <p class="lede">用我們已經部署的 Gemma 4 26B，加一層「只從固定選項裡選答案、不寫文章」的決策 API。十類產線判斷題有七類不用任何標註就能上線，每次判斷約 0.2 秒。三輪驗證（含小模型對照與換引擎測試）合計約九美元的雲端 GPU。</p>
   <p class="byline">實驗於 Modal 雲端 L4 顯示卡進行 · 合成資料 10 類 × 200 題 · 工程細節與原始數據在 results/REPORT.md</p>
 
   <div class="tldr">
@@ -285,6 +301,7 @@ page = f"""<!doctype html>
       <li><strong>準確率：十類題目七類直接達標，而且分得出「題目簡單」和「模型真的強」。</strong>不做任何標註，{len(strong)} 類答對率 98% 以上。拿更小的 Gemma 4 E2B / E4B 跑同一批題：四類小模型也做得到（題目對這一級太簡單），六類 26B 比 E4B 高 6–13 個百分點、比 E2B 高 9–30 個百分點（是真的強）。另請 Gemini 盲寫 600 題、兩個大模型獨立標答，一致率 {d2_rate * 100:.0f}%，26B 在這批題上平均 {sum(LAD['results'][t]['D2']['26b']['acc'] for t in ORDER) / 10 * 100:.0f}%，已到兩個大模型互相一致的水準。</li>
       <li><strong>速度：一次判斷 {L1['p50'] / 1000:.1f} 秒，比讓模型寫答案快 {speed:.1f} 倍。</strong>同一份現場狀況一次問十題，開對設定後每題再降到 {per_q_swa / 1000:.2f} 秒。</li>
       <li><strong>標註：比主管報告承諾的還少。</strong>多數題目零筆；較弱的題目標 25 筆就能校準。傳統機器學習標 100 筆還到不了 90%。</li>
+      <li><strong>推理引擎：試過換成 SGLang，速度快、但準確率掉，不換。</strong>共用同一份現場狀況問十六題快 {V4G['L4_speedup_16']:.1f} 倍、多路併發快 6 倍，可是十類題平均答對率低 {(v4_acc_A1 - v4_acc_B1) * 100:.1f} 個百分點，而且同一題重跑答案會變。即時判斷留在現有的 llama-server，事後批次整理才用 SGLang。</li>
       <li><strong>三個上線條件：</strong>部署時開啟前綴快取設定、「有把握才自動處理」的門檻要用真實資料校準、GB10 上重量一次速度。都是幾小時到幾天的事，不是幾個月。</li>
     </ol>
   </div>
@@ -293,7 +310,7 @@ page = f"""<!doctype html>
     <div class="stat"><p class="label">不標註就達 98% 的題型</p><div class="value">{len(strong)} / 10</div><div class="delta">其餘三類要調門檻</div></div>
     <div class="stat"><p class="label">一次判斷</p><div class="value">{L1['p50'] / 1000:.1f} 秒</div><div class="delta">租用 L4；GB10 待實測</div></div>
     <div class="stat"><p class="label">比模型寫答案快</p><div class="value">{speed:.1f} 倍</div><div class="delta">一次問十題可再降</div></div>
-    <div class="stat"><p class="label">本次驗證的 GPU 費用</p><div class="value">≈ $1</div><div class="delta">約 0.85 小時</div></div>
+    <div class="stat"><p class="label">本次驗證的 GPU 費用</p><div class="value">≈ $9</div><div class="delta">含小模型階梯與 SGLang 對照，約 5 GPU 小時</div></div>
   </div>
 
   <p class="eyebrow">01 · 這是什麼</p>
@@ -416,6 +433,28 @@ page = f"""<!doctype html>
   </div>
   <p>E4B 單題快 2.2 倍、十題快 1.8 倍，但最快極限兩者一樣（26B 是「每次只動 4B」的混合專家架構），所以小模型的好處主要在記憶體和讀題的速度，不是每個字的速度。<strong>值多少：</strong>級聯後準確率 {CAS['mean'][6] * 100:.1f}%（全用 26B 是 {CAS['mean'][1] * 100:.1f}%），平均每題從 {SPD['L1']['26b'] / 1000:.2f} 秒降到 {SPD['cascade'][2][3] / 1000:.2f} 秒（省兩成），26B 的判斷負載只剩三分之一。在 GB10 上 26B 同時還要寫報告、做 RCA，把三分之二的判斷流量移走，才是這個做法真正的價值；純速度上的收益有限。四類簡單題若只用 E4B，8 GB 記憶體、單題 0.06 秒，可以放在更小的機器上。</p>
 
+  <p class="eyebrow">02e · 換一個推理引擎值不值</p>
+  <h2>SGLang 快三到六倍，但答案會掉、會變，即時判斷不換</h2>
+  <p>現有部署用的是 llama-server。另一個常見的推理引擎 SGLang 有一項專長：多個問題共用同一段前文時，只算一次。這正是「同一份現場狀況問十題」的形狀，所以值得試。做法是同一張顯示卡（租用 L40S）、一字不差的提問、跑之前先寫死四道速度門檻與一道準確率護欄，然後兩邊各用自己最好的設定跑。</p>
+
+  <div class="table-scroll wide route">
+    <table>
+      <thead><tr><th>一次判斷（p50）</th><th class="num">llama-server</th><th class="num">SGLang</th><th>結果</th></tr></thead>
+      <tbody>
+        <tr><td>單題，每次不同的現場狀況</td><td class="num">{v4p('A1', 'L1_single_100tok_2opt') / 1000:.3f} 秒</td><td class="num">{v4p('B1', 'L1_single_100tok_2opt') / 1000:.3f} 秒</td><td>持平</td></tr>
+        <tr><td>同一份狀況（約 1,100 字）問十六題</td><td class="num">{v4p('A1', 'L4_shared_16q') / 1000:.2f} 秒</td><td class="num">{v4p('B1', 'L4_shared_16q') / 1000:.2f} 秒</td><td><strong>SGLang 快 {V4G['L4_speedup_16']:.1f} 倍</strong></td></tr>
+        <tr><td>三十二路同時問，每秒判斷數</td><td class="num">{V4S['A1']['L5_concurrency_32']['summary']['throughput_rps']:.0f}</td><td class="num">{V4S['B1']['L5_concurrency_32']['summary']['throughput_rps']:.0f}</td><td><strong>SGLang 快 {V4S['B1']['L5_concurrency_32']['summary']['throughput_rps'] / V4S['A1']['L5_concurrency_32']['summary']['throughput_rps']:.1f} 倍</strong></td></tr>
+        <tr><td>一千題整批跑完</td><td class="num">{V4S['A1']['S3_d0_test_1001']['wall_s']:.0f} 秒</td><td class="num">{V4S['B1']['S3_d0_test_1001']['wall_s']:.0f} 秒</td><td><strong>SGLang 快 {V4S['A1']['S3_d0_test_1001']['wall_s'] / V4S['B1']['S3_d0_test_1001']['wall_s']:.1f} 倍</strong></td></tr>
+        <tr><td>十類題平均答對率（同一批一千題）</td><td class="num">{v4_acc_A1 * 100:.1f}%</td><td class="num">{v4_acc_B1 * 100:.1f}%</td><td><strong>SGLang 低 {(v4_acc_A1 - v4_acc_B1) * 100:.1f} 個百分點</strong>，護欄 {v4_guard_n} 項只過 {v4_guard_pass} 項</td></tr>
+        <tr><td>同一題重跑，答案一樣的比例</td><td class="num">≈ 100%</td><td class="num">{V4B['agree']['B1~w1'] * 100:.0f}%</td><td>SGLang 翻掉的題裡六成原本很有把握</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><strong>掉分不是設定問題。</strong>三個排除實驗：換成未壓縮的原版權重、同一張 H100，SGLang 仍低 {(V4B['A2_mean'] - V4B['B2_mean']) * 100:.1f} 個百分點（所以不是壓縮格式的錯）；改成一次只送一題、或關掉它的前綴快取，答對率都不變（所以不是併發或快取的錯）。剩下的解釋是引擎本身的數值路徑不同。更麻煩的是同一題跑三次答案兩兩只有 {V4B['agree']['B1~w1'] * 100:.0f}% 一致，翻掉的題有六成原本給了九成以上的把握，<span class="mark">「有把握才自動處理」的門檻在 SGLang 上會不穩</span>。</p>
+
+  <p><strong>判定：</strong>速度門檻四項全過，準確率護欄沒過，依事前寫下的規則視同沒過。<span class="mark">即時的派工、升級、通知判斷留在 llama-server</span>；一次幾千題、可以容忍掉兩三分的事後工作（會議記錄整理、歷史工單重標）交給 SGLang，快五到六倍。另外一個附帶發現：SGLang 每一次請求有約 0.06 秒的固定開銷，單題永遠不會比 llama-server 快，它的優勢全在批次。</p>
+
   <p class="eyebrow">03 · 標註量</p>
   <h2>「幾百筆」的承諾，實測是「幾十筆或零筆」</h2>
   <p>主管版報告承諾 Jev 式做法能把標註需求從每題幾千筆降到幾百筆。下圖是最弱的一類題目（SPC 管制圖處置）：傳統機器學習標到 100 筆還在 {lc['mean']['tfidf']['100'] * 100:.0f}%，Jev 式零筆就 {lc['mean']['typed0']['25'] * 100:.0f}%，標 25 筆校準後在它敢答的八成題目上有 {lc['mean']['typed_sel90']['25'] * 100:.0f}%。</p>
@@ -496,12 +535,13 @@ page = f"""<!doctype html>
   <ol>
     <li><strong>GB10 上重跑速度測試</strong>（半小時）：確認每次判斷的真實秒數與併發能力；順便量 E4B，四類簡單題可交給它。</li>
     <li><strong>收 200–500 筆真實警報與工單</strong>（一到兩天）：校準門檻，確認零標註在真實資料上的答對率。</li>
+    <li><strong>推理引擎不換</strong>：已測。SGLang 只給事後批次工作；若之後要追它掉分的原因，先試換 attention 後端與關 CUDA graph。</li>
     <li><strong>改寫兩類題目的判斷標準</strong>：已做。SPC 處置 {A['q_spc_action']['raw_test']['acc'] * 100:.0f}% → {V2['q_spc_action']['raw_test']['acc'] * 100:.0f}%，警報急迫度 {A['m_alarm_severity']['raw_test']['acc'] * 100:.0f}% → {V2['m_alarm_severity']['raw_test']['acc'] * 100:.0f}%。急迫度剩下的錯集中在「AOI 一片誤判」這類，等真實資料再調一輪。</li>
   </ol>
 
   <div class="note">
     <p class="head">這一版沒說到的</p>
-    <p>Jev 官方另一個賣點是「校準過的把握度」，我們的替代方案要自己校準，這是條件二。獨立的小模型（Laya 之類）零標註接近亂猜，這次沒用。AI Studio 上的 Gemma 4 不提供選項機率，雲端對照因此沒做。實際 GPU 費用約 0.85 小時、約一美元，比原估的 4–6 小時低很多。</p>
+    <p>Jev 官方另一個賣點是「校準過的把握度」，我們的替代方案要自己校準，這是條件二。獨立的小模型（Laya 之類）零標註接近亂猜，這次沒用。AI Studio 上的 Gemma 4 不提供選項機率，雲端對照因此沒做。實際 GPU 費用三輪合計約 5 小時、約九美元（首輪 0.85 小時、約一美元），比原估低很多。</p>
   </div>
 
   <p class="byline">repo clarencechien/jevlike · 工程版報告 results/REPORT.md · 原始數據 results/analysis.json · results/modal/</p>

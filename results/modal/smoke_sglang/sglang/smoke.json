@@ -1,0 +1,265 @@
+{
+ "ts": "2026-09-26T03:28:24Z",
+ "rows": [
+  {
+   "id": "s1",
+   "rep": 0,
+   "gold": "C",
+   "chosen": "C",
+   "probs": {
+    "C": 0.9606,
+    "B": 0.0394,
+    "A": 0.0
+   },
+   "missing": [],
+   "first_token": "C",
+   "prompt_tokens": 116,
+   "cached_tokens": 0,
+   "latency_ms": 789.9,
+   "top": [
+    "C",
+    "B",
+    "A",
+    "<",
+    "P",
+    "|"
+   ]
+  },
+  {
+   "id": "s1",
+   "rep": 1,
+   "gold": "C",
+   "chosen": "C",
+   "probs": {
+    "C": 0.9448,
+    "B": 0.0552,
+    "A": 0.0
+   },
+   "missing": [],
+   "first_token": "C",
+   "prompt_tokens": 116,
+   "cached_tokens": 115,
+   "latency_ms": 51.8,
+   "top": [
+    "C",
+    "B",
+    "A",
+    "<",
+    "P",
+    "|"
+   ]
+  },
+  {
+   "id": "s2",
+   "rep": 0,
+   "gold": "A",
+   "chosen": "A",
+   "probs": {
+    "A": 0.9999,
+    "C": 0.0001,
+    "B": 0.0,
+    "E": 0.0,
+    "D": 0.0
+   },
+   "missing": [],
+   "first_token": "A",
+   "prompt_tokens": 101,
+   "cached_tokens": 24,
+   "latency_ms": 50.8,
+   "top": [
+    "A",
+    "C",
+    "B",
+    "|",
+    "<",
+    "E"
+   ]
+  },
+  {
+   "id": "s2",
+   "rep": 1,
+   "gold": "A",
+   "chosen": "A",
+   "probs": {
+    "A": 0.9999,
+    "C": 0.0001,
+    "B": 0.0,
+    "E": 0.0,
+    "D": 0.0
+   },
+   "missing": [],
+   "first_token": "A",
+   "prompt_tokens": 101,
+   "cached_tokens": 100,
+   "latency_ms": 55.3,
+   "top": [
+    "A",
+    "C",
+    "B",
+    "|",
+    "<",
+    "E"
+   ]
+  },
+  {
+   "id": "s3",
+   "rep": 0,
+   "gold": "B",
+   "chosen": "B",
+   "probs": {
+    "B": 1.0,
+    "A": 0.0
+   },
+   "missing": [],
+   "first_token": "B",
+   "prompt_tokens": 118,
+   "cached_tokens": 24,
+   "latency_ms": 51.3,
+   "top": [
+    "B",
+    "Β",
+    "Ｂ",
+    "<|channel>",
+    "P",
+    "り"
+   ]
+  },
+  {
+   "id": "s3",
+   "rep": 1,
+   "gold": "B",
+   "chosen": "B",
+   "probs": {
+    "B": 1.0,
+    "A": 0.0
+   },
+   "missing": [],
+   "first_token": "B",
+   "prompt_tokens": 118,
+   "cached_tokens": 117,
+   "latency_ms": 53.2,
+   "top": [
+    "B",
+    "Β",
+    "Ｂ",
+    "P",
+    "_",
+    "<|channel>"
+   ]
+  },
+  {
+   "id": "s4",
+   "rep": 0,
+   "gold": "B",
+   "chosen": "A",
+   "probs": {
+    "A": 0.9991,
+    "B": 0.0004,
+    "C": 0.0003,
+    "D": 0.0002
+   },
+   "missing": [],
+   "first_token": "A",
+   "prompt_tokens": 111,
+   "cached_tokens": 24,
+   "latency_ms": 50.3,
+   "top": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "P",
+    "<|channel>"
+   ]
+  },
+  {
+   "id": "s4",
+   "rep": 1,
+   "gold": "B",
+   "chosen": "A",
+   "probs": {
+    "A": 0.9993,
+    "B": 0.0003,
+    "C": 0.0002,
+    "D": 0.0001
+   },
+   "missing": [],
+   "first_token": "A",
+   "prompt_tokens": 111,
+   "cached_tokens": 110,
+   "latency_ms": 52.2,
+   "top": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "P",
+    "<|channel>"
+   ]
+  },
+  {
+   "id": "s5",
+   "rep": 0,
+   "gold": "B",
+   "chosen": "B",
+   "probs": {
+    "B": 1.0,
+    "A": 0.0
+   },
+   "missing": [],
+   "first_token": "B",
+   "prompt_tokens": 114,
+   "cached_tokens": 24,
+   "latency_ms": 52.3,
+   "top": [
+    "B",
+    "Ｂ",
+    "A",
+    "Β",
+    "P",
+    "_"
+   ]
+  },
+  {
+   "id": "s5",
+   "rep": 1,
+   "gold": "B",
+   "chosen": "B",
+   "probs": {
+    "B": 1.0,
+    "A": 0.0
+   },
+   "missing": [],
+   "first_token": "B",
+   "prompt_tokens": 114,
+   "cached_tokens": 113,
+   "latency_ms": 52.8,
+   "top": [
+    "B",
+    "A",
+    "Ｂ",
+    "Β",
+    "P",
+    "<turn|>"
+   ]
+  }
+ ],
+ "batch": {
+  "wall_ms": 53.1,
+  "cached": [
+   71,
+   71,
+   71
+  ],
+  "prompt_tokens": [
+   120,
+   120,
+   120
+  ],
+  "chosen": [
+   "B",
+   "B",
+   "B"
+  ]
+ }
+}

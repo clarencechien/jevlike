@@ -1,0 +1,105 @@
+{
+ "backend": "llama",
+ "model": "26b",
+ "n": 200,
+ "warmup": 20,
+ "results": {
+  "L4_shared_1q": {
+   "summary": {
+    "n": 100,
+    "p50": 218.8155545000008,
+    "p95": 284.2833408499988,
+    "p99": 309.49771051000005,
+    "mean": 231.5124212499999,
+    "prompt_tokens_mean": 0.0,
+    "cache_n_mean": 0.0
+   },
+   "per_call": {
+    "n": 100,
+    "p50": 218.63807899999978,
+    "p95": 284.11329739999985,
+    "p99": 309.28004766000004,
+    "mean": 231.3386890999999,
+    "prompt_tokens_mean": 1400.15,
+    "cache_n_mean": 0.0
+   },
+   "cached_tokens_mean": 27.0,
+   "prefix_hit_rate": 0.01928364818055208,
+   "note": "total ms for K questions on one ~1100-token state; sglang=list batch, llama=seq"
+  },
+  "L4_shared_5q": {
+   "summary": {
+    "n": 40,
+    "p50": 332.80273249999937,
+    "p95": 397.77431249999677,
+    "p99": 403.9683342900002,
+    "mean": 340.8498487250007,
+    "prompt_tokens_mean": 0.0,
+    "cache_n_mean": 0.0
+   },
+   "per_call": {
+    "n": 200,
+    "p50": 29.376866499998044,
+    "p95": 224.34513539999796,
+    "p99": 277.289205100002,
+    "mean": 68.01881322499987,
+    "prompt_tokens_mean": 1352.3,
+    "cache_n_mean": 0.0
+   },
+   "cached_tokens_mean": 1046.77,
+   "prefix_hit_rate": 0.7363824595134215,
+   "note": "total ms for K questions on one ~1100-token state; sglang=list batch, llama=seq"
+  },
+  "L4_shared_10q": {
+   "summary": {
+    "n": 20,
+    "p50": 481.33992349999846,
+    "p95": 569.7606975499965,
+    "p99": 598.7504347099988,
+    "mean": 494.37421270000004,
+    "prompt_tokens_mean": 0.0,
+    "cache_n_mean": 0.0
+   },
+   "per_call": {
+    "n": 200,
+    "p50": 29.262587000001616,
+    "p95": 220.28387739999928,
+    "p99": 288.2351751900011,
+    "mean": 49.283306189999685,
+    "prompt_tokens_mean": 1414.3,
+    "cache_n_mean": 0.0
+   },
+   "cached_tokens_mean": 1229.465,
+   "prefix_hit_rate": 0.8071028070423532,
+   "note": "total ms for K questions on one ~1100-token state; sglang=list batch, llama=seq"
+  },
+  "L4_shared_16q": {
+   "summary": {
+    "n": 20,
+    "p50": 663.9330575000031,
+    "p95": 715.1874764999981,
+    "p99": 724.2912961000043,
+    "mean": 667.5962091000002,
+    "prompt_tokens_mean": 0.0,
+    "cache_n_mean": 0.0
+   },
+   "per_call": {
+    "n": 320,
+    "p50": 29.541854999997952,
+    "p95": 216.3337213499986,
+    "p99": 228.9579855800028,
+    "mean": 41.56812645624997,
+    "prompt_tokens_mean": 1320.8875,
+    "cache_n_mean": 0.0
+   },
+   "cached_tokens_mean": 1190.8125,
+   "prefix_hit_rate": 0.871730565860075,
+   "note": "total ms for K questions on one ~1100-token state; sglang=list batch, llama=seq"
+  },
+  "S3_d0_test_1001": {
+   "wall_s": 60.096349852,
+   "decisions": 1001,
+   "decisions_per_s": 16.656585673924866
+  }
+ }
+}

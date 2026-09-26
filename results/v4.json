@@ -16,6 +16,10 @@
   "verdict": "G1–G4 全過 → 進 Phase 2"
  },
  "speed": {},
+ "bf16": {
+  "A2_mean": 0.961,
+  "B2_mean": 0.9350297029702969
+ },
  "accuracy": {
   "D0/m_alarm_severity": {
    "n": 100,

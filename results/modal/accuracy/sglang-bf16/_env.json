@@ -1,0 +1,9 @@
+{
+ "gpu": "NVIDIA H100 80GB HBM3, 81559 MiB",
+ "sglang_version": "0.5.12.post2.dev932+gbf172c492",
+ "server_start_s": 169.4,
+ "gpu_mem_after_load": "66860 MiB",
+ "repo": "google/gemma-4-26B-A4B-it",
+ "rev": "4d7ae4984b7d",
+ "server_extra": ""
+}

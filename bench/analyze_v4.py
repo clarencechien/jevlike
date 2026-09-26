@@ -47,7 +47,9 @@ def load_arm(arm):
 
 def acc_rows(arm, ds, task):
     p = {"A0": os.path.join(ACC, f"{task}.jsonl") if ds == "D0" else os.path.join(ACC, ds, f"{task}.jsonl"),
-         "A1": os.path.join(ACC, "q8", ds, f"{task}.jsonl"), "B1": os.path.join(ACC, "sglang", ds, f"{task}.jsonl")}[arm]
+         "A1": os.path.join(ACC, "q8", ds, f"{task}.jsonl"), "B1": os.path.join(ACC, "sglang", ds, f"{task}.jsonl"),
+         "A2": os.path.join(ACC, "bf16", ds, f"{task}.jsonl"), "B2": os.path.join(ACC, "sglang-bf16", ds, f"{task}.jsonl"),
+         "B1w1": os.path.join(ACC, "sglang", ds + "-w1", f"{task}.jsonl"), "B1nr": os.path.join(ACC, "sglang", ds + "-noradix", f"{task}.jsonl")}[arm]
     if not os.path.exists(p):
         return {}
     return {json.loads(l)["id"]: json.loads(l) for l in open(p, encoding="utf-8") if "correct" in json.loads(l)}
@@ -139,6 +141,28 @@ def main():
             acc[f"{ds}/{t}"] = {"n": len(ids), **m, "p": p, "auroc": au, "ok": ok}
             A.append(f"| {t} | {len(ids)} | {f(m.get('A0', float('nan')), 3)} | {m['A1']:.3f} | {m['B1']:.3f} | {f(m['A1'] - m.get('A0', float('nan')), 3)} | {m['B1'] - m['A1']:+.3f} | {p:.3f} | {f(au['A1'], 2)} / {f(au['B1'], 2)} | {'✓' if ok else '✗'} |")
         A.append("")
+    # ---- bf16 disambiguation on H100: same weights (bf16), two backends
+    rows2 = {a: {t: acc_rows(a, "D0", t) for t in TASKS} for a in ("A2", "B2", "B1w1", "B1nr")}
+    if any(rows2["A2"].values()) and any(rows2["B2"].values()):
+        A += ["## 分離權重與後端：bf16 權重、H100、兩個後端（D0 test）", "",
+              "| task | n | A2 llama bf16 | B2 SGLang bf16 | B2−A2 | McNemar p | B1 SGLang FP8（L40S） | B1 workers=1 | B1 無 radix cache |", "|---|---|---|---|---|---|---|---|---|"]
+        m_a2, m_b2 = [], []
+        for t in TASKS:
+            ra, rb = rows2["A2"][t], rows2["B2"][t]
+            if not ra or not rb:
+                continue
+            data = [json.loads(l) for l in open(os.path.join(ROOT, f"data/synthetic/{t}.jsonl"), encoding="utf-8")]
+            cal = group_split(data, 0); test = {r["id"] for r, c in zip(data, cal) if not c}
+            ids = sorted(set(ra) & set(rb) & test)
+            ca, cb = [ra[i]["correct"] for i in ids], [rb[i]["correct"] for i in ids]
+            _, _, p = mcnemar(ca, cb)
+            m_a2.append(float(np.mean(ca))); m_b2.append(float(np.mean(cb)))
+            b1 = acc_rows("B1", "D0", t); b1w = rows2["B1w1"][t]; b1n = rows2["B1nr"][t]
+            fx = lambda rr: f"{np.mean([rr[i]['correct'] for i in ids if i in rr]):.3f}" if rr and all(i in rr for i in ids[:5]) else "—"
+            A.append(f"| {t} | {len(ids)} | {np.mean(ca):.3f} | {np.mean(cb):.3f} | {np.mean(cb) - np.mean(ca):+.3f} | {p:.3f} | {fx(b1)} | {fx(b1w)} | {fx(b1n)} |")
+        A.append(f"| **平均** | | {np.mean(m_a2):.3f} | {np.mean(m_b2):.3f} | {np.mean(m_b2) - np.mean(m_a2):+.3f} | | | | |")
+        A.append("")
+        out["bf16"] = {"A2_mean": float(np.mean(m_a2)), "B2_mean": float(np.mean(m_b2))}
     if acc:
         n_fail = sum(1 for v in acc.values() if not v["ok"])
         A.append(f"**護欄：{len(acc) - n_fail}/{len(acc)} 通過**" + ("" if n_fail == 0 else f"，{n_fail} 項未過（見 ✗）"))

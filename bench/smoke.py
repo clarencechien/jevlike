@@ -9,7 +9,7 @@ import requests
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from decide.client import chat_json, read_option_probs  # noqa: E402
 from decide.labels import check_labels  # noqa: E402
-from decide.prompt import SYSTEM, TemplateRenderer, build_messages, letters_for  # noqa: E402
+from decide.prompt import JSON_PREFILL, SYSTEM, TemplateRenderer, build_messages, letters_for  # noqa: E402
 
 EXAMPLES = [
     {"id": "s1", "state": "SMT-L3 回焊爐 R-02 第 4 區溫度 245°C 超上限 10°C 持續 3 分鐘，板子仍在爐內",
@@ -47,6 +47,8 @@ def main(base_url, out_dir, args="", **kw):
         "nothink+nosys+noprefill": dict(use_system=False, prefill="", enable_thinking=False),
         "nothink+sys+prefill_答案：空白": dict(use_system=True, prefill="答案： ", enable_thinking=False),
         "think+sys+prefill_答案：": dict(use_system=True, prefill="答案：", enable_thinking=True),
+        "T1-V1 json_prefill": dict(use_system=True, prefill=JSON_PREFILL, enable_thinking=False),
+        "T1-V2 json_prefill+json_instruction": dict(use_system=True, prefill=JSON_PREFILL, enable_thinking=False, answer_style="json"),
     }
     rep["variants"] = {}
     for vname, kw in variants.items():

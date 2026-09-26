@@ -12,8 +12,9 @@ import urllib.request
 
 import modal
 
-FP8_REPO = "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic"
-FP8_REV = "ed35d7abe5d9"
+MODELS = {"fp8": ("RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic", "ed35d7abe5d9"), "bf16": ("google/gemma-4-26B-A4B-it", "4d7ae4984b7d")}
+SGL_MODEL = os.environ.get("SGLANG_MODEL", "fp8")
+FP8_REPO, FP8_REV = MODELS[SGL_MODEL]
 GPU = os.environ.get("GB10_GPU", "L40S")
 
 app = modal.App("gb10-decide-sglang")
@@ -90,11 +91,11 @@ def run(which: str, args: str = "", server_extra: str = ""):
     env = {"gpu": smi, "sglang_version": ver, "server_start_s": round(t_start, 1), "gpu_mem_after_load": mem, "repo": FP8_REPO, "rev": FP8_REV, "server_extra": server_extra}
     print(json.dumps(env), flush=True)
     try:
-        out_dir = f"/results/{which}/sglang"
+        out_dir = f"/results/{which}/sglang" if SGL_MODEL == "fp8" else f"/results/{which}/sglang-{SGL_MODEL}"
         os.makedirs(out_dir, exist_ok=True)
         json.dump(env, open(f"{out_dir}/_env.json", "w"), indent=1)
         mod = __import__(f"bench.{which}", fromlist=["main"])
-        ret = mod.main(base_url="http://127.0.0.1:30000", out_dir=out_dir, args=args, commit=results.commit, model="sglang", backend="sglang")
+        ret = mod.main(base_url="http://127.0.0.1:30000", out_dir=out_dir, args=args, commit=results.commit, model=f"sglang-{SGL_MODEL}", backend="sglang")
         results.commit()
         return ret
     finally:

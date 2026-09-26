@@ -21,6 +21,7 @@ MODELS = {  # short name -> (HF repo, file)
     "e4b": ("unsloth/gemma-4-E4B-it-GGUF", "gemma-4-E4B-it-Q8_0.gguf"),  # 8.19 GB
     "e2b": ("unsloth/gemma-4-E2B-it-GGUF", "gemma-4-E2B-it-Q8_0.gguf"),  # 5.05 GB
     "q8": ("unsloth/gemma-4-26B-A4B-it-GGUF", "gemma-4-26B-A4B-it-Q8_0.gguf"),  # 26.86 GB, needs L40S
+    "bf16": ("unsloth/gemma-4-26B-A4B-it-GGUF", "BF16/gemma-4-26B-A4B-it-BF16-00001-of-00002.gguf"),  # 50.5 GB split, needs H100
 }
 MODEL_REPO, MODEL_FILE = MODELS["26b"]
 GPU = os.environ.get("GB10_GPU", "L4")
@@ -46,6 +47,8 @@ def download(model: str = "26b"):
 
     repo, fname = MODELS[model]
     p = hf_hub_download(repo, fname, local_dir="/models")
+    if "00001-of-00002" in fname:
+        hf_hub_download(repo, fname.replace("00001-of-00002", "00002-of-00002"), local_dir="/models")
     models.commit()
     return {"path": p, "bytes": os.path.getsize(p)}
 

@@ -6,14 +6,14 @@
  ],
  "gates": {
   "G1": true,
-  "G2": false,
+  "G2": true,
   "G3": true,
   "G4": true,
-  "L4_speedup_10": 1.397347111119604,
-  "L4_speedup_16": 1.7759280332053062,
-  "B1_prefix_hit_min": 0.023308014509890375,
+  "L4_speedup_10": 2.7027606692946278,
+  "L4_speedup_16": 3.74388903308641,
+  "B1_prefix_hit_min": 0.7667740499413169,
   "G1_ratio": 1.0330062688495902,
-  "verdict": "G2 沒過 → 停，維持 llama-server"
+  "verdict": "G1–G4 全過 → 進 Phase 2"
  },
  "speed": {},
  "accuracy": {

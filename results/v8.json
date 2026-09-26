@@ -1,0 +1,117 @@
+{
+ "T": 3.28202108922314,
+ "arms": {
+  "26B raw": {
+   "n": 231,
+   "accuracy": 0.8874458874458875,
+   "per_tier": {
+    "original": 0.9861111111111112,
+    "easy": 1.0,
+    "hard": 0.7747747747747747
+   },
+   "brier": 0.19794649080885648,
+   "ece": 0.09302575440054668,
+   "ordinal_mae": 0.12697496075696543,
+   "strict_valid": 1.0,
+   "flip_rate": 0.06493506493506493,
+   "rev_accuracy": 0.8874458874458875,
+   "latency_p50": 0.29307157499999903,
+   "input_tokens": 670.6363636363636,
+   "per_family": {
+    "adequacy": 1.0,
+    "adversarial": 1.0,
+    "ambiguous": 0.8571428571428571,
+    "extraction": 1.0,
+    "fact": 1.0,
+    "intent": 1.0,
+    "judge_hard": 0.8235294117647058,
+    "long_policy": 0.7368421052631579,
+    "multi_hop": 1.0,
+    "ordinal": 1.0,
+    "policy": 0.9166666666666666,
+    "probability": 0.7,
+    "routing": 1.0,
+    "routing_hard": 1.0,
+    "temporal_numeric": 0.26666666666666666,
+    "tool_selection": 1.0,
+    "tradeoff": 0.6666666666666666,
+    "trap": 1.0
+   }
+  },
+  "26B T=3.28": {
+   "n": 231,
+   "accuracy": 0.8874458874458875,
+   "per_tier": {
+    "original": 0.9861111111111112,
+    "easy": 1.0,
+    "hard": 0.7747747747747747
+   },
+   "brier": 0.16133128111399644,
+   "ece": 0.044312132517841635,
+   "ordinal_mae": 0.14739790029098646,
+   "strict_valid": 1.0,
+   "flip_rate": 0.06493506493506493,
+   "rev_accuracy": 0.8874458874458875,
+   "latency_p50": 0.29307157499999903,
+   "input_tokens": 670.6363636363636,
+   "per_family": {
+    "adequacy": 1.0,
+    "adversarial": 1.0,
+    "ambiguous": 0.8571428571428571,
+    "extraction": 1.0,
+    "fact": 1.0,
+    "intent": 1.0,
+    "judge_hard": 0.8235294117647058,
+    "long_policy": 0.7368421052631579,
+    "multi_hop": 1.0,
+    "ordinal": 1.0,
+    "policy": 0.9166666666666666,
+    "probability": 0.7,
+    "routing": 1.0,
+    "routing_hard": 1.0,
+    "temporal_numeric": 0.26666666666666666,
+    "tool_selection": 1.0,
+    "tradeoff": 0.6666666666666666,
+    "trap": 1.0
+   }
+  },
+  "E4B raw": {
+   "n": 231,
+   "accuracy": 0.7878787878787878,
+   "per_tier": {
+    "original": 0.9583333333333334,
+    "easy": 1.0,
+    "hard": 0.5855855855855856
+   },
+   "brier": 0.348970775130589,
+   "ece": 0.16223171127461505,
+   "ordinal_mae": 0.2319076575392033,
+   "strict_valid": 1.0,
+   "flip_rate": 0.09956709956709957,
+   "rev_accuracy": 0.7705627705627706,
+   "latency_p50": 0.3594267449999933,
+   "input_tokens": 666.6363636363636,
+   "per_family": {
+    "adequacy": 0.9166666666666666,
+    "adversarial": 0.8333333333333334,
+    "ambiguous": 0.2857142857142857,
+    "extraction": 1.0,
+    "fact": 1.0,
+    "intent": 1.0,
+    "judge_hard": 0.5882352941176471,
+    "long_policy": 0.631578947368421,
+    "multi_hop": 0.6666666666666666,
+    "ordinal": 1.0,
+    "policy": 0.8333333333333334,
+    "probability": 0.5,
+    "routing": 1.0,
+    "routing_hard": 1.0,
+    "temporal_numeric": 0.26666666666666666,
+    "tool_selection": 1.0,
+    "tradeoff": 0.3333333333333333,
+    "trap": 1.0
+   }
+  }
+ },
+ "verdict": "26B-A4B 凍結讀字母在 JevBench 公開子集 88.7%，與 Cygnet / Open-Jev 同級：**v2 的高分不是題目量身訂做**。 E4B 78.8%（低 10.0 點，預期 5–15）。 反序翻面率 6.5%（預期 5–10%）。"
+}

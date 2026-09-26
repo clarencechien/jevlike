@@ -92,10 +92,10 @@ def main():
         tok = float(np.mean([r["usage"]["input_tokens"] or 0 for r in recs]))
         out["arms"][name] = {"n": S["n_attempted"], "accuracy": S["accuracy"], "per_tier": {k: v["accuracy"] for k, v in per.items()}, "brier": S["brier_mean"],
                              "ece": S["ece"]["ece"] if isinstance(S["ece"], dict) else S["ece"], "ordinal_mae": S["ordinal_mae"], "strict_valid": S["schema_validity_strict"],
-                             "flip_rate": flip, "rev_accuracy": rev_acc, "latency_p50": S["latency"].get("p50"), "input_tokens": tok, "per_family": {k: v["accuracy"] for k, v in S["per_family"].items()}}
+                             "flip_rate": flip, "rev_accuracy": rev_acc, "latency_p50": S["latency"].get("p50_s", S["latency"].get("p50")), "input_tokens": tok, "per_family": {k: v["accuracy"] for k, v in S["per_family"].items()}}
         ece = out["arms"][name]["ece"]
         table.append(f"| {name} | **{S['accuracy'] * 100:.1f}%**（{S['n_correct']}/{S['n_attempted']}） | {per['original']['accuracy'] * 100:.1f}% | {per['easy']['accuracy'] * 100:.1f}% | {per['hard']['accuracy'] * 100:.1f}% | "
-                     f"{f(S['brier_mean'])} | {f(ece)} | {f(S['ordinal_mae'])} | {S['schema_validity_strict'] * 100:.0f}% | {flip * 100:.1f}%（反序 acc {rev_acc * 100:.1f}%） | {f(S['latency'].get('p50'), 2)} | {tok:.0f} |")
+                     f"{f(S['brier_mean'])} | {f(ece)} | {f(S['ordinal_mae'])} | {S['schema_validity_strict'] * 100:.0f}% | {flip * 100:.1f}%（反序 acc {rev_acc * 100:.1f}%） | {f(S['latency'].get('p50_s', S['latency'].get('p50')), 2)} | {tok:.0f} |")
         if sub == "":
             with open(os.path.join(JB, f"records_{'raw' if T == 1.0 else 'T'}.jsonl"), "w", encoding="utf-8") as fh:
                 for r in recs:

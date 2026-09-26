@@ -8,9 +8,9 @@
 
 ## 1. 一句話
 
-值得做、用現有的 Gemma 4 26B-A4B 自己做、不採購 Jev。十類題七類零標註 ≥ 98%；弱的三類靠改寫判斷標準與幾十筆校準；一次判斷 L4 上 0.2 秒（共用現場狀況 0.07 秒）。推理引擎 llama-server 與 SGLang 都可用，SGLang 批次快 5 倍，前提是 prompt 帶 `<bos>`。七輪實驗約 8.6 GPU 小時、約 $15。
+值得做、用現有的 Gemma 4 26B-A4B 自己做、不採購 Jev。十類題七類零標註 ≥ 98%；弱的三類靠改寫判斷標準與幾十筆校準；一次判斷 L4 上 0.2 秒（共用現場狀況 0.07 秒）。推理引擎 llama-server 與 SGLang 都可用，SGLang 批次快 5 倍，前提是 prompt 帶 `<bos>`。八輪實驗約 8.9 GPU 小時、約 $15。在 JevBench 公開子集自跑 88.7%，高於同派的 Cygnet 與訓練過的 Open-Jev。
 
-## 2. 走到哪裡了（七輪，每輪先寫門檻再跑）
+## 2. 走到哪裡了（八輪，每輪先寫門檻再跑）
 
 | 輪 | 交接文件 | 問的問題 | 答案 | 結果檔 |
 |---|---|---|---|---|
@@ -20,12 +20,14 @@
 | v4 | `handoff-v4-sglang.md` | 換 SGLang 值不值？ | 速度門檻 G1–G4 全過（K=16 3.7×、c=32 6×），但 acc 低 2.8 點、重跑不穩 → 視同沒過 | `07-*.md` |
 | v5 | `handoff-v5-typellm.md` | TypeLLM 的技巧有用嗎？ | JSON prefill +1.3 點、順序平均 −1.3 點，都沒過；量到弱題順序敏感度 21% / 19%；加了標籤自檢與驗證腳本 | `08-typellm-followups.md`、`verify.md` |
 | v6 | `handoff-v6-sglang-stability.md` | SGLang 掉分的真正原因？ | 差在第 0 個 token：llama-server 加 `<bos>`、SGLang 不加。餵同樣 id 後 0.958 vs 0.959；補 `<bos>` + 批次不變旗標重跑一致率 99.85% → SGLang 回到候選 | `09-sglang-stability.md` |
+| v8 | `handoff-v8-jevbench.md` | 同一把尺：JevBench 公開 231 題自跑（不排名） | 26B **88.7%**（hard 77.5%），高於 Cygnet 87.9、Open-Jev 85.3、TypeLLM 84.4；E4B 78.8%；合成資料的溫度搬過去 ECE 0.093 → 0.044 | `13-jevbench.md`、`data/jevbench/` |
 | v7 | `handoff-v7-borrowed.md` | 三十幾個開源替代品有什麼可抄？ | conformal 門檻 + lock 檔（採用，`--check-lock` 抓到換錯引擎 10 項）、option mass 模板檢查（採用）、packed readout（不採用：後面的題翻 11–13%） | `11-*.md`、`12-packed.md`、`thresholds.lock.json` |
 
 ## 3. 效果多好（D0 test 每 task 100 筆，L4 / L40S）
 
 | 指標 | 數字 | 註 |
 |---|---|---|
+| JevBench 公開 231 題（self-run） | 88.7%，hard 77.5% | Cygnet 87.9、Open-Jev-27B 85.3、TypeLLM 84.4（各自自跑）；不是官方排名 |
 | 零標註 ≥ 0.98 的 task | 7 / 10 | `m_alarm_category`、`m_needs_dispatch`、`q_defect_root`、`p_line_change`、`x_ticket_route`、`x_escalate`、`x_10way_intent` |
 | 三類弱題（改寫標準後） | 急迫度 0.885、SPC 0.95、UPH 0.93 | 錯集中在相鄰等級；UPH 該用公式 |
 | 5% 錯誤預算下強題 coverage | 0.91–1.00，實際錯 0–3.3% | conformal，保證在 8/10 task 成立（`11-thresholds.md`） |
@@ -58,8 +60,9 @@ python3 bench/verify.py && python3 bench/thresholds.py && python3 bench/verify.p
 - `modal_app.py` llama-server 入口（`MODELS`：26b UD-Q4_K_M / q8 / bf16 / e4b / e2b）；`modal_sglang.py` SGLang 入口（fp8 / bf16，L40S 需自帶 fused-MoE Triton 設定檔）
 - `decide/` `prompt.py`（模板：`/apply-template` 學來，或 SGLang 用的 `GEMMA4_TEMPLATE_NOTHINK_BOS`；T1 變體）、`client.py`（llama `/completion`；SGLang `/generate` 指定 token id / `input_ids`；每次回傳 `option_mass`）、`labels.py`（字母單 token 自檢）
 - `data/` `seeds/`、`gen/`、`hard/`、`rules/`、`synthetic/`（D0 + MANIFEST + SPOTCHECK）、`heldout/`、`perturbed/`（D1）、`blind/`（Gemini 盲寫 D2）、`tokenized/`（llama-server 切好的 token id）
-- `bench/` `smoke*.py`、`latency.py`、`accuracy.py`、`permute.py`、`packed.py`、`v4bench.py`、`tokenize_dump.py`、`option_mass.py`、`thresholds.py`、`analyze*.py`（v2 / ladder / v4–v7）、`verify.py`（含 `--check-lock`）、`render_html_report.py`
-- `results/` 分項報告 `00`–`12`、`REPORT.md`、`cost.md`、`thresholds.lock.json`、`fig/`、`modal/`（原始 logprobs）
+- `bench/` `smoke*.py`、`latency.py`、`accuracy.py`、`permute.py`、`packed.py`、`v4bench.py`、`jevbench.py`、`tokenize_dump.py`、`option_mass.py`、`thresholds.py`、`analyze*.py`（v2 / ladder / v4–v8）、`verify.py`（含 `--check-lock`）、`render_html_report.py`
+- `data/jevbench/` JevBench 公開 231 題（MIT，釘版）；`third_party/jevbench/` 評分 harness（MIT）
+- `results/` 分項報告 `00`–`13`、`REPORT.md`、`cost.md`、`thresholds.lock.json`、`fig/`、`modal/`（原始 logprobs）
 
 ### 踩過的坑（接 GB10 時先看）
 

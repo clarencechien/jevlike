@@ -53,6 +53,8 @@ TASKDEF = json.load(open(os.path.join(ROOT, "data/seeds/tasks.json"), encoding="
 V4 = json.load(open(os.path.join(ROOT, "results/v4.json")))
 V6 = json.load(open(os.path.join(ROOT, "results/v6.json")))
 V7 = json.load(open(os.path.join(ROOT, "results/v7.json")))
+V8 = json.load(open(os.path.join(ROOT, "results/v8.json")))
+JB26 = V8["arms"]["26B raw"]; JBE4 = V8["arms"]["E4B raw"]
 THR = V7["thresholds"]["lock"]["tasks"]
 STRONG7 = ["m_alarm_category", "m_needs_dispatch", "q_defect_root", "p_line_change", "x_ticket_route", "x_escalate", "x_10way_intent"]
 cov5 = [THR[t]["eps"]["0.05"]["coverage_test"] for t in STRONG7]; err5 = [THR[t]["eps"]["0.05"]["error_test"] for t in STRONG7]
@@ -294,9 +296,9 @@ page = f"""<!doctype html>
 
 <main class="report">
 
-  <p class="eyebrow">判定備忘 · Jev 式決策層 · 2026-09-23 起、七輪實驗 · 更新 2026-09-26</p>
+  <p class="eyebrow">判定備忘 · Jev 式決策層 · 2026-09-23 起、八輪實驗 · 更新 2026-09-26</p>
   <h1 class="display">Jev 式決策，<br>值得做，<br>而且<em>不用買</em></h1>
-  <p class="lede">用我們已經部署的 Gemma 4 26B，加一層「只從固定選項裡選答案、不寫文章」的決策 API。十類產線判斷題有七類不用任何標註就能上線，每次判斷約 0.2 秒。七輪驗證（含小模型對照、換引擎、追查掉分原因、借鏡他人做法）合計約十五美元的雲端 GPU。</p>
+  <p class="lede">用我們已經部署的 Gemma 4 26B，加一層「只從固定選項裡選答案、不寫文章」的決策 API。十類產線判斷題有七類不用任何標註就能上線，每次判斷約 0.2 秒。八輪驗證（含小模型對照、換引擎、追查掉分原因、借鏡他人做法、跑公開考卷）合計約十五美元的雲端 GPU。</p>
   <p class="byline">實驗於 Modal 雲端 L4 顯示卡進行 · 合成資料 10 類 × 200 題 · 工程細節與原始數據在 results/REPORT.md</p>
 
   <div class="tldr">
@@ -315,11 +317,11 @@ page = f"""<!doctype html>
     <div class="stat"><p class="label">不標註就達 98% 的題型</p><div class="value">{len(strong)} / 10</div><div class="delta">其餘三類要調門檻</div></div>
     <div class="stat"><p class="label">一次判斷</p><div class="value">{L1['p50'] / 1000:.1f} 秒</div><div class="delta">租用 L4；GB10 待實測</div></div>
     <div class="stat"><p class="label">比模型寫答案快</p><div class="value">{speed:.1f} 倍</div><div class="delta">一次問十題可再降</div></div>
-    <div class="stat"><p class="label">本次驗證的 GPU 費用</p><div class="value">≈ $15</div><div class="delta">七輪實驗，約 8.6 GPU 小時</div></div>
+    <div class="stat"><p class="label">本次驗證的 GPU 費用</p><div class="value">≈ $15</div><div class="delta">八輪實驗，約 8.9 GPU 小時</div></div>
   </div>
 
   <p class="eyebrow">00 · 走到哪裡了</p>
-  <h2>七輪、四天、十五美元：每一輪問一個問題，答一個問題</h2>
+  <h2>八輪、四天、十五美元：每一輪問一個問題，答一個問題</h2>
   <p>每一輪都先把「什麼算過、什麼算沒過」寫死再跑，跑完照規則填結論。沒過的也留著，因為「不值得做」和「值得做」一樣是答案。</p>
 
   <div class="table-scroll wide route">
@@ -332,6 +334,7 @@ page = f"""<!doctype html>
         <tr><td>四</td><td>換 SGLang 引擎值不值？</td><td>批次快 3.7 到 6 倍，但答對率低 2.8 個百分點、重跑會變</td><td class="num">$7</td></tr>
         <tr><td>五</td><td>別人（TypeLLM）的技巧有沒有用？</td><td>JSON 形式與選項順序平均都沒過門檻；量到弱題兩成會因順序改答案，列為上線條件</td><td class="num">$1</td></tr>
         <tr><td>六</td><td>SGLang 掉分的真正原因？</td><td>少一個起始字元。補上後與現行引擎同準（{V6['E1']['mean']['B1ids'] * 100:.1f}% vs {V6['E1']['mean']['A1'] * 100:.1f}%），重跑一致率 99.85%；SGLang 回到候選</td><td class="num">$3.5</td></tr>
+        <tr><td>八</td><td>拿別人的公開考卷（JevBench 231 題）跑同一套，站得住嗎？</td><td>{JB26['accuracy'] * 100:.1f}%，難題 {JB26['per_tier']['hard'] * 100:.1f}%；高於同做法的 Cygnet 87.9%、訓練過的 Open-Jev 85.3%。自跑、不排名</td><td class="num">$0.2</td></tr>
         <tr><td>七</td><td>三十幾個開源替代品裡，有什麼可以抄？</td><td>抄了三件：錯誤預算反推門檻（採用）、模板健康檢查（採用）、多題一個前向（不採用，後面的題答案會變）</td><td class="num">$1.4</td></tr>
       </tbody>
     </table>
@@ -342,6 +345,7 @@ page = f"""<!doctype html>
     <table>
       <thead><tr><th>指標</th><th class="num">我們</th><th>對照</th></tr></thead>
       <tbody>
+        <tr><td>公開考卷 JevBench 231 題（自跑）</td><td class="num">{JB26['accuracy'] * 100:.1f}%</td><td>同做法的 Cygnet 87.9%、訓練過的 Open-Jev 85.3%、TypeLLM 84.4%；不是官方排名</td></tr>
         <tr><td>零標註就達 98% 的題型</td><td class="num">{len(strong)} / 10</td><td>Jev 在自家題約 68%、公開評測 74 分；題目不同，只看量級</td></tr>
         <tr><td>三類弱題（急迫度、SPC、產能）改寫標準後</td><td class="num">{V2['m_alarm_severity']['raw_test']['acc'] * 100:.0f}% / {V2['q_spc_action']['raw_test']['acc'] * 100:.0f}% / {A['p_uph_anomaly']['raw_test']['acc'] * 100:.0f}%</td><td>剩下的錯集中在相鄰等級，要真實資料</td></tr>
         <tr><td>給 5% 錯誤預算，強題能自動處理的比例</td><td class="num">{min(cov5) * 100:.0f}%–{max(cov5) * 100:.0f}%</td><td>實際錯誤率 {min(err5) * 100:.0f}%–{max(err5) * 100:.1f}%，保證在 8/10 類成立</td></tr>
@@ -580,12 +584,13 @@ page = f"""<!doctype html>
         <tr><td>Jev（TypeSafe 雲端服務）</td><td>雲端，經網路</td><td class="num">0.24–0.35 秒</td><td>獨立評測 JevBench 第 1 名（74.4 分／100）；官方自家題約 68%</td><td>公開評測，534 題</td></tr>
         <tr><td>gemma-jev（開源，同一顆 26B 模型）</td><td>RTX 3090 桌機顯示卡</td><td class="num">0.05 秒</td><td>意圖分類 87%、防注入 100%、自家控制題 100%</td><td>樣本只有 12–30 題，看方向</td></tr>
         <tr><td>同一顆 26B 模型（他人提交）</td><td>—</td><td class="num">—</td><td>JevBench 66.4 分，落後 Jev 8 分</td><td>公開評測，刻意刁難的題</td></tr>
+        <tr><td><strong>我們</strong>（同一顆 26B 模型，跑 JevBench 公開 231 題）</td><td>租用 L4</td><td class="num">—</td><td>{JB26['accuracy'] * 100:.1f}%（難題 {JB26['per_tier']['hard'] * 100:.1f}%）；小模型 E4B {JBE4['accuracy'] * 100:.1f}%</td><td>自跑、不排名；同一子集 Cygnet 87.9%、Open-Jev 85.3%</td></tr>
         <tr><td><strong>我們</strong>（同一顆 26B 模型）</td><td>租用 L4；GB10 待測</td><td class="num">{L1['p50'] / 1000:.1f} 秒（共用狀況時 {per_q_swa / 1000:.2f} 秒）</td><td>十類產線題平均 {sum(A[t]['raw_test']['acc'] for t in ORDER) / 10 * 100:.0f}%，七類 ≥ 98%，難題平均 {sum(A[t]['by']['hard']['acc'] for t in ORDER) / 10 * 100:.0f}%</td><td>每類 200 題、獨立抽查；但是合成資料</td></tr>
       </tbody>
     </table>
   </div>
 
-  <p>三個結論：第一，<span class="mark">同一顆模型在別人手上也一樣準</span>，不是我們的題目太簡單才看到高分。第二，速度差在顯示卡：3090 的記憶體頻寬是 L4 的三倍，同一顆模型量到 0.05 秒 vs 我們的 0.2 秒；GB10 的頻寬與 L4 同級，實際會落在 0.1–0.2 秒之間，靠一次問多題才會壓到 0.07 秒。第三，在刻意刁難的公開評測上，這顆模型落後 Jev 8 分；產線的封閉判斷題不會碰到那種難度，但真實資料上的分數要預期比合成資料低。</p>
+  <p>三個結論：第一，<span class="mark">同一顆模型在別人手上也一樣準</span>，不是我們的題目太簡單才看到高分。第二，速度差在顯示卡：3090 的記憶體頻寬是 L4 的三倍，同一顆模型量到 0.05 秒 vs 我們的 0.2 秒；GB10 的頻寬與 L4 同級，實際會落在 0.1–0.2 秒之間，靠一次問多題才會壓到 0.07 秒。第三，在刻意刁難的公開評測上，這顆模型的官方提交落後 Jev 8 分；但我們自己用同一套讀法跑公開 231 題拿到 {JB26['accuracy'] * 100:.1f}%，高於同做法的 Cygnet 與訓練過的 Open-Jev，說明產線題的高分不是題目量身訂做。真實資料上的分數仍要預期比合成資料低。</p>
 
 
   <h2>四類做法</h2>

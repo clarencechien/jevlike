@@ -33,6 +33,8 @@
 | Laya（零樣本） | JevBench | 54.4（第 33 名） | 534 | JevBench |
 | **Cygnet**（凍結 Gemma-4-12B-it，vLLM，單 token 讀字母 + 一個溫度，無訓練） | JevBench v1.4.2 官方 534+308 題 | **61.8（第 4 名）**；公開集 87.9%、密封集 33.8%；L40S p50 50–66 ms | 842 | JevBench；與我們同一派、同一家族模型 |
 | decider-4b v2（Qwen3.5-4B + 8k 筆 LoRA） | 同上 | 64.1（第 1 名，贏 Jev 1.13 的 63.3） | 842 | JevBench |
+| **我們 26B-A4B UD-Q4_K_M（凍結，讀字母，self-run）** | JevBench **公開 231 題子集**（self-run，非官方） | **88.7%**（205/231）；original 98.6%、easy 100%、hard 77.5%；ECE 0.093，套我們合成資料的溫度後 0.044；反序翻面 6.5% | 231 | `13-jevbench.md` |
+| 我們 E4B Q8（凍結，self-run） | 同上 | 78.8%；hard 58.6% | 231 | 同上 |
 | TypeLLM（Qwen3.8-27B NVFP4，無訓練，不開思考） | JevBench **公開 231 題子集**（與上列 534 題不能直接排名） | 195/231 = 84.4%；Brier 0.241、ECE 0.052 | 231 | TypeLLM evals/jevbench（2026-09-23） |
 | TypeLLM（同上，開思考，均 919 token/題，p95 61 s） | 同上 | 228/231 = 98.7%；ECE 0.017 | 231 | 同上 |
 | Jev（官方） | TypeSafe 自家 4-workflow | ~68% | — | v1 handoff |
@@ -53,6 +55,7 @@
 - **同一顆 26B-A4B 在不同人手上的數字一致地「高」**：gemma-jev 的 SNIPS 86.7% / injection 100%，我們的 10 類意圖 100%、7 個 task ≥ 98%。這顆模型做 typed decision 的能力不是我們資料太簡單才看到的。
 - 但 **JevBench 上 26B-A4B 只有 66.4，落後 Jev 8 分、落後 SemIf 的 4B 模型 6.7 分**。JevBench 的 220 道難題是刻意設計的邊界案例，和我們 hard 子集 0.91 的落差說明：我們的難題還是比 JevBench 溫和，真實資料上要預期往 JevBench 那個方向掉。
 - gemma-jev 的樣本數 n=12–40，只能當方向；我們每 task 200、外加 10% 獨立抽查，統計上比較站得住，但**資料是合成的**，這點和 JevBench（人工題）不同。
+- **同一子集自跑（v8）**：我們的 26B-A4B 88.7% 高於 Cygnet（凍結 Gemma-4-12B）87.9%、Open-Jev-27B（訓練）85.3%、TypeLLM（Qwen 27B）84.4%；hard 77.5% 高於 Cygnet 76.6%、Open-Jev 72.1%。這是 231 題公開子集的自跑分，不是官方排名；但它說明 v2 的高分不是題目量身訂做。
 - **TypeLLM 不支援 Gemma 4**（`protocol.py` 遇到 `<|turn>`+`<|channel>` 直接 raise）。他們 2026-09-22 用 E2B 實測 42 題只對 24：log 顯示第一個 token 是 `The`（logprob −0.001），A/B/C 全在 −11 以下，因為沒有放空的 thought channel。我們的 `GEMMA4_TEMPLATE_NOTHINK`（`<|channel>thought\n<channel|>` 空思考塊）解掉了這題。TypeLLM 的 84.4% 是 Qwen3.8-27B、231 題公開子集，與 JevBench 534 題的 74.4 分不是同一把尺；能對照的只有「無訓練也能到 84%，開思考到 98.7%」這個量級。後續要補的做法見 `docs/handoff-v5-typellm.md`。
 - **後端提醒（v6）**：用 HF tokenizer 的引擎（SGLang、vLLM、TypeLLM）對 Gemma 4 預設**不加 `<bos>`**，llama-server 會加。我們量到這一個 token 值 2–3 分（`09-sglang-stability.md`）。TypeLLM 的 Gemma 4 log 裡 prompt 也是以 `<bos>` 開頭，所以他們沒踩到這個，踩到的是空 thought channel。
 - Jev 的獨特賣點是校準過的信心；我們量到 raw 信心無鑑別力（ECE 0.18），gemma-jev 沒有報這一項。

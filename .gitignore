@@ -2,3 +2,7 @@ __pycache__/
 *.pyc
 .venv/
 results/modal/**/*.tmp
+
+# real production data never enters git (docs/handoff-gb10.md §0)
+data/real/
+results/gb10-real/

@@ -19,6 +19,7 @@ from concurrent.futures import ThreadPoolExecutor
 import requests
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from bench.accuracy import DATA_DIR  # noqa: E402
 from bench.latency import LINES_EN, LINES_ZH, pct, question  # noqa: E402
 from decide.client import batch_read_option_probs_sglang, generate_text, reader_for  # noqa: E402
 from decide.prompt import TemplateRenderer, letters_for  # noqa: E402
@@ -201,7 +202,7 @@ def main(base_url, out_dir, args="", backend="llama", **kw):
             return [(r.get("pair_id") or r["id"]) in calset for r in rows_]
         rows = []
         for t in ["m_alarm_severity", "m_alarm_category", "m_needs_dispatch", "q_spc_action", "q_defect_root", "p_uph_anomaly", "p_line_change", "x_ticket_route", "x_escalate", "x_10way_intent"]:
-            rs = [json.loads(l) for l in open(f"/root/data/synthetic/{t}.jsonl", encoding="utf-8")]
+            rs = [json.loads(l) for l in open(os.path.join(DATA_DIR, f"{t}.jsonl"), encoding="utf-8")]
             cal = group_split(rs, 0)
             rows += [r for r, c in zip(rs, cal) if not c]
         jobs = [(tr.render(r["state"], r["question"]), letters_for(len(r["question"]["options"]))) for r in rows]

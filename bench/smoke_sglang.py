@@ -30,9 +30,13 @@ def main(base_url, out_dir, args="", **kw):
                    "probs": {k: round(v, 4) for k, v in r["probs"].items()}, "missing": r["missing"], "first_token": r["first_token"],
                    "prompt_tokens": r["prompt_tokens"], "cached_tokens": r["tokens_cached"], "latency_ms": round(r["latency_ms"], 1),
                    "top": [t["token"] for t in r["top_tokens"][:6]],
-                   "probs_token_ids": r.get("probs_token_ids"), "token_ids_max_abs_diff": r.get("token_ids_max_abs_diff")}
+                   "probs_token_ids": r.get("probs_token_ids"), "token_ids_max_abs_diff": r.get("token_ids_max_abs_diff"), "option_mass": r.get("option_mass")}
             rep["rows"].append(row)
             print(json.dumps(row, ensure_ascii=False), flush=True)
+    # P2 (handoff v7): option-mass health check
+    masses = [r.get("option_mass", 0.0) for r in rep["rows"]]
+    rep["option_mass_check"] = {"min": min(masses), "ok": min(masses) >= 0.9}
+    print("option_mass_check", rep["option_mass_check"], flush=True)
     # v6: with the literal <bos> in the static template, SGLang's prompt_tokens must equal llama-server's (117 for s1 in v2 smoke)
     rep["bos_check"] = {"s1_prompt_tokens": rep["rows"][0]["prompt_tokens"], "llama_v2_smoke_s1": 117,
                         "ok": rep["rows"][0]["prompt_tokens"] == 117}
@@ -45,7 +49,7 @@ def main(base_url, out_dir, args="", **kw):
     print("batch", json.dumps(rep["batch"]), flush=True)
     # llama-server prompt token counts for the same 5 prompts (from v2 smoke) for parity
     try:
-        llama = json.load(open("/root/data/../results/modal/smoke.json"))
+        llama = json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results/modal/smoke.json")))
     except Exception:  # noqa: BLE001
         llama = None
     os.makedirs(out_dir, exist_ok=True)

@@ -7,7 +7,7 @@
 
 ## 0. 一句話結論
 
-在 L4 上，Gemma 4 26B-A4B 讀第一個 token 的選項 logprob 這條路**可行且零樣本就很強**：10 個 task 中 7 個 test 準確率 ≥ 0.98、選擇性準確率 @0.9 ≥ 0.99 且 coverage ≥ 0.99；3 個 task（alarm 急迫度、SPC 動作、UPH 異常）零樣本 0.82–0.93，且模型**極度過度自信**（raw confidence 平均 0.99），要靠 100 筆以內的校準把「信心門檻」變得可用。延遲在 L4 上單題 p50 206 ms（開 `--swa-full` 後 137 ms，共用 state 的後續題 73 ms），比 LLM 生成 JSON 快 2.4–3.6 倍，但 llama-server 在 L4 上併發不會加速（throughput 卡在 5.5 req/s）。 v4/v6 追加：換 SGLang 後端，共用上下文快 2.7–3.7 倍、併發快 5–6 倍；v4 量到的低 2–3 分是 SGLang 不加 `<bos>` 造成，補上後與 llama-server 同準（§3d），**SGLang 回到候選**。
+在 L4 上，Gemma 4 26B-A4B 讀第一個 token 的選項 logprob 這條路**可行且零樣本就很強**：10 個 task 中 7 個 test 準確率 ≥ 0.98、選擇性準確率 @0.9 ≥ 0.99 且 coverage ≥ 0.99；3 個 task（alarm 急迫度、SPC 動作、UPH 異常）零樣本 0.82–0.93，且模型**極度過度自信**（raw confidence 平均 0.99），要靠 100 筆以內的校準把「信心門檻」變得可用。延遲在 L4 上單題 p50 206 ms（開 `--swa-full` 後 137 ms，共用 state 的後續題 73 ms），比 LLM 生成 JSON 快 2.4–3.6 倍，但 llama-server 在 L4 上併發不會加速（throughput 卡在 5.5 req/s）。 v4/v6 追加：換 SGLang 後端，共用上下文快 2.7–3.7 倍、併發快 5–6 倍；v4 量到的低 2–3 分是 SGLang 不加 `<bos>` 造成，補上後與 llama-server 同準（§3d），**SGLang 回到候選**。 v8：JevBench 公開子集自跑 88.7%，高於 Cygnet 87.9%、Open-Jev 85.3%（§3g）。
 
 ## 1. 分流表（v1 §7，實測後填）
 
@@ -201,6 +201,39 @@ E4B 單題快 2.2 倍、十題快 1.8 倍，但 **decode 地板兩者一樣**（
 | 順序敏感度 | 急迫度 21%、SPC 19%、UPH 3%、控制題 1% | **風險**：弱題的答案有兩成受選項順序影響，上線前選項順序固定、校準用同一順序 |
 
 TypeLLM 本身不支援 Gemma 4（`06-comparison.md`），它的 JevBench 84.4% 是 Qwen3.8-27B 在 231 題公開子集，與 534 題的 74.4 不同尺。它的 thinking mode（84% → 98.7%，每題均 919 token）產線 gating 用不起；`depends_on` 依賴鏈與 nullable 語法等真實資料有鏈式題再開。
+
+## 3f. 從生態抄來的兩件事：option mass 與 conformal 門檻（v7 P2/P3，`11-option-mass.md`、`11-thresholds.md`、`thresholds.lock.json`）
+
+**一句話**：給 5% 錯誤預算，七類強題能自動處理 91–100%、實際錯誤率 0–3.3%，保證在 8/10 task 成立；門檻寫成 lock 檔，`bench/verify.py --check-lock` 可以抓到後端或模型換掉造成的漂移（SGLang 無 `<bos>` 那次會被抓出 10 項）。option mass 只當模板健康檢查。
+
+**P3 conformal 門檻（抄 poorjev / jevcal）**：Q6 原本報「信心 ≥ 0.9 時的準確率與 coverage」，是描述；這裡反過來，先定錯誤預算 ε，在 cal 半上取 1 − conf 的 ⌈(n+1)(1−ε)⌉/n 分位當門檻，test 半上驗證。信心用溫度校準後的 top_prob。
+
+| ε | 保證成立（test 錯誤率 ≤ ε） | 七類強題 coverage | 三類弱題 |
+|---|---|---|---|
+| 2% | 7/10 | 0.91–1.00 | 急迫度 err 0.182、SPC 0.122、UPH 0.052：**保證不成立** |
+| 5% | 8/10 | 最低 0.91、平均 0.97 | 急迫度 0.147、SPC 0.115 不成立；UPH 0.033 成立（coverage 0.91） |
+| 10% | 9/10 | — | 只剩急迫度不成立 |
+
+判定（門檻 ε=5% ≥ 8/10、ε=2% ≥ 6/10）：**過**；強題 coverage 門檻 0.95 差一點（最低 0.91，`p_line_change` 與 `p_uph_anomaly`）。弱題「保證不成立」的原因不是方法，是溫度校準後信心對急迫度、SPC 幾乎沒有鑑別力（T 高達 6，門檻壓到 0.56 仍放行 95%）：這兩題要靠 v2 改寫 criteria 與真實資料，門檻救不了。
+
+**lock 檔與漂移檢查**：`results/thresholds.lock.json` 記每 task × ε 的門檻、cal/test 筆數、T、commit。`verify.py --check-lock <dir>` 重算，錯誤率超過 ε×1.5 且比 lock 高 3 點以上、或 coverage 掉 10 點就 exit 1。實測：同權重重跑 0 項；Q8 權重 0 項；SGLang 無 `<bos>` **10 項**；SGLang 有 `<bos>` 2 項（都是急迫度）。這就是 GB10 換模型檔、換後端時要跑的 CI。
+
+**P2 option mass（抄 verdict）**：字母正規化前的總機率。回溯所有結果檔：正常時 p5 ≥ 0.9998；v2 smoke 裡「think 開」與「尾空白」兩個壞模板 mass 中位數 0.003 / 0.020，所以 smoke 加了門檻 0.9 的健康檢查。它抓不到 `<bos>` 這類錯（有無都是 1.000），跑前預期「與答對無關」也錯了：AUROC 0.6–0.88，但差異全在 1e-4 以下的尾巴，是信心的影子，能排序不能設門檻。
+
+**P1 packed readout（抄 open-alternative-jev，`12-packed.md`）：不採用。** 三題打包成一個前向，位置對得上（dry run 三題機率與逐題讀相同），但排在占位符後面的題答案會變：category 排第一題不受影響（0.990 → 0.990），severity 排第二題 0.820 → 0.680（p=0.004）、dispatch 排第三題 1.000 → 0.940（p=0.031）；干擾率 11–13%，open-alternative-jev 自己量到 6–9%，我們更高。速度只快 1.3–1.7 倍（K=3 0.75×、K=7 0.64×），因為 separate 那邊前綴已經共用，省的只是每請求 62 ms 的開銷。占位符換成 `A` 沒有比較好。結論：在 Gemma 4 上，前面的假答案會污染後面的判斷，多題共用 state 維持「暖前綴 + 整批」。
+
+## 3g. JevBench 公開子集自跑（v8，`13-jevbench.md`；self-run，非官方）
+
+**一句話**：同一顆 26B-A4B、同一套讀法、英文 system prompt，在 JevBench 231 題公開子集 **88.7%**（hard 77.5%），高於凍結 Gemma-4-12B 的 Cygnet 87.9%、訓練過的 Open-Jev-27B 85.3%、TypeLLM 84.4%。v2 的高分不是題目量身訂做。
+
+| arm | 全部 | original | easy | hard | ECE | 反序翻面 |
+|---|---|---|---|---|---|---|
+| 26B raw | 88.7% | 98.6% | 100% | 77.5% | 0.093 | 6.5% |
+| 26B 套合成資料的 T=3.28 | 88.7% | 同 | 同 | 同 | **0.044** | 6.5% |
+| E4B raw | 78.8% | 95.8% | 100% | 58.6% | 0.162 | 10.0% |
+
+三點：(1) 差距全在 hard 題（111 題錯 25），easy 與 original 接近全對，與 JevBench 自己「hard 拉開差距」的設計一致。(2) 在合成中文產線題上擬合的溫度搬到英文通用題，ECE 從 0.093 降到 0.044，溫度校準跨語言、跨領域仍有用。(3) E4B 低 10 點、hard 低 19 點，與 v3 階梯一致；反序翻面率 26B 6.5%、E4B 10%，與 SemIf、open-alternative-jev 自報的量級相同。
+規則：不排名（要 842 題含密封集），不用 JevBench 題調任何參數，L4 上 231 題正反序約 4 分鐘。
 
 ## 4. 本版的限制
 

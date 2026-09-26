@@ -31,8 +31,9 @@ def load_arm(arm):
     if not os.path.exists(p):
         return None
     r = json.load(open(p))["results"]
-    alt = p.replace("v4.json", "v4_L4seq.json")  # llama-server: sequential same-slot variant of L4; keep the better one per K
-    if os.path.exists(alt):
+    for alt in (p.replace("v4.json", "v4_L4seq.json"), p.replace("v4.json", "v4_L4warm.json")):  # alternative L4 strategies; keep the best per K
+        if not os.path.exists(alt):
+            continue
         r2 = json.load(open(alt))["results"]
         for K in (1, 5, 10, 16):
             k = f"L4_shared_{K}q"

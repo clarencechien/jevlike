@@ -86,6 +86,17 @@ def main(base_url, out_dir, args="", backend="llama", **kw):
 
     def run_group(prompts, letters_list):
         """K prompts that share a prefix: backend's best method. Returns (wall_ms, cached_tokens list, per-call results)."""
+        if l4_mode == "warm" and len(prompts) > 1:
+            # backend-best for shared prefixes: put the state into the cache with the first question, then send the rest
+            t0 = time.perf_counter()
+            first = read(base_url, prompts[0], letters_list[0], session=sess, **({"slot_id": 0} if backend != "sglang" else {}))
+            if backend == "sglang":
+                rest, _ = batch_read_option_probs_sglang(base_url, prompts[1:], letters_list[1:], session=sess)
+            else:
+                with ThreadPoolExecutor(len(prompts) - 1) as ex:
+                    rest = list(ex.map(lambda pl: read(base_url, pl[0], pl[1], session=requests.Session()), zip(prompts[1:], letters_list[1:])))
+            res = [first] + rest
+            return (time.perf_counter() - t0) * 1000, [r["server_cache_n"] for r in res], res
         if backend == "sglang":
             res, wall = batch_read_option_probs_sglang(base_url, prompts, letters_list, session=sess)
             return wall, [r["server_cache_n"] for r in res], res

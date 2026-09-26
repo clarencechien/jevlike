@@ -31,6 +31,8 @@
 | Gemma 4 26B-A4B NVFP4（razorback16 提交） | JevBench | 66.4 | 534 | JevBench |
 | Gemma 4 E2B LoRA on L4 | JevBench | 66.6 | 534 | JevBench |
 | Laya（零樣本） | JevBench | 54.4（第 33 名） | 534 | JevBench |
+| TypeLLM（Qwen3.8-27B NVFP4，無訓練，不開思考） | JevBench **公開 231 題子集**（與上列 534 題不能直接排名） | 195/231 = 84.4%；Brier 0.241、ECE 0.052 | 231 | TypeLLM evals/jevbench（2026-09-23） |
+| TypeLLM（同上，開思考，均 919 token/題，p95 61 s） | 同上 | 228/231 = 98.7%；ECE 0.017 | 231 | 同上 |
 | Jev（官方） | TypeSafe 自家 4-workflow | ~68% | — | v1 handoff |
 | Jev（官方公布） | Banking77 全 77 類 | 80.3% | — | gemma-jev README |
 | Jev（官方公布） | SNIPS 7 類 | 97.9% | — | 同上 |
@@ -49,6 +51,7 @@
 - **同一顆 26B-A4B 在不同人手上的數字一致地「高」**：gemma-jev 的 SNIPS 86.7% / injection 100%，我們的 10 類意圖 100%、7 個 task ≥ 98%。這顆模型做 typed decision 的能力不是我們資料太簡單才看到的。
 - 但 **JevBench 上 26B-A4B 只有 66.4，落後 Jev 8 分、落後 SemIf 的 4B 模型 6.7 分**。JevBench 的 220 道難題是刻意設計的邊界案例，和我們 hard 子集 0.91 的落差說明：我們的難題還是比 JevBench 溫和，真實資料上要預期往 JevBench 那個方向掉。
 - gemma-jev 的樣本數 n=12–40，只能當方向；我們每 task 200、外加 10% 獨立抽查，統計上比較站得住，但**資料是合成的**，這點和 JevBench（人工題）不同。
+- **TypeLLM 不支援 Gemma 4**（`protocol.py` 遇到 `<|turn>`+`<|channel>` 直接 raise）。他們 2026-09-22 用 E2B 實測 42 題只對 24：log 顯示第一個 token 是 `The`（logprob −0.001），A/B/C 全在 −11 以下，因為沒有放空的 thought channel。我們的 `GEMMA4_TEMPLATE_NOTHINK`（`<|channel>thought\n<channel|>` 空思考塊）解掉了這題。TypeLLM 的 84.4% 是 Qwen3.8-27B、231 題公開子集，與 JevBench 534 題的 74.4 分不是同一把尺；能對照的只有「無訓練也能到 84%，開思考到 98.7%」這個量級。後續要補的做法見 `docs/handoff-v5-typellm.md`。
 - Jev 的獨特賣點是校準過的信心；我們量到 raw 信心無鑑別力（ECE 0.18），gemma-jev 沒有報這一項。
 
 ## 一句話

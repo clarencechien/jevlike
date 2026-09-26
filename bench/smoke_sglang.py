@@ -8,12 +8,15 @@ import time
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from bench.smoke import EXAMPLES  # noqa: E402
 from decide.client import batch_read_option_probs_sglang, read_option_probs_sglang  # noqa: E402
+from decide.labels import check_labels  # noqa: E402
 from decide.prompt import TemplateRenderer, letters_for  # noqa: E402
 
 
 def main(base_url, out_dir, args="", **kw):
     tr = TemplateRenderer(base_url, static=True)
     rep = {"ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "rows": []}
+    rep["label_token_ids"] = check_labels(base_url, "sglang")  # T0-a (handoff v5)
+    print("label token ids:", rep["label_token_ids"], flush=True)
     for ex in EXAMPLES:
         L = letters_for(len(ex["question"]["options"]))
         p = tr.render(ex["state"], ex["question"])

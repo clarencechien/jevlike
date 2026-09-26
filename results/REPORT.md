@@ -3,11 +3,11 @@
 日期：2026-09-23。執行：Claude Code web + Modal（L4）+ AI Studio（僅能力探測）。
 模型：`unsloth/gemma-4-26B-A4B-it-GGUF` / `gemma-4-26B-A4B-it-UD-Q4_K_M.gguf`（16.95 GB），llama-server b11118。
 資料：合成 10 task × 200 筆（`data/synthetic/`，MANIFEST + 10% 獨立抽查：不合理率 2.5%、0 筆錯）。
-分項報告：`00-env.md`、`01-smoke.md`、`03-latency.md`、`04-accuracy.md`、`cost.md`。HTML 整理版（公開）：<https://imitator.ai-apps.work/r/gb10-typed-decisions>。
+分項報告：`00-env.md`、`01-smoke.md`、`03-latency.md`、`04-accuracy.md`、`06-ladder.md`、`07-sglang-*.md`、`cost.md`。HTML 整理版（公開）：<https://imitator.ai-apps.work/r/gb10-typed-decisions>。
 
 ## 0. 一句話結論
 
-在 L4 上，Gemma 4 26B-A4B 讀第一個 token 的選項 logprob 這條路**可行且零樣本就很強**：10 個 task 中 7 個 test 準確率 ≥ 0.98、選擇性準確率 @0.9 ≥ 0.99 且 coverage ≥ 0.99；3 個 task（alarm 急迫度、SPC 動作、UPH 異常）零樣本 0.82–0.93，且模型**極度過度自信**（raw confidence 平均 0.99），要靠 100 筆以內的校準把「信心門檻」變得可用。延遲在 L4 上單題 p50 206 ms（開 `--swa-full` 後 137 ms，共用 state 的後續題 73 ms），比 LLM 生成 JSON 快 2.4–3.6 倍，但 llama-server 在 L4 上併發不會加速（throughput 卡在 5.5 req/s）。
+在 L4 上，Gemma 4 26B-A4B 讀第一個 token 的選項 logprob 這條路**可行且零樣本就很強**：10 個 task 中 7 個 test 準確率 ≥ 0.98、選擇性準確率 @0.9 ≥ 0.99 且 coverage ≥ 0.99；3 個 task（alarm 急迫度、SPC 動作、UPH 異常）零樣本 0.82–0.93，且模型**極度過度自信**（raw confidence 平均 0.99），要靠 100 筆以內的校準把「信心門檻」變得可用。延遲在 L4 上單題 p50 206 ms（開 `--swa-full` 後 137 ms，共用 state 的後續題 73 ms），比 LLM 生成 JSON 快 2.4–3.6 倍，但 llama-server 在 L4 上併發不會加速（throughput 卡在 5.5 req/s）。 v4 追加：換 SGLang 後端，共用上下文快 3.7 倍、併發快 6 倍，但準確率低 2–3 點且重跑不穩，**即時決策層維持 llama-server**（§3d）。
 
 ## 1. 分流表（v1 §7，實測後填）
 
@@ -162,6 +162,36 @@ E4B 單題快 2.2 倍、十題快 1.8 倍，但 **decode 地板兩者一樣**（
 
 **這樣做多值**：級聯（門檻 0.999）準確率 95.2% ≈ 全用 26B 的 95.5%，平均延遲 −20%（137 → 110 ms），**26B 的負載只剩三分之一**。在 GB10 上 26B 同時要做生成，這三分之二的判斷流量移走才是主要價值；純速度上的收益有限。四類簡單題若只放 E4B，記憶體 8 GB、單題 63 ms，可以放在更小的機器上。
 
+## 3d. 後端選擇：SGLang 值不值（v4，`07-sglang-speed.md`、`07-sglang-accuracy.md`、`07-env-sglang.md`）
+
+**一句話**：SGLang 在多題共用上下文時快 3.7 倍、併發時快 6 倍、單題不退步，**但準確率平均低 2–3 點、而且同一題重跑答案會變**；即時決策層維持 llama-server，SGLang 只給可以容忍掉分的批次工作。
+
+**怎麼比**：同一張 L40S、同一組 prompt 字串（`GEMMA4_TEMPLATE_NOTHINK`，比對過等於 llama-server 的模板輸出）、門檻跑前登記（`07-sglang-prereg.md`）。三個 arm：A0 llama-server UD-Q4_K_M、A1 llama-server Q8_0、B1 SGLang FP8（RedHatAI FP8-dynamic）。llama-server 用各自最佳做法（`--swa-full`、多 slot、同 slot 順序送），SGLang 先暖一題再整批送（RadixAttention 只重用已經在 cache 裡的前綴）。
+
+**速度（p50，ms）**：
+
+| | A1 llama-server Q8 | B1 SGLang FP8 | 差 |
+|---|---|---|---|
+| 單題（~100 token state） | 61 | 63 | 持平（G1 過） |
+| decode 地板（全 cache） | 14 | 62 | SGLang 每請求固定開銷 ~60 ms |
+| 共用 state（1,100 token）問 16 題 | 813 | 217 | **3.7×**（G2 過） |
+| 併發 32 路 decisions/s | 16.6 | 111.7 | **6.7×**（G3 過） |
+| 背景生成時 p95 退化 | 1.38× | 1.04× | SGLang 較穩（G4 過） |
+| D0 test 1,001 題整批 | 67 s | 11 s | 6× |
+
+**準確率護欄（D0 test，每 task 100 題，±2 點內且 McNemar p≥0.05）**：20 項只過 4 項。B1 比 A1 平均低 2.8 點（D0 0.959 → 0.931；D1-cue 0.954 → 0.904，低 5 點），`q_spc_action`、`q_defect_root` 在 D1-cue 各低 8 點。三個排除實驗：
+
+1. **不是 FP8**：換成 bf16 權重、同一張 H100，SGLang 仍比 llama-server 低 2.6 點，答案只有 95.9% 一致。
+2. **不是併發、不是 RadixAttention**：workers=1 與 `--disable-radix-cache` 的準確率（0.930 / 0.930）和原本（0.931）一樣。
+3. **SGLang 同題重跑會變**：三次同設定的答案兩兩只 97% 一致；翻掉的 50 題裡 32 題原本給了 >0.9 的把握。這直接打到「拿信心當門檻」：門檻對 SGLang 不穩。
+
+**為什麼**：差在後端本身（Triton attention／MoE kernel 的數值路徑、HF tokenizer 與 GGUF tokenizer 差一個 token），不是我們的設定。L40S 上還要自己補 fused-MoE 的 Triton 設定檔才跑得起來（`07-env-sglang.md`），這是部署成本。
+
+**分工建議**：
+- 即時 gating、派工、升級判斷：**llama-server**（準確率高、重跑穩定、單題一樣快）。
+- 會議記錄事後整理、歷史工單 ETL、一次幾千題的批次標註：**SGLang**，快 5–6 倍，掉 2–3 點在可接受範圍時用；用它的結果做校準或門檻要另外校。
+- GB10 上：SGLang 需要 `xomoxcc/dgx-spark-sglang` 的 sm121 映像 + FP8 權重，MTP（推測解碼）對只讀一個 token 的決策沒用，不開。
+
 ## 4. 本版的限制
 
 1. **延遲全部是 L4 上界**。GB10 實測待補（v1 §5 L1–L7，約 30 分鐘；記得 `--swa-full`）。
@@ -170,6 +200,7 @@ E4B 單題快 2.2 倍、十題快 1.8 倍，但 **decode 地板兩者一樣**（
 4. **校準集只有 100 筆**，affine 校準在多選項 task 有過擬合跡象。
 5. **模型檔**：用 unsloth UD-Q4_K_M；若 GB10 用的是 Google QAT q4_0 或其他量化，M4 要在 GB10 重跑（同格式 raw logprobs 可直接進 `analyze.py`）。
 6. AI Studio 上的 Gemma 4 不開放 logprobs，31B dense 對照因此沒做。
+7. **SGLang 對照只做到 Phase 1**：速度門檻全過、準確率護欄沒過，依預先登記沒進 Phase 2/3（grammar/數值欄位、GB10 sm121 實測）。SGLang 掉分的根因（哪個 kernel）沒有再往下挖；換 attention backend（flashinfer）或關掉 CUDA graph 是下一個可試的旋鈕。
 
 ## 5. 接回 GB10 時要做的
 

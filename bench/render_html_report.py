@@ -525,12 +525,13 @@ page = f"""<!doctype html>
   </div>
 
   <p class="eyebrow">06 · 上線條件</p>
-  <h2>值得，前提是做到這三件事</h2>
+  <h2>值得，前提是做到這四件事</h2>
 
   <div class="cols">
     <div class="card"><p class="verdict">條件一 · 部署設定</p><p>Gemma 4 的注意力機制讓伺服器預設無法重用「同一份現場狀況」的計算。要開一個設定（<code>--swa-full</code>），否則一次問十題就是十倍時間。GB10 記憶體夠，開了沒有代價。</p></div>
     <div class="card"><p class="verdict">條件二 · 真實資料校準</p><p>這次全部是合成資料。零標註的答對率在真實工單上預期會降一些，「有把握才自動處理」的門檻必須用 200–500 筆真實警報與工單重新校準，估計一到兩天。</p></div>
-    <div class="card"><p class="verdict">條件三 · GB10 實測</p><p>速度數字全部來自租用的 L4。GB10 上重跑同一套測試約半小時，可以得到真實的秒數，以及機台同時在寫報告時的併發表現，再決定要不要另放一個小模型專做判斷。</p></div>
+    <div class="card"><p class="verdict">條件三 · 選項順序固定</p><p>急迫度與 SPC 這兩類弱題，有兩成的題目換個選項順序答案就變。上線時每類題的選項順序寫死，校準也用同一順序，否則「有把握」的門檻會飄。</p></div>
+    <div class="card"><p class="verdict">條件四 · GB10 實測</p><p>速度數字全部來自租用的 L4。GB10 上重跑同一套測試約半小時，可以得到真實的秒數，以及機台同時在寫報告時的併發表現，再決定要不要另放一個小模型專做判斷。</p></div>
   </div>
 
   <p class="pull">不買 Jev，不換模型，不訓練。加一層程式，七類判斷今天就能用，三類再調一調。</p>
@@ -546,7 +547,7 @@ page = f"""<!doctype html>
 
   <div class="note">
     <p class="head">這一版沒說到的</p>
-    <p>Jev 官方另一個賣點是「校準過的把握度」，我們的替代方案要自己校準，這是條件二。獨立的小模型（Laya 之類）零標註接近亂猜，這次沒用。AI Studio 上的 Gemma 4 不提供選項機率，雲端對照因此沒做。實際 GPU 費用三輪合計約 5 小時、約九美元（首輪 0.85 小時、約一美元），比原估低很多。</p>
+    <p>Jev 官方另一個賣點是「校準過的把握度」，我們的替代方案要自己校準，這是條件二。獨立的小模型（Laya 之類）零標註接近亂猜，這次沒用。AI Studio 上的 Gemma 4 不提供選項機率，雲端對照因此沒做。實際 GPU 費用六輪合計約 8 小時、約十四美元（首輪 0.85 小時、約一美元），比原估低很多。</p>
   </div>
 
   <p class="byline">repo clarencechien/jevlike · 工程版報告 results/REPORT.md · 原始數據 results/analysis.json · results/modal/</p>

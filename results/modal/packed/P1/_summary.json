@@ -1,0 +1,27 @@
+{
+ "placeholder": "_",
+ "extra": 0,
+ "summary": {
+  "m_alarm_category": {
+   "n": 200,
+   "acc_sep": 0.975,
+   "acc_packed": 0.975,
+   "interference_rate": 0.07666666666666666,
+   "s": 20.6
+  },
+  "m_alarm_severity": {
+   "n": 200,
+   "acc_sep": 0.8,
+   "acc_packed": 0.68,
+   "interference_rate": 0.13166666666666665,
+   "s": 20.4
+  },
+  "m_needs_dispatch": {
+   "n": 200,
+   "acc_sep": 1.0,
+   "acc_packed": 0.955,
+   "interference_rate": 0.13166666666666665,
+   "s": 19.8
+  }
+ }
+}

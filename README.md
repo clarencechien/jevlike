@@ -4,7 +4,7 @@
 
 - 工程報告：`results/REPORT.md`（§0 一句話結論、§1 分流表、§2 Q1–Q8、§3b–3e 追加實驗、§4 限制、§5 接回 GB10）
 - 長官版 HTML（公開）：<https://imitator.ai-apps.work/r/gb10-typed-decisions>（`scripts/publish_report.sh` 重新產生並發佈）
-- 六輪實驗共約 8 GPU 小時、約 $14（`results/cost.md`）
+- 七輪實驗共約 8.6 GPU 小時、約 $15（`results/cost.md`）
 
 ## 一句話結論
 
@@ -19,6 +19,7 @@
 | v4 | `docs/handoff-v4-sglang.md` | SGLang 後端值不值（速度門檻 G1–G4 + 準確率護欄） | `results/07-*.md` |
 | v5 | `docs/handoff-v5-typellm.md` | 參考 TypeLLM：JSON prefill、順序置換平均、標籤自檢、驗證腳本 | `results/08-typellm-followups.md`、`verify.md` |
 | v6 | `docs/handoff-v6-sglang-stability.md` | SGLang 掉分與不穩的原因（tokenizer 對齊、批次不變推理） | `results/09-sglang-stability.md` |
+| v7 | `docs/handoff-v7-borrowed.md` | 從生態抄三件事：packed readout（不採用）、option mass 健康檢查、conformal 門檻 + lock 檔 | `results/11-*.md`、`12-packed.md`、`thresholds.lock.json` |
 
 對照別人的數字（Jev、gemma-jev、JevBench、TypeLLM）：`results/06-comparison.md`；生態調查（Cygnet、open-alternative-jev、SemIf、decider、Kev、poorjev、jevcal 等，哪些可抄）：`results/10-landscape.md`。
 
@@ -45,7 +46,7 @@ python3 bench/verify.py
 - `modal_app.py` llama-server 入口（image、volume、下載、bench；`MODELS`：26b UD-Q4_K_M / q8 / bf16 / e4b / e2b）；`modal_sglang.py` SGLang 入口（fp8 / bf16，L40S 需自帶 fused-MoE Triton 設定檔）
 - `decide/` `prompt.py`（模板：`/apply-template` 學來，或 SGLang 用的靜態 `GEMMA4_TEMPLATE_NOTHINK_BOS`；T1 prompt 變體）、`client.py`（llama `/completion` n_predict=1 + n_probs；SGLang `/generate` 指定 token id 或 `input_ids`）、`labels.py`（字母單 token 自檢）
 - `data/` `seeds/`（10 task 定義、v2 可數標準、錯字表）、`gen/`、`hard/`、`rules/`、`synthetic/`（D0 + MANIFEST + SPOTCHECK）、`heldout/`、`perturbed/`（D1）、`blind/`（Gemini 盲寫 D2）、`tokenized/`（llama-server 切好的 token id）
-- `bench/` `smoke*.py`、`latency.py`、`accuracy.py`（`--variant`、`--ids-dir`、`--out-sub`）、`permute.py`、`v4bench.py`、`tokenize_dump.py`、`analyze*.py`（v2/ladder/v4/v5/v6）、`verify.py`、`render_html_report.py`
+- `bench/` `smoke*.py`、`latency.py`、`accuracy.py`（`--variant`、`--ids-dir`、`--out-sub`）、`permute.py`、`packed.py`、`v4bench.py`、`tokenize_dump.py`、`option_mass.py`、`thresholds.py`（conformal 門檻 + lock）、`analyze*.py`（v2/ladder/v4–v7）、`verify.py`（含 `--check-lock`）、`render_html_report.py`
 - `results/` 分項報告 `00`–`09`、`REPORT.md`、`cost.md`、`fig/`、`modal/`（從 Volume 拉回的原始 logprobs）
 
 ## 踩過的坑（接 GB10 時先看）

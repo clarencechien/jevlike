@@ -18,7 +18,8 @@
 | v5 TypeLLM 補測（L4） | T1 兩個變體 × 4 task × 200、T2 置換平均 4 task × 200 × 6–8 次前向 | GPU ≈ 0.35 h | ≈ $0.3 | 0.4 h / < $0.5 |
 | v5 T4 SGLang smoke（L40S） | 指定 token 讀機率驗收，跑 3 次（前兩次分別撞 `/v1/tokenize` 序列化錯誤、欄位沒存） | GPU ≈ 0.4 h | ≈ $0.8 | 10 分鐘 / $0.3 |
 | v6 SGLang 穩定性（L40S） | E1 餵 llama ids ×1、E2 deterministic D0 ×2 + 速度 ×1、修正輸入後穩定性 ×3（ids 重跑、ids+deterministic ×2）；L4 上切 token 一次 | GPU ≈ 1.8 h | ≈ $3.5 | 上限 $3、一天 |
-| **合計（v2–v6）** | | **GPU ≈ 7.9 h** | **≈ $13.5** | |
+| v7 packed readout（L40S） | dry run + 主跑 + 占位符變體 + K=7，四次冷啟 | GPU ≈ 0.7 h | ≈ $1.4 | < $1 |
+| **合計（v2–v7）** | | **GPU ≈ 8.6 h** | **≈ $15** | |
 
 比估算省很多的原因：MoE A4B 在 L4 上每題 200 ms 級，2000 筆 + 1000 筆對照只要 12 分鐘；資料由 Claude Code 端產生不吃 GPU。
 AI Studio：v2 僅能力探測；v3 用 gemini-3.5-flash 盲寫 600 筆 D2 與標註 600 筆，約 80 次呼叫，免費額度內。

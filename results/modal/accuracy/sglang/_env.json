@@ -1,9 +1,9 @@
 {
  "gpu": "NVIDIA L40S, 46068 MiB",
  "sglang_version": "0.5.12.post2.dev932+gbf172c492",
- "server_start_s": 320.4,
- "gpu_mem_after_load": "37870 MiB",
+ "server_start_s": 363.5,
+ "gpu_mem_after_load": "37967 MiB",
  "repo": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
  "rev": "ed35d7abe5d9",
- "server_extra": ""
+ "server_extra": "--disable-radix-cache"
 }

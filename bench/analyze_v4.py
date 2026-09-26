@@ -117,7 +117,6 @@ def main():
               f"| 前提：B1 前綴命中率 ≥90% | 最低 {hit * 100:.0f}% | {'✓' if hit >= 0.9 else '✗'} |",
               "", f"**判定：{verdict}**"]
     out["gates"] = gates
-    open(os.path.join(ROOT, "results/07-sglang-speed.md"), "w", encoding="utf-8").write("\n".join(L) + "\n")
 
     # ---- accuracy guardrail
     A = ["# 07 — SGLang 後端評估：準確率護欄", "", "B1 vs A1：每 task acc 差 ±2 點內且 McNemar p ≥ 0.05；A0 vs A1 = 量化效應，A1 vs B1 = 後端效應。", ""]
@@ -147,6 +146,8 @@ def main():
         A += ["## 分離權重與後端：bf16 權重、H100、兩個後端（D0 test）", "",
               "| task | n | A2 llama bf16 | B2 SGLang bf16 | B2−A2 | McNemar p | B1 SGLang FP8（L40S） | B1 workers=1 | B1 無 radix cache |", "|---|---|---|---|---|---|---|---|---|"]
         m_a2, m_b2 = [], []
+        m_b1, m_w1, m_nr = [], [], []
+        agree = {"B1~w1": [], "B1~nr": [], "w1~nr": [], "A2~B2": []}
         for t in TASKS:
             ra, rb = rows2["A2"][t], rows2["B2"][t]
             if not ra or not rb:
@@ -160,14 +161,42 @@ def main():
             b1 = acc_rows("B1", "D0", t); b1w = rows2["B1w1"][t]; b1n = rows2["B1nr"][t]
             fx = lambda rr: f"{np.mean([rr[i]['correct'] for i in ids if i in rr]):.3f}" if rr and all(i in rr for i in ids[:5]) else "—"
             A.append(f"| {t} | {len(ids)} | {np.mean(ca):.3f} | {np.mean(cb):.3f} | {np.mean(cb) - np.mean(ca):+.3f} | {p:.3f} | {fx(b1)} | {fx(b1w)} | {fx(b1n)} |")
-        A.append(f"| **平均** | | {np.mean(m_a2):.3f} | {np.mean(m_b2):.3f} | {np.mean(m_b2) - np.mean(m_a2):+.3f} | | | | |")
+            agree["A2~B2"] += [ra[i]["chosen"] == rb[i]["chosen"] for i in ids]
+            if b1 and b1w and b1n and all(i in b1 and i in b1w and i in b1n for i in ids):
+                m_b1.append(np.mean([b1[i]["correct"] for i in ids])); m_w1.append(np.mean([b1w[i]["correct"] for i in ids])); m_nr.append(np.mean([b1n[i]["correct"] for i in ids]))
+                agree["B1~w1"] += [b1[i]["chosen"] == b1w[i]["chosen"] for i in ids]
+                agree["B1~nr"] += [b1[i]["chosen"] == b1n[i]["chosen"] for i in ids]
+                agree["w1~nr"] += [b1w[i]["chosen"] == b1n[i]["chosen"] for i in ids]
+        mm = lambda v: f"{np.mean(v):.3f}" if v else "—"
+        A.append(f"| **平均** | | {np.mean(m_a2):.3f} | {np.mean(m_b2):.3f} | {np.mean(m_b2) - np.mean(m_a2):+.3f} | | {mm(m_b1)} | {mm(m_w1)} | {mm(m_nr)} |")
         A.append("")
-        out["bf16"] = {"A2_mean": float(np.mean(m_a2)), "B2_mean": float(np.mean(m_b2))}
+        out["bf16"] = {"A2_mean": float(np.mean(m_a2)), "B2_mean": float(np.mean(m_b2)), "B1_mean": float(np.mean(m_b1)) if m_b1 else None,
+                       "B1w1_mean": float(np.mean(m_w1)) if m_w1 else None, "B1nr_mean": float(np.mean(m_nr)) if m_nr else None,
+                       "agree": {k: float(np.mean(v)) for k, v in agree.items() if v}}
+        if m_w1 and m_nr:
+            ag = out["bf16"]["agree"]
+            flips = []
+            for t in TASKS:
+                b1, b1w = acc_rows("B1", "D0", t), rows2["B1w1"][t]
+                flips += [max(b1[i]["probs"].values()) for i in b1 if i in b1w and b1[i]["chosen"] != b1w[i]["chosen"]]
+            n_flip, n_flip_conf, med_flip = len(flips), sum(1 for m in flips if m > 0.9), float(np.median(flips)) if flips else float("nan")
+            out["bf16"]["flips_B1_vs_w1"] = {"n": n_flip, "n_conf_gt_0.9": n_flip_conf, "median_maxprob": med_flip}
+            A += ["**判讀**：", "",
+                  f"1. **不是 FP8 的問題**：同樣 bf16 權重、同一張 H100，SGLang 比 llama-server 低 {(np.mean(m_a2) - np.mean(m_b2)) * 100:.1f} 點（A2 {np.mean(m_a2):.3f} vs B2 {np.mean(m_b2):.3f}），兩者答案只有 {ag['A2~B2'] * 100:.1f}% 一致。差距來自後端（kernel、tokenizer、數值路徑），不是權重。",
+                  f"2. **不是併發或 RadixAttention 的問題**：B1 改成 workers=1（{np.mean(m_w1):.3f}）或關掉 radix cache（{np.mean(m_nr):.3f}）都和原本的 8 workers（{np.mean(m_b1):.3f}）一樣低。smoke 裡「同一 state 批次三題全答 B、單題答 C」的異常，三題的題幹多了「問題 i：」前綴，不是乾淨的對照；D0-w1 / D0-noradix 才是。",
+                  f"3. **SGLang 自己跑兩次也不一樣**：同一組 prompt、同一權重、同一卡，三次 B1 的答案兩兩只有 {ag['B1~w1'] * 100:.1f}% / {ag['B1~nr'] * 100:.1f}% / {ag['w1~nr'] * 100:.1f}% 一致（llama-server smoke 同 prompt 重跑，機率差在 1e-5 量級）。翻掉的 {n_flip} 題（2,000 題中）**不是**邊界題：其中 {n_flip_conf} 題模型在原本那次給了 >0.9 的把握（翻掉題的把握中位數 {med_flip:.2f}）。這對「拿信心當門檻」是壞消息：SGLang 上一題 97% 把握的答案，重跑可能變成另一個字母。",
+                  "4. 結論：護欄未過是後端固有的，不是設定錯。依 `07-sglang-prereg.md`，速度門檻全過但護欄沒過 → **視同沒過**。", ""]
+            out["final_verdict"] = "速度 G1–G4 全過、準確率護欄未過（後端固有，非 FP8／非 radix／非併發）→ 即時決策層維持 llama-server；SGLang 只給可以容忍 −2 到 −3 點、且要吞吐量的批次工作"
     if acc:
         n_fail = sum(1 for v in acc.values() if not v["ok"])
         A.append(f"**護欄：{len(acc) - n_fail}/{len(acc)} 通過**" + ("" if n_fail == 0 else f"，{n_fail} 項未過（見 ✗）"))
         out["accuracy"] = acc
     open(os.path.join(ROOT, "results/07-sglang-accuracy.md"), "w", encoding="utf-8").write("\n".join(A) + "\n")
+    if acc and any(not v["ok"] for v in acc.values()):
+        n_fail = sum(1 for v in acc.values() if not v["ok"])
+        L += ["", f"但準確率護欄 {len(acc) - n_fail}/{len(acc)} 過（`07-sglang-accuracy.md`）：依預先登記，護欄沒過**視同沒過**，Phase 2 不進。"
+              " 速度結論保留：多題共用 state 3.7×、併發 6×、批次 1,001 題 5.6×，這些是 SGLang 給批次型工作的價值。"]
+    open(os.path.join(ROOT, "results/07-sglang-speed.md"), "w", encoding="utf-8").write("\n".join(L) + "\n")
     json.dump(out, open(os.path.join(ROOT, "results/v4.json"), "w"), ensure_ascii=False, indent=1, default=float)
     print(json.dumps(gates, ensure_ascii=False, indent=1, default=float))
 

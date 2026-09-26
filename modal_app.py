@@ -20,6 +20,7 @@ MODELS = {  # short name -> (HF repo, file)
     "26b": ("unsloth/gemma-4-26B-A4B-it-GGUF", "gemma-4-26B-A4B-it-UD-Q4_K_M.gguf"),  # 16.95 GB
     "e4b": ("unsloth/gemma-4-E4B-it-GGUF", "gemma-4-E4B-it-Q8_0.gguf"),  # 8.19 GB
     "e2b": ("unsloth/gemma-4-E2B-it-GGUF", "gemma-4-E2B-it-Q8_0.gguf"),  # 5.05 GB
+    "q8": ("unsloth/gemma-4-26B-A4B-it-GGUF", "gemma-4-26B-A4B-it-Q8_0.gguf"),  # 26.86 GB, needs L40S
 }
 MODEL_REPO, MODEL_FILE = MODELS["26b"]
 GPU = os.environ.get("GB10_GPU", "L4")

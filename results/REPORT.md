@@ -203,6 +203,7 @@ E4B 單題快 2.2 倍、十題快 1.8 倍，但 **decode 地板兩者一樣**（
 | T0-c top-40 讀不到的字母 | 2,000 筆有 661 筆缺字母，但漏掉的機率上界 7.4e-7 | 不用改 |
 | T1 JSON prefill `{"answer": "` | 弱 task 平均 +1.3 點（V1）/ +1.0 點（V2），門檻 +2；McNemar p 全 ≥ 0.5 | 不採用 |
 | T2 順序置換平均（3 選項 6 種、其餘 8 種） | 弱 task 平均 −1.3 點；SPC 的 ECE 0.136 → 0.081、AUROC 0.88 → 0.95、sel@0.9 0.869 → 0.952（coverage 0.99 → 0.83） | 不建議當預設；平均後的信心比較會分辨對錯，升級路徑可考慮 |
+| T4 SGLang 指定 token 讀機率（`token_ids_logprob`） | 與 top-40 讀法機率差 0.0；字母 token id 與 TypeLLM 的 Gemma 4 log 相同 | 已加（SGLang 路徑），不改 v4 結論 |
 | 順序敏感度 | 急迫度 21%、SPC 19%、UPH 3%、控制題 1% | **風險**：弱題的答案有兩成受選項順序影響，上線前選項順序固定、校準用同一順序 |
 
 TypeLLM 本身不支援 Gemma 4（`06-comparison.md`），它的 JevBench 84.4% 是 Qwen3.8-27B 在 231 題公開子集，與 534 題的 74.4 不同尺。它的 thinking mode（84% → 98.7%，每題均 919 token）產線 gating 用不起；`depends_on` 依賴鏈與 nullable 語法等真實資料有鏈式題再開。

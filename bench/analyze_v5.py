@@ -147,6 +147,18 @@ def main():
             L += ["", f"門檻：弱 task 平均 acc ≥ 單次 + 2 點，或 ECE 降一半且 acc 不掉；控制 task 不掉超過 1 點。判定：{verdict2}", ""]
             out["T2"][tag] = {"tasks": t2, "gain": gain, "ece_half": ece_half, "ctrl_ok": ctrl_ok, "pass": passed, "risky": risky, "verdict": verdict2}
 
+    # ---------------- T4: SGLang exact token-id read vs top-k (smoke)
+    sm = os.path.join(ROOT, "results/modal/smoke_sglang/sglang/smoke.json")
+    if os.path.exists(sm):
+        d = json.load(open(sm))
+        ds = [(r["id"], r["token_ids_max_abs_diff"]) for r in d["rows"] if r.get("token_ids_max_abs_diff") is not None]
+        if ds:
+            mx = max(v for _, v in ds)
+            L += ["## T4 SGLang 指定 token 讀機率（`token_ids_logprob`，smoke 5 題）", "",
+                  f"字母 token id（HF tokenizer，與 TypeLLM 的 Gemma 4 log 相同）：`{d.get('label_token_ids')}`。",
+                  f"指定 token 讀出的機率與 top-40 讀出的機率最大差 {mx:.1e}；批次三題 missing 全空。`sglang:gemma4-mtp` 的 `/v1/tokenize` 回應序列化失敗（Integer exceeds 64-bit range），標籤自檢改走本機 HF tokenizer。",
+                  "驗收 < 1e-3：" + ("✓" if mx < 1e-3 else "✗") + "。不改 v4 結論。", ""]
+            out["T4"] = {"max_abs_diff": mx, "label_token_ids": d.get("label_token_ids")}
     open(os.path.join(ROOT, "results/08-typellm-followups.md"), "w", encoding="utf-8").write("\n".join(L) + "\n")
     json.dump(out, open(os.path.join(ROOT, "results/v5.json"), "w"), ensure_ascii=False, indent=1, default=float)
     print(json.dumps({"T1": out["T1"].get("verdict"), "T2": {k: v["verdict"] for k, v in out["T2"].items()}}, ensure_ascii=False, indent=1))

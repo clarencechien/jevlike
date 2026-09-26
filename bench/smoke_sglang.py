@@ -29,7 +29,8 @@ def main(base_url, out_dir, args="", **kw):
             row = {"id": ex["id"], "rep": rep_i, "gold": ex["gold"], "chosen": max(r["probs"], key=r["probs"].get) if r["probs"] else None,
                    "probs": {k: round(v, 4) for k, v in r["probs"].items()}, "missing": r["missing"], "first_token": r["first_token"],
                    "prompt_tokens": r["prompt_tokens"], "cached_tokens": r["tokens_cached"], "latency_ms": round(r["latency_ms"], 1),
-                   "top": [t["token"] for t in r["top_tokens"][:6]]}
+                   "top": [t["token"] for t in r["top_tokens"][:6]],
+                   "probs_token_ids": r.get("probs_token_ids"), "token_ids_max_abs_diff": r.get("token_ids_max_abs_diff")}
             rep["rows"].append(row)
             print(json.dumps(row, ensure_ascii=False), flush=True)
     # shared-prefix batch: same state, 3 questions

@@ -1,8 +1,8 @@
 {
  "gpu": "NVIDIA L40S, 46068 MiB",
  "sglang_version": "0.5.12.post2.dev932+gbf172c492",
- "server_start_s": 222.2,
- "gpu_mem_after_load": "37873 MiB",
+ "server_start_s": 322.3,
+ "gpu_mem_after_load": "37875 MiB",
  "repo": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
  "rev": "ed35d7abe5d9",
  "server_extra": ""

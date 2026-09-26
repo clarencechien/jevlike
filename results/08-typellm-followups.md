@@ -28,3 +28,9 @@ V0 現行（下一 token 即字母）；V1 = V0 + prefill `{"answer": "`；V2 = 
 
 門檻：弱 task 平均 acc ≥ 單次 + 2 點，或 ECE 降一半且 acc 不掉；控制 task 不掉超過 1 點。判定：**不建議**（弱 task 平均 -1.3 點；ECE 減半：否；控制 task 不掉：是）。順序敏感度 ≥10% 的 task：m_alarm_severity, q_spc_action（寫進 REPORT 當風險）
 
+## T4 SGLang 指定 token 讀機率（`token_ids_logprob`，smoke 5 題）
+
+字母 token id（HF tokenizer，與 TypeLLM 的 Gemma 4 log 相同）：`{'A': 236776, 'B': 236799, 'C': 236780, 'D': 236796, 'E': 236788, 'F': 236811, 'G': 236823, 'H': 236814, 'I': 236777, 'J': 236863}`。
+指定 token 讀出的機率與 top-40 讀出的機率最大差 0.0e+00；批次三題 missing 全空。`sglang:gemma4-mtp` 的 `/v1/tokenize` 回應序列化失敗（Integer exceeds 64-bit range），標籤自檢改走本機 HF tokenizer。
+驗收 < 1e-3：✓。不改 v4 結論。
+

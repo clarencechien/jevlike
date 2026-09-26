@@ -20,7 +20,7 @@
 | v5 | `docs/handoff-v5-typellm.md` | 參考 TypeLLM：JSON prefill、順序置換平均、標籤自檢、驗證腳本 | `results/08-typellm-followups.md`、`verify.md` |
 | v6 | `docs/handoff-v6-sglang-stability.md` | SGLang 掉分與不穩的原因（tokenizer 對齊、批次不變推理） | `results/09-sglang-stability.md` |
 
-對照別人的數字（Jev、gemma-jev、JevBench、TypeLLM）：`results/06-comparison.md`。
+對照別人的數字（Jev、gemma-jev、JevBench、TypeLLM）：`results/06-comparison.md`；生態調查（Cygnet、open-alternative-jev、SemIf、decider、Kev、poorjev、jevcal 等，哪些可抄）：`results/10-landscape.md`。
 
 ## Quickstart
 

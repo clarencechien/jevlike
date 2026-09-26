@@ -292,7 +292,7 @@ page = f"""<!doctype html>
 
   <p class="eyebrow">判定備忘 · Jev 式決策層 · 2026-09-23</p>
   <h1 class="display">Jev 式決策，<br>值得做，<br>而且<em>不用買</em></h1>
-  <p class="lede">用我們已經部署的 Gemma 4 26B，加一層「只從固定選項裡選答案、不寫文章」的決策 API。十類產線判斷題有七類不用任何標註就能上線，每次判斷約 0.2 秒。三輪驗證（含小模型對照與換引擎測試）合計約九美元的雲端 GPU。</p>
+  <p class="lede">用我們已經部署的 Gemma 4 26B，加一層「只從固定選項裡選答案、不寫文章」的決策 API。十類產線判斷題有七類不用任何標註就能上線，每次判斷約 0.2 秒。六輪驗證（含小模型對照、換引擎測試與追查）合計約十四美元的雲端 GPU。</p>
   <p class="byline">實驗於 Modal 雲端 L4 顯示卡進行 · 合成資料 10 類 × 200 題 · 工程細節與原始數據在 results/REPORT.md</p>
 
   <div class="tldr">
@@ -302,8 +302,8 @@ page = f"""<!doctype html>
       <li><strong>準確率：十類題目七類直接達標，而且分得出「題目簡單」和「模型真的強」。</strong>不做任何標註，{len(strong)} 類答對率 98% 以上。拿更小的 Gemma 4 E2B / E4B 跑同一批題：四類小模型也做得到（題目對這一級太簡單），六類 26B 比 E4B 高 6–13 個百分點、比 E2B 高 9–30 個百分點（是真的強）。另請 Gemini 盲寫 600 題、兩個大模型獨立標答，一致率 {d2_rate * 100:.0f}%，26B 在這批題上平均 {sum(LAD['results'][t]['D2']['26b']['acc'] for t in ORDER) / 10 * 100:.0f}%，已到兩個大模型互相一致的水準。</li>
       <li><strong>速度：一次判斷 {L1['p50'] / 1000:.1f} 秒，比讓模型寫答案快 {speed:.1f} 倍。</strong>同一份現場狀況一次問十題，開對設定後每題再降到 {per_q_swa / 1000:.2f} 秒。</li>
       <li><strong>標註：比主管報告承諾的還少。</strong>多數題目零筆；較弱的題目標 25 筆就能校準。傳統機器學習標 100 筆還到不了 90%。</li>
-      <li><strong>推理引擎：SGLang 一開始掉分，原因找到了，是少一個起始符號；補上後一樣準、批次快五倍。</strong>共用同一份現場狀況問十六題快 {V4G['L4_speedup_16']:.1f} 倍、多路併發快 6 倍。第一輪量到它答對率低 {(v4_acc_A1 - v4_acc_B1) * 100:.1f} 個百分點，追查後是它讀題時漏掉一個起始符號，補上後與現行引擎同準。即時判斷兩個引擎在 GB10 上再各量一次，批次整理直接用 SGLang。</li>
-      <li><strong>三個上線條件：</strong>部署時開啟前綴快取設定、「有把握才自動處理」的門檻要用真實資料校準、GB10 上重量一次速度。都是幾小時到幾天的事，不是幾個月。</li>
+      <li><strong>推理引擎：SGLang 批次快五倍，第一輪掉的 {(v4_acc_A1 - v4_acc_B1) * 100:.1f} 個百分點是少一個起始符號，補上後與現行引擎同準。</strong>共用同一份現場狀況問十六題快 {V4G['L4_speedup_16']:.1f} 倍、多路併發快 6 倍。事後批次整理直接用 SGLang；即時判斷兩個引擎在 GB10 上各量一次再選。</li>
+      <li><strong>四個上線條件：</strong>部署時開啟前綴快取設定、「有把握才自動處理」的門檻要用真實資料校準、選項順序固定（弱題有兩成會因順序改答案）、GB10 上重量一次速度。都是幾小時到幾天的事，不是幾個月。</li>
     </ol>
   </div>
 
@@ -311,7 +311,7 @@ page = f"""<!doctype html>
     <div class="stat"><p class="label">不標註就達 98% 的題型</p><div class="value">{len(strong)} / 10</div><div class="delta">其餘三類要調門檻</div></div>
     <div class="stat"><p class="label">一次判斷</p><div class="value">{L1['p50'] / 1000:.1f} 秒</div><div class="delta">租用 L4；GB10 待實測</div></div>
     <div class="stat"><p class="label">比模型寫答案快</p><div class="value">{speed:.1f} 倍</div><div class="delta">一次問十題可再降</div></div>
-    <div class="stat"><p class="label">本次驗證的 GPU 費用</p><div class="value">≈ $9</div><div class="delta">含小模型階梯與 SGLang 對照，約 5 GPU 小時</div></div>
+    <div class="stat"><p class="label">本次驗證的 GPU 費用</p><div class="value">≈ $14</div><div class="delta">六輪實驗，約 8 GPU 小時</div></div>
   </div>
 
   <p class="eyebrow">01 · 這是什麼</p>

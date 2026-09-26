@@ -126,8 +126,9 @@ def run_bench(which: str, args: str = "", n_parallel: int = 4, ctx: int = 16384,
         out_dir = f"/results/{which}" if model == "26b" else f"/results/{which}/{model}"
         os.makedirs(out_dir, exist_ok=True)
         ret = mod.main(base_url="http://127.0.0.1:8080", out_dir=out_dir, args=args, commit=results.commit, model=model, backend="llama")
+        smi = subprocess.run(["nvidia-smi", "--query-gpu=name", "--format=csv,noheader"], capture_output=True, text=True).stdout.strip()  # GPU env var is not propagated to the container, so record the real card
         with open(f"/results/{which}/_run.json", "a") as f:
-            f.write(json.dumps({"which": which, "args": args, "gpu": GPU, "n_parallel": n_parallel, "ctx": ctx, "server_extra": server_extra, "model": model, "model_file": MODELS[model][1],
+            f.write(json.dumps({"which": which, "args": args, "gpu": smi or GPU, "n_parallel": n_parallel, "ctx": ctx, "server_extra": server_extra, "model": model, "model_file": MODELS[model][1],
                                 "server_start_s": round(t_ready - t_start, 1),
                                 "bench_s": round(time.time() - t_ready, 1), "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}) + "\n")
         results.commit()

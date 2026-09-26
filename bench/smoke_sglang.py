@@ -22,6 +22,10 @@ def main(base_url, out_dir, args="", **kw):
         p = tr.render(ex["state"], ex["question"])
         for rep_i in range(2):
             r = read_option_probs_sglang(base_url, p, L)
+            if rep_i == 1:  # T4 (handoff v5): exact token-id read must agree with the top-k read
+                r2 = read_option_probs_sglang(base_url, p, L, token_ids=rep["label_token_ids"])
+                r["probs_token_ids"] = r2["probs"]
+                r["token_ids_max_abs_diff"] = max(abs(r["probs"].get(k, 0) - r2["probs"].get(k, 0)) for k in L)
             row = {"id": ex["id"], "rep": rep_i, "gold": ex["gold"], "chosen": max(r["probs"], key=r["probs"].get) if r["probs"] else None,
                    "probs": {k: round(v, 4) for k, v in r["probs"].items()}, "missing": r["missing"], "first_token": r["first_token"],
                    "prompt_tokens": r["prompt_tokens"], "cached_tokens": r["tokens_cached"], "latency_ms": round(r["latency_ms"], 1),
@@ -31,8 +35,8 @@ def main(base_url, out_dir, args="", **kw):
     # shared-prefix batch: same state, 3 questions
     ex = EXAMPLES[0]
     qs = [dict(ex["question"], instructions=f"問題 {i}：" + ex["question"]["instructions"]) for i in range(3)]
-    res, wall = batch_read_option_probs_sglang(base_url, [tr.render(ex["state"], q) for q in qs], [letters_for(3)] * 3)
-    rep["batch"] = {"wall_ms": round(wall, 1), "cached": [r["tokens_cached"] for r in res], "prompt_tokens": [r["prompt_tokens"] for r in res], "chosen": [max(r["probs"], key=r["probs"].get) if r["probs"] else None for r in res]}
+    res, wall = batch_read_option_probs_sglang(base_url, [tr.render(ex["state"], q) for q in qs], [letters_for(3)] * 3, token_ids=rep["label_token_ids"])
+    rep["batch"] = {"wall_ms": round(wall, 1), "cached": [r["tokens_cached"] for r in res], "prompt_tokens": [r["prompt_tokens"] for r in res], "chosen": [max(r["probs"], key=r["probs"].get) if r["probs"] else None for r in res], "missing": [r["missing"] for r in res]}
     print("batch", json.dumps(rep["batch"]), flush=True)
     # llama-server prompt token counts for the same 5 prompts (from v2 smoke) for parity
     try:

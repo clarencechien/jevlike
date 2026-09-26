@@ -38,6 +38,9 @@ def load_arm(arm):
             k = f"L4_shared_{K}q"
             if k in r2 and (k not in r or r2[k]["summary"]["p50"] < r[k]["summary"]["p50"]):
                 r[k] = dict(r2[k], note=r2[k].get("note", "") + " (seq chosen)")
+        for k in ("S3_d0_test_1001", "S2_meeting_120x7"):
+            if k in r2 and k not in r:
+                r[k] = r2[k]
     return r
 
 

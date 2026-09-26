@@ -181,7 +181,10 @@ def main(base_url, out_dir, args="", backend="llama", **kw):
         print("S2", json.dumps(out["results"]["S2_meeting_120x7"]), flush=True)
     # ---- S3 D0 test end-to-end
     if "S3" in only:
-        from bench.analyze import group_split  # noqa: E402
+        def group_split(rows_, seed):  # same split as analyze.py (no matplotlib import here)
+            groups = sorted({r.get("pair_id") or r["id"] for r in rows_}); rr = random.Random(seed); rr.shuffle(groups)
+            calset = set(groups[: len(groups) // 2])
+            return [(r.get("pair_id") or r["id"]) in calset for r in rows_]
         rows = []
         for t in ["m_alarm_severity", "m_alarm_category", "m_needs_dispatch", "q_spc_action", "q_defect_root", "p_uph_anomaly", "p_line_change", "x_ticket_route", "x_escalate", "x_10way_intent"]:
             rs = [json.loads(l) for l in open(f"/root/data/synthetic/{t}.jsonl", encoding="utf-8")]

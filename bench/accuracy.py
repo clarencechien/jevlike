@@ -18,7 +18,10 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from decide.client import chat_json, read_option_probs, read_option_probs_sglang_ids, reader_for  # noqa: E402
 from decide.prompt import SYSTEM, VARIANTS, TemplateRenderer, build_messages, letters_for  # noqa: E402
 
-DATA_DIR = "/root/data/synthetic"
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# /root/data is the Modal mount; on GB10 (bench/run_local.py) the repo's own data/ is used
+DATA_ROOT = "/root/data" if os.path.isdir("/root/data") else os.path.join(REPO, "data")
+DATA_DIR = os.path.join(DATA_ROOT, "synthetic")
 ALL_TASKS = ["m_alarm_severity", "m_alarm_category", "m_needs_dispatch", "q_spc_action", "q_defect_root",
              "p_uph_anomaly", "p_line_change", "x_ticket_route", "x_escalate", "x_10way_intent"]
 

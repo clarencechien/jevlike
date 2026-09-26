@@ -309,6 +309,7 @@ page = f"""<!doctype html>
       <li><strong>速度：一次判斷 {L1['p50'] / 1000:.1f} 秒，比讓模型寫答案快 {speed:.1f} 倍。</strong>同一份現場狀況一次問十題，開對設定後每題再降到 {per_q_swa / 1000:.2f} 秒。</li>
       <li><strong>標註：比主管報告承諾的還少。</strong>多數題目零筆；較弱的題目標 25 筆就能校準。傳統機器學習標 100 筆還到不了 90%。</li>
       <li><strong>推理引擎：SGLang 批次快五倍，第一輪掉的 {(v4_acc_A1 - v4_acc_B1) * 100:.1f} 個百分點是少一個起始符號，補上後與現行引擎同準。</strong>共用同一份現場狀況問十六題快 {V4G['L4_speedup_16']:.1f} 倍、多路併發快 6 倍。事後批次整理直接用 SGLang；即時判斷兩個引擎在 GB10 上各量一次再選。</li>
+      <li><strong>公開考卷：拿 JevBench 231 題自跑，{JB26['accuracy'] * 100:.1f}%，高於同做法的 Cygnet 與訓練過的 Open-Jev。</strong>難題 {JB26['per_tier']['hard'] * 100:.1f}%；小模型 E4B {JBE4['accuracy'] * 100:.1f}%。自跑、不排名，但說明產線題的高分不是題目量身訂做。</li>
       <li><strong>四個上線條件：</strong>部署時開啟前綴快取設定、「有把握才自動處理」的門檻要用真實資料校準、選項順序固定（弱題有兩成會因順序改答案）、GB10 上重量一次速度。都是幾小時到幾天的事，不是幾個月。</li>
     </ol>
   </div>
@@ -592,6 +593,21 @@ page = f"""<!doctype html>
 
   <p>三個結論：第一，<span class="mark">同一顆模型在別人手上也一樣準</span>，不是我們的題目太簡單才看到高分。第二，速度差在顯示卡：3090 的記憶體頻寬是 L4 的三倍，同一顆模型量到 0.05 秒 vs 我們的 0.2 秒；GB10 的頻寬與 L4 同級，實際會落在 0.1–0.2 秒之間，靠一次問多題才會壓到 0.07 秒。第三，在刻意刁難的公開評測上，這顆模型的官方提交落後 Jev 8 分；但我們自己用同一套讀法跑公開 231 題拿到 {JB26['accuracy'] * 100:.1f}%，高於同做法的 Cygnet 與訓練過的 Open-Jev，說明產線題的高分不是題目量身訂做。真實資料上的分數仍要預期比合成資料低。</p>
 
+
+  <h2>我們在公開考卷上的位置</h2>
+  <div class="table-scroll wide route">
+    <table>
+      <thead><tr><th>系統</th><th>做法</th><th class="num">公開 231 題</th><th class="num">難題 111 題</th></tr></thead>
+      <tbody>
+        <tr><td><strong>我們 · Gemma 4 26B-A4B</strong></td><td>凍結，讀字母，不訓練</td><td class="num"><strong>{JB26['accuracy'] * 100:.1f}%</strong></td><td class="num">{JB26['per_tier']['hard'] * 100:.1f}%</td></tr>
+        <tr><td>Cygnet · Gemma 4 12B</td><td>凍結，讀字母，一個溫度</td><td class="num">87.9%</td><td class="num">76.6%</td></tr>
+        <tr><td>Open-Jev · Qwen 27B</td><td>LoRA + 決策頭，14.9 萬筆訓練</td><td class="num">85.3%</td><td class="num">72.1%</td></tr>
+        <tr><td>TypeLLM · Qwen 27B</td><td>凍結，不開思考</td><td class="num">84.4%</td><td class="num">—</td></tr>
+        <tr><td>我們 · Gemma 4 E4B</td><td>凍結，讀字母</td><td class="num">{JBE4['accuracy'] * 100:.1f}%</td><td class="num">{JBE4['per_tier']['hard'] * 100:.1f}%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>都是各自在同一份公開子集上自跑的數字，不是官方排名（官方要跑 842 題含密封題）。我們沒有用這些題調任何參數；把合成產線題上擬合的溫度直接套上去，校準誤差從 0.093 降到 0.044。差距全在難題，最弱的是時間與數字推算，和產線題「產能該用公式判斷」的結論一致。</p>
 
   <h2>四類做法</h2>
   <div class="table-scroll wide route">

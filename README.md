@@ -5,6 +5,7 @@
 - 長官版 HTML（公開）：<https://imitator.ai-apps.work/r/gb10-typed-decisions>
 - 工程報告：`results/REPORT.md`；分項報告 `results/00`–`12`；費用 `results/cost.md`
 - 生態調查與借鏡：`results/10-landscape.md`（本檔 §5 是摘要）
+- **接手 GB10 的人看這份**：`docs/handoff-gb10.md`（重現、重量、真實資料校準、結案清單）；不用 Modal，改用 `bench/run_local.py`
 
 ## 1. 一句話
 
@@ -37,7 +38,7 @@
 | 順序敏感度 | 急迫度 21%、SPC 19%、其餘 ≤ 3% | 上線選項順序固定 |
 | 累計費用 | ≈ $15、8.6 GPU h | 原估 $5.5–7.5 只算前兩輪 |
 
-## 4. Quickstart
+## 4. Quickstart（Modal；GB10 本機見 `docs/handoff-gb10.md`）
 
 ```bash
 pip install 'modal[api-proxy-support]' numpy scikit-learn matplotlib
@@ -48,6 +49,8 @@ scripts/modal.sh volume get gb10-decide-results / results/modal/ && python3 benc
 # SGLang（L40S，FP8；靜態模板已含 <bos>）
 scripts/modal.sh run modal_sglang.py --which download && scripts/modal.sh run modal_sglang.py --which smoke_sglang
 scripts/modal.sh run --detach modal_sglang.py --which accuracy --args "--out-sub D0 --control-n 0"
+# 本機 server（GB10）：任何 bench 模組都可不經 Modal 跑
+python3 bench/run_local.py --which accuracy --base-url http://127.0.0.1:8080 --out-dir results/gb10/accuracy --args "--control-n 0"
 # 離線：重算所有結果檔 / conformal 門檻與 lock 檔 / 換模型或後端後的漂移檢查
 python3 bench/verify.py && python3 bench/thresholds.py && python3 bench/verify.py --check-lock results/modal/accuracy/q8/D0
 ```
@@ -60,7 +63,7 @@ python3 bench/verify.py && python3 bench/thresholds.py && python3 bench/verify.p
 - `modal_app.py` llama-server 入口（`MODELS`：26b UD-Q4_K_M / q8 / bf16 / e4b / e2b）；`modal_sglang.py` SGLang 入口（fp8 / bf16，L40S 需自帶 fused-MoE Triton 設定檔）
 - `decide/` `prompt.py`（模板：`/apply-template` 學來，或 SGLang 用的 `GEMMA4_TEMPLATE_NOTHINK_BOS`；T1 變體）、`client.py`（llama `/completion`；SGLang `/generate` 指定 token id / `input_ids`；每次回傳 `option_mass`）、`labels.py`（字母單 token 自檢）
 - `data/` `seeds/`、`gen/`、`hard/`、`rules/`、`synthetic/`（D0 + MANIFEST + SPOTCHECK）、`heldout/`、`perturbed/`（D1）、`blind/`（Gemini 盲寫 D2）、`tokenized/`（llama-server 切好的 token id）
-- `bench/` `smoke*.py`、`latency.py`、`accuracy.py`、`permute.py`、`packed.py`、`v4bench.py`、`jevbench.py`、`tokenize_dump.py`、`option_mass.py`、`thresholds.py`、`analyze*.py`（v2 / ladder / v4–v8）、`verify.py`（含 `--check-lock`）、`render_html_report.py`
+- `bench/` `run_local.py`（GB10 本機跑）、`smoke*.py`、`latency.py`、`accuracy.py`、`permute.py`、`packed.py`、`v4bench.py`、`jevbench.py`、`tokenize_dump.py`、`option_mass.py`、`thresholds.py`、`analyze*.py`（v2 / ladder / v4–v8）、`verify.py`（含 `--check-lock`）、`render_html_report.py`
 - `data/jevbench/` JevBench 公開 231 題（MIT，釘版）；`third_party/jevbench/` 評分 harness（MIT）
 - `results/` 分項報告 `00`–`13`、`REPORT.md`、`cost.md`、`thresholds.lock.json`、`fig/`、`modal/`（原始 logprobs）
 

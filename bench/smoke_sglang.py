@@ -49,7 +49,7 @@ def main(base_url, out_dir, args="", **kw):
     print("batch", json.dumps(rep["batch"]), flush=True)
     # llama-server prompt token counts for the same 5 prompts (from v2 smoke) for parity
     try:
-        llama = json.load(open("/root/data/../results/modal/smoke.json"))
+        llama = json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results/modal/smoke.json")))
     except Exception:  # noqa: BLE001
         llama = None
     os.makedirs(out_dir, exist_ok=True)

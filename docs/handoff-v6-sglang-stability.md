@@ -54,7 +54,7 @@ SGLang 0.5.x 的 `--enable-deterministic-inference` 用批次不變 kernel，理
 - 一致率 < 99.5% → 不穩另有原因（radix 命中路徑、CUDA graph），記錄後停。
 - 注意 E2 只治「會變」，不治「低 2–3 分」；若 E1 沒過而 E2 過，SGLang 仍是「穩定地低 2–3 分」，分工使用。
 
-### E3（E1 沒命中才做）：kernel 與精度
+### E3（E1 沒命中才做）：kernel 與精度 — **不做，E1 已命中（差距 0.001）**；剩下 0.15% 的翻面留到 GB10 實測後再看
 
 各一次 D0，各約 $0.5，任何一個把差距縮到 1 點內就停：
 1. `--attention-backend flashinfer`（L40S 上 v4 自動選了 triton）。

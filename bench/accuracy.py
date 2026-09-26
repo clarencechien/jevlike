@@ -1,6 +1,6 @@
 """M4 accuracy: read option logprobs for every synthetic row (raw saved), plus JSON-generation control arm.
 
-args: "--tasks a,b --control-n 50 --workers 4 --resume 1 --limit 0"
+args: "--tasks a,b --control-n 50 --workers 4 --resume 1 --limit 0 --variant V0|V1|V2"
 Outputs: <out_dir>/{task}.jsonl (typed decision, raw logprobs), <out_dir>/control_{task}.jsonl
 """
 import json
@@ -16,7 +16,7 @@ import requests
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from decide.client import chat_json, read_option_probs, reader_for  # noqa: E402
-from decide.prompt import SYSTEM, TemplateRenderer, build_messages, letters_for  # noqa: E402
+from decide.prompt import SYSTEM, VARIANTS, TemplateRenderer, build_messages, letters_for  # noqa: E402
 
 DATA_DIR = "/root/data/synthetic"
 ALL_TASKS = ["m_alarm_severity", "m_alarm_category", "m_needs_dispatch", "q_spc_action", "q_defect_root",
@@ -66,7 +66,8 @@ def main(base_url, out_dir, args="", **kw):
         os.makedirs(out_dir, exist_ok=True)
     backend = kw.get("backend", "llama")
     read = reader_for(backend)
-    tr = TemplateRenderer(base_url, static=(backend == "sglang"))
+    variant = VARIANTS[a.get("--variant", "V0")]  # T1 (handoff v5)
+    tr = TemplateRenderer(base_url, static=(backend == "sglang"), **variant)
     lock = threading.Lock()
     tls = threading.local()
 

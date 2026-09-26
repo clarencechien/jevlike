@@ -192,6 +192,22 @@ E4B 單題快 2.2 倍、十題快 1.8 倍，但 **decode 地板兩者一樣**（
 - 會議記錄事後整理、歷史工單 ETL、一次幾千題的批次標註：**SGLang**，快 5–6 倍，掉 2–3 點在可接受範圍時用；用它的結果做校準或門檻要另外校。
 - GB10 上：SGLang 需要 `xomoxcc/dgx-spark-sglang` 的 sm121 映像 + FP8 權重，MTP（推測解碼）對只讀一個 token 的決策沒用，不開。
 
+## 3e. 參考 TypeLLM 之後補的四件事（v5，`08-typellm-followups.md`、`verify.md`、`docs/handoff-v5-typellm.md`）
+
+**一句話**：JSON 形狀 prefill 與選項順序置換平均都沒有讓弱題過門檻，**維持現行 prompt**；TypeLLM 可抄的是標籤自檢與獨立驗證腳本（已加），另外量到一個風險：**急迫度與 SPC 兩題有兩成的題目換個選項順序答案就變**。
+
+| 項目 | 結果 | 處置 |
+|---|---|---|
+| T0-a 標籤自檢（每個字母單 token、可回轉） | `decide/labels.py`，smoke 啟動時檢查 | 已加 |
+| T0-b 獨立驗證腳本（不呼叫模型重算 acc / Brier / ECE） | `bench/verify.py`：237 個結果檔、與 analysis.json 0 筆不一致 | 已加 |
+| T0-c top-40 讀不到的字母 | 2,000 筆有 661 筆缺字母，但漏掉的機率上界 7.4e-7 | 不用改 |
+| T1 JSON prefill `{"answer": "` | 弱 task 平均 +1.3 點（V1）/ +1.0 點（V2），門檻 +2；McNemar p 全 ≥ 0.5 | 不採用 |
+| T2 順序置換平均（3 選項 6 種、其餘 8 種） | 弱 task 平均 −1.3 點；SPC 的 ECE 0.136 → 0.081、AUROC 0.88 → 0.95、sel@0.9 0.869 → 0.952（coverage 0.99 → 0.83） | 不建議當預設；平均後的信心比較會分辨對錯，升級路徑可考慮 |
+| T4 SGLang 指定 token 讀機率（`token_ids_logprob`） | 與 top-40 讀法機率差 0.0；字母 token id 與 TypeLLM 的 Gemma 4 log 相同 | 已加（SGLang 路徑），不改 v4 結論 |
+| 順序敏感度 | 急迫度 21%、SPC 19%、UPH 3%、控制題 1% | **風險**：弱題的答案有兩成受選項順序影響，上線前選項順序固定、校準用同一順序 |
+
+TypeLLM 本身不支援 Gemma 4（`06-comparison.md`），它的 JevBench 84.4% 是 Qwen3.8-27B 在 231 題公開子集，與 534 題的 74.4 不同尺。它的 thinking mode（84% → 98.7%，每題均 919 token）產線 gating 用不起；`depends_on` 依賴鏈與 nullable 語法等真實資料有鏈式題再開。
+
 ## 4. 本版的限制
 
 1. **延遲全部是 L4 上界**。GB10 實測待補（v1 §5 L1–L7，約 30 分鐘；記得 `--swa-full`）。
@@ -200,6 +216,7 @@ E4B 單題快 2.2 倍、十題快 1.8 倍，但 **decode 地板兩者一樣**（
 4. **校準集只有 100 筆**，affine 校準在多選項 task 有過擬合跡象。
 5. **模型檔**：用 unsloth UD-Q4_K_M；若 GB10 用的是 Google QAT q4_0 或其他量化，M4 要在 GB10 重跑（同格式 raw logprobs 可直接進 `analyze.py`）。
 6. AI Studio 上的 Gemma 4 不開放 logprobs，31B dense 對照因此沒做。
+8. **順序置換平均只跑一次、每 task 100 筆 test**：−1.3 點在 McNemar 上不顯著（p 0.22–1.0），「不建議」是依門檻，不是證明它有害。
 7. **SGLang 對照只做到 Phase 1**：速度門檻全過、準確率護欄沒過，依預先登記沒進 Phase 2/3（grammar/數值欄位、GB10 sm121 實測）。SGLang 掉分的根因（哪個 kernel）沒有再往下挖；換 attention backend（flashinfer）或關掉 CUDA graph 是下一個可試的旋鈕。
 
 ## 5. 接回 GB10 時要做的

@@ -22,8 +22,18 @@ def render_question(question: dict) -> str:
     return "\n".join(lines)
 
 
-def build_messages(state: str, question: dict, system: str = SYSTEM) -> list[dict]:
-    user = f"【狀態】\n{state}\n\n{render_question(question)}\n\n只回答代表正確選項的字母。"
+ANSWER_LINE = {"letter": "只回答代表正確選項的字母。",
+               "json": '以 {"answer": "<字母>"} 回答，只輸出這個 JSON。'}
+JSON_PREFILL = '{"answer": "'  # T1 (handoff v5): TypeLLM-style label prefill; the next token is the letter
+
+# T1 variants: V0 current, V1 prefill only, V2 prefill + instruction
+VARIANTS = {"V0": {"prefill": "", "answer_style": "letter"},
+            "V1": {"prefill": JSON_PREFILL, "answer_style": "letter"},
+            "V2": {"prefill": JSON_PREFILL, "answer_style": "json"}}
+
+
+def build_messages(state: str, question: dict, system: str = SYSTEM, answer_style: str = "letter") -> list[dict]:
+    user = f"【狀態】\n{state}\n\n{render_question(question)}\n\n{ANSWER_LINE[answer_style]}"
     return [{"role": "system", "content": system}, {"role": "user", "content": user}]
 
 
@@ -41,9 +51,11 @@ class TemplateRenderer:
     THINK_ON = "<|think|>\n"
     EMPTY_THOUGHT = "<|channel>thought\n<channel|>"
 
-    def __init__(self, base_url: str, prefill: str = "", use_system: bool = True, enable_thinking: bool = False, static: bool = False):
+    def __init__(self, base_url: str, prefill: str = "", use_system: bool = True, enable_thinking: bool = False, static: bool = False,
+                 answer_style: str = "letter"):
         self.base_url = base_url
         self.prefill = prefill
+        self.answer_style = answer_style
         self.use_system = use_system
         self.enable_thinking = enable_thinking
         if static:  # backend has no /apply-template (e.g. SGLang): use the template llama-server rendered for Gemma 4
@@ -69,7 +81,7 @@ class TemplateRenderer:
             raise RuntimeError(f"apply-template lost markers: {self.template!r}")
 
     def render(self, state: str, question: dict, system: str = SYSTEM, prefill: str | None = None) -> str:
-        msgs = build_messages(state, question, system)
+        msgs = build_messages(state, question, system, self.answer_style)
         out = self.template.replace(USR_MARK, msgs[1]["content"])
         if self.use_system:
             out = out.replace(SYS_MARK, msgs[0]["content"])

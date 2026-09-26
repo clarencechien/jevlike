@@ -1,0 +1,42 @@
+{
+  "m_alarm_severity": {
+    "n": 200,
+    "acc": 0.81,
+    "acc_easy": 0.8357142857142857,
+    "acc_hard": 0.75,
+    "missing_rate": 0.07,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  },
+  "q_spc_action": {
+    "n": 200,
+    "acc": 0.825,
+    "acc_easy": 0.8428571428571429,
+    "acc_hard": 0.7833333333333333,
+    "missing_rate": 0.105,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  },
+  "p_uph_anomaly": {
+    "n": 200,
+    "acc": 0.94,
+    "acc_easy": 0.9857142857142858,
+    "acc_hard": 0.8333333333333334,
+    "missing_rate": 0.0,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  },
+  "m_alarm_category": {
+    "n": 200,
+    "acc": 0.975,
+    "acc_easy": 1.0,
+    "acc_hard": 0.9166666666666666,
+    "missing_rate": 0.1,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  }
+}

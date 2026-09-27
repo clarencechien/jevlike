@@ -66,6 +66,27 @@ Laya（421M ModernBERT，RLCD 校準）、von（<15 ms）、poorjev 的 NLI 模�
 - **跑 JevBench 公開集**：英文、通用題，與產線題無關；只為了拿一個可比的分數，值一次 L4 半小時，但分數不會改變任何決策。放低優先。
 - **Laya 一類小模型**：v2 已量過零樣本不行。
 
+## 8. ByteByteGo「Top 9 Places to Use Jev」逐格對照我們的實測
+
+來源：ByteByteGo 電子報 EP227（2026-09-26），<https://blog.bytebytego.com/p/ep227-top-9-places-to-use-jev>。結語："use the LLM for generations and use Jev on the decisions around it."
+圖為 ByteByteGo 原圖，僅供對照引用，版權屬 ByteByteGo。
+
+![ByteByteGo: Top 9 places to use Jev](fig/bytebytego-top9-jev.jpg)
+
+| # | 圖上的場景 | 我們測過嗎 | 我們的數字（合成產線題，除非另註） | 判讀 |
+|---|---|---|---|---|
+| 1 | Model routing：prompt 分給小／中／大模型 | **測過（v3 級聯）** | E4B 先答、把握 < 0.999 才問 26B：acc 0.952 vs 全 26B 0.955；34% 送 26B；期望延遲 137 → 110 ms（L4） | 成立。路由判斷本身用最小的模型自己的把握度就夠，不必另訓分類器 |
+| 2 | Guardrails：注入、濫用、違反政策 | 未測 | 產線題沒有這類；gemma-jev 同一顆 26B 防注入 12 題全對（樣本太小） | 候選。形狀是二選一，同一套讀法可直接套，要自建攻擊樣本 |
+| 3 | Tool-call gating：allow／ask／deny | 相近 | `x_escalate`（要不要升級給人）test 1.00；`m_needs_dispatch`（要不要派工）0.99 | 三選一的權限判斷與我們的升級題同形，預期成立；ask 那一格要靠校準門檻 |
+| 4 | Inbox triage：reply now／later／archive；圖註 1,500 封 ≈ 3 美分 | **測過** | `x_ticket_route` 1.00、`m_alarm_severity`（不急／盡快／停線）0.82 → 改寫標準 0.885。成本：L4 逐題 137 ms → 1,500 則約 $0.05；SGLang L40S 整批 92.8 則/秒 → 約 $0.01 | 成立，成本與圖上同量級。**相鄰等級**（now vs later）是最難的一類，要可數標準 |
+| 5 | Reranking：query 對每段打相關分數 | 未測；測過相近的 packed | 多段排成一列一次讀（v7 P1），排在後面的答案被污染 11–13%、急迫度掉 14 點 | 可做，但**每段各讀一次**，不要一次塞全部；SGLang 暖前綴後整批送就夠快 |
+| 6 | LLM evals：回 4/5 這種分數 | 測過同形題（JevBench Score） | JevBench 公開集 Score 題 ordinal MAE 0.127、ordinal 題族 acc 1.00（self-run） | 成立。回傳完整機率向量，期望分數比 argmax 更好用 |
+| 7 | Bulk labeling：百萬列 map-reduce | **測過批次速度** | SGLang L40S D0 1,001 題 10.8 s（92.8 則/秒），llama-server 67 s；補 `<bos>` 後兩者同準 | 成立。批次正是 SGLang 的主場，比 llama-server 快 6 倍 |
+| 8 | Real-time control：每 300 ms 一次 | **測過延遲** | 單題 p50 L4 137 ms、L40S 61 ms；背景生成時 p95 退化 1.31–1.38×；但數字推算最弱：UPH 0.93、JevBench temporal_numeric 27% | 延遲預算夠。**「讀數字做判斷」不要交給它**，數值先用公式算好再給模型 |
+| 9 | Confidence gate：> 0.9 自動、0.5–0.9 確認、< 0.5 轉人；「門檻由分類器決定，不是 LLM」 | **測過，而且這一格要改** | raw 信心平均 0.99；急迫度在 > 0.9 時 coverage 0.97 但只對 0.835，SPC 0.99 / 0.869。改用 conformal（先定錯誤預算 5%）：強題自動處理 91–100%、實際錯 0–3.3%，8/10 類保證成立 | 方向對、數字錯。**0.9 / 0.5 不能當固定門檻**：未校準的開源模型幾乎都 > 0.9；Jev 自己的 ECE 也被量到 0.144。門檻要用自己的標註資料反推並鎖檔重測（`bench/thresholds.py`、`verify.py --check-lock`） |
+
+**一句話**：九格裡我們實測過五格（1、4、7、8、9），同形題兩格（3、6），未測兩格（2、5）。圖的方向全部成立；要改的只有兩處：第 9 格的固定門檻要換成用資料反推的門檻，第 5 格的段落要逐段讀、不要打包。
+
 ## 來源
 
 Cygnet <https://github.com/blockbrain-ai/cygnet-recipe>、open-alternative-jev <https://github.com/ikermoel/open-alternative-jev>、SemIf <https://tomrochette.com/agents/hybrid-execution/semif/>、openjev-sglang <https://github.com/ekzhang/openjev-sglang>、verdict <https://github.com/khimaros/verdict>、GemmaJev <https://github.com/dashidhy/GemmaJev>、llama.cpp-Jev <https://github.com/NON906/llama.cpp-Jev>、decider <https://github.com/Mapika/decider>、JevK5 <https://github.com/fstandhartinger/jevbench/issues/31>、Open-Jev <https://zefan-cai.github.io/open-jev/story/>、Kev <https://github.com/jaredpalmer/kev/blob/main/PLAN.md>、imajev <https://github.com/fstandhartinger/jevbench/issues/80>、system-one-open <https://github.com/mithalouni/system-one-open>、poorjev <https://github.com/rupeshpoojary9/poorjev>、jevcal <https://github.com/abhixhek/jevcal>、jevkit <https://github.com/JasmineAIGC/jevkit>、awesome-open-system-one <https://github.com/rupeshpoojary9/awesome-open-system-one>、JevBench <https://github.com/fstandhartinger/jevbench>、榜 <https://benchmarkheaven.com/jev-models>、TypeSafe 原文 <https://typesafe.ai/blog/introducing-system-one-models-and-jev>。

@@ -54,6 +54,8 @@ V4 = json.load(open(os.path.join(ROOT, "results/v4.json")))
 V6 = json.load(open(os.path.join(ROOT, "results/v6.json")))
 V7 = json.load(open(os.path.join(ROOT, "results/v7.json")))
 V8 = json.load(open(os.path.join(ROOT, "results/v8.json")))
+import base64 as _b64
+BBG_IMG = "data:image/jpeg;base64," + _b64.b64encode(open(os.path.join(ROOT, "results/fig/bytebytego-top9-jev.jpg"), "rb").read()).decode()
 JB26 = V8["arms"]["26B raw"]; JBE4 = V8["arms"]["E4B raw"]
 THR = V7["thresholds"]["lock"]["tasks"]
 STRONG7 = ["m_alarm_category", "m_needs_dispatch", "q_defect_root", "p_line_change", "x_ticket_route", "x_escalate", "x_10way_intent"]
@@ -637,6 +639,33 @@ page = f"""<!doctype html>
       </tbody>
     </table>
   </div>
+
+  <h2>別人畫的九個使用位置，我們測過幾個</h2>
+  <p>系統設計電子報 ByteByteGo 在 2026 年 9 月 26 日出了一張圖，列出 Jev 這類決策模型最該放的九個位置，結論是「生成交給大模型，圍繞生成的所有決定交給 Jev」。我們把每一格對上自己量過的數字。</p>
+
+  <figure class="reveal">
+    <p class="title">Top 9 places to use Jev</p>
+    <p class="subtitle">ByteByteGo 原圖，僅供對照引用，版權屬 ByteByteGo。</p>
+    <img src="{BBG_IMG}" alt="ByteByteGo 九宮格：模型路由、護欄、工具呼叫守門、收件匣分流、重排序、LLM 評分、大量標註、即時控制、信心門檻" style="width:100%;height:auto;border-radius:8px">
+  </figure>
+
+  <div class="table-scroll wide route">
+    <table>
+      <thead><tr><th>#</th><th>圖上的位置</th><th>我們測過嗎</th><th>我們的數字</th><th>判讀</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>模型路由：簡單題給小模型、難題給大模型</td><td><span class="verdict">測過</span></td><td>先問 4B、沒把握才問 26B：答對率 {CAS['mean'][6] * 100:.1f}% vs 全用 26B {CAS['mean'][1] * 100:.1f}%，只有三分之一送到 26B</td><td>成立，而且不用另外訓練分類器，小模型自己的把握度就是路由器</td></tr>
+        <tr><td>2</td><td>護欄：擋掉注入攻擊與違規輸入</td><td>未測</td><td>產線題沒有這類；別人用同一顆模型防注入 12 題全對，樣本太小</td><td>候選，形狀是二選一，要自己準備攻擊樣本</td></tr>
+        <tr><td>3</td><td>工具呼叫守門：允許／詢問／拒絕</td><td>同形題</td><td>「要不要升級給人」100%、「要不要派工」99%</td><td>預期成立；「詢問」那一格要靠校準過的門檻</td></tr>
+        <tr><td>4</td><td>收件匣分流：馬上回／稍後／封存；圖註 1,500 封約 3 美分</td><td><span class="verdict">測過</span></td><td>工單派給誰 100%；警報急迫度（不急／盡快／停線）改寫標準後 {V2['m_alarm_severity']['raw_test']['acc'] * 100:.0f}%。1,500 則的成本：逐題約 5 美分，SGLang 整批約 1 美分</td><td>成立，成本與圖上同級。「馬上」和「稍後」這種相鄰等級最難，標準要寫成可數的</td></tr>
+        <tr><td>5</td><td>重排序：每段文字打相關分數</td><td>未測，測過相近做法</td><td>把多段排成一列一次讀，後面的判斷會被前面帶偏 11–13%</td><td>可做，但每段各讀一次，不要一次塞全部</td></tr>
+        <tr><td>6</td><td>LLM 評分：回一個 4/5 分</td><td>同形題</td><td>公開考卷的評分題，平均誤差 {JB26['ordinal_mae']:.2f} 級</td><td>成立；回傳每一級的機率，算期望分數比只取最高那級好用</td></tr>
+        <tr><td>7</td><td>大量標註：百萬列資料</td><td><span class="verdict">測過</span></td><td>一千題整批：SGLang 11 秒、現行引擎 67 秒，兩者同準</td><td>成立，這正是 SGLang 的主場</td></tr>
+        <tr><td>8</td><td>即時控制：每 300 毫秒一次</td><td><span class="verdict">測過</span></td><td>一次判斷 0.06–0.14 秒；機台同時在寫報告時慢三到四成；但讀數字做判斷最弱（產能 {A['p_uph_anomaly']['raw_test']['acc'] * 100:.0f}%、公開考卷時間與數字題 27%）</td><td>時間預算夠。數字先用程式算好，再把「超標／沒超標」交給它</td></tr>
+        <tr><td>9</td><td>信心門檻：大於 0.9 自動、0.5–0.9 找人確認、小於 0.5 轉人</td><td><span class="verdict">測過，要改</span></td><td>模型平均自報 99% 把握；急迫度在「大於 0.9」時放行 97% 的題，但只對 84%。改成先定可接受錯誤率 5% 再反推門檻：強題自動處理 {min(cov5) * 100:.0f}%–{max(cov5) * 100:.0f}%，實際錯 0–3%</td><td>方向對、數字錯。0.9 和 0.5 不能直接照抄，要用自己的標註資料反推，而且換模型時重測</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>九格裡我們實測過五格、測過同形題兩格、兩格未測。圖的方向全部成立；要改的只有兩處：第 9 格的固定門檻要換成用資料反推的，第 5 格要逐段讀、不要打包。還沒測的護欄與工具守門，是之後擴充題型時最現成的兩個候選。</p>
 
   <h2>我們比別人多做的</h2>
   <ul>

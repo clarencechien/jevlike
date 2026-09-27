@@ -1,0 +1,1716 @@
+[
+ {
+  "pid": "p01",
+  "question": "{line} {machine} 要換鋼網，步驟是什麼？",
+  "steps": [
+   {
+    "text": "按停止鍵讓印刷機停機，確認刮刀已回原點後再打開前護蓋",
+    "kind": "safety"
+   },
+   {
+    "text": "取下舊鋼網，用刮刀刮除殘留錫膏並回收至舊錫膏罐",
+    "kind": "key"
+   },
+   {
+    "text": "核對新鋼網編號 {stencil} 與厚度 {thick} mm 是否符合工單，檢查網孔無堵塞、網框無變形",
+    "kind": "key"
+   },
+   {
+    "text": "裝上新鋼網並鎖緊，執行 Mark 點視覺對位",
+    "kind": "key"
+   },
+   {
+    "text": "設定刮刀壓力 {n} kg、速度 {speed} mm/s，試印一片送 SPI 確認",
+    "kind": "key"
+   },
+   {
+    "text": "填寫鋼網使用紀錄（上線時間、累計印刷次數）",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 0,
+   "text": "不用停機，趁印刷機回程空檔直接打開護蓋把舊鋼網抽出來換",
+   "remove": [
+    1
+   ]
+  },
+  "offtopic_pid": "p17",
+  "params": [
+   {
+    "line": "SMT-L1",
+    "machine": "DEK-01",
+    "n": "5",
+    "stencil": "ST-A1203",
+    "thick": "0.12",
+    "speed": "40"
+   },
+   {
+    "line": "SMT-L3",
+    "machine": "DEK-02",
+    "n": "6",
+    "stencil": "ST-B0457",
+    "thick": "0.1",
+    "speed": "50"
+   },
+   {
+    "line": "SMT-L5",
+    "machine": "MPM-01",
+    "n": "7",
+    "stencil": "ST-C2210",
+    "thick": "0.13",
+    "speed": "60"
+   },
+   {
+    "line": "SMT-L2",
+    "machine": "DEK-04",
+    "n": "8",
+    "stencil": "ST-A0981",
+    "thick": "0.15",
+    "speed": "45"
+   },
+   {
+    "line": "SMT-L7",
+    "machine": "MPM-03",
+    "n": "6.5",
+    "stencil": "ST-D1135",
+    "thick": "0.12",
+    "speed": "55"
+   }
+  ]
+ },
+ {
+  "pid": "p02",
+  "question": "{line} 要從 {machine} 拿錫膏出來用，回溫要怎麼做？",
+  "steps": [
+   {
+    "text": "戴上丁腈手套，從冷藏櫃（2–10°C）取出錫膏，確認型號與效期",
+    "kind": "safety"
+   },
+   {
+    "text": "先進先出，核對錫膏批號並確認未超過有效期限",
+    "kind": "key"
+   },
+   {
+    "text": "不開蓋放置室溫回溫至少 {n} 小時，讓瓶內溫度與室溫一致、瓶身無冷凝水",
+    "kind": "key"
+   },
+   {
+    "text": "回溫完成後用攪拌機攪拌 {mix} 分鐘（或手攪 {hand} 分鐘）至均勻",
+    "kind": "key"
+   },
+   {
+    "text": "在瓶身貼回溫標籤，寫上取出時間、回溫完成時間與開封時間",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 2,
+   "text": "趕產能的話可以直接開蓋放進烤箱用 {n_hot}°C 加熱 20 分鐘快速回溫",
+   "remove": []
+  },
+  "offtopic_pid": "p12",
+  "params": [
+   {
+    "line": "SMT-L1",
+    "machine": "錫膏冰箱 RF-01",
+    "n": "4",
+    "mix": "3",
+    "hand": "5",
+    "n_hot": "60"
+   },
+   {
+    "line": "SMT-L2",
+    "machine": "錫膏冰箱 RF-02",
+    "n": "4",
+    "mix": "2",
+    "hand": "5",
+    "n_hot": "70"
+   },
+   {
+    "line": "SMT-L4",
+    "machine": "錫膏冰箱 RF-03",
+    "n": "6",
+    "mix": "3",
+    "hand": "6",
+    "n_hot": "80"
+   },
+   {
+    "line": "SMT-L6",
+    "machine": "錫膏冰箱 RF-05",
+    "n": "8",
+    "mix": "4",
+    "hand": "5",
+    "n_hot": "65"
+   },
+   {
+    "line": "SMT-L8",
+    "machine": "錫膏冰箱 RF-04",
+    "n": "4",
+    "mix": "2",
+    "hand": "4",
+    "n_hot": "75"
+   }
+  ]
+ },
+ {
+  "pid": "p03",
+  "question": "{line} 的 MSD 料超過車間壽命，要用 {machine} 烘烤，步驟？",
+  "steps": [
+   {
+    "text": "確認料的 MSL 等級與包裝方式；捲帶料不可高溫烘烤，需改用低溫條件",
+    "kind": "key"
+   },
+   {
+    "text": "將元件移到耐高溫托盤（Tray）並排放整齊",
+    "kind": "key"
+   },
+   {
+    "text": "烤箱設定 {n}°C 烘烤 {hrs} 小時",
+    "kind": "key"
+   },
+   {
+    "text": "烘烤完成後戴耐熱手套取出，確認托盤已降到室溫再移動",
+    "kind": "safety"
+   },
+   {
+    "text": "元件放入防潮箱或真空包裝，貼上重新計時的 MSD 標籤",
+    "kind": "minor"
+   },
+   {
+    "text": "填寫烘烤紀錄（料號、批號、進出烤箱時間）",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 2,
+   "text": "為了縮短時間，直接把捲帶料放進烤箱設 {n_hot}°C 烤 2 小時",
+   "remove": [
+    0,
+    1
+   ]
+  },
+  "offtopic_pid": "p14",
+  "params": [
+   {
+    "line": "SMT-L1",
+    "machine": "烤箱 OV-01",
+    "n": "125",
+    "hrs": "24",
+    "n_hot": "180"
+   },
+   {
+    "line": "SMT-L3",
+    "machine": "烤箱 OV-02",
+    "n": "120",
+    "hrs": "48",
+    "n_hot": "200"
+   },
+   {
+    "line": "SMT-L4",
+    "machine": "烤箱 OV-03",
+    "n": "125",
+    "hrs": "24",
+    "n_hot": "190"
+   },
+   {
+    "line": "SMT-L6",
+    "machine": "烤箱 OV-01",
+    "n": "90",
+    "hrs": "72",
+    "n_hot": "210"
+   },
+   {
+    "line": "SMT-L2",
+    "machine": "烤箱 OV-04",
+    "n": "125",
+    "hrs": "36",
+    "n_hot": "175"
+   }
+  ]
+ },
+ {
+  "pid": "p04",
+  "question": "{line} 要開一包新的 MSD 料上 {machine}，拆封要注意什麼？",
+  "steps": [
+   {
+    "text": "戴上靜電手環，在 ESD 防護工作區拆封",
+    "kind": "safety"
+   },
+   {
+    "text": "檢查真空包裝有無破損、漏氣",
+    "kind": "key"
+   },
+   {
+    "text": "拆封後立即判讀濕度指示卡，{n}% 點必須維持藍色",
+    "kind": "key"
+   },
+   {
+    "text": "依 MSL 等級計算車間壽命（本料 {hrs} 小時），記錄開封時間",
+    "kind": "key"
+   },
+   {
+    "text": "在料盤貼上 MSD 管制標籤（開封時間、到期時間）",
+    "kind": "minor"
+   },
+   {
+    "text": "將料上到 {machine} 並通知線長登錄",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 2,
+   "text": "濕度卡 {n}% 點就算已經變粉紅色也沒關係，料是新的直接上線",
+   "remove": []
+  },
+  "offtopic_pid": "p05",
+  "params": [
+   {
+    "line": "SMT-L2",
+    "machine": "NXT-01",
+    "n": "10",
+    "hrs": "168"
+   },
+   {
+    "line": "SMT-L3",
+    "machine": "NXT-03",
+    "n": "10",
+    "hrs": "72"
+   },
+   {
+    "line": "SMT-L5",
+    "machine": "YSM-02",
+    "n": "5",
+    "hrs": "168"
+   },
+   {
+    "line": "SMT-L7",
+    "machine": "NXT-05",
+    "n": "10",
+    "hrs": "48"
+   },
+   {
+    "line": "SMT-L1",
+    "machine": "YSM-01",
+    "n": "5",
+    "hrs": "24"
+   }
+  ]
+ },
+ {
+  "pid": "p05",
+  "question": "{line} {machine} 換線要調爐溫 profile，怎麼做？",
+  "steps": [
+   {
+    "text": "載入新機種 profile 程式 {prog}，核對各溫區設定與鏈速 {speed} cm/min",
+    "kind": "key"
+   },
+   {
+    "text": "等待爐溫穩定至少 {wait} 分鐘，確認所有溫區到達設定值",
+    "kind": "key"
+   },
+   {
+    "text": "用測溫板跑 profile，確認峰值 {n}°C、液相線以上時間 {tal} 秒",
+    "kind": "key"
+   },
+   {
+    "text": "測溫板出爐後戴耐熱手套取出，放在耐熱架上冷卻",
+    "kind": "safety"
+   },
+   {
+    "text": "過第一片產品做首件目檢與 AOI 檢查",
+    "kind": "key"
+   },
+   {
+    "text": "列印 profile 報表存檔，請 QE 簽核",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 2,
+   "text": "峰值直接設到 {n_hot}°C 比較保險，不會冷焊",
+   "remove": []
+  },
+  "offtopic_pid": "p09",
+  "params": [
+   {
+    "line": "SMT-L1",
+    "machine": "HELLER-01",
+    "prog": "RF-A105",
+    "speed": "80",
+    "wait": "20",
+    "n": "245",
+    "tal": "60",
+    "n_hot": "285"
+   },
+   {
+    "line": "SMT-L2",
+    "machine": "HELLER-02",
+    "prog": "RF-B220",
+    "speed": "75",
+    "wait": "25",
+    "n": "243",
+    "tal": "70",
+    "n_hot": "280"
+   },
+   {
+    "line": "SMT-L4",
+    "machine": "BTU-01",
+    "prog": "RF-C031",
+    "speed": "85",
+    "wait": "30",
+    "n": "248",
+    "tal": "65",
+    "n_hot": "290"
+   },
+   {
+    "line": "SMT-L5",
+    "machine": "HELLER-03",
+    "prog": "RF-A118",
+    "speed": "90",
+    "wait": "20",
+    "n": "240",
+    "tal": "75",
+    "n_hot": "295"
+   },
+   {
+    "line": "SMT-L8",
+    "machine": "BTU-02",
+    "prog": "RF-D402",
+    "speed": "70",
+    "wait": "30",
+    "n": "250",
+    "tal": "80",
+    "n_hot": "300"
+   }
+  ]
+ },
+ {
+  "pid": "p06",
+  "question": "{line} {machine} 要做助焊劑回收系統保養、換過濾網，步驟？",
+  "steps": [
+   {
+    "text": "關閉加熱，讓爐子空爐冷卻，確認爐溫降到 {n}°C 以下",
+    "kind": "safety"
+   },
+   {
+    "text": "關主電源並上鎖掛牌（LOTO）",
+    "kind": "safety"
+   },
+   {
+    "text": "拆下助焊劑收集瓶與冷凝器，用專用溶劑清洗",
+    "kind": "key"
+   },
+   {
+    "text": "更換過濾網（型號 {filter}）並確認密封條無破損",
+    "kind": "key"
+   },
+   {
+    "text": "復電後空爐升溫，確認各溫區與排風正常才過板",
+    "kind": "key"
+   },
+   {
+    "text": "填寫回焊爐保養紀錄並清潔周邊工作區",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 0,
+   "text": "爐溫還在 {n_hot}°C 左右就可以直接開上蓋拆冷凝器，比較好清",
+   "remove": [
+    2
+   ]
+  },
+  "offtopic_pid": "p08",
+  "params": [
+   {
+    "line": "SMT-L1",
+    "machine": "HELLER-01",
+    "n": "50",
+    "filter": "FL-H300",
+    "n_hot": "180"
+   },
+   {
+    "line": "SMT-L3",
+    "machine": "BTU-02",
+    "n": "40",
+    "filter": "FL-B120",
+    "n_hot": "200"
+   },
+   {
+    "line": "SMT-L5",
+    "machine": "HELLER-04",
+    "n": "50",
+    "filter": "FL-H300",
+    "n_hot": "160"
+   },
+   {
+    "line": "SMT-L6",
+    "machine": "HELLER-02",
+    "n": "45",
+    "filter": "FL-H310",
+    "n_hot": "190"
+   },
+   {
+    "line": "SMT-L7",
+    "machine": "BTU-03",
+    "n": "40",
+    "filter": "FL-B125",
+    "n_hot": "220"
+   }
+  ]
+ },
+ {
+  "pid": "p07",
+  "question": "{line} {machine} 換機種要調軌道寬度，怎麼做？",
+  "steps": [
+   {
+    "text": "確認爐內與軌道上已無板子，暫停進板",
+    "kind": "safety"
+   },
+   {
+    "text": "在控制面板輸入新的軌道寬度 {n} mm",
+    "kind": "key"
+   },
+   {
+    "text": "待軌道移動完成後，手不可伸入入口，用空板從入口送入試過軌",
+    "kind": "safety"
+   },
+   {
+    "text": "確認板子兩側間隙約 {gap} mm，不卡板也不掉板",
+    "kind": "key"
+   },
+   {
+    "text": "確認寬度後啟動生產並監看前 {cnt} 片出爐狀況",
+    "kind": "key"
+   },
+   {
+    "text": "在換線紀錄表登錄軌寬設定",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 2,
+   "text": "軌道在動的時候直接把手伸進入口把板子推進去比較快確認",
+   "remove": []
+  },
+  "offtopic_pid": "p02",
+  "params": [
+   {
+    "line": "SMT-L2",
+    "machine": "HELLER-02",
+    "n": "150",
+    "gap": "0.5",
+    "cnt": "3"
+   },
+   {
+    "line": "SMT-L3",
+    "machine": "BTU-01",
+    "n": "200",
+    "gap": "1.0",
+    "cnt": "5"
+   },
+   {
+    "line": "SMT-L4",
+    "machine": "HELLER-03",
+    "n": "120",
+    "gap": "0.5",
+    "cnt": "3"
+   },
+   {
+    "line": "SMT-L6",
+    "machine": "BTU-02",
+    "n": "250",
+    "gap": "0.8",
+    "cnt": "5"
+   },
+   {
+    "line": "SMT-L8",
+    "machine": "HELLER-05",
+    "n": "180",
+    "gap": "1.0",
+    "cnt": "4"
+   }
+  ]
+ },
+ {
+  "pid": "p08",
+  "question": "{line} {machine} 要換吸嘴，步驟是什麼？",
+  "steps": [
+   {
+    "text": "按暫停並等待工作頭完全停止，開門前確認安全門聯鎖生效",
+    "kind": "safety"
+   },
+   {
+    "text": "取下舊吸嘴，核對新吸嘴型號 {nozzle}",
+    "kind": "key"
+   },
+   {
+    "text": "裝上新吸嘴並在吸嘴站完成登錄",
+    "kind": "key"
+   },
+   {
+    "text": "執行吸嘴檢查，確認真空值達 {n} kPa 以上、無偏心",
+    "kind": "key"
+   },
+   {
+    "text": "將舊吸嘴放回吸嘴盒並填寫更換紀錄",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 0,
+   "text": "不用停機，趁工作頭回原點的空檔直接伸手把吸嘴拔下來換",
+   "remove": [
+    1
+   ]
+  },
+  "offtopic_pid": "p22",
+  "params": [
+   {
+    "line": "SMT-L1",
+    "machine": "NXT-01",
+    "nozzle": "H08-1.0",
+    "n": "-60"
+   },
+   {
+    "line": "SMT-L2",
+    "machine": "NXT-04",
+    "nozzle": "H12-2.5",
+    "n": "-65"
+   },
+   {
+    "line": "SMT-L3",
+    "machine": "YSM-02",
+    "nozzle": "YS-71A",
+    "n": "-70"
+   },
+   {
+    "line": "SMT-L5",
+    "machine": "NXT-06",
+    "nozzle": "H08-0.7",
+    "n": "-62"
+   },
+   {
+    "line": "SMT-L7",
+    "machine": "YSM-03",
+    "nozzle": "YS-72A",
+    "n": "-68"
+   }
+  ]
+ },
+ {
+  "pid": "p09",
+  "question": "{line} 的 {machine} feeder 要清潔保養，怎麼做？",
+  "steps": [
+   {
+    "text": "確認該站位已停止供料，或整台停機後才拔出 feeder",
+    "kind": "safety"
+   },
+   {
+    "text": "戴上靜電手環，將 feeder 放到保養台並拆除料帶",
+    "kind": "safety"
+   },
+   {
+    "text": "用 IPA 擦拭齒輪、壓蓋與取料口，氣壓 {n} kg/cm² 氣槍吹除料屑",
+    "kind": "key"
+   },
+   {
+    "text": "檢查棘輪與彈簧有無磨損，必要時更換",
+    "kind": "key"
+   },
+   {
+    "text": "上 feeder 校正器確認取料位置偏差 ≤ {dev} mm",
+    "kind": "key"
+   },
+   {
+    "text": "貼上保養日期標籤並登錄 feeder 保養紀錄",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 0,
+   "text": "機台照常生產，直接把 feeder 從站位上拔下來清，清完再插回去",
+   "remove": []
+  },
+  "offtopic_pid": "p15",
+  "params": [
+   {
+    "line": "SMT-L1",
+    "machine": "NXT-02",
+    "n": "4",
+    "dev": "0.05"
+   },
+   {
+    "line": "SMT-L2",
+    "machine": "YSM-01",
+    "n": "5",
+    "dev": "0.1"
+   },
+   {
+    "line": "SMT-L4",
+    "machine": "NXT-05",
+    "n": "4",
+    "dev": "0.05"
+   },
+   {
+    "line": "SMT-L6",
+    "machine": "YSM-04",
+    "n": "3",
+    "dev": "0.08"
+   },
+   {
+    "line": "SMT-L8",
+    "machine": "NXT-03",
+    "n": "5",
+    "dev": "0.1"
+   }
+  ]
+ },
+ {
+  "pid": "p10",
+  "question": "{line} {machine} 快斷料了，要接料，步驟？",
+  "steps": [
+   {
+    "text": "戴上靜電手環，準備接料剪刀與接料片",
+    "kind": "safety"
+   },
+   {
+    "text": "掃描新料條碼，由系統比對料號與 BOM、站位 {slot} 是否一致",
+    "kind": "key"
+   },
+   {
+    "text": "確認新舊料帶 pitch 皆為 {n} mm，對齊孔位後貼上接料片",
+    "kind": "key"
+   },
+   {
+    "text": "確認接料處平整不翹起，重新裝回 feeder",
+    "kind": "key"
+   },
+   {
+    "text": "接料後第一片用 AOI 或目視確認該站位元件值與極性",
+    "kind": "key"
+   },
+   {
+    "text": "在接料紀錄寫上新料批號與時間",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 1,
+   "text": "料號前幾碼一樣就直接接上，不用掃描比對，趕快接比較不會停機",
+   "remove": []
+  },
+  "offtopic_pid": "p06",
+  "params": [
+   {
+    "line": "SMT-L1",
+    "machine": "NXT-01",
+    "slot": "1-12",
+    "n": "4"
+   },
+   {
+    "line": "SMT-L3",
+    "machine": "NXT-03",
+    "slot": "2-05",
+    "n": "2"
+   },
+   {
+    "line": "SMT-L4",
+    "machine": "YSM-02",
+    "slot": "3-18",
+    "n": "8"
+   },
+   {
+    "line": "SMT-L5",
+    "machine": "NXT-04",
+    "slot": "1-07",
+    "n": "4"
+   },
+   {
+    "line": "SMT-L7",
+    "machine": "YSM-05",
+    "slot": "2-22",
+    "n": "12"
+   }
+  ]
+ },
+ {
+  "pid": "p11",
+  "question": "{line} {machine} 新機種首件怎麼做？",
+  "steps": [
+   {
+    "text": "調整軌寬時等軌道停止，手不可伸入機台",
+    "kind": "safety"
+   },
+   {
+    "text": "載入程式 {prog}，核對版本號",
+    "kind": "key"
+   },
+   {
+    "text": "依站表逐站核對 feeder 料號",
+    "kind": "key"
+   },
+   {
+    "text": "打首件並送 AOI，用 LCR 量測 {n} 顆被動元件值",
+    "kind": "key"
+   },
+   {
+    "text": "首件合格才開始量產，不合格先修程式再重打",
+    "kind": "key"
+   },
+   {
+    "text": "填寫首件檢查紀錄並請 QE 簽核",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 4,
+   "text": "首件不用等 QE 確認，直接連續生產 {n_hot} 片再一起抽檢",
+   "remove": [
+    5
+   ]
+  },
+  "offtopic_pid": "p03",
+  "params": [
+   {
+    "line": "SMT-L2",
+    "machine": "NXT-02",
+    "prog": "PG-7712A",
+    "n": "10",
+    "n_hot": "200"
+   },
+   {
+    "line": "SMT-L3",
+    "machine": "YSM-03",
+    "prog": "PG-3380B",
+    "n": "15",
+    "n_hot": "300"
+   },
+   {
+    "line": "SMT-L5",
+    "machine": "NXT-05",
+    "prog": "PG-5021C",
+    "n": "20",
+    "n_hot": "500"
+   },
+   {
+    "line": "SMT-L6",
+    "machine": "YSM-01",
+    "prog": "PG-1190A",
+    "n": "12",
+    "n_hot": "150"
+   },
+   {
+    "line": "SMT-L8",
+    "machine": "NXT-06",
+    "prog": "PG-8843D",
+    "n": "8",
+    "n_hot": "400"
+   }
+  ]
+ },
+ {
+  "pid": "p12",
+  "question": "{line} {machine} 真空過濾網要更換，步驟？",
+  "steps": [
+   {
+    "text": "關閉主電源並上鎖掛牌（LOTO）",
+    "kind": "safety"
+   },
+   {
+    "text": "關閉主氣閥並洩壓，確認氣壓表歸零",
+    "kind": "safety"
+   },
+   {
+    "text": "拆下舊過濾網並檢查濾杯內有無積水、髒污",
+    "kind": "key"
+   },
+   {
+    "text": "裝上新過濾網（型號 {filter}），鎖緊濾杯",
+    "kind": "key"
+   },
+   {
+    "text": "復電復氣後確認真空度達 {n} kPa，執行吸嘴真空檢查",
+    "kind": "key"
+   },
+   {
+    "text": "填寫保養紀錄，舊濾網依規定丟棄",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 0,
+   "text": "只要按暫停就好，不用關主電源也不用掛牌，換很快",
+   "remove": []
+  },
+  "offtopic_pid": "p13",
+  "params": [
+   {
+    "line": "SMT-L1",
+    "machine": "NXT-03",
+    "filter": "VF-200",
+    "n": "-80"
+   },
+   {
+    "line": "SMT-L2",
+    "machine": "YSM-02",
+    "filter": "VF-310",
+    "n": "-75"
+   },
+   {
+    "line": "SMT-L4",
+    "machine": "NXT-01",
+    "filter": "VF-200",
+    "n": "-85"
+   },
+   {
+    "line": "SMT-L6",
+    "machine": "YSM-04",
+    "filter": "VF-315",
+    "n": "-78"
+   },
+   {
+    "line": "SMT-L7",
+    "machine": "NXT-05",
+    "filter": "VF-220",
+    "n": "-82"
+   }
+  ]
+ },
+ {
+  "pid": "p13",
+  "question": "{line} {machine} 鋼網底部自動擦拭要怎麼設定和補料？",
+  "steps": [
+   {
+    "text": "戴丁腈手套與口罩，確認附近無火源再補充 IPA 溶劑",
+    "kind": "safety"
+   },
+   {
+    "text": "更換擦拭紙卷並確認張力與走紙正常",
+    "kind": "key"
+   },
+   {
+    "text": "補充溶劑至液位線，確認噴嘴不堵塞",
+    "kind": "key"
+   },
+   {
+    "text": "設定每 {n} 片擦拭一次，模式為濕擦＋乾擦＋真空",
+    "kind": "key"
+   },
+   {
+    "text": "試印一片確認擦拭後網孔乾淨",
+    "kind": "key"
+   },
+   {
+    "text": "填寫擦拭耗材更換紀錄",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 3,
+   "text": "擦拭頻率調成每 {n_hot} 片擦一次就好，省擦拭紙",
+   "remove": []
+  },
+  "offtopic_pid": "p19",
+  "params": [
+   {
+    "line": "SMT-L1",
+    "machine": "DEK-01",
+    "n": "5",
+    "n_hot": "100"
+   },
+   {
+    "line": "SMT-L3",
+    "machine": "MPM-02",
+    "n": "3",
+    "n_hot": "80"
+   },
+   {
+    "line": "SMT-L4",
+    "machine": "DEK-03",
+    "n": "8",
+    "n_hot": "150"
+   },
+   {
+    "line": "SMT-L5",
+    "machine": "MPM-01",
+    "n": "4",
+    "n_hot": "120"
+   },
+   {
+    "line": "SMT-L8",
+    "machine": "DEK-05",
+    "n": "6",
+    "n_hot": "200"
+   }
+  ]
+ },
+ {
+  "pid": "p14",
+  "question": "{line} {machine} 刮刀要更換，步驟？",
+  "steps": [
+   {
+    "text": "停機並確認刮刀頭停止，戴防割手套再拆刮刀",
+    "kind": "safety"
+   },
+   {
+    "text": "拆下舊刮刀，檢查刀口有無缺口、彎曲",
+    "kind": "key"
+   },
+   {
+    "text": "裝上長度 {len} mm 的新刮刀，確認左右水平",
+    "kind": "key"
+   },
+   {
+    "text": "設定刮刀壓力 {n} kg、速度 {speed} mm/s",
+    "kind": "key"
+   },
+   {
+    "text": "試印一片送 SPI 確認錫膏量",
+    "kind": "key"
+   },
+   {
+    "text": "填寫刮刀更換紀錄並清潔工作台",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 0,
+   "text": "刮刀直接徒手拆就好，不用停機，刮刀頭停在後方時換",
+   "remove": [
+    1
+   ]
+  },
+  "offtopic_pid": "p23",
+  "params": [
+   {
+    "line": "SMT-L2",
+    "machine": "DEK-02",
+    "len": "300",
+    "n": "6",
+    "speed": "40"
+   },
+   {
+    "line": "SMT-L3",
+    "machine": "MPM-01",
+    "len": "350",
+    "n": "7",
+    "speed": "50"
+   },
+   {
+    "line": "SMT-L5",
+    "machine": "DEK-04",
+    "len": "400",
+    "n": "8",
+    "speed": "60"
+   },
+   {
+    "line": "SMT-L6",
+    "machine": "MPM-03",
+    "len": "250",
+    "n": "5",
+    "speed": "45"
+   },
+   {
+    "line": "SMT-L7",
+    "machine": "DEK-01",
+    "len": "450",
+    "n": "6.5",
+    "speed": "55"
+   }
+  ]
+ },
+ {
+  "pid": "p15",
+  "question": "{line} {machine} SPI 誤判太多，要怎麼調程式？",
+  "steps": [
+   {
+    "text": "調整前按停止，確認輸送軌道停止再開蓋取板",
+    "kind": "safety"
+   },
+   {
+    "text": "查看誤判點位，比對 Gerber 與鋼網開孔是否一致",
+    "kind": "key"
+   },
+   {
+    "text": "依規格設定體積上下限為 {n_lo}%–{n}%",
+    "kind": "key"
+   },
+   {
+    "text": "用標準板重測確認量測穩定",
+    "kind": "key"
+   },
+   {
+    "text": "修改前後參數存檔，通知 QE 確認",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 2,
+   "text": "誤判太多的話直接把體積下限放寬到 {n_hot}%，就不會一直叫",
+   "remove": []
+  },
+  "offtopic_pid": "p10",
+  "params": [
+   {
+    "line": "SMT-L1",
+    "machine": "KY-SPI-01",
+    "n_lo": "50",
+    "n": "150",
+    "n_hot": "10"
+   },
+   {
+    "line": "SMT-L2",
+    "machine": "KY-SPI-02",
+    "n_lo": "60",
+    "n": "160",
+    "n_hot": "15"
+   },
+   {
+    "line": "SMT-L4",
+    "machine": "KY-SPI-03",
+    "n_lo": "55",
+    "n": "150",
+    "n_hot": "20"
+   },
+   {
+    "line": "SMT-L6",
+    "machine": "KY-SPI-04",
+    "n_lo": "65",
+    "n": "170",
+    "n_hot": "5"
+   },
+   {
+    "line": "SMT-L8",
+    "machine": "KY-SPI-05",
+    "n_lo": "50",
+    "n": "180",
+    "n_hot": "10"
+   }
+  ]
+ },
+ {
+  "pid": "p16",
+  "question": "{line} {machine} AOI 要做光源校正，步驟？",
+  "steps": [
+   {
+    "text": "停止輸送並確認軌道無板，再打開上蓋",
+    "kind": "safety"
+   },
+   {
+    "text": "放上原廠校正板並確認平貼、無髒污",
+    "kind": "key"
+   },
+   {
+    "text": "執行光源與色彩校正程序",
+    "kind": "key"
+   },
+   {
+    "text": "確認各通道灰階值落在 {n} ±{tol} 之內",
+    "kind": "key"
+   },
+   {
+    "text": "用 golden sample 跑一次確認判定正常",
+    "kind": "key"
+   },
+   {
+    "text": "填寫 AOI 校正紀錄",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 0,
+   "text": "不用停輸送，趁兩片板子之間的空檔直接打開上蓋把校正板放上去",
+   "remove": [
+    1
+   ]
+  },
+  "offtopic_pid": "p02",
+  "params": [
+   {
+    "line": "SMT-L1",
+    "machine": "AOI-01",
+    "n": "128",
+    "tol": "5"
+   },
+   {
+    "line": "SMT-L3",
+    "machine": "AOI-02",
+    "n": "120",
+    "tol": "5"
+   },
+   {
+    "line": "SMT-L5",
+    "machine": "AOI-03",
+    "n": "135",
+    "tol": "8"
+   },
+   {
+    "line": "SMT-L6",
+    "machine": "AOI-04",
+    "n": "128",
+    "tol": "6"
+   },
+   {
+    "line": "SMT-L7",
+    "machine": "AOI-05",
+    "n": "125",
+    "tol": "4"
+   }
+  ]
+ },
+ {
+  "pid": "p17",
+  "question": "{line} AOI 抓到橋接，要用 {machine} 手焊修補，怎麼做？",
+  "steps": [
+   {
+    "text": "戴護目鏡並開啟煙霧抽風機",
+    "kind": "safety"
+   },
+   {
+    "text": "烙鐵溫度設定 {n}°C，確認烙鐵頭已上錫",
+    "kind": "key"
+   },
+   {
+    "text": "在橋接處塗助焊劑，用吸錫線或烙鐵拉開錫橋",
+    "kind": "key"
+   },
+   {
+    "text": "用 IPA 清潔殘留助焊劑",
+    "kind": "key"
+   },
+   {
+    "text": "修補後重新過 AOI 或 {mag} 倍放大鏡目檢確認",
+    "kind": "key"
+   },
+   {
+    "text": "登錄維修紀錄（板號、位置、不良原因）",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 1,
+   "text": "烙鐵溫度調到 {n_hot}°C，一下就能把錫拉開",
+   "remove": []
+  },
+  "offtopic_pid": "p07",
+  "params": [
+   {
+    "line": "SMT-L1",
+    "machine": "烙鐵 HK-936-01",
+    "n": "350",
+    "mag": "10",
+    "n_hot": "480"
+   },
+   {
+    "line": "SMT-L2",
+    "machine": "烙鐵 HK-936-03",
+    "n": "340",
+    "mag": "10",
+    "n_hot": "450"
+   },
+   {
+    "line": "SMT-L4",
+    "machine": "烙鐵 JBC-02",
+    "n": "360",
+    "mag": "20",
+    "n_hot": "500"
+   },
+   {
+    "line": "SMT-L5",
+    "machine": "烙鐵 HK-936-05",
+    "n": "330",
+    "mag": "15",
+    "n_hot": "460"
+   },
+   {
+    "line": "SMT-L8",
+    "machine": "烙鐵 JBC-01",
+    "n": "350",
+    "mag": "10",
+    "n_hot": "470"
+   }
+  ]
+ },
+ {
+  "pid": "p18",
+  "question": "{line} {machine} 印錯的板子要清洗重工，步驟？",
+  "steps": [
+   {
+    "text": "戴手套與護目鏡，在通風處作業",
+    "kind": "safety"
+   },
+   {
+    "text": "用塑膠刮刀輕刮除大部分錫膏，不可刮傷焊墊",
+    "kind": "key"
+   },
+   {
+    "text": "放入清洗機清洗 {n} 分鐘",
+    "kind": "key"
+   },
+   {
+    "text": "用 {mag} 倍放大鏡檢查焊墊與通孔無殘留錫球",
+    "kind": "key"
+   },
+   {
+    "text": "充分乾燥後才重新印刷",
+    "kind": "key"
+   },
+   {
+    "text": "板子貼上重工標示並登錄",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 3,
+   "text": "用金屬刮刀刮乾淨後壓縮空氣吹一吹就可以直接重新印",
+   "remove": [
+    1,
+    2,
+    4
+   ]
+  },
+  "offtopic_pid": "p20",
+  "params": [
+   {
+    "line": "SMT-L2",
+    "machine": "DEK-02",
+    "n": "10",
+    "mag": "10"
+   },
+   {
+    "line": "SMT-L3",
+    "machine": "MPM-01",
+    "n": "15",
+    "mag": "20"
+   },
+   {
+    "line": "SMT-L4",
+    "machine": "DEK-03",
+    "n": "8",
+    "mag": "10"
+   },
+   {
+    "line": "SMT-L6",
+    "machine": "MPM-02",
+    "n": "12",
+    "mag": "15"
+   },
+   {
+    "line": "SMT-L7",
+    "machine": "DEK-05",
+    "n": "10",
+    "mag": "10"
+   }
+  ]
+ },
+ {
+  "pid": "p19",
+  "question": "{line} {machine} 要切換氮氣回焊，步驟？",
+  "steps": [
+   {
+    "text": "確認廠區排風與氧氣濃度偵測器正常，避免氮氣窒息",
+    "kind": "safety"
+   },
+   {
+    "text": "開啟氮氣，流量設定 {flow} L/min",
+    "kind": "key"
+   },
+   {
+    "text": "等待爐內氧含量降到 {n} ppm 以下",
+    "kind": "key"
+   },
+   {
+    "text": "確認氧含量穩定後才過板",
+    "kind": "key"
+   },
+   {
+    "text": "記錄氧含量與氮氣流量",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 2,
+   "text": "氧含量還在 {n_hot} ppm 就可以先過板，邊跑邊降",
+   "remove": [
+    3
+   ]
+  },
+  "offtopic_pid": "p11",
+  "params": [
+   {
+    "line": "SMT-L1",
+    "machine": "HELLER-01",
+    "flow": "300",
+    "n": "1000",
+    "n_hot": "20000"
+   },
+   {
+    "line": "SMT-L3",
+    "machine": "HELLER-03",
+    "flow": "350",
+    "n": "800",
+    "n_hot": "50000"
+   },
+   {
+    "line": "SMT-L5",
+    "machine": "BTU-02",
+    "flow": "400",
+    "n": "500",
+    "n_hot": "30000"
+   },
+   {
+    "line": "SMT-L7",
+    "machine": "HELLER-04",
+    "flow": "320",
+    "n": "1000",
+    "n_hot": "40000"
+   },
+   {
+    "line": "SMT-L8",
+    "machine": "BTU-01",
+    "flow": "380",
+    "n": "700",
+    "n_hot": "25000"
+   }
+  ]
+ },
+ {
+  "pid": "p20",
+  "question": "{line} {machine} XY 軸要做潤滑保養，步驟？",
+  "steps": [
+   {
+    "text": "關主電源並上鎖掛牌（LOTO）",
+    "kind": "safety"
+   },
+   {
+    "text": "擦除導軌與滾珠螺桿上的舊油與粉塵",
+    "kind": "key"
+   },
+   {
+    "text": "使用指定潤滑脂 {grease}，每軸塗抹約 {n} g",
+    "kind": "key"
+   },
+   {
+    "text": "復電後手動低速跑軸 {cycles} 次讓油脂均勻",
+    "kind": "key"
+   },
+   {
+    "text": "清潔機台內部並填寫保養紀錄",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 0,
+   "text": "開著電用手推動工作頭就好，不用斷電掛牌，推得動比較好上油",
+   "remove": [
+    3
+   ]
+  },
+  "offtopic_pid": "p04",
+  "params": [
+   {
+    "line": "SMT-L1",
+    "machine": "NXT-01",
+    "grease": "THK AFB-LF",
+    "n": "2",
+    "cycles": "5"
+   },
+   {
+    "line": "SMT-L2",
+    "machine": "YSM-02",
+    "grease": "LUBE MP-2",
+    "n": "3",
+    "cycles": "10"
+   },
+   {
+    "line": "SMT-L4",
+    "machine": "NXT-04",
+    "grease": "THK AFB-LF",
+    "n": "2",
+    "cycles": "5"
+   },
+   {
+    "line": "SMT-L5",
+    "machine": "YSM-03",
+    "grease": "LUBE MP-2",
+    "n": "1.5",
+    "cycles": "8"
+   },
+   {
+    "line": "SMT-L6",
+    "machine": "NXT-06",
+    "grease": "THK AFE-CA",
+    "n": "2.5",
+    "cycles": "6"
+   }
+  ]
+ },
+ {
+  "pid": "p21",
+  "question": "{line} {machine} 印刷偏移，要做相機校正，步驟？",
+  "steps": [
+   {
+    "text": "停機並確認刮刀與平台停止後再打開護蓋",
+    "kind": "safety"
+   },
+   {
+    "text": "放上校正玻璃片並固定",
+    "kind": "key"
+   },
+   {
+    "text": "執行相機校正程序，確認偏差 ≤ {n} μm",
+    "kind": "key"
+   },
+   {
+    "text": "試印一片送 SPI 確認偏移量 ≤ {off} μm",
+    "kind": "key"
+   },
+   {
+    "text": "填寫校正紀錄並通知線長",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 0,
+   "text": "不停機，印刷中直接把校正片放到平台上跑校正",
+   "remove": [
+    1
+   ]
+  },
+  "offtopic_pid": "p24",
+  "params": [
+   {
+    "line": "SMT-L2",
+    "machine": "DEK-01",
+    "n": "10",
+    "off": "25"
+   },
+   {
+    "line": "SMT-L3",
+    "machine": "MPM-02",
+    "n": "12",
+    "off": "30"
+   },
+   {
+    "line": "SMT-L4",
+    "machine": "DEK-04",
+    "n": "8",
+    "off": "20"
+   },
+   {
+    "line": "SMT-L6",
+    "machine": "MPM-03",
+    "n": "15",
+    "off": "35"
+   },
+   {
+    "line": "SMT-L8",
+    "machine": "DEK-02",
+    "n": "10",
+    "off": "25"
+   }
+  ]
+ },
+ {
+  "pid": "p22",
+  "question": "{line} {machine} 鋼網上的錫膏快用完，要添加，怎麼做？",
+  "steps": [
+   {
+    "text": "戴丁腈手套",
+    "kind": "safety"
+   },
+   {
+    "text": "確認新錫膏已回溫並攪拌完成、在開封有效時間內",
+    "kind": "key"
+   },
+   {
+    "text": "每次添加約 {n} g，維持錫膏滾動直徑約 {roll} mm",
+    "kind": "key"
+   },
+   {
+    "text": "鋼網上的錫膏超過 {hrs} 小時需回收，不可與新錫膏混用",
+    "kind": "key"
+   },
+   {
+    "text": "記錄添加時間與錫膏批號",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 3,
+   "text": "把前一天鋼網上剩下的舊錫膏跟新的混在一起加上去，不要浪費",
+   "remove": []
+  },
+  "offtopic_pid": "p16",
+  "params": [
+   {
+    "line": "SMT-L1",
+    "machine": "DEK-01",
+    "n": "100",
+    "roll": "15",
+    "hrs": "8"
+   },
+   {
+    "line": "SMT-L3",
+    "machine": "MPM-01",
+    "n": "150",
+    "roll": "12",
+    "hrs": "12"
+   },
+   {
+    "line": "SMT-L5",
+    "machine": "DEK-03",
+    "n": "200",
+    "roll": "15",
+    "hrs": "8"
+   },
+   {
+    "line": "SMT-L6",
+    "machine": "MPM-02",
+    "n": "120",
+    "roll": "20",
+    "hrs": "24"
+   },
+   {
+    "line": "SMT-L7",
+    "machine": "DEK-04",
+    "n": "180",
+    "roll": "18",
+    "hrs": "12"
+   }
+  ]
+ },
+ {
+  "pid": "p23",
+  "question": "{line} {machine} 防潮箱濕度異常，怎麼處理？",
+  "steps": [
+   {
+    "text": "處理元件時戴靜電手環",
+    "kind": "safety"
+   },
+   {
+    "text": "確認濕度顯示值，正常應 ≤ {n}%RH",
+    "kind": "key"
+   },
+   {
+    "text": "檢查門封條與除濕模組，濕度異常的元件移到備用防潮箱",
+    "kind": "key"
+   },
+   {
+    "text": "依暴露時間判斷 MSD 是否需烘烤",
+    "kind": "key"
+   },
+   {
+    "text": "貼上異常標示並通知 QE",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 3,
+   "text": "濕度 {n_hot}%RH 也沒關係，元件繼續放在裡面照常上線",
+   "remove": [
+    1,
+    2,
+    4
+   ]
+  },
+  "offtopic_pid": "p21",
+  "params": [
+   {
+    "line": "SMT-L1",
+    "machine": "防潮箱 DC-01",
+    "n": "10",
+    "n_hot": "40"
+   },
+   {
+    "line": "SMT-L2",
+    "machine": "防潮箱 DC-03",
+    "n": "5",
+    "n_hot": "35"
+   },
+   {
+    "line": "SMT-L4",
+    "machine": "防潮箱 DC-02",
+    "n": "10",
+    "n_hot": "50"
+   },
+   {
+    "line": "SMT-L5",
+    "machine": "防潮箱 DC-05",
+    "n": "5",
+    "n_hot": "45"
+   },
+   {
+    "line": "SMT-L8",
+    "machine": "防潮箱 DC-04",
+    "n": "10",
+    "n_hot": "60"
+   }
+  ]
+ },
+ {
+  "pid": "p24",
+  "question": "{line} {machine} 拋料率太高，怎麼處理？",
+  "steps": [
+   {
+    "text": "停機並確認工作頭停止後再開門檢查",
+    "kind": "safety"
+   },
+   {
+    "text": "調出拋料報表，找出拋料率超過 {n}% 的站位與吸嘴",
+    "kind": "key"
+   },
+   {
+    "text": "檢查該吸嘴有無堵塞或磨損，必要時更換",
+    "kind": "key"
+   },
+   {
+    "text": "檢查 feeder 送料與取料位置，必要時校正",
+    "kind": "key"
+   },
+   {
+    "text": "復機後監看拋料率回到 {n} % 以下",
+    "kind": "key"
+   },
+   {
+    "text": "通知線長並填寫異常紀錄",
+    "kind": "minor"
+   }
+  ],
+  "danger": {
+   "step_index": 0,
+   "text": "不用停機，開著門直接伸手進去看吸嘴和 feeder",
+   "remove": []
+  },
+  "offtopic_pid": "p18",
+  "params": [
+   {
+    "line": "SMT-L2",
+    "machine": "NXT-02",
+    "n": "0.3"
+   },
+   {
+    "line": "SMT-L3",
+    "machine": "YSM-01",
+    "n": "0.5"
+   },
+   {
+    "line": "SMT-L5",
+    "machine": "NXT-03",
+    "n": "0.2"
+   },
+   {
+    "line": "SMT-L6",
+    "machine": "YSM-05",
+    "n": "0.5"
+   },
+   {
+    "line": "SMT-L7",
+    "machine": "NXT-04",
+    "n": "0.3"
+   }
+  ]
+ }
+]

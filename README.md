@@ -9,9 +9,9 @@
 
 ## 1. 一句話
 
-值得做、用現有的 Gemma 4 26B-A4B 自己做、不採購 Jev。十類題七類零標註 ≥ 98%；弱的三類靠改寫判斷標準與幾十筆校準；一次判斷 L4 上 0.2 秒（共用現場狀況 0.07 秒）。推理引擎 llama-server 與 SGLang 都可用，SGLang 批次快 5 倍，前提是 prompt 帶 `<bos>`。八輪實驗約 8.9 GPU 小時、約 $15。在 JevBench 公開子集自跑 88.7%，高於同派的 Cygnet 與訓練過的 Open-Jev。
+值得做、用現有的 Gemma 4 26B-A4B 自己做、不採購 Jev。十類題七類零標註 ≥ 98%；弱的三類靠改寫判斷標準與幾十筆校準；一次判斷 L4 上 0.2 秒（共用現場狀況 0.07 秒）。推理引擎 llama-server 與 SGLang 都可用，SGLang 批次快 5 倍，前提是 prompt 帶 `<bos>`。九輪實驗約 10 GPU 小時、約 $17。在 JevBench 公開子集自跑 88.7%，高於同派的 Cygnet 與訓練過的 Open-Jev。
 
-## 2. 走到哪裡了（八輪，每輪先寫門檻再跑）
+## 2. 走到哪裡了（九輪，每輪先寫門檻再跑）
 
 | 輪 | 交接文件 | 問的問題 | 答案 | 結果檔 |
 |---|---|---|---|---|
@@ -22,7 +22,8 @@
 | v5 | `handoff-v5-typellm.md` | TypeLLM 的技巧有用嗎？ | JSON prefill +1.3 點、順序平均 −1.3 點，都沒過；量到弱題順序敏感度 21% / 19%；加了標籤自檢與驗證腳本 | `08-typellm-followups.md`、`verify.md` |
 | v6 | `handoff-v6-sglang-stability.md` | SGLang 掉分的真正原因？ | 差在第 0 個 token：llama-server 加 `<bos>`、SGLang 不加。餵同樣 id 後 0.958 vs 0.959；補 `<bos>` + 批次不變旗標重跑一致率 99.85% → SGLang 回到候選 | `09-sglang-stability.md` |
 | v8 | `handoff-v8-jevbench.md` | 同一把尺：JevBench 公開 231 題自跑（不排名） | 26B **88.7%**（hard 77.5%），高於 Cygnet 87.9、Open-Jev 85.3、TypeLLM 84.4；E4B 78.8%；合成資料的溫度搬過去 ECE 0.093 → 0.044 | `13-jevbench.md`、`data/jevbench/` |
-| v7 | `handoff-v7-borrowed.md` | 三十幾個開源替代品有什麼可抄？ | conformal 門檻 + lock 檔（採用，`--check-lock` 抓到換錯引擎 10 項）、option mass 模板檢查（採用）、packed readout（不採用：後面的題翻 11–13%） | `11-*.md`、`12-packed.md`、`thresholds.lock.json` |
+| v7 | `handoff-v7-borrowed.md` | 三十幾個開源替代品有什麼可抄？ | 錯誤預算門檻 + lock 檔（採用；方法 v9 修正，`--check-lock` 抓到換錯引擎 7 項）、option mass 模板檢查（採用）、packed readout（不採用：後面的題翻 11–13%） | `11-*.md`、`12-packed.md`、`thresholds.lock.json` |
+| v9 | `handoff-v9-nine-places.md` | ByteByteGo 九格裡沒測過的四格 + 三段式門檻 | 護欄（26B 攔 96%，誤擋 5%）、LLM 評分（99.7%）、三段式門檻（11/12）成立；工具守門 90%（數字與範圍交給規則）、重排序 nDCG@5 0.84（差 0.01）沒過；修正 v7 門檻方法 | `14-nine-places.md`、`data/v9/` |
 
 ## 3. 效果多好（D0 test 每 task 100 筆，L4 / L40S）
 
@@ -31,7 +32,7 @@
 | JevBench 公開 231 題（self-run） | 88.7%，hard 77.5% | Cygnet 87.9、Open-Jev-27B 85.3、TypeLLM 84.4（各自自跑）；不是官方排名 |
 | 零標註 ≥ 0.98 的 task | 7 / 10 | `m_alarm_category`、`m_needs_dispatch`、`q_defect_root`、`p_line_change`、`x_ticket_route`、`x_escalate`、`x_10way_intent` |
 | 三類弱題（改寫標準後） | 急迫度 0.885、SPC 0.95、UPH 0.93 | 錯集中在相鄰等級；UPH 該用公式 |
-| 5% 錯誤預算下強題 coverage | 0.91–1.00，實際錯 0–3.3% | conformal，保證在 8/10 task 成立（`11-thresholds.md`） |
+| 5% 錯誤預算下強題 coverage | 0.98–1.00，實際錯 0–2% | 選擇性風險控制，10/10 類守住；急迫度做不到就不自動（`11-thresholds.md`，v9 修正 v7 的方法） |
 | 單題 p50 | L4 137 ms（`--swa-full`）、L40S 61 ms | 生成 JSON 對照 496 ms |
 | 共用 state 問 10 / 16 題 | L4 每題 73 ms；L40S llama 813 ms vs SGLang 217 ms（K=16） | SGLang 要帶 `<bos>` |
 | E4B 級聯（門檻 0.999） | acc 0.952 vs 全 26B 0.955，34% 送 26B | 平均延遲 −20% |
@@ -63,9 +64,10 @@ python3 bench/verify.py && python3 bench/thresholds.py && python3 bench/verify.p
 - `modal_app.py` llama-server 入口（`MODELS`：26b UD-Q4_K_M / q8 / bf16 / e4b / e2b）；`modal_sglang.py` SGLang 入口（fp8 / bf16，L40S 需自帶 fused-MoE Triton 設定檔）
 - `decide/` `prompt.py`（模板：`/apply-template` 學來，或 SGLang 用的 `GEMMA4_TEMPLATE_NOTHINK_BOS`；T1 變體）、`client.py`（llama `/completion`；SGLang `/generate` 指定 token id / `input_ids`；每次回傳 `option_mass`）、`labels.py`（字母單 token 自檢）
 - `data/` `seeds/`、`gen/`、`hard/`、`rules/`、`synthetic/`（D0 + MANIFEST + SPOTCHECK）、`heldout/`、`perturbed/`（D1）、`blind/`（Gemini 盲寫 D2）、`tokenized/`（llama-server 切好的 token id）
-- `bench/` `run_local.py`（GB10 本機跑）、`smoke*.py`、`latency.py`、`accuracy.py`、`permute.py`、`packed.py`、`v4bench.py`、`jevbench.py`、`tokenize_dump.py`、`option_mass.py`、`thresholds.py`、`analyze*.py`（v2 / ladder / v4–v8）、`verify.py`（含 `--check-lock`）、`render_html_report.py`
+- `bench/` `run_local.py`（GB10 本機跑）、`rerank.py`、`smoke*.py`、`latency.py`、`accuracy.py`、`permute.py`、`packed.py`、`v4bench.py`、`jevbench.py`、`tokenize_dump.py`、`option_mass.py`、`thresholds.py`、`analyze*.py`（v2 / ladder / v4–v9）、`verify.py`（含 `--check-lock`）、`render_html_report.py`
+- `data/v9/` 護欄、工具守門、評分、重排序四份資料（產生器、抽查、Gemini 盲寫外部題）
 - `data/jevbench/` JevBench 公開 231 題（MIT，釘版）；`third_party/jevbench/` 評分 harness（MIT）
-- `results/` 分項報告 `00`–`13`、`REPORT.md`、`cost.md`、`thresholds.lock.json`、`fig/`、`modal/`（原始 logprobs）
+- `results/` 分項報告 `00`–`14`、`REPORT.md`、`cost.md`、`thresholds.lock.json`、`fig/`、`modal/`（原始 logprobs）
 
 ### 踩過的坑（接 GB10 時先看）
 
@@ -89,8 +91,8 @@ Jev（TypeSafe，2026-09-15）發表後兩週，開源替代品三十幾個，�
 
 **借鏡了什麼，結果如何**：留下的四件是 conformal 門檻 + lock 檔（v7 P3）、option mass 模板檢查（P2）、標籤自檢與驗證腳本（v5 T0）、指定 token 讀機率（T4）；不留的三件是 JSON prefill（+1 點）、順序平均（−1 點）、packed readout（後面的題翻 11–13%）。
 
-**ByteByteGo「九個使用位置」逐格對照**（`results/10-landscape.md` §8，含原圖）：實測過五格（路由、分流、大量標註、即時、信心門檻）、同形題兩格（工具守門、LLM 評分）、未測兩格（護欄、重排序）。方向全部成立；要改兩處：信心門檻 0.9 / 0.5 不能照抄，要用資料反推並鎖檔；重排序要逐段讀、不要打包。
+**ByteByteGo「九個使用位置」逐格對照**（`results/10-landscape.md` §8，含原圖；v9 補測後九格全測）：成立七格，工具守門與重排序沒過但原因明確。要改兩處：信心門檻 0.9 / 0.5 不能照抄，要用資料反推並鎖檔；重排序要逐段讀、不要打包。
 
-補測計劃：`docs/handoff-v9-nine-places.md`（護欄、工具守門、重排序、LLM 評分四格補成實測，加三段式信心門檻；GPU < $2）。
+補測結果：`results/14-nine-places.md`（計劃 `docs/handoff-v9-nine-places.md`）。
 
 **我們比別人多做的**：Gemma 4 的正確模板（空 thought channel、`<bos>`），沒有任何專案寫到；題目簡單還是模型強的階梯；兩個後端同題對照；每輪預先登記門檻、held-out 驗證、獨立抽查。

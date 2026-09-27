@@ -81,7 +81,7 @@ python3 bench/run_local.py --which v4bench --backend sglang --base-url http://12
    `thresholds.lock.json` 可以進 repo（只有門檻與筆數）；原始 logprobs 不行。
 4. 門檻（pre-registered）：
    - 零標註 test acc：預期比合成資料低 5–15 點；**< 0.80 的 task 不上線**，回報是題目（標準）還是資料（標籤品質）問題。
-   - conformal ε=5%：保證成立的 task ≥ 上線 task 數的 80%；強題 coverage ≥ 0.90。
+   - 錯誤預算 ε=5%（`thresholds.py` 的選擇性風險控制）：守住預算的 task ≥ 上線 task 數的 80%；強題 coverage ≥ 0.90。做不到的 task 不自動，全部送確認。
    - 順序敏感度：用 `bench/permute.py`（`--perms 4` 即可）量一次，≥ 20% 的 task 上線時選項順序寫死並在 REPORT 註明。
    - 級聯：若 E4B 也跑了真實資料，用 `bench/analyze_ladder.py` 的 cascade 邏輯重算門檻；沒跑就維持「六類 26B、四類 E4B」的查表。
 5. 每三個月或模型檔更換時：`python3 bench/verify.py --check-lock /secure/gb10-real/accuracy-<新>`，失敗就重校準。
@@ -91,7 +91,7 @@ python3 bench/run_local.py --which v4bench --backend sglang --base-url http://12
 REPORT.md 要改的地方，一條一條對：
 - §0 一句話：把「L4 上界」的延遲換成 GB10 實測；加一句真實資料上的零標註 acc 與 5% 預算下的 coverage。
 - §2 Q1 / Q3 / Q4：延遲表加 GB10 欄，L4 欄保留當對照。
-- §2 Q6：換成真實資料的 conformal 表（`11-thresholds.md` 的格式），合成資料版移到附註。
+- §2 Q6：換成真實資料的錯誤預算門檻表（`11-thresholds.md` 的格式），合成資料版移到附註。
 - §3d 後端選擇：填 L5 判定與 SGLang 是否進即時層。
 - §4 限制：刪掉第 1（L4 上界）、3（aarch64 未驗證）、4（校準只有 100 筆）條，補上真實資料的限制（筆數、標註者、時間範圍）。
 - §5 接回 GB10：全部打勾或改成「未做，原因」。

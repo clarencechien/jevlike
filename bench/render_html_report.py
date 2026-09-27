@@ -57,9 +57,12 @@ V8 = json.load(open(os.path.join(ROOT, "results/v8.json")))
 import base64 as _b64
 BBG_IMG = "data:image/jpeg;base64," + _b64.b64encode(open(os.path.join(ROOT, "results/fig/bytebytego-top9-jev.jpg"), "rb").read()).decode()
 JB26 = V8["arms"]["26B raw"]; JBE4 = V8["arms"]["E4B raw"]
+V9 = json.load(open(os.path.join(ROOT, "results/v9.json")))
+G9 = V9["G"]["models"]; T9 = V9["T"]["models"]; E9 = V9["E"]["models"]; R9 = V9["R"]["rankers"]; C9 = V9["C9"]["tasks"]
 THR = V7["thresholds"]["lock"]["tasks"]
 STRONG7 = ["m_alarm_category", "m_needs_dispatch", "q_defect_root", "p_line_change", "x_ticket_route", "x_escalate", "x_10way_intent"]
 cov5 = [THR[t]["eps"]["0.05"]["coverage_test"] for t in STRONG7]; err5 = [THR[t]["eps"]["0.05"]["error_test"] for t in STRONG7]
+ok5 = sum(1 for t in THR.values() if t["eps"]["0.05"]["guarantee_holds"])
 V4G = V4["gates"]; V4B = V4["bf16"]
 V4S = {arm: json.load(open(os.path.join(ROOT, "results/modal/v4bench", f)))["results"] for arm, f in (("A1", "q8/v4.json"), ("B1", "sglang/v4.json"))}
 for arm, alt in (("A1", "q8/v4_L4seq.json"), ("B1", "sglang/v4_L4warm.json")):  # best L4 mode per arm, as in analyze_v4
@@ -298,9 +301,9 @@ page = f"""<!doctype html>
 
 <main class="report">
 
-  <p class="eyebrow">判定備忘 · Jev 式決策層 · 2026-09-23 起、八輪實驗 · 更新 2026-09-26</p>
+  <p class="eyebrow">判定備忘 · Jev 式決策層 · 2026-09-23 起、九輪實驗 · 更新 2026-09-27</p>
   <h1 class="display">Jev 式決策，<br>值得做，<br>而且<em>不用買</em></h1>
-  <p class="lede">用我們已經部署的 Gemma 4 26B，加一層「只從固定選項裡選答案、不寫文章」的決策 API。十類產線判斷題有七類不用任何標註就能上線，每次判斷約 0.2 秒。八輪驗證（含小模型對照、換引擎、追查掉分原因、借鏡他人做法、跑公開考卷）合計約十五美元的雲端 GPU。</p>
+  <p class="lede">用我們已經部署的 Gemma 4 26B，加一層「只從固定選項裡選答案、不寫文章」的決策 API。十類產線判斷題有七類不用任何標註就能上線，每次判斷約 0.2 秒。九輪驗證（含小模型對照、換引擎、追查掉分原因、借鏡他人做法、跑公開考卷、補測九個使用位置）合計約十七美元的雲端 GPU。</p>
   <p class="byline">實驗於 Modal 雲端 L4 顯示卡進行 · 合成資料 10 類 × 200 題 · 工程細節與原始數據在 results/REPORT.md</p>
 
   <div class="tldr">
@@ -312,6 +315,7 @@ page = f"""<!doctype html>
       <li><strong>標註：比主管報告承諾的還少。</strong>多數題目零筆；較弱的題目標 25 筆就能校準。傳統機器學習標 100 筆還到不了 90%。</li>
       <li><strong>推理引擎：SGLang 批次快五倍，第一輪掉的 {(v4_acc_A1 - v4_acc_B1) * 100:.1f} 個百分點是少一個起始符號，補上後與現行引擎同準。</strong>共用同一份現場狀況問十六題快 {V4G['L4_speedup_16']:.1f} 倍、多路併發快 6 倍。事後批次整理直接用 SGLang；即時判斷兩個引擎在 GB10 上各量一次再選。</li>
       <li><strong>公開考卷：拿 JevBench 231 題自跑，{JB26['accuracy'] * 100:.1f}%，高於同做法的 Cygnet 與訓練過的 Open-Jev。</strong>難題 {JB26['per_tier']['hard'] * 100:.1f}%；小模型 E4B {JBE4['accuracy'] * 100:.1f}%。自跑、不排名，但說明產線題的高分不是題目量身訂做。</li>
+      <li><strong>別人列的九個使用位置，全部實測過：七格成立、兩格沒過但原因明確。</strong>護欄、LLM 評分、信心門檻成立；工具權限判斷輸在數字與範圍，交給程式規則；文件重排序差門檻 0.01。另外找到並修正了上一版門檻方法的錯誤：改正後 5% 錯誤預算在 {ok5}/10 類守住。</li>
       <li><strong>四個上線條件：</strong>部署時開啟前綴快取設定、「有把握才自動處理」的門檻要用真實資料校準、選項順序固定（弱題有兩成會因順序改答案）、GB10 上重量一次速度。都是幾小時到幾天的事，不是幾個月。</li>
     </ol>
   </div>
@@ -320,11 +324,11 @@ page = f"""<!doctype html>
     <div class="stat"><p class="label">不標註就達 98% 的題型</p><div class="value">{len(strong)} / 10</div><div class="delta">其餘三類要調門檻</div></div>
     <div class="stat"><p class="label">一次判斷</p><div class="value">{L1['p50'] / 1000:.1f} 秒</div><div class="delta">租用 L4；GB10 待實測</div></div>
     <div class="stat"><p class="label">比模型寫答案快</p><div class="value">{speed:.1f} 倍</div><div class="delta">一次問十題可再降</div></div>
-    <div class="stat"><p class="label">本次驗證的 GPU 費用</p><div class="value">≈ $15</div><div class="delta">八輪實驗，約 8.9 GPU 小時</div></div>
+    <div class="stat"><p class="label">本次驗證的 GPU 費用</p><div class="value">≈ $17</div><div class="delta">九輪實驗，約 10 GPU 小時</div></div>
   </div>
 
   <p class="eyebrow">00 · 走到哪裡了</p>
-  <h2>八輪、四天、十五美元：每一輪問一個問題，答一個問題</h2>
+  <h2>九輪、五天、十七美元：每一輪問一個問題，答一個問題</h2>
   <p>每一輪都先把「什麼算過、什麼算沒過」寫死再跑，跑完照規則填結論。沒過的也留著，因為「不值得做」和「值得做」一樣是答案。</p>
 
   <div class="table-scroll wide route">
@@ -338,6 +342,7 @@ page = f"""<!doctype html>
         <tr><td>五</td><td>別人（TypeLLM）的技巧有沒有用？</td><td>JSON 形式與選項順序平均都沒過門檻；量到弱題兩成會因順序改答案，列為上線條件</td><td class="num">$1</td></tr>
         <tr><td>六</td><td>SGLang 掉分的真正原因？</td><td>少一個起始字元。補上後與現行引擎同準（{V6['E1']['mean']['B1ids'] * 100:.1f}% vs {V6['E1']['mean']['A1'] * 100:.1f}%），重跑一致率 99.85%；SGLang 回到候選</td><td class="num">$3.5</td></tr>
         <tr><td>八</td><td>拿別人的公開考卷（JevBench 231 題）跑同一套，站得住嗎？</td><td>{JB26['accuracy'] * 100:.1f}%，難題 {JB26['per_tier']['hard'] * 100:.1f}%；高於同做法的 Cygnet 87.9%、訓練過的 Open-Jev 85.3%。自跑、不排名</td><td class="num">$0.2</td></tr>
+        <tr><td>九</td><td>別人列的九個使用位置，沒測過的四個行不行？</td><td>護欄、LLM 評分、三段式門檻成立；工具守門 {T9['26B']['acc'] * 100:.0f}%（輸在數字與範圍，交給程式規則）、重排序差 0.01 沒過門檻。順帶找到並修正上一輪門檻方法的錯誤</td><td class="num">$1.5</td></tr>
         <tr><td>七</td><td>三十幾個開源替代品裡，有什麼可以抄？</td><td>抄了三件：錯誤預算反推門檻（採用）、模板健康檢查（採用）、多題一個前向（不採用，後面的題答案會變）</td><td class="num">$1.4</td></tr>
       </tbody>
     </table>
@@ -351,11 +356,11 @@ page = f"""<!doctype html>
         <tr><td>公開考卷 JevBench 231 題（自跑）</td><td class="num">{JB26['accuracy'] * 100:.1f}%</td><td>同做法的 Cygnet 87.9%、訓練過的 Open-Jev 85.3%、TypeLLM 84.4%；不是官方排名</td></tr>
         <tr><td>零標註就達 98% 的題型</td><td class="num">{len(strong)} / 10</td><td>Jev 在自家題約 68%、公開評測 74 分；題目不同，只看量級</td></tr>
         <tr><td>三類弱題（急迫度、SPC、產能）改寫標準後</td><td class="num">{V2['m_alarm_severity']['raw_test']['acc'] * 100:.0f}% / {V2['q_spc_action']['raw_test']['acc'] * 100:.0f}% / {A['p_uph_anomaly']['raw_test']['acc'] * 100:.0f}%</td><td>剩下的錯集中在相鄰等級，要真實資料</td></tr>
-        <tr><td>給 5% 錯誤預算，強題能自動處理的比例</td><td class="num">{min(cov5) * 100:.0f}%–{max(cov5) * 100:.0f}%</td><td>實際錯誤率 {min(err5) * 100:.0f}%–{max(err5) * 100:.1f}%，保證在 8/10 類成立</td></tr>
+        <tr><td>給 5% 錯誤預算，強題能自動處理的比例</td><td class="num">{min(cov5) * 100:.0f}%–{max(cov5) * 100:.0f}%</td><td>實際錯誤率 {min(err5) * 100:.0f}%–{max(err5) * 100:.1f}%，{ok5}/10 類守住預算；做不到的急迫度就完全不自動</td></tr>
         <tr><td>一次判斷（租用 L4）</td><td class="num">{L1['p50'] / 1000:.2f} 秒</td><td>讓模型寫答案 {speed:.1f} 倍慢；同一份狀況問十題每題 {per_q_swa / 1000:.2f} 秒</td></tr>
         <tr><td>SGLang 批次：共用狀況問十六題 / 32 路併發</td><td class="num">快 {V4G['L4_speedup_16']:.1f} 倍 / 6 倍</td><td>準確率與現行引擎同（補上起始字元後）</td></tr>
         <tr><td>先問 4B、沒把握再問 26B</td><td class="num">{CAS['mean'][6] * 100:.1f}%</td><td>全用 26B {CAS['mean'][1] * 100:.1f}%；26B 負載剩三分之一</td></tr>
-        <tr><td>累計 GPU 費用</td><td class="num">≈ $15</td><td>原估 $5.5–7.5 只算前兩輪；後五輪是追加的問題</td></tr>
+        <tr><td>累計 GPU 費用</td><td class="num">≈ $17</td><td>原估 $5.5–7.5 只算前兩輪；後五輪是追加的問題</td></tr>
       </tbody>
     </table>
   </div>
@@ -557,7 +562,7 @@ page = f"""<!doctype html>
 
   <div class="cols">
     <div class="card"><p class="verdict">條件一 · 部署設定</p><p>Gemma 4 的注意力機制讓伺服器預設無法重用「同一份現場狀況」的計算。要開一個設定（<code>--swa-full</code>），否則一次問十題就是十倍時間。GB10 記憶體夠，開了沒有代價。</p></div>
-    <div class="card"><p class="verdict">條件二 · 真實資料校準</p><p>門檻的形式已經定了：先給可接受的錯誤率，程式反推「多有把握才自動處理」。合成資料上給 5% 錯誤預算，七類強題能自動處理 91% 到 100%、實際錯 0% 到 3%；門檻寫成鎖定檔，換模型或換引擎時自動重測，換錯了會被擋下。真實工單上要用 200–500 筆重算一次，估計一到兩天。</p></div>
+    <div class="card"><p class="verdict">條件二 · 真實資料校準</p><p>門檻的形式已經定了：先給可接受的錯誤率，程式反推「多有把握才自動處理」。合成資料上給 5% 錯誤預算，七類強題能自動處理 {min(cov5) * 100:.0f}% 到 {max(cov5) * 100:.0f}%，實際錯 {min(err5) * 100:.0f}% 到 {max(err5) * 100:.0f}%；急迫度這種做不到 5% 的，就全部送人確認。門檻寫成鎖定檔，換模型或換引擎時自動重測，換錯了會被擋下。真實工單上要用 200–500 筆重算一次，估計一到兩天。</p></div>
     <div class="card"><p class="verdict">條件三 · 選項順序固定</p><p>急迫度與 SPC 這兩類弱題，有兩成的題目換個選項順序答案就變。上線時每類題的選項順序寫死，校準也用同一順序，否則「有把握」的門檻會飄。</p></div>
     <div class="card"><p class="verdict">條件四 · GB10 實測</p><p>速度數字全部來自租用的 L4。GB10 上重跑同一套測試約半小時，可以得到真實的秒數，以及機台同時在寫報告時的併發表現，再決定要不要另放一個小模型專做判斷。</p></div>
   </div>
@@ -629,7 +634,7 @@ page = f"""<!doctype html>
     <table>
       <thead><tr><th>抄來的做法</th><th>來源</th><th>我們量到</th><th>留或不留</th></tr></thead>
       <tbody>
-        <tr><td>錯誤預算反推門檻，門檻寫成鎖定檔，換模型自動重測</td><td>poorjev、jevcal</td><td>5% 預算下強題自動處理 {min(cov5) * 100:.0f}%–{max(cov5) * 100:.0f}%；重測抓到換錯引擎的 10 項偏移</td><td><span class="verdict">留</span></td></tr>
+        <tr><td>錯誤預算反推門檻，門檻寫成鎖定檔，換模型自動重測</td><td>poorjev、jevcal</td><td>5% 預算下強題自動處理 {min(cov5) * 100:.0f}%–{max(cov5) * 100:.0f}%；重測抓到換錯引擎的 7 項偏移（第一版方法有誤，第九輪修正）</td><td><span class="verdict">留</span></td></tr>
         <tr><td>模板健康檢查（字母拿到的總機率）</td><td>verdict</td><td>壞模板 0.003，好模板 1.0；抓不到起始字元那種錯</td><td><span class="verdict">留</span></td></tr>
         <tr><td>字母先過分詞器驗證、獨立驗證腳本</td><td>TypeLLM</td><td>237 個結果檔重算 0 筆不一致</td><td><span class="verdict">留</span></td></tr>
         <tr><td>指定字元編號讀機率</td><td>TypeLLM、openjev-sglang</td><td>與原做法差 0.0</td><td><span class="verdict">留</span></td></tr>
@@ -654,18 +659,18 @@ page = f"""<!doctype html>
       <thead><tr><th>#</th><th>圖上的位置</th><th>我們測過嗎</th><th>我們的數字</th><th>判讀</th></tr></thead>
       <tbody>
         <tr><td>1</td><td>模型路由：簡單題給小模型、難題給大模型</td><td><span class="verdict">測過</span></td><td>先問 4B、沒把握才問 26B：答對率 {CAS['mean'][6] * 100:.1f}% vs 全用 26B {CAS['mean'][1] * 100:.1f}%，只有三分之一送到 26B</td><td>成立，而且不用另外訓練分類器，小模型自己的把握度就是路由器</td></tr>
-        <tr><td>2</td><td>護欄：擋掉注入攻擊與違規輸入</td><td>未測</td><td>產線題沒有這類；別人用同一顆模型防注入 12 題全對，樣本太小</td><td>候選，形狀是二選一，要自己準備攻擊樣本</td></tr>
-        <tr><td>3</td><td>工具呼叫守門：允許／詢問／拒絕</td><td>同形題</td><td>「要不要升級給人」100%、「要不要派工」99%</td><td>預期成立；「詢問」那一格要靠校準過的門檻</td></tr>
+        <tr><td>2</td><td>護欄：擋掉注入攻擊與違規輸入</td><td><span class="verdict">測過（第九輪）</span></td><td>把誤擋定在 5%，攻擊攔下 {G9['26B']['conf_recall'] * 100:.0f}%；小模型同條件只攔四到五成。錯誤多半是「這點可以 bypass 嗎？還是等 PE？」這種正常的詢問被擋</td><td>成立，只能放 26B；會擋到人，要有申訴管道</td></tr>
+        <tr><td>3</td><td>工具呼叫守門：允許／詢問／拒絕</td><td><span class="verdict">測過，未過</span></td><td>{T9['26B']['acc'] * 100:.0f}%，門檻 95%。危險放行是 0，錯的全是「該拒絕判成詢問」：參數超出規格、改動範圍是全廠，這兩種都沒認出來</td><td>工具名、參數範圍、影響範圍用程式規則判；模型只處理規則表以外的</td></tr>
         <tr><td>4</td><td>收件匣分流：馬上回／稍後／封存；圖註 1,500 封約 3 美分</td><td><span class="verdict">測過</span></td><td>工單派給誰 100%；警報急迫度（不急／盡快／停線）改寫標準後 {V2['m_alarm_severity']['raw_test']['acc'] * 100:.0f}%。1,500 則的成本：逐題約 5 美分，SGLang 整批約 1 美分</td><td>成立，成本與圖上同級。「馬上」和「稍後」這種相鄰等級最難，標準要寫成可數的</td></tr>
-        <tr><td>5</td><td>重排序：每段文字打相關分數</td><td>未測，測過相近做法</td><td>把多段排成一列一次讀，後面的判斷會被前面帶偏 11–13%</td><td>可做，但每段各讀一次，不要一次塞全部</td></tr>
-        <tr><td>6</td><td>LLM 評分：回一個 4/5 分</td><td>同形題</td><td>公開考卷的評分題，平均誤差 {JB26['ordinal_mae']:.2f} 級</td><td>成立；回傳每一級的機率，算期望分數比只取最高那級好用</td></tr>
+        <tr><td>5</td><td>重排序：每段文字打相關分數</td><td><span class="verdict">測過，差一點</span></td><td>前五名排序品質 {R9['26B']['ndcg5']:.2f}，門檻 0.85；關鍵字搜尋 {R9['BM25']['ndcg5']:.2f}。SGLang 同準，一個問題 20 段從 {R9['26B']['wall_p50'] / 1000:.0f} 秒降到 {R9['26B（SGLang FP8）']['wall_p50'] / 1000:.1f} 秒</td><td>比關鍵字好很多，可用；每段各讀一次，批次交給 SGLang</td></tr>
+        <tr><td>6</td><td>LLM 評分：回一個 4/5 分</td><td><span class="verdict">測過（第九輪）</span></td><td>600 個回答、五個等級：{E9['26B']['exact'] * 100:.1f}% 完全打對，危險答案沒有一題被打高分；4B 也在一分以內全對</td><td>成立；讓模型寫出分數也一樣準，讀機率的好處是快一半、每一級都有機率</td></tr>
         <tr><td>7</td><td>大量標註：百萬列資料</td><td><span class="verdict">測過</span></td><td>一千題整批：SGLang 11 秒、現行引擎 67 秒，兩者同準</td><td>成立，這正是 SGLang 的主場</td></tr>
         <tr><td>8</td><td>即時控制：每 300 毫秒一次</td><td><span class="verdict">測過</span></td><td>一次判斷 0.06–0.14 秒；機台同時在寫報告時慢三到四成；但讀數字做判斷最弱（產能 {A['p_uph_anomaly']['raw_test']['acc'] * 100:.0f}%、公開考卷時間與數字題 27%）</td><td>時間預算夠。數字先用程式算好，再把「超標／沒超標」交給它</td></tr>
-        <tr><td>9</td><td>信心門檻：大於 0.9 自動、0.5–0.9 找人確認、小於 0.5 轉人</td><td><span class="verdict">測過，要改</span></td><td>模型平均自報 99% 把握；急迫度在「大於 0.9」時放行 97% 的題，但只對 84%。改成先定可接受錯誤率 5% 再反推門檻：強題自動處理 {min(cov5) * 100:.0f}%–{max(cov5) * 100:.0f}%，實際錯 0–3%</td><td>方向對、數字錯。0.9 和 0.5 不能直接照抄，要用自己的標註資料反推，而且換模型時重測</td></tr>
+        <tr><td>9</td><td>信心門檻：大於 0.9 自動、0.5–0.9 找人確認、小於 0.5 轉人</td><td><span class="verdict">測過，要改</span></td><td>固定 0.9 / 0.5：急迫度自動段錯 {C9['m_alarm_severity']['fixed']['err_auto'] * 100:.0f}%、SPC {C9['q_spc_action']['fixed']['err_auto'] * 100:.0f}%、護欄 {C9['g_input_guard']['fixed']['err_auto'] * 100:.0f}%。改成先定可接受錯誤率 5% 再反推：11/12 類守住，急迫度自動 0%、全部送確認或轉人</td><td>方向對、數字錯。門檻要用自己的標註資料反推，而且換模型時重測</td></tr>
       </tbody>
     </table>
   </div>
-  <p>九格裡我們實測過五格、測過同形題兩格、兩格未測。圖的方向全部成立；要改的只有兩處：第 9 格的固定門檻要換成用資料反推的，第 5 格要逐段讀、不要打包。還沒測的護欄與工具守門，是之後擴充題型時最現成的兩個候選。</p>
+  <p>第九輪補測之後，九格全部實測過。成立的是路由、分流、大量標註、即時、護欄、LLM 評分與三段式門檻；沒過的兩格各有明確原因：工具守門輸在「數字比規格、影響範圍」這種結構化欄位，交給程式規則就好；重排序只差門檻 0.01，比關鍵字搜尋好很多。要改的仍是兩處：第 9 格的固定門檻換成用資料反推的，第 5 格逐段讀、不要打包。</p>
 
   <h2>我們比別人多做的</h2>
   <ul>
@@ -677,7 +682,7 @@ page = f"""<!doctype html>
 
   <div class="note">
     <p class="head">這一版沒說到的</p>
-    <p>Jev 官方另一個賣點是「校準過的把握度」，我們的替代方案要自己校準，這是條件二。獨立的小模型（Laya 之類）零標註接近亂猜，這次沒用。AI Studio 上的 Gemma 4 不提供選項機率，雲端對照因此沒做。實際 GPU 費用七輪合計約 8.6 小時、約十五美元（首輪 0.85 小時、約一美元），比原估低很多。</p>
+    <p>Jev 官方另一個賣點是「校準過的把握度」，我們的替代方案要自己校準，這是條件二。獨立的小模型（Laya 之類）零標註接近亂猜，這次沒用。AI Studio 上的 Gemma 4 不提供選項機率，雲端對照因此沒做。實際 GPU 費用九輪合計約 10 小時、約十七美元（首輪 0.85 小時、約一美元），比原估低很多。</p>
   </div>
 
   <p class="byline">repo clarencechien/jevlike · 工程版報告 results/REPORT.md · 原始數據 results/analysis.json · results/modal/</p>

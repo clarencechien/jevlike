@@ -1,0 +1,1 @@
+{"which": "rerank", "args": "--workers 4", "gpu": "NVIDIA L4", "n_parallel": 4, "ctx": 16384, "server_extra": "--swa-full", "model": "26b", "model_file": "gemma-4-26B-A4B-it-UD-Q4_K_M.gguf", "server_start_s": 16.4, "bench_s": 412.4, "ts": "2026-09-27T17:13:24Z"}

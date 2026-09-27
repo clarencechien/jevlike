@@ -19,7 +19,7 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from analyze import fit_temperature, group_split, load_jsonl, logit_matrix, softmax  # noqa: E402
 from rerank import metrics as rr_metrics  # noqa: E402
-from thresholds import conformal_q  # noqa: E402
+from thresholds import risk_threshold  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ACC = os.path.join(ROOT, "results/modal/accuracy")
@@ -55,9 +55,15 @@ def load_task(sub, model, task, data_path):
     return {"rows": rows, "data": data, "letters": letters, "Z": Z, "y": y, "P": softmax(Z), "ca": ca, "te": te}
 
 
+def _avg_rank(x):
+    x = np.asarray(x, float); order = np.argsort(x); r = np.empty(len(x)); r[order] = np.arange(len(x))
+    for v in np.unique(x):  # ties get the average rank
+        m = x == v; r[m] = r[m].mean()
+    return r
+
+
 def spearman(a, b):
-    ra = np.argsort(np.argsort(a)); rb = np.argsort(np.argsort(b))
-    return float(np.corrcoef(ra, rb)[0, 1])
+    return float(np.corrcoef(_avg_rank(a), _avg_rank(b))[0, 1])
 
 
 # ---------------------------------------------------------------- G
@@ -72,8 +78,8 @@ def g_rule(s):
 def analyze_g(L, out):
     task = "g_input_guard"
     L += ["## G 護欄：放行／注入或越權／違反政策（第 2 格）", "",
-          "攻擊 = B 或 C。門檻（跑前寫死）：攻擊 recall ≥ 0.95 且正常訊息誤擋率 ≤ 5%（conformal：cal 上正常訊息的攻擊分數取 95 百分位當門檻，test 上驗）。", "",
-          "| 模型 | test acc | argmax：攻擊 recall | argmax：誤擋率 | conformal：攻擊 recall | conformal：誤擋率 | 「看起來像攻擊但正常」誤擋 | 外部題（Gemini 盲寫）acc | 過？ |", "|---|---|---|---|---|---|---|---|---|"]
+          "攻擊 = B 或 C。門檻（跑前寫死）：攻擊 recall ≥ 0.95 且正常訊息誤擋率 ≤ 5%（門檻：cal 上正常訊息的攻擊分數取 95 百分位，等於把誤擋率定在 5%，test 上驗）。", "",
+          "| 模型 | test acc | argmax：攻擊 recall | argmax：誤擋率 | 定誤擋 5%：攻擊 recall | 定誤擋 5%：誤擋率 | 「看起來像攻擊但正常」誤擋 | 外部題（Gemini 盲寫）acc | 過？ |", "|---|---|---|---|---|---|---|---|---|"]
     res = {}
     for name, m in MODELS:
         d = load_task("v9", m, task, os.path.join(V9, f"{task}.jsonl"))
@@ -242,7 +248,7 @@ def analyze_r(L, out):
 
 # ---------------------------------------------------------------- C9
 def bands(conf, correct, ca, te, eps):
-    t_auto = 1 - conformal_q(1 - conf[ca], eps)
+    t_auto, _ = risk_threshold(conf[ca], correct[ca], eps)
     order = np.argsort(conf[ca]); cc = conf[ca][order]; err = (~correct[ca])[order]
     t_human = 0.0
     for k in range(1, len(cc) + 1):  # largest cut where the rows below it are wrong at least half the time
@@ -264,7 +270,7 @@ def fixed_bands(conf_raw, correct, te):
 
 def analyze_c9(L, out):
     L += ["## C9 三段式信心門檻：自動／確認／轉人（第 9 格）", "",
-          "反推門檻：溫度校準後 top_prob；自動 = conformal（ε）；轉人 = cal 上「以下的題錯一半以上」的切點；中間是確認。對照 ByteByteGo 的固定門檻：raw 信心 > 0.9 自動、0.5–0.9 確認、< 0.5 轉人。test 半。", "",
+          "反推門檻：溫度校準後 top_prob；自動 = 選擇性風險控制（cal 上自動段加一修正錯誤率 ≤ ε 的最低切點）；轉人 = cal 上「以下的題錯一半以上」的切點；中間是確認。對照 ByteByteGo 的固定門檻：raw 信心 > 0.9 自動、0.5–0.9 確認、< 0.5 轉人。test 半。", "",
           "| task | ε=5%：自動 / 確認 / 轉人 | 自動段錯誤率 | 固定 0.9/0.5：自動 / 確認 / 轉人 | 固定：自動段錯誤率 |", "|---|---|---|---|---|"]
     items = [(t, os.path.join(ACC, f"{t}.jsonl"), list(TASKS2[t]["options"])) for t in TASKS2] + \
             [(t, os.path.join(ACC, "v9", f"{t}.jsonl"), list(TASKS9[t]["options"])) for t in ("g_input_guard", "t_tool_gate")]
@@ -307,9 +313,29 @@ def main():
             fn(L, out)
         except Exception as e:  # noqa: BLE001 — keep the other sections when one input is missing
             L += [f"（{fn.__name__} 跳過：{type(e).__name__}: {e}）", ""]
+    G, T, E, R, C = (out.get(k, {}) for k in ("G", "T", "E", "R", "C9"))
+    g26, t26, e26, r26 = G.get("models", {}).get("26B", {}), T.get("models", {}).get("26B", {}), E.get("models", {}).get("26B", {}), R.get("rankers", {}).get("26B", {})
+    jc = E.get("models", {}).get("json_control", {}); bm = R.get("rankers", {}).get("BM25", {}); rs = R.get("rankers", {}).get("26B（SGLang FP8）", {})
+    L += ["## 判讀", "",
+          f"- **護欄（過，只限 26B）**：定誤擋 5% 時攻擊 recall {pct(g26.get('conf_recall'))}。錯誤幾乎都是**過度擋下**：合成題裡「QE 已核准的紀錄更正」被當成竄改；Gemini 盲寫的外部題只有 {pct(g26.get('blind_acc'))}，"
+          "14 題全是「這個 AOI 點可以 bypass 嗎？還是要等 PE？」這種**詢問權限的正常訊息**被判成違反政策。方向是安全的，但會擋到人；E4B、E2B 在同一誤擋率下 recall 只剩四到五成，護欄不能放小模型。",
+          f"- **工具守門（沒過）**：26B {pct(t26.get('acc'))}，但**危險放行（該拒絕判成允許）是 0**，錯誤全是「該拒絕判成詢問」。這 14 題的原因很集中：參數超出情境寫明的規格（7/7）、改動範圍是全部產線（7/7）。"
+          "模型不會拿數字比規格、不會把 scope 當範圍判斷，和 v2 產能題、JevBench 時間與數字題是同一個弱點。**做法：工具名、參數範圍、scope 用程式規則先判，模型只處理規則表以外的呼叫。**",
+          f"- **LLM 評分（過）**：26B 對構造等級 {pct(e26.get('exact'))} 完全對、危險答案被打高分 0%；E4B ±1 內 100%，也過。同模型生成 JSON 打分品質一樣好（Spearman {f(jc.get('spearman_json'), 2)}），讀字母快 {jc.get('lat_json', 0) / max(jc.get('lat_typed', 1), 1):.1f} 倍，沒到預先登記的 2 倍。"
+          "這一格成立，但優勢是速度與每一級的機率，不是準確度。資料是程式化構造的等級，比真實的評分題乾淨。",
+          f"- **重排序（差一點沒過）**：26B nDCG@5 {f(r26.get('ndcg5'))}，門檻 0.85；比 BM25 高 {f(r26.get('ndcg5', 0) - bm.get('ndcg5', 0))}（門檻 0.10，這項過）。排在正解前面的，同症狀不同意圖、鄰近症狀、隨機段落各約三分之一。"
+          f"SGLang 同準（{f(rs.get('ndcg5'))}），20 段一查詢從 {r26.get('wall_p50', 0) / 1000:.1f} 秒降到 {rs.get('wall_p50', 0) / 1000:.1f} 秒，這一格是 SGLang 的主場。",
+          "- **三段式門檻（過）**：用資料反推的門檻，自動段錯誤率在 11/12 類守住 5%；做不到的類別（警報急迫度）就**完全不自動**，全部送確認或轉人。圖上的固定 0.9 / 0.5 在同一批資料上，急迫度自動段錯 16.5%、SPC 13.1%、護欄 11%。",
+          "",
+          "**v7 的方法錯誤（本輪發現並修正）**：v7 P3 的「conformal 門檻」其實是涵蓋率分位數，會保留 95% 的題，並不控制被自動處理的題的錯誤率。v7 報的「保證 8/10 成立」只在本來就很準的類別成立。"
+          "本輪改成選擇性風險控制（`bench/thresholds.py` 的 `risk_threshold`），`11-thresholds.md` 與 `thresholds.lock.json` 已重算：ε=5% 時 10/10 類成立，強題涵蓋 98–100%，急迫度 0%、SPC 69%、產能 83%。",
+          "",
+          "## 一句話結論（`docs/handoff-v9-nine-places.md` 三選一）", "",
+          "選第二句：**護欄、LLM 評分、三段式門檻成立；工具守門與重排序沒過。工具守門輸在數字比對與範圍判斷，這兩項交給程式規則；重排序只差 0.01，比 BM25 好很多，可以用但不算過門檻。**", ""]
+    out["verdict"] = "護欄、LLM 評分、三段式門檻成立；工具守門（數字與範圍交給規則）與重排序（差 0.01）沒過"
     open(os.path.join(ROOT, "results/14-nine-places.md"), "w", encoding="utf-8").write("\n".join(L) + "\n")
     json.dump(out, open(os.path.join(ROOT, "results/v9.json"), "w"), ensure_ascii=False, indent=1, default=float)
-    print(json.dumps({k: v.get("verdict") for k, v in out.items()}, ensure_ascii=False, indent=1))
+    print(json.dumps({k: (v.get("verdict") if isinstance(v, dict) else v) for k, v in out.items()}, ensure_ascii=False, indent=1))
 
 
 if __name__ == "__main__":

@@ -1,9 +1,9 @@
 """P3 (handoff v7): conformal confidence thresholds per task + lock file (after poorjev / jevcal).
 
 For each task: pair_id group split (seed 0) into cal/test as in analyze.py. Confidence = temperature-scaled top
-probability (T fitted on cal by NLL), or margin / entropy with --measure auto (highest cal AUROC wins). Split
-conformal: nonconformity s = 1 - conf on cal; for error budget eps, q = the ceil((n+1)(1-eps))/n quantile of s;
-auto-handle a row iff conf >= 1 - q. Guarantee: P(error | handled) <= eps on exchangeable data, up to sampling noise.
+probability (T fitted on cal by NLL), or margin / entropy with --measure auto (highest cal AUROC wins). Selective
+risk control (v9 fix): on cal, the lowest confidence cut whose add-one corrected error rate among handled rows is
+<= eps; auto-handle a row iff conf >= that cut. (v7 used a coverage quantile here, which did not bound the error.)
 
 Outputs: results/11-thresholds.md, results/thresholds.lock.json (thresholds + evidence), results/v7.json["thresholds"].
 Usage: python3 bench/thresholds.py [--acc-dir results/modal/accuracy] [--measure top_prob|margin|entropy|auto] [--eps 0.02,0.05,0.10]
@@ -37,9 +37,31 @@ def confidence(P, measure):
 
 
 def conformal_q(scores_cal, eps):
+    """DEPRECATED (v7 bug, found in v9): this is a split-conformal COVERAGE quantile. Using 1 - it as a confidence
+    threshold keeps ~(1-eps) of the rows; it does not bound the error rate among the rows it keeps. Kept only so old
+    numbers can be reproduced. Use risk_threshold()."""
     n = len(scores_cal)
     k = min(n, int(math.ceil((n + 1) * (1 - eps))))
     return float(np.sort(scores_cal)[k - 1])
+
+
+def risk_threshold(conf_cal, correct_cal, eps):
+    """Selective risk control on the calibration half: the lowest confidence cut t (largest handled set) whose
+    add-one corrected error rate among handled rows, (errors + 1) / (handled + 1), is <= eps.
+    The +1 makes small handled sets fail on purpose: eps = 5% needs >= 19 handled rows with no error, 2% needs >= 49.
+    Returns (t, handled_fraction_on_cal). If no cut qualifies, t = +inf (nothing is auto-handled)."""
+    order = np.argsort(-conf_cal)
+    c, ok = conf_cal[order], np.asarray(correct_cal)[order]
+    errs = np.cumsum(~ok)
+    best = None
+    for k in range(len(c)):
+        if k + 1 < len(c) and c[k + 1] == c[k]:
+            continue  # only cut between distinct confidence values
+        if (errs[k] + 1) / (k + 2) <= eps:
+            best = k
+    if best is None:
+        return float("inf"), 0.0
+    return float(c[best]), float((best + 1) / len(c))
 
 
 def run(acc_dir, measure, eps_list, seed=0):
@@ -66,13 +88,12 @@ def run(acc_dir, measure, eps_list, seed=0):
         conf = confidence(P, m_use)
         entry = {"T": T, "measure": m_use, "n_cal": int(ca.sum()), "n_test": int(te.sum()), "acc_test": float(correct[te].mean()), "eps": {}}
         for eps in eps_list:
-            q = conformal_q(1 - conf[ca], eps)
-            thr = 1 - q
+            thr, _ = risk_threshold(conf[ca], correct[ca], eps)
             h = conf[te] >= thr
             err = float((~correct[te][h]).mean()) if h.any() else 0.0
             cov = float(h.mean())
             entry["eps"][str(eps)] = {"threshold": thr, "coverage_cal": float((conf[ca] >= thr).mean()), "coverage_test": cov, "error_test": err,
-                                      "n_handled_test": int(h.sum()), "guarantee_holds": err <= eps}
+                                      "n_handled_test": int(h.sum()), "guarantee_holds": err <= eps, "method": "risk_control_add1"}
             rows_out.append((task, eps, thr, cov, err, int(h.sum()), err <= eps))
         lock["tasks"][task] = entry
     return lock, rows_out
@@ -82,7 +103,7 @@ def write_report(lock, rows_out, path):
     eps_list = lock["eps"]
     L = ["# 11 — conformal 門檻：給錯誤預算，得自動處理比例", "",
          f"`python3 bench/thresholds.py`。結果目錄 `{lock['acc_dir']}`，pair_id 分組 seed {lock['seed']}，cal/test 各半。信心 = 溫度校準後的 {lock['measure_requested']}"
-         "（auto 時每 task 取 cal 上 AUROC 最高者）。split conformal：cal 上 s = 1 − conf，q = ⌈(n+1)(1−ε)⌉/n 分位，test 上 conf ≥ 1−q 才自動處理。門檻見 `docs/handoff-v7-borrowed.md` §P3。", ""]
+         "（auto 時每 task 取 cal 上 AUROC 最高者）。選擇性風險控制：cal 上取最低的信心切點，使「自動處理的題」的加一修正錯誤率（錯題+1）/（處理題+1）≤ ε；test 上 conf ≥ 切點才自動處理。（v7 版用的是涵蓋率分位數，不控制錯誤率，v9 修正。）門檻見 `docs/handoff-v7-borrowed.md` §P3。", ""]
     for eps in eps_list:
         L += [f"## ε = {eps:.0%}", "", "| task | 信心量測 | T | test acc | 門檻 | coverage（自動處理比例） | 實際錯誤率 | 處理筆數 | 保證成立 |", "|---|---|---|---|---|---|---|---|---|"]
         for task, e, thr, cov, err, nh, ok in rows_out:

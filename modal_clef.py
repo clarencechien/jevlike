@@ -32,7 +32,7 @@ image = (
     .pip_install("torch==2.11.0", "torchvision==0.26.0", index_url="https://download.pytorch.org/whl/cu128")
     .pip_install("numpy", "packaging", "ninja", "wheel", "setuptools")
     .pip_install("transformers==5.10.2", "accelerate", "safetensors", "huggingface_hub", "pillow", "requests",
-                 "flash-linear-attention", "bitsandbytes")
+                 "flash-linear-attention", "bitsandbytes", "kernels")
     # causal-conv1d is the other half of the Qwen3.5 fast path; optional (the torch conv1d fallback is fine for prefill)
     .run_commands("pip install --no-build-isolation causal-conv1d || echo 'causal-conv1d not installed'")
     .add_local_dir("decide", remote_path="/root/decide")

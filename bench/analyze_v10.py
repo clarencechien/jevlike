@@ -240,7 +240,8 @@ def section_order(L):
         a = res.get("Clef-flash", {}).get(t, {}); b = res.get("Clef 27B", {}).get(t, {})
         L.append(f"| {'**全部**' if t == '_all' else t} | {pct(a.get('flip'))} | {pct(b.get('flip'))} | {pct(a.get('acc_fwd'))}／{pct(a.get('acc_label'))} | "
                  f"{pct(b.get('acc_fwd'))}／{pct(b.get('acc_label'))} |")
-    L += ["", "26B 對照：v5 T2 換字母，急迫度 21%、SPC 19% 翻面；v8 JevBench 反序 6.5%。", ""]
+    L += ["", "26B 對照（v5 T2，同一批 test 題，量法不同：字母輪換 6–8 種排列，報「排列之間 argmax 不一致」的比例，比正反兩種排列更容易抓到翻面）："
+          "SPC 19%、原因分類 1%（choice 題）；急迫度（score 題）21%、UPH 3%。v8 JevBench 反序 6.5%。Clef 的 score 題是有序等級，不做反序。", ""]
     return res
 
 

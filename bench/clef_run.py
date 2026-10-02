@@ -52,10 +52,15 @@ def load(model_path, quant):
     sys.path.insert(0, model_path)
     import joint_schema_model as jsm
     kw = {}
-    if quant == "fp8":
+    if quant in ("fp8", "fp8-nola"):
         from transformers import FineGrainedFP8Config
-        kw["quantization_config"] = FineGrainedFP8Config(
-            modules_to_not_convert=["lm_head", r"model\.visual.*", "in_proj_a", "in_proj_b"])  # in_proj_a/b: out dim = heads, < block
+        skip = ["lm_head", r"model\.visual.*", "in_proj_a", "in_proj_b"]  # in_proj_a/b: out dim = heads, < block
+        if quant == "fp8-nola":  # diagnostic: keep every linear-attention projection in bf16, quantize the rest
+            skip.append(r".*linear_attn.*")
+        kw["quantization_config"] = FineGrainedFP8Config(modules_to_not_convert=skip)
+    elif quant == "int8":
+        from transformers import BitsAndBytesConfig
+        kw["quantization_config"] = BitsAndBytesConfig(load_in_8bit=True, llm_int8_skip_modules=["lm_head", "visual", "in_proj_a", "in_proj_b"])
     elif quant == "nf4":
         from transformers import BitsAndBytesConfig
         kw["quantization_config"] = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4",
@@ -259,8 +264,34 @@ def suite_latency(runner, out, n=200):
     return {"latency": s}
 
 
+def suite_profile(runner, out):
+    """Same record 20x (per-call ms: a slow first call then fast = per-shape autotune), plus top CUDA ops of one call."""
+    torch = runner.torch
+    r = d0_rows()[0]
+    e = runner.encode(row_record(r)[0])
+    ms = []
+    for _ in range(20):
+        torch.cuda.synchronize(); t0 = time.perf_counter(); runner.forward([e]); torch.cuda.synchronize()
+        ms.append(round((time.perf_counter() - t0) * 1000, 1))
+    # a second length, to see whether a new shape is slow again
+    e2 = runner.encode(row_record(d0_rows()[5])[0])
+    ms2 = []
+    for _ in range(5):
+        torch.cuda.synchronize(); t0 = time.perf_counter(); runner.forward([e2]); torch.cuda.synchronize()
+        ms2.append(round((time.perf_counter() - t0) * 1000, 1))
+    from torch.profiler import ProfilerActivity, profile
+    with profile(activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA]) as prof:
+        runner.forward([e]); torch.cuda.synchronize()
+    table = prof.key_averages().table(sort_by="cuda_time_total", row_limit=15)
+    cpu_table = prof.key_averages().table(sort_by="cpu_time_total", row_limit=10)
+    open(os.path.join(out, "profile.txt"), "w").write(table + "\n\n" + cpu_table)
+    print(table, flush=True)
+    return {"profile": {"tokens": len(e.input_ids), "ms": ms, "tokens2": len(e2.input_ids), "ms2": ms2}}
+
+
 SUITES = {"smoke": suite_smoke, "d0": suite_d0, "blind": suite_blind, "v9": suite_v9, "rerank": suite_rerank,
-          "jevbench": suite_jevbench, "packed": suite_packed, "latency": suite_latency}
+          "jevbench": suite_jevbench, "packed": suite_packed, "latency": suite_latency,
+          "profile": suite_profile}
 
 
 def main(model_path, quant, out, suites, token_budget=16384, commit=None):

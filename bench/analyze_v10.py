@@ -40,7 +40,7 @@ def equiv(ref_rows, rows):
 
 def section_equiv():
     out = {}
-    pairs = [("clef-flash-bf16", "clef-flash-fp8"), ("clef-flash-bf16", "clef-flash-nf4"), ("clef-bf16", "clef-fp8")]
+    pairs = [("clef-flash-bf16", "clef-flash-fp8"), ("clef-flash-bf16", "clef-flash-fp8-nola"), ("clef-flash-bf16", "clef-flash-int8"), ("clef-flash-bf16", "clef-flash-nf4"), ("clef-bf16", "clef-fp8")]
     for ref, arm in pairs:
         a, b = jl(os.path.join(CLEF, ref, "smoke.jsonl")), jl(os.path.join(CLEF, arm, "smoke.jsonl"))
         if a and b:

@@ -28,7 +28,9 @@ image = (
     modal.Image.from_registry("nvidia/cuda:12.8.1-cudnn-devel-ubuntu22.04", add_python="3.11")
     .entrypoint([])
     .apt_install("git")
-    .pip_install("torch==2.11.0", "numpy", "packaging", "ninja", "wheel", "setuptools")
+    # torch from the cu128 index so it matches the image's nvcc (PyPI's default 2.11 wheel is cu130)
+    .pip_install("torch==2.11.0", index_url="https://download.pytorch.org/whl/cu128")
+    .pip_install("numpy", "packaging", "ninja", "wheel", "setuptools")
     .pip_install("transformers==5.10.2", "accelerate", "safetensors", "huggingface_hub", "pillow", "requests",
                  "flash-linear-attention", "bitsandbytes")
     # causal-conv1d is the other half of the Qwen3.5 fast path; optional (the torch conv1d fallback is fine for prefill)

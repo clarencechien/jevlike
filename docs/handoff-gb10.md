@@ -99,6 +99,15 @@ REPORT.md 要改的地方，一條一條對：
 - HTML：`bench/render_html_report.py` 讀的是 `results/analysis.json` 等檔，把 GB10 的分析輸出成同名檔放 `results/`（原本的改名 `-modal`），重新 `scripts/publish_report.sh`（需要 `IMITATOR_TOKEN` 環境變數）；TL;DR 第 3 條與第 6 條改成 GB10 數字，「條件四 GB10 實測」改成已完成。
 - 最後一段寫「結案判定」三選一：**上線**（七類強題 + 校準門檻）／**部分上線**（列哪幾類）／**不上線**（原因）。
 
+## 6b. 選配：Clef 27B 在 GB10 上的決定（v10 留下的題，半天）
+
+v10（`results/15-clef.md`）的結論是「判斷層預設不換，Clef 27B 留作 SPC、重排序、同 state 多題、護欄外部題的候選」，缺的是 GB10 實測。要做的話：
+1. 權重：`Cloudflare/clef` 釘 revision `2f3de3dd85f379784083b0814d997ab627200f0c`（55 GB）、`clef-flash` `17f0b0ad64efb65d273590632833508766b2aae6`（19 GB）。只能 **BF16**：FP8 會出 NaN，int8／NF4 機率偏 0.1–0.26，都沒過等價檢查。
+2. 環境：torch 2.11、transformers 5.10.2、torchvision、`flash-linear-attention`；`causal-conv1d` 可選。aarch64 上這幾個能不能裝是第一個要確認的事（Triton 與 fla 的 ARM 支援）。
+3. 跑：`python3 bench/clef_run.py --model <path> --quant bf16 --out results/gb10/clef-bf16 --suites smoke,d0,latency,profile`，smoke 50 題要跟 `results/modal/clef/clef-bf16/smoke.jsonl` 的機率差 ≤ 0.01。
+4. 量：26B（llama-server）常駐時再載 27B BF16 的記憶體、單題延遲（**先把常見長度暖過**，H100 上新長度首次 ≈ 1 秒）、三題一起的延遲。
+5. 判定：27B 在 GB10 上單題 ≤ 26B 的 2 倍、記憶體放得下，才把 SPC 與重排序改走 27B；否則維持 26B。真實資料上 SPC 的差距要重量，合成資料的 +11 點不能直接搬。
+
 ## 7. 你會踩到的坑（都踩過了）
 
 - `<bos>`：HF tokenizer 引擎（SGLang、vLLM）對 Gemma 4 預設不加，llama-server 會加；差 2–3 分。靜態模板已含，smoke 會查 token 數。

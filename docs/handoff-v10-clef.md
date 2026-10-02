@@ -33,23 +33,42 @@
 3. Score 題（v9 的 E 評分、JevBench Score）照 v8 的做法：期望等級與 argmax 都報。
 4. Noul 題用二選一 `Yes / No`，同 v8。
 
-## 3. 步驟 1：runtime 等價檢查（smoke）
+## 2.5 硬體怎麼選（為什麼 27B 只在 H100 上跑 50 題）
+
+- **記憶體**：L40S 只有 48 GB。27B 的 BF16 權重約 54 GB 放不下，flash 的 BF16 約 18 GB 放得下。
+  MoE 不省記憶體：我們的 26B-A4B 也要存完整 26B 參數，之前放得進 L4／L40S 是因為用了 Q4（約 16 GB）與 FP8（約 26 GB）。
+- **參考值一定要 BF16**：判斷層是自訂的，BF16 跑 transformers 加官方 `load_release_model` 是唯一確定照官方方式算的版本。
+  所以 27B 只在 H100 上用 BF16 跑 50 題當參考，主跑改在 L40S 用 FP8 或 Q8（約 27–29 GB），前提是先和參考值比對過關（§3）。
+- **L40S 不等於 GB10**：
+  - 準確率跟硬體無關（同權重、同精度），L40S 量的就是 GB10 的。
+  - 延遲不行。GB10 是 128 GB 統一記憶體，頻寬約 L40S 的三分之一，算力也低一截，所以 L40S 的延遲會比 GB10 樂觀。延遲表一律標「L40S，非 GB10」。
+- **MoE 影響的是速度**：
+  - 讀第一個 token 的機率幾乎都是 prefill，主要吃算力。
+  - 26B-A4B 每個 token 只啟用約 4B 參數；Clef 27B 是 dense，計算量約 7 倍；flash 9B 約 2 倍。
+  - 所以 Cloudflare edge 上的 38.8 ms 不能直接搬到 GB10。本輪每個 arm 另報一欄**每題計算量**（啟用參數 × 輸入 token 數），用來推估 GB10 上的快慢排序，GB10 上再實測確認（§7）。
+
+## 3. 步驟 1：參考值與等價檢查（smoke）
 
 參考實作是 transformers 加官方 `load_release_model`（BF16）。卡上另外列了 vLLM、SGLang、llama.cpp 和 15 個量化版本，但**判斷頭是自訂的，這些 runtime 不一定真的跑了它**。
 
-- 每個模型在 D0 抽 50 題，比較 transformers 參考值與 vLLM／SGLang 的輸出：
-  - 每題機率向量最大絕對差 ≤ 0.01，且 argmax 一致 ≥ 49/50，才算等價。
-- 不等價的 runtime 只記錄、不拿來報準確率。延遲只報能等價的 runtime；若都不等價，就只報 transformers 的延遲並註明「非最佳化 runtime」。
-- 量化版（GB10 會想用）：flash 的 Q8 與 Q4 各一，同樣 50 題比參考值，報 argmax 一致率。
+- **參考值**：
+  - flash：L40S 上 BF16。
+  - 27B：H100 上 BF16，只跑 D0 抽出的 50 題，結果存 volume 後關機。
+- **等價檢查**：同 50 題和參考值比，每題機率向量最大絕對差 ≤ 0.01，且 argmax 一致 ≥ 49/50，才算等價。要比的組合：
+  - flash：vLLM／SGLang（BF16），以及 Q8 與 Q4（GB10 會想用）。
+  - 27B：L40S 上的 FP8 或 Q8（transformers 載入或 vLLM／SGLang，哪個先過用哪個），這是主跑能不能放 L40S 的關鍵。
+- 不等價的 runtime 只記錄，不拿來報準確率。
+- 27B 在 L40S 上沒有任何量化版過關 → 27B 主跑改回 H100 BF16（預算多約 $3，§6）。
 
 ## 4. 步驟 2：主跑
 
 | arm | 模型 | 後端 | 硬體 |
 |---|---|---|---|
 | C1 | Clef-flash（9B） | transformers BF16（參考） | L40S 48 GB |
-| C2 | Clef（27B） | transformers BF16（參考） | H100 80 GB |
-| C1s / C2s | 同上 | 等價檢查過的 vLLM 或 SGLang | 同上 |
-| G26 | 我們的 26B-A4B | 既有結果（llama-server UD-Q4_K_M、SGLang 帶 `<bos>`），不重跑準確率 | — |
+| C2 | Clef（27B） | FP8 或 Q8（§3 過關的那個） | L40S 48 GB |
+| C2ref | Clef（27B） | transformers BF16，只跑 50 題 | H100 80 GB |
+| C1s | Clef-flash | 等價檢查過的 vLLM 或 SGLang（量延遲用） | L40S |
+| G26 | 我們的 26B-A4B | 準確率用既有結果（llama-server UD-Q4_K_M、SGLang 帶 `<bos>`）；延遲在同一張 L40S 上重量 | L40S |
 | G4 | 我們的 E4B | 既有結果 | — |
 | W（選配） | `@cf/cloudflare/clef-flash` | Workers AI REST | Cloudflare edge |
 
@@ -71,19 +90,20 @@
 - 順序敏感度：D0 test 與 JevBench 各跑一次選項反序，報 argmax 翻面率。對照組是 v5 量到的急迫度 21%、SPC 19%，以及 v8 JevBench 的 6.5%。
 - 延遲：
   - 單題與「同 state 多題」（K=3、K=7，同 v7 P1）兩種，報 p50 / p95。
-  - 硬體、batch、runtime 寫清楚。G26 拿 v6 的 SGLang 數字（L40S 單題 63 ms，deterministic 81 ms），C1 也在 L40S 上量，硬體才同級。
+  - G26（SGLang 帶 `<bos>`）、C1s、C2 都在**同一張 L40S** 上量。硬體、batch、runtime 寫清楚，表頭標「L40S，非 GB10」。
+  - 另報每題計算量（啟用參數 × 輸入 token 數）與換算的 GB10 預估排序，明寫是推估。
 - 記憶體：每個 arm 的峰值 GPU 記憶體，以及換算到 GB10（128 GB 統一記憶體）能不能和生成模型並存。
 
 **注意 option mass 不適用**：它的頭本來就只在選項上做 softmax，總和恆為 1，v7 的模板健康檢查換不過去。改用「同題反序的機率向量差」當健康檢查，記錄但不設門檻。
 
 ## 5. 判定（pre-registered）
 
-**A. runtime**：至少一個最佳化 runtime 通過 §3 等價檢查，GB10 部署才算可行；都不過的話，結論只能寫「transformers 可用、速度未最佳化」。
+**A. runtime**：至少一個最佳化 runtime 或量化版通過 §3 等價檢查，GB10 部署才算可行；都不過的話，結論只能寫「transformers BF16 可用、速度未最佳化」。27B 的主跑數字只有在 L40S 量化版過關時才算數，否則以 H100 BF16 重跑的為準。
 
 **B. Clef-flash 取代 26B（逐 task 判）**：
 
 - 準確率 ≥ G26 − 1 點，且 McNemar p ≥ 0.05；
-- 同硬體單題 p50 ≤ G26 × 0.5；
+- 同一張 L40S 上單題 p50 ≤ G26 × 0.5，而且每題計算量不高於 G26（否則 L40S 上快、GB10 上不一定快，記為「待 GB10 確認」）；
 - 中文題切片的準確率 ≥ G26 − 2 點。
 
 三條都過的 task 列入「可換 flash」。10 類中 ≥ 8 類可換 → 判斷層預設改 Clef-flash，26B 留給生成。
@@ -102,14 +122,15 @@
 ## 6. 順序、預算、輸出
 
 1. 步驟 0：讀卡、adapter（無 GPU，約半天）。
-2. Smoke：L40S 先下載 flash（約 18 GB）進 volume，50 題等價檢查；再到 H100 做 27B（約 54 GB）。
-3. 主跑：每個模型約 7,000 次讀取（D0 2,000 + hard/blind + v9 約 600 + R 4,000 + JevBench 462 + D0 反序 1,000）。
-   - C1：L40S 約 45 分鐘，≈ $1.5。
-   - C2：H100 約 1 小時，≈ $4。
-4. 延遲：等價的 runtime 在 L40S 上量一次（約 20 分鐘），≈ $0.7。
-5. W（選配）：Workers AI 只跑 D0 test 300 題加延遲 100 次；照 Cloudflare 定價頁另計，預期在免費額度內。
+2. 參考值：H100 下載 27B（約 54 GB）進 volume，BF16 跑 50 題後關機，含下載約 15–20 分鐘，≈ $1。
+3. Smoke：L40S 下載 flash（約 18 GB）與 27B 量化版，跑 §3 的等價檢查。
+4. 主跑（全在 L40S）：每個模型約 7,000 次讀取（D0 2,000 + hard/blind + v9 約 600 + R 4,000 + JevBench 462 + D0 反序 1,000）。
+   - C1 flash：約 45 分鐘，≈ $1.5。
+   - C2 27B 量化：約 30–40 分鐘，≈ $1.2。
+5. 延遲：G26、C1s、C2 同一張 L40S 各量一次（約 20 分鐘），≈ $0.7。
+6. W（選配）：Workers AI 只跑 D0 test 300 題加延遲 100 次；照 Cloudflare 定價頁另計，預期在免費額度內。
 
-**合計 GPU 約 $6–7，上限 $10**。比上一輪口頭估的 $2 高，因為 27B BF16 要 H100，R 重排序的讀取數也大。
+**合計 GPU 約 $3–4，上限 $8**。若 27B 量化版等價檢查沒過、主跑改回 H100 BF16，再加約 $3。
 
 輸出：
 

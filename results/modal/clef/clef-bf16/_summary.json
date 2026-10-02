@@ -1,0 +1,20 @@
+{
+ "meta": {
+  "model_path": "/models/clef/clef",
+  "quant": "bf16",
+  "load_s": 32.2,
+  "gpu": "NVIDIA H100 80GB HBM3",
+  "torch": "2.11.0+cu128",
+  "mem_after_load_gb": 54.97,
+  "transformers": "5.10.2",
+  "fast_path": false,
+  "fla": true
+ },
+ "smoke": {
+  "smoke": {
+   "n": 50,
+   "acc": 0.98
+  },
+  "s": 88.0
+ }
+}

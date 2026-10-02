@@ -1,0 +1,39 @@
+{
+ "meta": {
+  "model_path": "/models/clef/clef-flash",
+  "quant": "bf16",
+  "load_s": 17.0,
+  "gpu": "NVIDIA L40S",
+  "torch": "2.11.0+cu128",
+  "mem_after_load_gb": 19.06,
+  "transformers": "5.10.2",
+  "fast_path": false,
+  "fla": true
+ },
+ "smoke": {
+  "smoke": {
+   "n": 50,
+   "acc": 0.94
+  },
+  "s": 48.5
+ },
+ "latency": {
+  "latency": {
+   "single": {
+    "n": 200,
+    "p50_ms": 46.5,
+    "p95_ms": 51.2,
+    "mean_tokens": 306.3,
+    "peak_mem_gb": 19.14
+   },
+   "packed3": {
+    "n": 200,
+    "p50_ms": 66.6,
+    "p95_ms": 77.8,
+    "mean_tokens": 624.7,
+    "peak_mem_gb": 19.17
+   }
+  },
+  "s": 36.7
+ }
+}

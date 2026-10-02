@@ -2,7 +2,7 @@
  "meta": {
   "model_path": "/models/clef/clef",
   "quant": "bf16",
-  "load_s": 32.2,
+  "load_s": 35.9,
   "gpu": "NVIDIA H100 80GB HBM3",
   "torch": "2.11.0+cu128",
   "mem_after_load_gb": 54.97,
@@ -16,5 +16,149 @@
    "acc": 0.98
   },
   "s": 88.0
+ },
+ "latency": {
+  "latency": {
+   "single": {
+    "n": 200,
+    "p50_ms": 86.6,
+    "p95_ms": 88.1,
+    "cold_p50_ms": 1017.5,
+    "cold_p95_ms": 1083.6,
+    "mean_tokens": 306.3,
+    "peak_mem_gb": 55.31
+   },
+   "packed3": {
+    "n": 200,
+    "p50_ms": 87.7,
+    "p95_ms": 89.1,
+    "cold_p50_ms": 89.0,
+    "cold_p95_ms": 1046.1,
+    "mean_tokens": 624.7,
+    "peak_mem_gb": 55.14
+   }
+  },
+  "s": 253.4
+ },
+ "d0": {
+  "d0": {
+   "n": 2000,
+   "acc": 0.962,
+   "n_nan": 0
+  },
+  "d0_letter_fwd": {
+   "n": 1200,
+   "acc": 0.9842,
+   "n_nan": 0
+  },
+  "d0_letter_rev": {
+   "n": 1200,
+   "acc": 0.9808,
+   "n_nan": 0
+  },
+  "s": 674.3
+ },
+ "blind": {
+  "blind": {
+   "n": 584,
+   "acc": 0.9675,
+   "n_nan": 0
+  },
+  "s": 51.5
+ },
+ "v9": {
+  "g_input_guard": {
+   "n": 198,
+   "acc": 0.9747,
+   "n_nan": 0
+  },
+  "t_tool_gate": {
+   "n": 198,
+   "acc": 0.8586,
+   "n_nan": 0
+  },
+  "e_answer_score": {
+   "n": 600,
+   "acc": 0.9883,
+   "n_nan": 0
+  },
+  "blind_g_input_guard": {
+   "n": 55,
+   "acc": 0.9818,
+   "n_nan": 0
+  },
+  "blind_t_tool_gate": {
+   "n": 59,
+   "acc": 1.0,
+   "n_nan": 0
+  },
+  "s": 252.9
+ },
+ "jevbench": {
+  "jevbench_native": {
+   "n": 231,
+   "acc": 0.8745
+  },
+  "jevbench_letter_fwd": {
+   "n": 139,
+   "acc": 0.8705
+  },
+  "jevbench_letter_rev": {
+   "n": 139,
+   "acc": 0.8921
+  },
+  "s": 216.7
+ },
+ "packed": {
+  "packed": {
+   "n": 600,
+   "acc": 0.9317
+  },
+  "s": 121.0
+ },
+ "rerank": {
+  "rerank": {
+   "n": 200,
+   "ndcg5": 0.8804024676388201,
+   "mrr": 0.8939166666666668,
+   "recall3": 0.99
+  },
+  "s": 178.5
+ },
+ "profile": {
+  "profile": {
+   "tokens": 254,
+   "ms": [
+    88.3,
+    85.7,
+    85.4,
+    85.1,
+    85.3,
+    85.3,
+    85.2,
+    85.1,
+    85.2,
+    85.0,
+    84.9,
+    84.7,
+    85.0,
+    84.8,
+    85.1,
+    84.9,
+    85.0,
+    84.8,
+    84.9,
+    84.7
+   ],
+   "tokens2": 264,
+   "ms2": [
+    1029.6,
+    86.4,
+    85.8,
+    85.8,
+    85.5
+   ]
+  },
+  "s": 5.4
  }
 }

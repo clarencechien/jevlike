@@ -21,7 +21,8 @@
 | v7 packed readout（L40S） | dry run + 主跑 + 占位符變體 + K=7，四次冷啟 | GPU ≈ 0.7 h | ≈ $1.4 | < $1 |
 | v8 JevBench 自跑（L4） | dry run ×2（一次 OOM）+ 26B 231 題正反序 + E4B | GPU ≈ 0.25 h | ≈ $0.2 | < $1 |
 | v9 九格補測（L4 + L40S） | 護欄、工具守門 × 3 模型、外部題 × 3、評分 × 3（含 JSON 對照）、重排序 × 3（L4）與 SGLang 一次（L40S）；Gemini 寫題與標註約 16 次呼叫（免費額度） | GPU ≈ 1.3 h | ≈ $1.5 | < $2 |
-| **合計（v2–v9）** | | **GPU ≈ 10.2 h** | **≈ $17** | |
+| v10 Clef 對照（L40S + H100） | 下載 74 GB（CPU 容器）；L40S：flash BF16 smoke + 延遲 ×2、量化等價檢查 FP8 ×2（一次缺套件）、FP8-nola、int8、NF4、27B FP8，flash 主跑（D0 2,000 + 字母 ID 2,400 + D2 + v9 + R 4,000 + JevBench 509 + packed 600 + 延遲 + profile，13 分鐘）；H100：27B BF16 參考 50 題 + 延遲，27B 主跑（31 分鐘）。image 建了 4 次（torch／torchvision／kernels 版本） | L40S ≈ 0.7 h、H100 ≈ 0.75 h | ≈ $4.5 | $3–4，上限 $8 |
+| **合計（v2–v10）** | | **GPU ≈ 11.7 h** | **≈ $21.5** | |
 
 比估算省很多的原因：MoE A4B 在 L4 上每題 200 ms 級，2000 筆 + 1000 筆對照只要 12 分鐘；資料由 Claude Code 端產生不吃 GPU。
 AI Studio：v2 僅能力探測；v3 用 gemini-3.5-flash 盲寫 600 筆 D2 與標註 600 筆，約 80 次呼叫，免費額度內。

@@ -15,7 +15,9 @@
 | 系統 | 公開 231 題 acc | 備註 |
 |---|---|---|
 | Cygnet（凍結 Gemma-4-12B-it，vLLM，T=3.4） | 87.9% | easy 48/48、standard 70/72、hard 85/111；官方榜第 4 |
+| **Clef 27B（Cloudflare，Qwen3.8-27B + LoRA + joint schema head；我們 v10 自跑，transformers BF16）** | **87.4%** | original 98.6%、easy 100%、hard 74.8%；choice 反序翻面 5.0%；vs 26B McNemar p = 0.68（v10） |
 | Open-Jev-27B v1.1（Qwen3.8-27B + LoRA + 決策頭，訓練） | 85.3% | hard 72.1% |
+| **Clef-flash（Qwen3.5-9B，同上；v10 自跑）** | **81.8%** | hard 64.0%；choice 反序翻面 5.8%；vs 26B p = 0.004（v10） |
 | TypeLLM（Qwen3.8-27B NVFP4，無訓練，不開思考） | 84.4% | 開思考 98.7%（每題均 919 token） |
 | Open-Jev-9B（訓練） | 77.5% | hard 59.5% |
 | JevK5 v0.2（Qwen3.5-4B + 蒸餾 LoRA） | — | hard 0.739 vs 未訓練 0.613 |

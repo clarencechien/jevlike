@@ -269,10 +269,10 @@ def main(model_path, quant, out, suites, token_budget=16384, commit=None):
     model, processor, jsm, load_s = load(model_path, quant)
     runner = Runner(model, processor, jsm, token_budget)
     meta = {"model_path": model_path, "quant": quant, "load_s": load_s, "gpu": torch.cuda.get_device_name(0),
-            "torch": torch.__version__, "mem_after_load_gb": round(torch.cuda.memory_allocated() / 1e9, 2)}
+            "torch": str(torch.__version__), "mem_after_load_gb": round(torch.cuda.memory_allocated() / 1e9, 2)}
     try:
         import transformers
-        meta["transformers"] = transformers.__version__
+        meta["transformers"] = str(transformers.__version__)
         from transformers.models.qwen3_5 import modeling_qwen3_5 as mq
         meta["fast_path"] = bool(getattr(mq, "is_fast_path_available", False))
         meta["fla"] = mq.chunk_gated_delta_rule is not None

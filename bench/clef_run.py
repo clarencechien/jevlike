@@ -121,18 +121,20 @@ class Runner:
 def rows_to_out(rows, arm, runner, out_path, id_mode="label"):
     recs, backs = zip(*[row_record(r, id_mode) for r in rows])
     res = runner.run(list(recs), log=os.path.basename(out_path))
-    n_ok = 0
+    n_ok = n_nan = 0
     with open(out_path, "w", encoding="utf-8") as f:
         for r, b, x in zip(rows, backs, res):
             oids, probs, logits = x["out"][QID]
             p = to_ours(oids, probs, b[QID])
-            chosen = max(p, key=p.get)
+            bad = any(v != v for v in p.values())  # NaN guard: FP8 produced all-NaN logits once; never score those
+            n_nan += bad
+            chosen = None if bad else max(p, key=p.get)
             n_ok += chosen == r["gold"]
-            f.write(json.dumps({**{k: r.get(k) for k in KEEP}, "arm": arm, "qtype": r["question"]["type"], "chosen": chosen,
+            f.write(json.dumps({**{k: r.get(k) for k in KEEP}, "arm": arm, "nan": bad, "qtype": r["question"]["type"], "chosen": chosen,
                                 "correct": chosen == r["gold"], "probs": p,
                                 "logits": dict(zip([b[QID][o] for o in oids], logits)), "prompt_tokens": x["n_tokens"]},
                                ensure_ascii=False) + "\n")
-    return {"n": len(rows), "acc": round(n_ok / max(len(rows), 1), 4)}
+    return {"n": len(rows), "acc": round(n_ok / max(len(rows), 1), 4), "n_nan": n_nan}
 
 
 def suite_smoke(runner, out):
@@ -250,15 +252,18 @@ def suite_latency(runner, out, n=200):
     s = {}
     for name, recs in (("single", [row_record(r)[0] for r in rows]), ("packed3", precs)):
         encs = [runner.encode(r) for r in recs]
-        for e in encs[:10]:
-            runner.forward([e])
+        # Triton kernels (fla) autotune per input length: pass 1 sees every length once (cold), pass 2 is timed (warm)
         torch.cuda.synchronize(); torch.cuda.reset_peak_memory_stats()
-        ms = []
+        cold, ms = [], []
+        for e in encs:
+            t0 = time.perf_counter(); runner.forward([e]); torch.cuda.synchronize()
+            cold.append((time.perf_counter() - t0) * 1000)
         for e in encs:
             t0 = time.perf_counter(); runner.forward([e]); torch.cuda.synchronize()
             ms.append((time.perf_counter() - t0) * 1000)
         toks = [len(e.input_ids) for e in encs]
         s[name] = {"n": n, "p50_ms": round(float(np.percentile(ms, 50)), 1), "p95_ms": round(float(np.percentile(ms, 95)), 1),
+                   "cold_p50_ms": round(float(np.percentile(cold, 50)), 1), "cold_p95_ms": round(float(np.percentile(cold, 95)), 1),
                    "mean_tokens": round(float(np.mean(toks)), 1), "peak_mem_gb": round(torch.cuda.max_memory_allocated() / 1e9, 2)}
         print(f"  [latency] {name} {s[name]}", flush=True)
     return {"latency": s}

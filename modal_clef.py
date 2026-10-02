@@ -29,7 +29,7 @@ image = (
     .entrypoint([])
     .apt_install("git")
     # torch from the cu128 index so it matches the image's nvcc (PyPI's default 2.11 wheel is cu130)
-    .pip_install("torch==2.11.0", index_url="https://download.pytorch.org/whl/cu128")
+    .pip_install("torch==2.11.0", "torchvision==0.26.0", index_url="https://download.pytorch.org/whl/cu128")
     .pip_install("numpy", "packaging", "ninja", "wheel", "setuptools")
     .pip_install("transformers==5.10.2", "accelerate", "safetensors", "huggingface_hub", "pillow", "requests",
                  "flash-linear-attention", "bitsandbytes")

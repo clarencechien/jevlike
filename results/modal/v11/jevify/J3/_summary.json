@@ -1,0 +1,76 @@
+{
+ "meta": {
+  "backend": "jevify",
+  "args": "--backend jevify --model-name jevify --lora-scale 1 --suites d0,blind,v9,jevbench,latency --out-sub J3",
+  "base_url": "http://127.0.0.1:8080"
+ },
+ "d0": {
+  "d0": {
+   "n": 2000,
+   "acc": 0.923,
+   "n_nan": 0
+  },
+  "d0_letter_fwd": {
+   "n": 1200,
+   "acc": 0.9192,
+   "n_nan": 0
+  },
+  "d0_letter_rev": {
+   "n": 1200,
+   "acc": 0.9175,
+   "n_nan": 0
+  },
+  "s": 1015.3
+ },
+ "blind": {
+  "blind": {
+   "n": 584,
+   "acc": 0.9623,
+   "n_nan": 0
+  },
+  "s": 122.1
+ },
+ "v9": {
+  "g_input_guard": {
+   "n": 198,
+   "acc": 0.9394,
+   "n_nan": 0
+  },
+  "t_tool_gate": {
+   "n": 198,
+   "acc": 0.7727,
+   "n_nan": 0
+  },
+  "e_answer_score": {
+   "n": 600,
+   "acc": 0.9533,
+   "n_nan": 0
+  },
+  "blind_g_input_guard": {
+   "n": 55,
+   "acc": 0.9091,
+   "n_nan": 0
+  },
+  "blind_t_tool_gate": {
+   "n": 59,
+   "acc": 0.8983,
+   "n_nan": 0
+  },
+  "s": 352.5
+ },
+ "jevbench": {
+  "jevbench_native": {
+   "n": 231,
+   "acc": 0.8571
+  },
+  "jevbench_letter_fwd": {
+   "n": 139,
+   "acc": 0.8489
+  },
+  "jevbench_letter_rev": {
+   "n": 139,
+   "acc": 0.8345
+  },
+  "s": 273.3
+ }
+}

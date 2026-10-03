@@ -1,0 +1,22 @@
+{
+  "g_input_guard": {
+    "n": 55,
+    "acc": 0.8727272727272727,
+    "acc_easy": 0.0,
+    "acc_hard": 0.0,
+    "missing_rate": 0.0,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  },
+  "t_tool_gate": {
+    "n": 59,
+    "acc": 0.9491525423728814,
+    "acc_easy": 0.0,
+    "acc_hard": 0.0,
+    "missing_rate": 0.0,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  }
+}

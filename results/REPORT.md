@@ -272,6 +272,22 @@ TypeLLM 本身不支援 Gemma 4（`06-comparison.md`），它的 JevBench 84.4% 
 transformers 每次呼叫的 GPU 時間只有 35–40 ms，其餘是 Python 開銷。(3) 27B 是 dense，每題計算量是 26B-A4B 的 9.3 倍，GB10 上的延遲要實測。
 (4) 工具守門 Clef 更差，照舊用規則。
 
+## 3j. Clef 走 llama-server、jevify 同底模對照（v11，`16-clef-llamacpp.md`、`docs/handoff-v11-clef-llamacpp.md`）
+
+**一句話**：llama.cpp b11371 原生支援 Clef，結果跟 Cloudflare 原版等價（最大機率差 ≤ 0.009），Q8／Q4 量化可用（D0 差 ≤ 0.35 點）；但同一張 L40S 上 flash Q8 單題 48 ms 對 26B 56 ms，
+27B Q8 142 ms，速度沒贏 → 判斷層預設不換，27B Q8（29 GB）可上 GB10、列為 SPC／重排序候選。jevify（Gemma 26B + 英文通用 LoRA）D0 92.5–93.6%，比零訓練差，不採用。
+26B 換 b11371：check-lock 0 失敗、1,998/2,000 答案相同。
+
+| | 26B（我們） | flash Q8_0 | 27B Q8_0 | jevify（J1） |
+|---|---|---|---|---|
+| D0 平均／SPC | 95.5% / 86% | 92.7% / 81% | **96.8% / 97%** | 92.5% / 78% |
+| 重排序 nDCG@5 | 0.840 | 0.845 | **0.878** | — |
+| 單題 p50 | 56 ms（L40S，b11371） | 48 ms | 142 ms | 248 ms（L4，對 26B 206 ms） |
+| 同 state 三題 | ≈ 150 ms | 84 ms | 256 ms | 714 ms |
+| 跑法 | llama-server | llama-server `/v1/systemone` | 同左 | llama-server chat，或 `--lora` 混用 |
+
+混用 LoRA（判斷 scale 1、生成 scale 0）：生成逐字不變，但判斷延遲被生成拖到 3.3 倍（不同 scale 不能同批算）；即時判斷不要跟生成共用帶 LoRA 的 server。
+
 ## 4. 本版的限制
 
 1. **延遲全部是 L4 上界**。GB10 實測待補（v1 §5 L1–L7，約 30 分鐘；記得 `--swa-full`）。

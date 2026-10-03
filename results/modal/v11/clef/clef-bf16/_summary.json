@@ -1,0 +1,15 @@
+{
+ "meta": {
+  "backend": "systemone",
+  "args": "--backend systemone --suites smoke",
+  "base_url": "http://127.0.0.1:8090"
+ },
+ "smoke": {
+  "smoke": {
+   "n": 50,
+   "acc": 0.98,
+   "n_nan": 0
+  },
+  "s": 8.5
+ }
+}

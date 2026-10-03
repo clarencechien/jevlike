@@ -212,9 +212,115 @@ def section_jevify(L):
     return out
 
 
+# ------------------------------------------------------------------ Clef on llama-server
+C = os.path.join(V11, "clef")
+CLEF_ARMS = [("flash BF16 GGUF", "flash-bf16"), ("flash Q8_0", "flash-q8"), ("flash Q4_K_M", "flash-q4"), ("27B Q8_0", "clef-q8")]
+
+
+def section_clef(L):
+    out = {}
+    # §3 equivalence vs v10 transformers BF16
+    refs = {"flash": jl(os.path.join(A.CLEF, "clef-flash-bf16", "smoke.jsonl")), "clef": jl(os.path.join(A.CLEF, "clef-bf16", "smoke.jsonl"))}
+    eq = {}
+    for name in ("flash-bf16", "flash-q8", "flash-q4", "clef-bf16", "clef-q8"):
+        rows = jl(os.path.join(C, name, "smoke.jsonl"))
+        if rows:
+            eq[name] = A.equiv(refs["flash" if name.startswith("flash") else "clef"], rows)
+    out["equiv"] = eq
+    L += ["## C0. 等價檢查（50 題，對 v10 transformers BF16 參考值；等價 = 最大機率差 ≤ 0.01 且答案 ≥ 49/50）", "",
+          "| arm | 硬體 | 最大差 | 中位差 | 答案一致 | 等價？ |", "|---|---|---|---|---|---|"]
+    for k, v in eq.items():
+        hw = "H100" if k == "clef-bf16" else "L40S"
+        L.append(f"| {k} | {hw} | {f(v['max_abs'], 4)} | {f(v['p50_abs'], 4)} | {v['argmax_agree']}/{v['n']} | {'✓' if v['equivalent'] else '✗'} |")
+    L.append("")
+    # D0 / v9 tables
+    models = [("26B（我們）", loader_ref("26B")), ("flash（v10 transformers）", loader_ref("Clef-flash"))] + \
+             [(lab, loader_bench_dir(os.path.join(C, d))) for lab, d in CLEF_ARMS[:3]] + \
+             [("27B（v10 transformers）", loader_ref("Clef 27B")), (CLEF_ARMS[3][0], loader_bench_dir(os.path.join(C, CLEF_ARMS[3][1])))]
+    models = [(n, ld) for n, ld in models if any(ld("d0").values())]
+    out["d0"] = d0_table(models, L, "## C1. D0（test 半；括號是對 26B 的 McNemar p < 0.05）")
+    out["blind"] = blind_row(models)
+    L += ["D2 盲寫：" + "、".join(f"{n} {pct(v)}" for n, v in out["blind"].items()), ""]
+    # 「可用」: quant vs its BF16 (flash: BF16 GGUF; 27B: v10 transformers BF16, shown equivalent to the BF16 GGUF in C0)
+    usable = {}
+    for q, base, smoke_key in (("flash Q8_0", "flash BF16 GGUF", "flash-q8"), ("flash Q4_K_M", "flash BF16 GGUF", "flash-q4"), ("27B Q8_0", "27B（v10 transformers）", "clef-q8")):
+        if q not in out["d0"]["summary"] or base not in out["d0"]["summary"]:
+            continue
+        lq = dict(models)[q]("d0"); lb = dict(models)[base]("d0")
+        a = {r["id"]: A.correct_of(r) for t in D0 for r in lb.get(t, [])}
+        b = {r["id"]: A.correct_of(r) for t in D0 for r in lq.get(t, [])}
+        ids = [i for i in a if i in b]
+        acc_a, acc_b = float(np.mean([a[i] for i in ids])), float(np.mean([b[i] for i in ids]))
+        p = A.mcnemar([a[i] for i in ids], [b[i] for i in ids])
+        ag = eq.get(smoke_key, {}).get("argmax_agree", 0)
+        usable[q] = {"acc_base_all": acc_a, "acc_quant_all": acc_b, "diff_pt": (acc_b - acc_a) * 100, "p": p, "smoke_agree": ag,
+                     "usable": ag >= 49 and abs(acc_b - acc_a) <= 0.01 and p >= 0.05}
+    out["usable"] = usable
+    L += ["## C2. 量化版「可用」（答案一致 ≥ 49/50，完整 D0 2,000 題與 BF16 差 ≤ 1 點且 McNemar p ≥ 0.05）", "",
+          "| 量化版 | 對照 BF16 | BF16 acc | 量化 acc | 差（點） | p | smoke 一致 | 可用？ |", "|---|---|---|---|---|---|---|---|"]
+    for q, v in usable.items():
+        base = "flash BF16 GGUF" if q.startswith("flash") else "27B BF16（v10，與 GGUF 等價）"
+        L.append(f"| {q} | {base} | {pct(v['acc_base_all'])} | {pct(v['acc_quant_all'])} | {v['diff_pt']:+.2f} | {f(v['p'], 3)} | {v['smoke_agree']}/50 | {'✓' if v['usable'] else '✗'} |")
+    L.append("")
+    out["v9"] = v9_table(models, L, "## C3. v9 三格（test 半）")
+    # rerank, jevbench, packed
+    data = A.jl(os.path.join(ROOT, "data/v9/r_rerank.jsonl"))
+    te_ids = {r["id"] for r, c in zip(data, A.group_split(data, 0)) if not c}
+    rr = {"26B（我們）": os.path.join(ROOT, "results/modal/rerank/r_rerank.jsonl"), "flash（v10 transformers）": os.path.join(A.CLEF, "clef-flash-bf16", "r_rerank.jsonl"),
+          "flash BF16 GGUF": os.path.join(C, "flash-bf16", "r_rerank.jsonl"), "flash Q8_0": os.path.join(C, "flash-q8", "r_rerank.jsonl"),
+          "27B（v10 transformers）": os.path.join(A.CLEF, "clef-bf16", "r_rerank.jsonl"), "27B Q8_0": os.path.join(C, "clef-q8", "r_rerank.jsonl")}
+    out["rerank"] = {n: A.rr_metrics([r for r in jl(p) if r["id"] in te_ids]) for n, p in rr.items() if jl(p)}
+    jbp = {"flash（v10 transformers）": os.path.join(A.CLEF, "clef-flash-bf16", "jevbench_native.jsonl"), "flash BF16 GGUF": os.path.join(C, "flash-bf16", "jevbench_native.jsonl"),
+           "flash Q8_0": os.path.join(C, "flash-q8", "jevbench_native.jsonl"), "27B（v10 transformers）": os.path.join(A.CLEF, "clef-bf16", "jevbench_native.jsonl"),
+           "27B Q8_0": os.path.join(C, "clef-q8", "jevbench_native.jsonl")}
+    out["jevbench"] = {"26B（我們）": jevbench_ours(os.path.join(ROOT, "results/modal/jevbench")), **{n: jevbench_bench(p) for n, p in jbp.items() if jl(p)}}
+    L += ["## C4. 重排序 nDCG@5（test 半，門檻 0.85）與 JevBench 公開 231 題（self-run）", "", "| arm | nDCG@5 | MRR | JevBench 全部 | hard |", "|---|---|---|---|---|"]
+    for n in out["jevbench"]:
+        r = out["rerank"].get(n, {}); j = out["jevbench"][n] or {}
+        L.append(f"| {n} | {f(r.get('ndcg5'), 3)} | {f(r.get('mrr'), 3)} | {pct(j.get('acc'))} | {pct(j.get('hard'))} |")
+    L.append("")
+    pk = {}
+    for n, d in (("flash BF16 GGUF", "flash-bf16"), ("flash Q8_0", "flash-q8"), ("27B Q8_0", "clef-q8")):
+        P = {r["id"]: r for r in jl(os.path.join(C, d, "packed.jsonl"))}; S = {r["id"]: r for r in jl(os.path.join(C, d, "d0.jsonl"))}
+        if not P:
+            continue
+        pk[n] = {}
+        for t in A.ALARM:
+            ids = [i for i, r in P.items() if r["task"] == t and i in S]
+            a = [bool(S[i]["correct"]) for i in ids]; b = [bool(P[i]["correct"]) for i in ids]
+            pk[n][t] = {"single": float(np.mean(a)), "packed": float(np.mean(b)), "p": A.mcnemar(a, b), "flip": float(np.mean([S[i]["chosen"] != P[i]["chosen"] for i in ids]))}
+    out["packed"] = pk
+    L += ["## C5. 同 state 三題一起判（alarm 600 列）", "", "| arm | 急迫度 單題→三題 | 分類 | 派工 |", "|---|---|---|---|"]
+    for n, v in pk.items():
+        L.append(f"| {n} | " + " | ".join(f"{pct(v[t]['single'])} → {pct(v[t]['packed'])}（p={v[t]['p']:.3f}）" for t in A.ALARM) + " |")
+    L.append("")
+    # latency (same L40S, same b11371 build)
+    lat = {}
+    for n, d in CLEF_ARMS:
+        p = os.path.join(C, d, "_summary.json")
+        if os.path.exists(p) and "latency" in json.load(open(p)):
+            lat[n] = json.load(open(p))["latency"]["latency"]
+    r26 = json.load(open(os.path.join(V11, "latency-26b", "latency_b11371_l40s.json")))["results"]
+    def p50(key):
+        v = r26.get(key)
+        return v["summary"]["p50"] if v else None
+    s1, q1, q5, q10 = p50("L1_single_100tok_2opt"), p50("L4_shared_state_1q_cache_on"), p50("L4_shared_state_5q_cache_on"), p50("L4_shared_state_10q_cache_on")
+    q3 = q1 + (q5 - q1) * 2 / 4 if q1 and q5 else None  # linear between the measured 1q and 5q points
+    thr26 = {c: c / (p50(f"L5_concurrency_{c}") / 1000) for c in (1, 4, 8) if p50(f"L5_concurrency_{c}")}
+    out["latency"] = {"clef": lat, "26b": {"single": s1, "shared_1q": q1, "shared_3q_interp": q3, "shared_5q": q5, "shared_10q": q10, "throughput": thr26}}
+    L += ["## C6. 延遲（同一張 L40S、同一個 llama.cpp b11371 build；batch 1）", "",
+          "| | 單題 p50 | 同 state 三題 p50 | 吞吐 c=1 / 4 / 8（題/秒） |", "|---|---|---|---|",
+          f"| 26B（我們，`--swa-full`，同 slot 依序送） | {s1:.0f} ms | ≈ {q3:.0f} ms（1 題 {q1:.0f}、5 題 {q5:.0f} ms 之間內插） | " + " / ".join(f"{thr26[c]:.1f}" for c in (1, 4, 8)) + " |"]
+    for n, v in lat.items():
+        L.append(f"| {n} | {v['single']['p50_ms']:.0f} ms | {v['packed3']['p50_ms']:.0f} ms | {v['throughput_c1']} / {v['throughput_c4']} / {v['throughput_c8']} |")
+    L.append("")
+    return out
+
+
 def main():
     L, out = [], {}
     out["jevify"] = section_jevify(L)
+    out["clef"] = section_clef(L)
     text = "\n".join(L) + "\n"
     open(os.path.join(ROOT, "results/16-clef-llamacpp-tables.md"), "w", encoding="utf-8").write(text)
     json.dump(out, open(os.path.join(ROOT, "results/v11.json"), "w"), ensure_ascii=False, indent=1, default=float)

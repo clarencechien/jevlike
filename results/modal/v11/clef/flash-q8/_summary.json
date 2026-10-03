@@ -1,0 +1,118 @@
+{
+ "meta": {
+  "backend": "systemone",
+  "args": "--backend systemone --suites d0,blind,v9,rerank,jevbench,packed,latency",
+  "base_url": "http://127.0.0.1:8090"
+ },
+ "smoke": {
+  "smoke": {
+   "n": 50,
+   "acc": 0.94,
+   "n_nan": 0
+  },
+  "s": 6.2
+ },
+ "d0": {
+  "d0": {
+   "n": 2000,
+   "acc": 0.9295,
+   "n_nan": 0
+  },
+  "d0_letter_fwd": {
+   "n": 1200,
+   "acc": 0.95,
+   "n_nan": 0
+  },
+  "d0_letter_rev": {
+   "n": 1200,
+   "acc": 0.9525,
+   "n_nan": 0
+  },
+  "s": 222.2
+ },
+ "blind": {
+  "blind": {
+   "n": 584,
+   "acc": 0.9692,
+   "n_nan": 0
+  },
+  "s": 26.1
+ },
+ "v9": {
+  "g_input_guard": {
+   "n": 198,
+   "acc": 0.9747,
+   "n_nan": 0
+  },
+  "t_tool_gate": {
+   "n": 198,
+   "acc": 0.8636,
+   "n_nan": 0
+  },
+  "e_answer_score": {
+   "n": 600,
+   "acc": 0.945,
+   "n_nan": 0
+  },
+  "blind_g_input_guard": {
+   "n": 55,
+   "acc": 0.9273,
+   "n_nan": 0
+  },
+  "blind_t_tool_gate": {
+   "n": 59,
+   "acc": 0.9322,
+   "n_nan": 0
+  },
+  "s": 72.5
+ },
+ "rerank": {
+  "rerank": {
+   "n": 200,
+   "ndcg5": 0.8311067812709934,
+   "mrr": 0.8593809523809522,
+   "recall3": 0.97
+  },
+  "s": 155.5
+ },
+ "jevbench": {
+  "jevbench_native": {
+   "n": 231,
+   "acc": 0.8268
+  },
+  "jevbench_letter_fwd": {
+   "n": 139,
+   "acc": 0.8345
+  },
+  "jevbench_letter_rev": {
+   "n": 139,
+   "acc": 0.8273
+  },
+  "s": 61.2
+ },
+ "packed": {
+  "packed": {
+   "n": 600,
+   "acc": 0.9017
+  },
+  "s": 48.6
+ },
+ "latency": {
+  "latency": {
+   "single": {
+    "n": 200,
+    "p50_ms": 47.5,
+    "p95_ms": 58.9
+   },
+   "packed3": {
+    "n": 200,
+    "p50_ms": 83.7,
+    "p95_ms": 87.3
+   },
+   "throughput_c1": 21.03,
+   "throughput_c4": 22.14,
+   "throughput_c8": 22.1
+  },
+  "s": 55.5
+ }
+}

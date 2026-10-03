@@ -15,7 +15,7 @@
 
 | 項目 | 要求 | 怎麼確認 |
 |---|---|---|
-| llama.cpp | llama-server，CUDA sm121 build，版本 ≥ b11118（Modal 用的） | `llama-server --version`；`/props` 的 `build_info` 寫進 `results/gb10/00-env.md` |
+| llama.cpp | llama-server，CUDA sm121 build，版本 **≥ b11371**（v11：26B 從 Modal 的 b11118 換到 b11371，check-lock 0 失敗、1,998/2,000 答案相同；Clef 也要這版以上，兩個 server 用同一個 build） | `llama-server --version`；`/props` 的 `build_info` 寫進 `results/gb10/00-env.md` |
 | 模型檔（llama） | `unsloth/gemma-4-26B-A4B-it-GGUF`：`gemma-4-26B-A4B-it-UD-Q4_K_M.gguf`（主力，17 GB）與 `Q8_0`（27 GB）；`unsloth/gemma-4-E4B-it-GGUF` Q8_0；`unsloth/gemma-4-E2B-it-GGUF` Q8_0 | 檔名、sha256 寫進 00-env；若 GB10 現有部署用的是別的量化（Google QAT q4_0 等），**也要量**，見 §4 |
 | llama-server 參數 | `--jinja --reasoning-budget 0 --swa-full -np 4 -c 65536`（26B）；GB10 記憶體夠，`-np` 可加到 8–16 給 L5 用 | smoke 會檢查模板與 `<bos>` |
 | SGLang（選配） | 映像 `xomoxcc/dgx-spark-sglang` 的 `gemma4-sm121` tag；權重 `RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic` @ `ed35d7abe5d9`；`--context-length 4096 --max-running-requests 32`；**MTP 不開**、reasoning parser 不開 | `bench/run_local.py --which smoke_sglang` 的 `bos_check.ok` 與 `option_mass_check.ok` 都要 True |

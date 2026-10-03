@@ -101,6 +101,8 @@ REPORT.md 要改的地方，一條一條對：
 
 ## 6b. 選配：Clef 27B 在 GB10 上的決定（v10／v11 留下的題，半天）
 
+> **完整步驟、門檻與交付在 `docs/handoff-gb10-clef.md`**；下面是摘要。
+
 v11（`results/16-clef-llamacpp.md`）之後，Clef 改走 **llama-server 原生 `/v1/systemone`**，不再需要 transformers。結論仍是「判斷層預設 26B，Clef 27B 是 SPC、重排序、同 state 多題的候選」，缺 GB10 實測。要做的話：
 1. llama.cpp **≥ `b11371`**（26B 也一起換：v11 量過 check-lock 0 失敗）。GB10 是 arm64 + CUDA（sm_121），等 Docker `server-cuda` arm64 更新到 ≥ b11371，或照 `modal_clef_gguf.py::build` 自己編（`-DCMAKE_CUDA_ARCHITECTURES=121`）。
 2. 權重：`ggml-org/Clef-GGUF` revision `5f70656b6670c65eb85ad07a11efe211b5f211bd` 的 **`Clef-Q8_0.gguf`（28.7 GB）**；flash 用 `ggml-org/Clef-Flash-GGUF` `4a7a08c09bc63baf043b62b5ba89dd67a0357d95` 的 Q8_0（9.7 GB）。

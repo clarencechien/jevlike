@@ -9,8 +9,9 @@ Backends (both take the same Jev record that decide/clef_adapter.py builds and r
 The API returns probabilities, not logits: rows store log(p) as "logits" (softmax-invariant up to a constant, so the
 v10 temperature fit and analysis code work unchanged).
 
-args (run through modal_app.run_bench or modal_clef_gguf): "--backend systemone|jevify --suites smoke,d0,... --workers 4
-  --lora-scale 1 --model-name clef"
+args (run through modal_app.run_bench, modal_clef_gguf, or bench/run_local.py on GB10):
+  "--backend systemone|jevify --suites smoke,d0,... --workers 4 --lora-scale 1 --model-name clef"
+  suite "rows" reads any directory: "--suites rows --rows-dir data/real --tasks q_spc_action,m_alarm_severity --criteria data/seeds/tasks_v2.json"
 """
 from __future__ import annotations
 
@@ -136,6 +137,25 @@ def suite_latency(runner, out, n=200):
     return {"latency": s}
 
 
+def suite_rows(runner, out, rows_dir, tasks, criteria_path=None):
+    """Any rows directory in the data/synthetic layout (<rows_dir>/<task>.jsonl), e.g. data/real on GB10.
+    --criteria applies the same question override as bench/accuracy.py (data/seeds/tasks_v2.json)."""
+    crit = json.load(open(criteria_path, encoding="utf-8")) if criteria_path else {}
+    s = {}
+    for task in tasks:
+        rows = clef_run.jl(os.path.join(rows_dir, f"{task}.jsonl"))
+        if not rows:
+            continue
+        if task in crit:
+            c = crit[task]
+            q = {"type": c["kind"], "instructions": c["instructions"],
+                 "options": {k: {"label": v["label"], "criteria": v["criteria"]} for k, v in c["options"].items()}}
+            for r in rows:
+                r["question"] = q
+        s[task] = clef_run.rows_to_out(rows, "label", runner, os.path.join(out, f"{task}.jsonl"))
+    return {"rows": s}
+
+
 SUITES = {k: v for k, v in clef_run.SUITES.items() if k not in ("latency", "profile")}
 SUITES["latency"] = suite_latency
 
@@ -156,7 +176,11 @@ def main(base_url, out_dir, args="", **kw):
     summary["meta"] = {"backend": backend, "args": args, "base_url": base_url}
     for name in suites:
         t0 = time.time()
-        summary[name] = {**SUITES[name](runner, out_dir), "s": round(time.time() - t0, 1)}
+        if name == "rows":  # --rows-dir data/real --tasks a,b [--criteria data/seeds/tasks_v2.json]
+            res = suite_rows(runner, out_dir, a["--rows-dir"], a.get("--tasks", ",".join(clef_run.D0_TASKS)).split(","), a.get("--criteria"))
+        else:
+            res = SUITES[name](runner, out_dir)
+        summary[name] = {**res, "s": round(time.time() - t0, 1)}
         print(f"[systemone] {name} {summary[name]}", flush=True)
         json.dump(summary, open(sp, "w"), ensure_ascii=False, indent=1)
         if kw.get("commit"):

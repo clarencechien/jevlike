@@ -3,9 +3,20 @@
 讀選項字母的第一個 token logprob 當決策 API；不生成文字。合成的台灣 SMT 產線資料（10 類判斷題 × 200 筆），全部在 Modal 雲端 GPU 上跑，真實資料不出廠。
 
 - 長官版 HTML（公開）：<https://imitator.ai-apps.work/r/gb10-typed-decisions>
-- 工程報告：`results/REPORT.md`；分項報告 `results/00`–`12`；費用 `results/cost.md`
+- 工程報告：`results/REPORT.md`；分項報告 `results/00`–`16`；費用 `results/cost.md`
 - 生態調查與借鏡：`results/10-landscape.md`（本檔 §5 是摘要）
-- **接手 GB10 的人看這份**：`docs/handoff-gb10.md`（重現、重量、真實資料校準、結案清單）；不用 Modal，改用 `bench/run_local.py`
+
+### 給在 GB10 上接手的 Claude Code：從這裡開始
+
+依序做，每一份都先寫門檻再跑、跑完填結論、commit + push（分支 `gb10/<日期>`）。**真實產線資料不離開 GB10、不進 git**（`data/real/`、`results/gb10-real/` 已 ignore）。
+
+1. **主線**：`docs/handoff-gb10.md`。26B 重現 → GB10 重量速度 → 真實資料校準門檻 → 結案。不用 Modal，所有 bench 用 `bench/run_local.py --which <模組>`。
+   llama.cpp 直接用 **≥ b11371**（v11 驗證 26B 換到這版 check-lock 0 失敗），之後 Clef 也用同一個 build。
+2. **選配：Clef 27B 實測**：`docs/handoff-gb10-clef.md`。主線的真實資料標好之後做最有用（§6 要用到）；沒有真實資料也可以先做 §1–§5（速度與記憶體）。
+   回答「SPC（合成資料 97% 對 86%）與重排序（0.878 對 0.840）要不要改走 Clef 27B」，判定門檻在該檔 §7。
+3. **不要做**：訓練 LoRA、用 jevify、讓判斷跟生成共用帶 `--lora` 的 server（v11 證據見 `results/16-clef-llamacpp.md` §4）；不改 `decide/prompt.py` 的模板。
+
+要先讀的背景：本檔 §1–§3、`results/REPORT.md` §0／§4／§5、`results/16-clef-llamacpp.md` 的「一句話」。
 
 ## 1. 一句話
 
@@ -41,7 +52,7 @@
 | 順序敏感度 | 急迫度 21%、SPC 19%、其餘 ≤ 3% | 上線選項順序固定 |
 | 累計費用 | ≈ $15、8.6 GPU h | 原估 $5.5–7.5 只算前兩輪 |
 
-## 4. Quickstart（Modal；GB10 本機見 `docs/handoff-gb10.md`）
+## 4. Quickstart（Modal；GB10 本機見 `docs/handoff-gb10.md` 與 `docs/handoff-gb10-clef.md`）
 
 ```bash
 pip install 'modal[api-proxy-support]' numpy scikit-learn matplotlib
@@ -68,7 +79,7 @@ python3 bench/verify.py && python3 bench/thresholds.py && python3 bench/verify.p
 - `modal_app.py` llama-server 入口（`MODELS`：26b UD-Q4_K_M / q8 / bf16 / e4b / e2b）；`modal_sglang.py` SGLang 入口（fp8 / bf16，L40S 需自帶 fused-MoE Triton 設定檔）
 - `decide/` `prompt.py`（模板：`/apply-template` 學來，或 SGLang 用的 `GEMMA4_TEMPLATE_NOTHINK_BOS`；T1 變體）、`client.py`（llama `/completion`；SGLang `/generate` 指定 token id / `input_ids`；每次回傳 `option_mass`）、`labels.py`（字母單 token 自檢）
 - `data/` `seeds/`、`gen/`、`hard/`、`rules/`、`synthetic/`（D0 + MANIFEST + SPOTCHECK）、`heldout/`、`perturbed/`（D1）、`blind/`（Gemini 盲寫 D2）、`tokenized/`（llama-server 切好的 token id）
-- `bench/` `run_local.py`（GB10 本機跑）、`rerank.py`、`smoke*.py`、`latency.py`、`accuracy.py`、`permute.py`、`packed.py`、`v4bench.py`、`jevbench.py`、`tokenize_dump.py`、`option_mass.py`、`thresholds.py`、`analyze*.py`（v2 / ladder / v4–v10）、`clef_run.py`（Clef，transformers）、`systemone_bench.py`（llama-server `/v1/systemone` 與 jevify）、`lora_mix.py`、`verify.py`（含 `--check-lock`）、`render_html_report.py`
+- `bench/` `run_local.py`（GB10 本機跑）、`clef_under_load.py`（GB10：生成負載下的 Clef 延遲）、`analyze_gb10_clef.py`（26B 對 Clef，合成或真實資料）、`rerank.py`、`smoke*.py`、`latency.py`、`accuracy.py`、`permute.py`、`packed.py`、`v4bench.py`、`jevbench.py`、`tokenize_dump.py`、`option_mass.py`、`thresholds.py`、`analyze*.py`（v2 / ladder / v4–v10）、`clef_run.py`（Clef，transformers）、`systemone_bench.py`（llama-server `/v1/systemone` 與 jevify）、`lora_mix.py`、`verify.py`（含 `--check-lock`）、`render_html_report.py`
 - `data/v9/` 護欄、工具守門、評分、重排序四份資料（產生器、抽查、Gemini 盲寫外部題）
 - `data/jevbench/` JevBench 公開 231 題（MIT，釘版）；`third_party/jevbench/` 評分 harness（MIT）
 - `results/` 分項報告 `00`–`16`、`REPORT.md`、`cost.md`、`thresholds.lock.json`、`fig/`、`modal/`（原始 logprobs）

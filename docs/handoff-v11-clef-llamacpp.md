@@ -6,6 +6,7 @@
 v10 卡住的三件事（沒有推論引擎、量化不能用、速度）這一輪都可以重量。
 
 本輪要回答：**用 llama-server 跑 Clef，結果跟 Cloudflare 的 PyTorch 版一樣嗎？量化後還能用嗎？速度有沒有贏 26B？**
+另外加測 jevify（§4b）：**同一顆 Gemma 4 26B，LoRA 訓練過的讀法比我們零訓練好多少，能不能用 `--lora` 跟生成混用？**
 
 ## 0. 版本與檔案（全部釘死）
 
@@ -69,6 +70,45 @@ v10 卡住的三件事（沒有推論引擎、量化不能用、速度）這一�
 - **順序**：若步驟 0 發現 llama-server **沒有**把 choice 選項排序，在 `d0` 加一組「標籤 ID、原順序反過來送」，報翻面率；有排序就照 v10 只做字母 ID 正反。
 - **三題一起**：同 v10 `packed`（alarm 家族 600 列），跟單題比。
 
+## 4b. 加測：jevify（同一顆 Gemma 4 26B-A4B，LoRA 訓練過的讀法）
+
+來源：`kushalpatil/jevify-gemma4-26b-a4b`。底模跟我們一樣，LoRA r=64 只改 attention，用約 4.7 萬筆（state、題目、目標分布）訓練，loss = KL；
+讀法也跟我們一樣：一次 prefill、讀答案標籤的下一個 token 機率。自報 6 個 OOD 資料集 acc 0.834、ECE 0.061，訓練資料是英文公開資料集。
+這一格回答的是 v10 沒能回答的一半：**同一顆底模，訓練過的 LoRA 比我們零訓練讀字母好多少？混用（同一份底模又生成又判斷）要付多少代價？**
+
+釘版：
+- 合併版 GGUF：`mradermacher/jevify-gemma4-26b-a4b-GGUF` revision `8917f8f469b91a789fe1dc5ae6835f6da5f3dd0f`，Q4_K_M 16.8 GB（與我們的 UD-Q4_K_M 同量級）、Q8_0 26.9 GB。
+- 只有 LoRA：`kushalpatil/jevify-gemma4-26b-a4b-lora` revision `ec4a3d221b0989853e8a7ab0f55ef38945ff3a92`（0.18 GB）。
+  用 llama.cpp 的 `convert_lora_to_gguf.py` 轉成 GGUF LoRA（CPU，需要 `google/gemma-4-26B-A4B-it` 的 config 與 tokenizer）。
+- 合併版 HF 權重（只拿 `chat_template.jinja` 與讀 prompt 格式）：`kushalpatil/jevify-gemma4-26b-a4b` revision `d4c0d1d455892957d274f68ec64e9fc0881011c8`。
+- jevify 程式碼：`github.com/kushalpatil07/jevify` commit `66f49bff53b3276fecc6b4bd16a31de277bebfaf`。
+- 授權：Gemma license，跟我們用的底模一樣。
+
+步驟 0 追加（無 GPU）：讀 jevify 的 prompt 組法與讀法（標籤 token 怎麼選、`noul`／`score` 怎麼對應、有沒有 `<bos>`、thinking 怎麼關），
+在 `bench/jevify_client.py` 重現，用 `/completion` + `n_probs` 讀機率（跟我們的 client 同一條路）。先用 jevify 自己的 transformers 實作跑 20 題當參考，確認重現無誤（答案 20/20 一致、機率差 ≤ 0.01）。
+
+arm（全部 L4，llama-server 用 **b11118**，跟我們 v1–v9 同一版，排除版本差異；§5 D 另外處理新版）：
+
+| arm | 權重 | prompt | 回答的問題 |
+|---|---|---|---|
+| J0 | 我們的 UD-Q4_K_M（既有結果，不重跑） | 我們的（v2 模板） | 對照組 |
+| J1 | jevify 合併版 Q4_K_M | jevify 的 | 照作者的用法，在我們的題上多準 |
+| J2 | jevify 合併版 Q4_K_M | 我們的 | 訓練效果能不能搬到我們的 prompt |
+| J3 | 我們的 UD-Q4_K_M + `--lora` jevify（每個 request 設 scale 1） | jevify 的 | 混用：底模只放一份，判斷時才套 LoRA；跟 J1 應該只差在量化（LoRA 套在量化過的底模上） |
+
+suites：D0（2,000）、D2 盲寫、v9 G／T／E、JevBench 公開 231 題（正反序）。重排序與 packed 不做（jevify 不是為這兩種設計的）。
+
+混用的代價另外量（J3 的 server）：
+- 判斷題 scale 1、生成題 scale 0 交錯送時，判斷題的 p50 延遲、生成的 tokens/s，對照「只有判斷」與「只有生成」。
+- prefix cache 命中率（scale 不同的 request 不能共用 cache，量實際損失）。
+- 生成題 scale 0 時的輸出，跟沒載 LoRA 的 server 逐 token 比，確認底模行為完全沒變（50 題 greedy，期望 100% 一致）。
+
+判定（pre-registered）：
+- **J-a 訓練有價值**：J1 的 D0 平均 ≥ J0 + 1 點，或 ECE（raw，不擬溫度）≤ J0 擬溫度後的 ECE。
+  兩條都沒過 → 寫明「通用英文資料訓練的 LoRA 在中文產線題上沒有比零訓練好」。
+- **J-b 混用可行**：J3 與 J1 的答案一致 ≥ 98%；生成題 scale 0 與無 LoRA 完全一致；判斷題延遲 ≤ J1 的 1.2 倍。
+- **J-c 速度**：預期 J1 與 J0 單題延遲相差 ≤ 10%（同架構、同一次 prefill），只是確認，不是要贏的門檻。
+
 ## 5. 判定（pre-registered）
 
 **A 實作正確**：flash BF16 GGUF 與 27B BF16 GGUF 都達到「等價」。沒過就是結論，後面不判。
@@ -87,12 +127,13 @@ v10 卡住的三件事（沒有推論引擎、量化不能用、速度）這一�
 
 1. 步驟 0：讀程式碼（無 GPU）。
 2. image 編譯（CPU，約 15 分鐘）＋ GGUF 下載（CPU）：flash 三個 34 GB、27B Q8_0 29 GB；27B BF16 54 GB 只在 smoke 用。
-3. L40S：flash 三個 smoke → 主跑（BF16 + 可用的量化版）→ 27B Q8_0 smoke → 主跑 → 延遲（含 26B 同 build 對照）→ 26B D0 + check-lock。約 1.5 小時，≈ $3。
-4. H100：27B BF16 GGUF smoke 50 題，約 15 分鐘，≈ $1。
+3. jevify（L4，b11118）：下載 Q4_K_M 17 GB 與 LoRA、轉 LoRA GGUF（CPU）；J1／J2／J3 各跑 D0、D2、v9、JevBench，加混用代價量測。約 1.5 小時，≈ $1.2。
+4. L40S：flash 三個 smoke → 主跑（BF16 + 可用的量化版）→ 27B Q8_0 smoke → 主跑 → 延遲（含 26B 同 build 對照）→ 26B D0 + check-lock。約 1.5 小時，≈ $3。
+5. H100：27B BF16 GGUF smoke 50 題，約 15 分鐘，≈ $1。
 
-**合計 ≈ $4，上限 $6。**
+**合計 ≈ $5，上限 $8。**
 
-輸出：`results/16-clef-llamacpp.md`、`results/v11.json`、`modal_clef_gguf.py`、`bench/clef_systemone.py`、`bench/analyze_v11.py`；
+輸出：`results/16-clef-llamacpp.md`（含 §jevify）、`results/v11.json`、`modal_clef_gguf.py`、`bench/clef_systemone.py`、`bench/jevify_client.py`、`bench/analyze_v11.py`；
 更新 `15-clef.md`（補一節「v11 之後」）、REPORT §3j、HTML、README、`handoff-gb10.md` §6b（若過，GB10 改用 llama-server 跑 Clef）。
 
 ## 一句話結論（三選一，跑完填）
@@ -100,3 +141,7 @@ v10 卡住的三件事（沒有推論引擎、量化不能用、速度）這一�
 - 「llama-server 版與 Cloudflare 版等價，Q8_0 可用、單題快 X 倍、三題一起快 Y 倍：**v10 的『先不換』改成『27B 接 SPC 與重排序、flash 接多題同 state』**，GB10 用 llama-server。」
 - 「實作等價但量化版不可用或速度沒贏：Clef 只能 BF16 上 GB10，維持 v10 的結論，差別只是不用 transformers。」
 - 「C++ 實作與 Cloudflare 版不等價（差異在 X）：等上游修正，維持 v10 的結論。」
+
+jevify（§4b）另填一句，二選一：
+- 「jevify 在我們的題上比零訓練好 X 點／ECE 從 A 降到 B，`--lora` 混用代價 Y：**值得自己用產線資料訓練一個 LoRA**。」
+- 「jevify 沒有比零訓練好（英文通用資料訓練搬不過來）：要訓練也得用自己的產線資料，通用 LoRA 不採用。」

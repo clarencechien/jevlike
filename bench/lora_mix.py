@@ -3,6 +3,7 @@
 
   --mode mix     server started with --lora: decisions alone, generation alone, then both interleaved
   --mode nolora  server without --lora: generation alone (reference for the "scale 0 == no LoRA" check)
+  --mode mixbase server without --lora: same interleaving with base-weight decisions (control: contention without LoRA)
 
 Generation: 50 D0 states, "summarise in one sentence", greedy, 64 tokens, thinking off, via /v1/chat/completions.
 Outputs: <out_dir>/gen_<mode>.jsonl (text per prompt), _summary.json (p50s, tokens/s).
@@ -63,12 +64,13 @@ def main(base_url, out_dir, args="", **kw):
         out, tps = gen_all(None)
         s["gen_alone_tps"] = round(tps, 1)
     else:
-        jev = JevifyRunner(base_url, "jevify", workers=1, lora_scale=1)
+        jev = JevifyRunner(base_url, "jevify", workers=1, lora_scale=None if mode == "mixbase" else 1)
+        gscale = None if mode == "mixbase" else 0
         for r in dec_recs[:5]:
             jev.one(r)
         ms = [jev.one(r)["ms"] for r in dec_recs]
         s["dec_alone_p50_ms"] = round(float(np.percentile(ms, 50)), 1)
-        out, tps = gen_all(0)
+        out, tps = gen_all(gscale)
         s["gen_alone_tps"] = round(tps, 1)
         # interleaved: a generation stream and a decision stream at the same time
         stop = threading.Event(); gen_log = []
@@ -76,7 +78,7 @@ def main(base_url, out_dir, args="", **kw):
         def gen_loop():
             i = 0
             while not stop.is_set():
-                gen_log.append(gen_one(base_url, gen_states[i % len(gen_states)], 0)); i += 1
+                gen_log.append(gen_one(base_url, gen_states[i % len(gen_states)], gscale)); i += 1
 
         th = threading.Thread(target=gen_loop); th.start()
         time.sleep(2)

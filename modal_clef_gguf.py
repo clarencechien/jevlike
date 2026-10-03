@@ -7,7 +7,8 @@ Usage (via scripts/modal.sh so token env vars are mapped):
   scripts/modal.sh run modal_clef_gguf.py::run_l4 --name 26b --which accuracy --args "--out-sub b11371/D0"   # 26B on the new build
   scripts/modal.sh volume get gb10-decide-results /v11 ./results/modal/v11
 Only synthetic data is mounted (data/). There are no Linux CUDA release binaries of llama.cpp, so it is compiled here
-(CPU image build); CUDA archs 89 (L4, L40S) and 90 (H100).
+(`build`, a 32-core CPU function, once; binaries cached in the models volume); CUDA archs 89 (L4, L40S) and 90 (H100).
+  scripts/modal.sh run modal_clef_gguf.py::build
 """
 import json
 import os
@@ -35,23 +36,41 @@ results = modal.Volume.from_name("gb10-decide-results", create_if_missing=True)
 
 cpu_image = modal.Image.debian_slim(python_version="3.11").pip_install("huggingface_hub[hf_transfer]")
 
-image = (
+# The Modal image builder has few cores (the CUDA build crawled at ~37% after 80 min), so llama.cpp is compiled in a
+# 32-core CPU function and the binaries go to the models volume; the GPU functions run them from there.
+base_image = (
     modal.Image.from_registry("nvidia/cuda:12.8.1-devel-ubuntu22.04", add_python="3.11")
     .entrypoint([])
     .apt_install("git", "cmake", "build-essential", "libgomp1")
-    .run_commands(
-        f"git clone --depth 1 --branch {LLAMA_TAG} https://github.com/ggml-org/llama.cpp /src/llama.cpp",
-        f"cd /src/llama.cpp && test \"$(git rev-parse HEAD)\" = {LLAMA_COMMIT}",
-        "cd /src/llama.cpp && cmake -B build -DGGML_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES='89;90' -DLLAMA_CURL=OFF "
-        "-DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_EXAMPLES=OFF -DCMAKE_BUILD_TYPE=Release",
-        "cd /src/llama.cpp && cmake --build build --target llama-server -j $(nproc)",
-    )
     .pip_install("numpy", "requests", "huggingface_hub")
+)
+image = (
+    base_image
     .add_local_dir("decide", remote_path="/root/decide")
     .add_local_dir("bench", remote_path="/root/bench")
     .add_local_dir("data", remote_path="/root/data")
 )
-SERVER_BIN = "/src/llama.cpp/build/bin/llama-server"
+BUILD_DIR = f"/models/llama-{LLAMA_TAG}"
+SERVER_BIN = f"{BUILD_DIR}/bin/llama-server"
+
+
+@app.function(image=base_image, volumes={"/models": models}, timeout=60 * 120, cpu=32, memory=65536)
+def build():
+    if os.path.exists(SERVER_BIN):
+        return {"cached": SERVER_BIN}
+    src = "/tmp/llama.cpp"
+    sh = lambda c: subprocess.run(c, shell=True, check=True)  # noqa: E731
+    sh(f"git clone --depth 1 --branch {LLAMA_TAG} https://github.com/ggml-org/llama.cpp {src}")
+    head = subprocess.run(["git", "-C", src, "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
+    assert head == LLAMA_COMMIT, head
+    t0 = time.time()
+    sh(f"cd {src} && cmake -B build -DGGML_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES='89;90' -DLLAMA_CURL=OFF -DLLAMA_BUILD_TESTS=OFF "
+       f"-DLLAMA_BUILD_EXAMPLES=OFF -DCMAKE_BUILD_TYPE=Release")
+    sh(f"cd {src} && cmake --build build --target llama-server -j 32")
+    # shared build: llama-server and its libllama / libggml*.so all land in build/bin
+    sh(f"mkdir -p {BUILD_DIR} && cp -r {src}/build/bin {BUILD_DIR}/ && ls -la {BUILD_DIR}/bin")
+    models.commit()
+    return {"built": SERVER_BIN, "commit": head, "build_s": round(time.time() - t0)}
 
 
 @app.function(image=cpu_image, volumes={"/models": models}, timeout=60 * 90, cpu=4)
@@ -68,6 +87,7 @@ def download(name: str = "flash-bf16"):
 
 
 def _start(model_path, extra, port=8090):
+    os.environ["LD_LIBRARY_PATH"] = f"{BUILD_DIR}/bin:" + os.environ.get("LD_LIBRARY_PATH", "")
     cmd = [SERVER_BIN, "-m", model_path, "-ngl", "99", "--port", str(port), "--host", "127.0.0.1", "--metrics", *extra]
     print("starting:", " ".join(cmd), flush=True)
     proc = subprocess.Popen(cmd)

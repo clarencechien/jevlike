@@ -1,0 +1,87 @@
+{
+ "meta": {
+  "backend": "systemone",
+  "args": "--backend systemone --suites d0,blind,v9,latency",
+  "base_url": "http://127.0.0.1:8090"
+ },
+ "smoke": {
+  "smoke": {
+   "n": 50,
+   "acc": 0.94,
+   "n_nan": 0
+  },
+  "s": 5.0
+ },
+ "d0": {
+  "d0": {
+   "n": 2000,
+   "acc": 0.929,
+   "n_nan": 0
+  },
+  "d0_letter_fwd": {
+   "n": 1200,
+   "acc": 0.9525,
+   "n_nan": 0
+  },
+  "d0_letter_rev": {
+   "n": 1200,
+   "acc": 0.9583,
+   "n_nan": 0
+  },
+  "s": 215.1
+ },
+ "blind": {
+  "blind": {
+   "n": 584,
+   "acc": 0.9658,
+   "n_nan": 0
+  },
+  "s": 25.0
+ },
+ "v9": {
+  "g_input_guard": {
+   "n": 198,
+   "acc": 0.9293,
+   "n_nan": 0
+  },
+  "t_tool_gate": {
+   "n": 198,
+   "acc": 0.8586,
+   "n_nan": 0
+  },
+  "e_answer_score": {
+   "n": 600,
+   "acc": 0.935,
+   "n_nan": 0
+  },
+  "blind_g_input_guard": {
+   "n": 55,
+   "acc": 0.9455,
+   "n_nan": 0
+  },
+  "blind_t_tool_gate": {
+   "n": 59,
+   "acc": 0.9322,
+   "n_nan": 0
+  },
+  "s": 70.3
+ },
+ "latency": {
+  "latency": {
+   "single": {
+    "n": 200,
+    "p50_ms": 45.3,
+    "p95_ms": 57.1
+   },
+   "packed3": {
+    "n": 200,
+    "p50_ms": 80.1,
+    "p95_ms": 84.8
+   },
+   "throughput_c1": 22.09,
+   "throughput_c4": 23.09,
+   "throughput_c8": 23.03
+  },
+  "s": 53.1
+ }
+}

@@ -304,9 +304,9 @@ page = f"""<!doctype html>
 
 <main class="report">
 
-  <p class="eyebrow">判定備忘 · Jev 式決策層 · 2026-09-23 起、十輪實驗 · 更新 2026-10-02</p>
+  <p class="eyebrow">判定備忘 · Jev 式決策層 · 2026-09-23 起、十一輪實驗 · 更新 2026-10-03</p>
   <h1 class="display">Jev 式決策，<br>值得做，<br>而且<em>不用買</em></h1>
-  <p class="lede">用我們已經部署的 Gemma 4 26B，加一層「只從固定選項裡選答案、不寫文章」的決策 API。十類產線判斷題有七類不用任何標註就能上線，每次判斷約 0.2 秒。十輪驗證（含小模型對照、換引擎、追查掉分原因、借鏡他人做法、跑公開考卷、補測九個使用位置、對照 Cloudflare 開源的 Clef）合計約二十二美元的雲端 GPU。</p>
+  <p class="lede">用我們已經部署的 Gemma 4 26B，加一層「只從固定選項裡選答案、不寫文章」的決策 API。十類產線判斷題有七類不用任何標註就能上線，每次判斷約 0.2 秒。十一輪驗證（含小模型對照、換引擎、追查掉分原因、借鏡他人做法、跑公開考卷、補測九個使用位置、對照 Cloudflare 開源的 Clef 與訓練過的同款模型）合計約二十九美元的雲端 GPU。</p>
   <p class="byline">實驗於 Modal 雲端 L4 顯示卡進行 · 合成資料 10 類 × 200 題 · 工程細節與原始數據在 results/REPORT.md</p>
 
   <div class="tldr">
@@ -319,7 +319,7 @@ page = f"""<!doctype html>
       <li><strong>推理引擎：SGLang 批次快五倍，第一輪掉的 {(v4_acc_A1 - v4_acc_B1) * 100:.1f} 個百分點是少一個起始符號，補上後與現行引擎同準。</strong>共用同一份現場狀況問十六題快 {V4G['L4_speedup_16']:.1f} 倍、多路併發快 6 倍。事後批次整理直接用 SGLang；即時判斷兩個引擎在 GB10 上各量一次再選。</li>
       <li><strong>公開考卷：拿 JevBench 231 題自跑，{JB26['accuracy'] * 100:.1f}%，高於同做法的 Cygnet 與訓練過的 Open-Jev。</strong>難題 {JB26['per_tier']['hard'] * 100:.1f}%；小模型 E4B {JBE4['accuracy'] * 100:.1f}%。自跑、不排名，但說明產線題的高分不是題目量身訂做。</li>
       <li><strong>別人列的九個使用位置，全部實測過：七格成立、兩格沒過但原因明確。</strong>護欄、LLM 評分、信心門檻成立；工具權限判斷輸在數字與範圍，交給程式規則；文件重排序差門檻 0.01。另外找到並修正了上一版門檻方法的錯誤：改正後 5% 錯誤預算在 {ok5}/10 類守住。</li>
-      <li><strong>Cloudflare 開源的 Clef：比我們準一點，但沒辦法用得比我們快，先不換。</strong>Clef 27B 在我們的產線題平均 {D10['Clef 27B'] * 100:.1f}%（我們 {D10['26B'] * 100:.1f}%），最弱的 SPC 判讀 {SPC10['Clef 27B'] * 100:.0f}% 對 {SPC10['26B'] * 100:.0f}%，文件重排序也過了門檻；中文沒有掉分。但它的判斷層只能用最基本的方式執行，推論引擎接不上，壓縮版不是直接壞掉（FP8）就是機率偏掉（8-bit／4-bit），一次判斷 {LT10['Clef 27B']['single']['p50_ms']:.0f} 毫秒，沒有比我們快。27B 留作 SPC 與重排序的候選，到 GB10 上量了再決定。</li>
+      <li><strong>Cloudflare 開源的 Clef：比我們準一點，但沒辦法用得比我們快，先不換。</strong>Clef 27B 在我們的產線題平均 {D10['Clef 27B'] * 100:.1f}%（我們 {D10['26B'] * 100:.1f}%），最弱的 SPC 判讀 {SPC10['Clef 27B'] * 100:.0f}% 對 {SPC10['26B'] * 100:.0f}%，文件重排序也過了門檻；中文沒有掉分。第十一輪起它已經能跑在我們同一套推理引擎上、壓縮版也可用，但在同一張顯示卡上 9B 只比我們快一成五、27B 慢 2.5 倍。27B 留作 SPC 與重排序的候選，到 GB10 上量了再決定。另一個用同一顆 Gemma 加訓練的版本（jevify）反而比我們差，不採用。</li>
       <li><strong>四個上線條件：</strong>部署時開啟前綴快取設定、「有把握才自動處理」的門檻要用真實資料校準、選項順序固定（弱題有兩成會因順序改答案）、GB10 上重量一次速度。都是幾小時到幾天的事，不是幾個月。</li>
     </ol>
   </div>
@@ -328,11 +328,11 @@ page = f"""<!doctype html>
     <div class="stat"><p class="label">不標註就達 98% 的題型</p><div class="value">{len(strong)} / 10</div><div class="delta">其餘三類要調門檻</div></div>
     <div class="stat"><p class="label">一次判斷</p><div class="value">{L1['p50'] / 1000:.1f} 秒</div><div class="delta">租用 L4；GB10 待實測</div></div>
     <div class="stat"><p class="label">比模型寫答案快</p><div class="value">{speed:.1f} 倍</div><div class="delta">一次問十題可再降</div></div>
-    <div class="stat"><p class="label">本次驗證的 GPU 費用</p><div class="value">≈ $22</div><div class="delta">十輪實驗，約 12 GPU 小時</div></div>
+    <div class="stat"><p class="label">本次驗證的 GPU 費用</p><div class="value">≈ $29</div><div class="delta">十一輪實驗，約 16 GPU 小時</div></div>
   </div>
 
   <p class="eyebrow">00 · 走到哪裡了</p>
-  <h2>十輪、十天、二十二美元：每一輪問一個問題，答一個問題</h2>
+  <h2>十一輪、十一天、二十九美元：每一輪問一個問題，答一個問題</h2>
   <p>每一輪都先把「什麼算過、什麼算沒過」寫死再跑，跑完照規則填結論。沒過的也留著，因為「不值得做」和「值得做」一樣是答案。</p>
 
   <div class="table-scroll wide route">
@@ -348,6 +348,7 @@ page = f"""<!doctype html>
         <tr><td>八</td><td>拿別人的公開考卷（JevBench 231 題）跑同一套，站得住嗎？</td><td>{JB26['accuracy'] * 100:.1f}%，難題 {JB26['per_tier']['hard'] * 100:.1f}%；高於同做法的 Cygnet 87.9%、訓練過的 Open-Jev 85.3%。自跑、不排名</td><td class="num">$0.2</td></tr>
         <tr><td>九</td><td>別人列的九個使用位置，沒測過的四個行不行？</td><td>護欄、LLM 評分、三段式門檻成立；工具守門 {T9['26B']['acc'] * 100:.0f}%（輸在數字與範圍，交給程式規則）、重排序差 0.01 沒過門檻。順帶找到並修正上一輪門檻方法的錯誤</td><td class="num">$1.5</td></tr>
         <tr><td>十</td><td>Cloudflare 開源的 Clef（訓練過的判斷層）能不能取代我們？</td><td>27B 比我們準一點（{D10['Clef 27B'] * 100:.1f}% 對 {D10['26B'] * 100:.1f}%，SPC +{(SPC10['Clef 27B'] - SPC10['26B']) * 100:.0f} 點、重排序過門檻），9B 略輸；但只能用最基本的方式跑，壓縮版不能用，速度沒贏 → 不換，27B 留作候選</td><td class="num">$4.5</td></tr>
+        <tr><td>十一</td><td>推理引擎原生支援 Clef 之後，能換了嗎？同一顆 Gemma 加訓練的版本有沒有用？</td><td>能跑在我們同一套引擎上、壓縮版可用、結果與原版一致；但同一張卡上 9B 只快一成五、27B 慢 2.5 倍 → 仍不換。訓練過的 Gemma（jevify）比我們零訓練差 2 到 3 個百分點，不採用。我們的模型換到新版引擎，數字不變</td><td class="num">$7</td></tr>
         <tr><td>七</td><td>三十幾個開源替代品裡，有什麼可以抄？</td><td>抄了三件：錯誤預算反推門檻（採用）、模板健康檢查（採用）、多題一個前向（不採用，後面的題答案會變）</td><td class="num">$1.4</td></tr>
       </tbody>
     </table>
@@ -366,7 +367,7 @@ page = f"""<!doctype html>
         <tr><td>SGLang 批次：共用狀況問十六題 / 32 路併發</td><td class="num">快 {V4G['L4_speedup_16']:.1f} 倍 / 6 倍</td><td>準確率與現行引擎同（補上起始字元後）</td></tr>
         <tr><td>先問 4B、沒把握再問 26B</td><td class="num">{CAS['mean'][6] * 100:.1f}%</td><td>全用 26B {CAS['mean'][1] * 100:.1f}%；26B 負載剩三分之一</td></tr>
         <tr><td>同一批題對照 Cloudflare Clef 27B（訓練過的判斷層）</td><td class="num">{D10["26B"] * 100:.1f}%</td><td>Clef 27B {D10["Clef 27B"] * 100:.1f}%、Clef-flash 9B {D10["Clef-flash"] * 100:.1f}%；Clef 27B 只能用 transformers 跑，一次 {LT10["Clef 27B"]["single"]["p50_ms"]:.0f} 毫秒（H100）</td></tr>
-        <tr><td>累計 GPU 費用</td><td class="num">≈ $22</td><td>原估 $5.5–7.5 只算前兩輪；後八輪是追加的問題</td></tr>
+        <tr><td>累計 GPU 費用</td><td class="num">≈ $29</td><td>原估 $5.5–7.5 只算前兩輪；後九輪是追加的問題</td></tr>
       </tbody>
     </table>
   </div>
@@ -708,7 +709,7 @@ page = f"""<!doctype html>
 
   <div class="note">
     <p class="head">這一版沒說到的</p>
-    <p>Jev 官方另一個賣點是「校準過的把握度」，我們的替代方案要自己校準，這是條件二。獨立的小模型（Laya 之類）零標註接近亂猜，這次沒用。AI Studio 上的 Gemma 4 不提供選項機率，雲端對照因此沒做。實際 GPU 費用十輪合計約 12 小時、約二十二美元（首輪 0.85 小時、約一美元），比原估低很多。</p>
+    <p>Jev 官方另一個賣點是「校準過的把握度」，我們的替代方案要自己校準，這是條件二。獨立的小模型（Laya 之類）零標註接近亂猜，這次沒用。AI Studio 上的 Gemma 4 不提供選項機率，雲端對照因此沒做。實際 GPU 費用十一輪合計約 16 小時、約二十九美元（首輪 0.85 小時、約一美元），比原估低很多。</p>
   </div>
 
   <p class="byline">repo clarencechien/jevlike · 工程版報告 results/REPORT.md · 原始數據 results/analysis.json · results/modal/</p>

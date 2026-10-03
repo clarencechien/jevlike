@@ -1,0 +1,9 @@
+{
+ "mode": "mix",
+ "dec_alone_p50_ms": 313.7,
+ "gen_alone_tps": 44.3,
+ "dec_mixed_p50_ms": 1109.8,
+ "dec_mixed_p95_ms": 2795.9,
+ "gen_mixed_tps": 35.4,
+ "gen_mixed_n": 156
+}

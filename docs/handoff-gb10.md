@@ -15,7 +15,7 @@
 
 | 項目 | 要求 | 怎麼確認 |
 |---|---|---|
-| llama.cpp | llama-server，CUDA sm121 build，版本 ≥ b11118（Modal 用的） | `llama-server --version`；`/props` 的 `build_info` 寫進 `results/gb10/00-env.md` |
+| llama.cpp | llama-server，CUDA sm121 build，版本 **≥ b11371**（v11：26B 從 Modal 的 b11118 換到 b11371，check-lock 0 失敗、1,998/2,000 答案相同；Clef 也要這版以上，兩個 server 用同一個 build） | `llama-server --version`；`/props` 的 `build_info` 寫進 `results/gb10/00-env.md` |
 | 模型檔（llama） | `unsloth/gemma-4-26B-A4B-it-GGUF`：`gemma-4-26B-A4B-it-UD-Q4_K_M.gguf`（主力，17 GB）與 `Q8_0`（27 GB）；`unsloth/gemma-4-E4B-it-GGUF` Q8_0；`unsloth/gemma-4-E2B-it-GGUF` Q8_0 | 檔名、sha256 寫進 00-env；若 GB10 現有部署用的是別的量化（Google QAT q4_0 等），**也要量**，見 §4 |
 | llama-server 參數 | `--jinja --reasoning-budget 0 --swa-full -np 4 -c 65536`（26B）；GB10 記憶體夠，`-np` 可加到 8–16 給 L5 用 | smoke 會檢查模板與 `<bos>` |
 | SGLang（選配） | 映像 `xomoxcc/dgx-spark-sglang` 的 `gemma4-sm121` tag；權重 `RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic` @ `ed35d7abe5d9`；`--context-length 4096 --max-running-requests 32`；**MTP 不開**、reasoning parser 不開 | `bench/run_local.py --which smoke_sglang` 的 `bos_check.ok` 與 `option_mass_check.ok` 都要 True |
@@ -99,14 +99,18 @@ REPORT.md 要改的地方，一條一條對：
 - HTML：`bench/render_html_report.py` 讀的是 `results/analysis.json` 等檔，把 GB10 的分析輸出成同名檔放 `results/`（原本的改名 `-modal`），重新 `scripts/publish_report.sh`（需要 `IMITATOR_TOKEN` 環境變數）；TL;DR 第 3 條與第 6 條改成 GB10 數字，「條件四 GB10 實測」改成已完成。
 - 最後一段寫「結案判定」三選一：**上線**（七類強題 + 校準門檻）／**部分上線**（列哪幾類）／**不上線**（原因）。
 
-## 6b. 選配：Clef 27B 在 GB10 上的決定（v10 留下的題，半天）
+## 6b. 選配：Clef 27B 在 GB10 上的決定（v10／v11 留下的題，半天）
 
-v10（`results/15-clef.md`）的結論是「判斷層預設不換，Clef 27B 留作 SPC、重排序、同 state 多題、護欄外部題的候選」，缺的是 GB10 實測。要做的話：
-1. 權重：`Cloudflare/clef` 釘 revision `2f3de3dd85f379784083b0814d997ab627200f0c`（55 GB）、`clef-flash` `17f0b0ad64efb65d273590632833508766b2aae6`（19 GB）。只能 **BF16**：FP8 會出 NaN，int8／NF4 機率偏 0.1–0.26，都沒過等價檢查。
-2. 環境：torch 2.11、transformers 5.10.2、torchvision、`flash-linear-attention`；`causal-conv1d` 可選。aarch64 上這幾個能不能裝是第一個要確認的事（Triton 與 fla 的 ARM 支援）。
-3. 跑：`python3 bench/clef_run.py --model <path> --quant bf16 --out results/gb10/clef-bf16 --suites smoke,d0,latency,profile`，smoke 50 題要跟 `results/modal/clef/clef-bf16/smoke.jsonl` 的機率差 ≤ 0.01。
-4. 量：26B（llama-server）常駐時再載 27B BF16 的記憶體、單題延遲（**先把常見長度暖過**，H100 上新長度首次 ≈ 1 秒）、三題一起的延遲。
-5. 判定：27B 在 GB10 上單題 ≤ 26B 的 2 倍、記憶體放得下，才把 SPC 與重排序改走 27B；否則維持 26B。真實資料上 SPC 的差距要重量，合成資料的 +11 點不能直接搬。
+> **完整步驟、門檻與交付在 `docs/handoff-gb10-clef.md`**；下面是摘要。
+
+v11（`results/16-clef-llamacpp.md`）之後，Clef 改走 **llama-server 原生 `/v1/systemone`**，不再需要 transformers。結論仍是「判斷層預設 26B，Clef 27B 是 SPC、重排序、同 state 多題的候選」，缺 GB10 實測。要做的話：
+1. llama.cpp **≥ `b11371`**（26B 也一起換：v11 量過 check-lock 0 失敗）。GB10 是 arm64 + CUDA（sm_121），等 Docker `server-cuda` arm64 更新到 ≥ b11371，或照 `modal_clef_gguf.py::build` 自己編（`-DCMAKE_CUDA_ARCHITECTURES=121`）。
+2. 權重：`ggml-org/Clef-GGUF` revision `5f70656b6670c65eb85ad07a11efe211b5f211bd` 的 **`Clef-Q8_0.gguf`（28.7 GB）**；flash 用 `ggml-org/Clef-Flash-GGUF` `4a7a08c09bc63baf043b62b5ba89dd67a0357d95` 的 Q8_0（9.7 GB）。
+3. 起兩個 server：26B 照舊；Clef 另一個 port，`-c 16384 -ub 4096 -b 4096 -np 2`（整個 prompt 要在一個 ubatch 內；判斷層一次只算一個請求）。
+4. smoke：`bench/systemone_bench.py --backend systemone --suites smoke`，答案要跟 `results/modal/v11/clef/clef-q8/smoke.jsonl` 50/50 一致。
+5. 量：兩個 server 同時常駐的記憶體；27B Q8 單題與三題一起的延遲（L40S 上 142／256 ms，26B 56 ms）。
+6. 判定：27B 單題 ≤ 26B 的 2 倍、記憶體放得下，才把 SPC 與重排序改走 27B；否則維持 26B。真實資料上 SPC 的差距要重量，合成資料的 +11 點不能直接搬。
+7. 不要用 jevify 或任何通用 LoRA（v11：比零訓練差）；也不要讓判斷題跟生成共用一個帶 `--lora` 的 server（判斷延遲會被拖到 3 倍以上）。
 
 ## 7. 你會踩到的坑（都踩過了）
 

@@ -9,6 +9,9 @@
 而且只能用 transformers BF16 跑：判斷層讀的是每個位置的 hidden state，推論引擎接不上，量化版全部沒過等價檢查。所以判斷層先不換，27B 留作「弱題與重排序」的候選，
 到 GB10 上量真實延遲再決定。**（handoff 三句結論中選第二句，並補上 27B 的準確率優勢。）
 
+> **v11 更新（2026-10-03）**：llama.cpp `b11371`（PR #29831）原生支援 Clef，下面 §0「判斷頭接不上推論引擎」與 §1「量化版全部不等價」已不成立：
+> llama-server 的 BF16 GGUF 與本頁的 transformers 版等價，Q8／Q4 可用；但速度仍沒贏 26B，結論「預設不換」不變。見 `16-clef-llamacpp.md`。
+
 ## 0. 讀卡發現（跑前不知道的事）
 
 - **判斷層接不上推論引擎**：joint schema head 讀 backbone **每個位置**的最後一層 hidden state（state、問題、每個選項的 span 平均，再做 cross-attention），

@@ -22,7 +22,13 @@ MODELS = {  # short name -> (HF repo, file)
     "e2b": ("unsloth/gemma-4-E2B-it-GGUF", "gemma-4-E2B-it-Q8_0.gguf"),  # 5.05 GB
     "q8": ("unsloth/gemma-4-26B-A4B-it-GGUF", "gemma-4-26B-A4B-it-Q8_0.gguf"),  # 26.86 GB, needs L40S
     "bf16": ("unsloth/gemma-4-26B-A4B-it-GGUF", "BF16/gemma-4-26B-A4B-it-BF16-00001-of-00002.gguf"),  # 50.5 GB split, needs H100
+    "jevify": ("mradermacher/jevify-gemma4-26b-a4b-GGUF", "jevify-gemma4-26b-a4b.Q4_K_M.gguf"),  # 16.8 GB, v11 J1/J2 (merged LoRA)
 }
+REVS = {"jevify": "8917f8f469b91a789fe1dc5ae6835f6da5f3dd0f"}  # pinned HF revisions (v11); older entries predate pinning
+JEVIFY_COMMIT = "66f49bff53b3276fecc6b4bd16a31de277bebfaf"
+JEVIFY_LORA = ("kushalpatil/jevify-gemma4-26b-a4b-lora", "ec4a3d221b0989853e8a7ab0f55ef38945ff3a92")
+JEVIFY_MERGED = ("kushalpatil/jevify-gemma4-26b-a4b", "d4c0d1d455892957d274f68ec64e9fc0881011c8")  # only its config/tokenizer
+LORA_FILE = "jevify-lora-f16.gguf"
 MODEL_REPO, MODEL_FILE = MODELS["26b"]
 GPU = os.environ.get("GB10_GPU", "L4")
 SERVER_BIN = "/app/llama-server"
@@ -35,6 +41,7 @@ image = (
     modal.Image.from_registry("ghcr.io/ggml-org/llama.cpp:server-cuda", add_python="3.11")
     .entrypoint([])  # image's ENTRYPOINT is llama-server; Modal needs a plain shell
     .pip_install("huggingface_hub", "numpy", "requests")
+    .pip_install(f"jevify @ https://github.com/kushalpatil07/jevify/archive/{JEVIFY_COMMIT}.tar.gz")  # v11 J1/J3
     .add_local_dir("decide", remote_path="/root/decide")
     .add_local_dir("bench", remote_path="/root/bench")
     .add_local_dir("data", remote_path="/root/data")
@@ -46,11 +53,38 @@ def download(model: str = "26b"):
     from huggingface_hub import hf_hub_download
 
     repo, fname = MODELS[model]
-    p = hf_hub_download(repo, fname, local_dir="/models")
+    p = hf_hub_download(repo, fname, local_dir="/models", revision=REVS.get(model))
     if "00001-of-00002" in fname:
         hf_hub_download(repo, fname.replace("00001-of-00002", "00002-of-00002"), local_dir="/models")
     models.commit()
     return {"path": p, "bytes": os.path.getsize(p)}
+
+
+# v11 J3: the jevify LoRA as a GGUF adapter, converted with the converter of the server build we run (b11118)
+lora_image = (
+    modal.Image.debian_slim(python_version="3.11").apt_install("git")
+    .run_commands("git clone https://github.com/ggml-org/llama.cpp /src/llama.cpp && cd /src/llama.cpp && git checkout e6ab7c1a41054a888ada952eab4c886444c2f5ad")
+    .pip_install("torch", index_url="https://download.pytorch.org/whl/cpu")
+    .pip_install("transformers", "safetensors", "sentencepiece", "numpy", "huggingface_hub", "protobuf")
+    .run_commands("pip install /src/llama.cpp/gguf-py")
+)
+
+
+@app.function(image=lora_image, volumes={"/models": models}, timeout=60 * 30, cpu=4)
+def convert_lora():
+    from huggingface_hub import snapshot_download
+
+    lora = snapshot_download(JEVIFY_LORA[0], revision=JEVIFY_LORA[1], local_dir="/tmp/lora")
+    base = snapshot_download(JEVIFY_MERGED[0], revision=JEVIFY_MERGED[1], local_dir="/tmp/base",
+                             allow_patterns=["config.json", "tokenizer.json", "tokenizer_config.json", "generation_config.json", "chat_template.jinja", "processor_config.json"])
+    out = f"/models/{LORA_FILE}"
+    r = subprocess.run(["python3", "/src/llama.cpp/convert_lora_to_gguf.py", lora, "--base", base, "--outtype", "f16", "--outfile", out],
+                       capture_output=True, text=True)
+    print(r.stdout[-3000:], r.stderr[-3000:])
+    if r.returncode != 0:
+        raise RuntimeError("convert_lora_to_gguf failed")
+    models.commit()
+    return {"path": out, "mb": round(os.path.getsize(out) / 1e6, 1)}
 
 
 def _server_version():
@@ -141,6 +175,8 @@ def run_bench(which: str, args: str = "", n_parallel: int = 4, ctx: int = 16384,
 def main(which: str = "smoke", args: str = "", n_parallel: int = 4, n_ctx: int = 16384, server_extra: str = "", model: str = "26b"):
     if which == "download":
         print(json.dumps(download.remote(model), indent=2))
+    elif which == "convert_lora":
+        print(json.dumps(convert_lora.remote(), indent=2))
     elif which == "probe":
         print(json.dumps(probe.remote(), indent=2, ensure_ascii=False))
     else:

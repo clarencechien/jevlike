@@ -488,6 +488,37 @@
    "gen_identical": 50,
    "gen_n": 50
   },
-  "latency": {}
+  "latency": {
+   "J1": {
+    "single": {
+     "n": 200,
+     "p50_ms": 248.3,
+     "p95_ms": 311.6
+    },
+    "packed3": {
+     "n": 200,
+     "p50_ms": 714.2,
+     "p95_ms": 772.6
+    },
+    "throughput_c1": 4.02,
+    "throughput_c4": 4.55,
+    "throughput_c8": 4.54
+   },
+   "J3": {
+    "single": {
+     "n": 200,
+     "p50_ms": 258.8,
+     "p95_ms": 303.9
+    },
+    "packed3": {
+     "n": 200,
+     "p50_ms": 738.7,
+     "p95_ms": 791.3
+    },
+    "throughput_c1": 3.88,
+    "throughput_c4": 4.48,
+    "throughput_c8": 4.48
+   }
+  }
  }
 }

@@ -72,5 +72,23 @@
    "acc": 0.8273
   },
   "s": 269.0
+ },
+ "latency": {
+  "latency": {
+   "single": {
+    "n": 200,
+    "p50_ms": 248.3,
+    "p95_ms": 311.6
+   },
+   "packed3": {
+    "n": 200,
+    "p50_ms": 714.2,
+    "p95_ms": 772.6
+   },
+   "throughput_c1": 4.02,
+   "throughput_c4": 4.55,
+   "throughput_c8": 4.54
+  },
+  "s": 339.9
  }
 }

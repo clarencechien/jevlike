@@ -65,8 +65,11 @@ def build():
     assert head == LLAMA_COMMIT, head
     t0 = time.time()
     sh(f"cd {src} && cmake -B build -DGGML_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES='89;90' -DLLAMA_CURL=OFF -DLLAMA_BUILD_TESTS=OFF "
-       f"-DLLAMA_BUILD_EXAMPLES=OFF -DCMAKE_BUILD_TYPE=Release")
-    sh(f"cd {src} && cmake --build build --target llama-server -j 32")
+       f"-DLLAMA_BUILD_EXAMPLES=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXE_LINKER_FLAGS=-Wl,-rpath-link,/usr/local/cuda/lib64/stubs")
+    # no driver in a CPU container: link libcuda against the toolkit stub (the real libcuda.so.1 is there at run time)
+    stubs = "/usr/local/cuda/lib64/stubs"
+    sh(f"ln -sf {stubs}/libcuda.so {stubs}/libcuda.so.1")
+    sh(f"cd {src} && LIBRARY_PATH={stubs} LD_LIBRARY_PATH={stubs} cmake --build build --target llama-server -j 32")
     # shared build: llama-server and its libllama / libggml*.so all land in build/bin
     sh(f"mkdir -p {BUILD_DIR} && cp -r {src}/build/bin {BUILD_DIR}/ && ls -la {BUILD_DIR}/bin")
     models.commit()

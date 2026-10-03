@@ -1,0 +1,164 @@
+{
+ "meta": {
+  "model_path": "/models/clef/clef-flash",
+  "quant": "bf16",
+  "load_s": 28.9,
+  "gpu": "NVIDIA L40S",
+  "torch": "2.11.0+cu128",
+  "mem_after_load_gb": 19.06,
+  "transformers": "5.10.2",
+  "fast_path": false,
+  "fla": true
+ },
+ "smoke": {
+  "smoke": {
+   "n": 50,
+   "acc": 0.94
+  },
+  "s": 48.5
+ },
+ "latency": {
+  "latency": {
+   "single": {
+    "n": 200,
+    "p50_ms": 61.2,
+    "p95_ms": 63.7,
+    "cold_p50_ms": 60.5,
+    "cold_p95_ms": 64.5,
+    "mean_tokens": 306.3,
+    "peak_mem_gb": 19.37
+   },
+   "packed3": {
+    "n": 200,
+    "p50_ms": 76.1,
+    "p95_ms": 88.1,
+    "cold_p50_ms": 77.1,
+    "cold_p95_ms": 89.3,
+    "mean_tokens": 624.7,
+    "peak_mem_gb": 19.17
+   }
+  },
+  "s": 70.5
+ },
+ "d0": {
+  "d0": {
+   "n": 2000,
+   "acc": 0.932,
+   "n_nan": 0
+  },
+  "d0_letter_fwd": {
+   "n": 1200,
+   "acc": 0.9525,
+   "n_nan": 0
+  },
+  "d0_letter_rev": {
+   "n": 1200,
+   "acc": 0.9542,
+   "n_nan": 0
+  },
+  "s": 281.7
+ },
+ "blind": {
+  "blind": {
+   "n": 584,
+   "acc": 0.9658,
+   "n_nan": 0
+  },
+  "s": 36.3
+ },
+ "v9": {
+  "g_input_guard": {
+   "n": 198,
+   "acc": 0.9747,
+   "n_nan": 0
+  },
+  "t_tool_gate": {
+   "n": 198,
+   "acc": 0.8636,
+   "n_nan": 0
+  },
+  "e_answer_score": {
+   "n": 600,
+   "acc": 0.9483,
+   "n_nan": 0
+  },
+  "blind_g_input_guard": {
+   "n": 55,
+   "acc": 0.9273,
+   "n_nan": 0
+  },
+  "blind_t_tool_gate": {
+   "n": 59,
+   "acc": 0.9322,
+   "n_nan": 0
+  },
+  "s": 85.8
+ },
+ "jevbench": {
+  "jevbench_native": {
+   "n": 231,
+   "acc": 0.8182
+  },
+  "jevbench_letter_fwd": {
+   "n": 139,
+   "acc": 0.8273
+  },
+  "jevbench_letter_rev": {
+   "n": 139,
+   "acc": 0.8345
+  },
+  "s": 59.6
+ },
+ "packed": {
+  "packed": {
+   "n": 600,
+   "acc": 0.9017
+  },
+  "s": 48.4
+ },
+ "rerank": {
+  "rerank": {
+   "n": 200,
+   "ndcg5": 0.8261369901992873,
+   "mrr": 0.8522559523809524,
+   "recall3": 0.97
+  },
+  "s": 125.0
+ },
+ "profile": {
+  "profile": {
+   "tokens": 254,
+   "ms": [
+    61.6,
+    60.8,
+    60.4,
+    59.9,
+    60.9,
+    60.2,
+    60.7,
+    60.3,
+    60.4,
+    59.7,
+    59.6,
+    59.3,
+    59.2,
+    59.4,
+    59.4,
+    59.3,
+    58.2,
+    59.1,
+    59.7,
+    60.2
+   ],
+   "tokens2": 264,
+   "ms2": [
+    61.4,
+    58.6,
+    58.1,
+    58.0,
+    57.9
+   ]
+  },
+  "s": 3.2
+ }
+}

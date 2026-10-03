@@ -26,6 +26,7 @@ JevBench 只有「534 公開 + 308 密封」的官方跑分可以排名，231 �
 | **Open-Jev-27B v1.1**（Zefan Cai） | Qwen3.8-27B | LoRA r8 + 標量決策頭，148,639 筆（51k 規則化反事實 + 82k WANLI + 35k 重播），NLL + Brier，溫度另擬 | 公開集 85.3%、hard 72.1%（Jev 86.6 / 73.0） | 教訓：「結構化反事實」比堆量有效；prefix cache 在 H100 上 11 次超出機率誤差門檻後預設關閉（與我們 v6 的翻面同源） |
 | **Kev-9B**（jaredpalmer） | Qwen3.5-9B-Base | LoRA r16 + pointer head，93,798 筆公開 + 合成題族，軟標籤（標註者分歧 p≥0.6 保留），溫度在**別的資料集**上擬合 | OOD 0.852（Jev 0.857）；Modal 花費約 $2,500 | 兩個可抄的細節：軟標籤勝硬標籤、溫度不能在訓練同分布上擬合。失敗案例：全參數 SFT 讓「冷靜的投訴被讀成生氣」 |
 | **imajev**（2B/4B/9B） | Qwen3.5 + 圖 | 約 100 萬筆（504k 人標），LoRA r16/α32，線性讀出，回傳 `unknown_probability` 與 `abstained` | 4B 公開集 easy 1.00、hard 0.703 | 「不知道」當一個原生輸出欄位，比我們的 noul 選項更乾淨 |
+| **Clef / Clef-flash**（Cloudflare，2026-10-01，Apache 2.0） | Qwen3.8-27B／Qwen3.5-9B（dense，混合 linear attention） | rank-256 LoRA 已併入權重 + joint schema head（讀每個位置 hidden state 做 cross-attention，一次 prefill 對全部題的全部選項打分）；label-smoothed CE + Brier，再 RLCD；合成資料打亂欄位、prompt、schema | BANKING77 94.2、CLINC150 97.4（27B；flash 66.8）；flash 自家 edge p50 38.8 ms | **v10 自跑同尺對照**（`15-clef.md`）：27B D0 96.6%（我們 95.5%）、SPC +11 點、重排序 0.879 過門檻、三題一起不掉；flash 93.0%。但只能 transformers BF16 跑（判斷頭接不上推論引擎、量化版不等價），本機單題不比我們快 |
 | **system-one-open**（mithalouni） | Gemma 4 E2B LoRA | Modal 訓練與服務 | #14（45.1） | 同底模的下界：E2B 訓練後仍只 45 分，與我們 v3「四類簡單題 E2B 夠、六類不夠」一致 |
 
 ## 3. 小型非自迴歸
@@ -66,6 +67,29 @@ Laya（421M ModernBERT，RLCD 校準）、von（<15 ms）、poorjev 的 NLI 模�
 - **跑 JevBench 公開集**：英文、通用題，與產線題無關；只為了拿一個可比的分數，值一次 L4 半小時，但分數不會改變任何決策。放低優先。
 - **Laya 一類小模型**：v2 已量過零樣本不行。
 
+## 8. ByteByteGo「Top 9 Places to Use Jev」逐格對照我們的實測
+
+來源：ByteByteGo 電子報 EP227（2026-09-26），<https://blog.bytebytego.com/p/ep227-top-9-places-to-use-jev>。結語："use the LLM for generations and use Jev on the decisions around it."
+圖為 ByteByteGo 原圖，僅供對照引用，版權屬 ByteByteGo。
+
+![ByteByteGo: Top 9 places to use Jev](fig/bytebytego-top9-jev.jpg)
+
+| # | 圖上的場景 | 我們測過嗎 | 我們的數字（合成產線題，除非另註） | 判讀 |
+|---|---|---|---|---|
+| 1 | Model routing：prompt 分給小／中／大模型 | **測過（v3 級聯）** | E4B 先答、把握 < 0.999 才問 26B：acc 0.952 vs 全 26B 0.955；34% 送 26B；期望延遲 137 → 110 ms（L4） | 成立。路由判斷本身用最小的模型自己的把握度就夠，不必另訓分類器 |
+| 2 | Guardrails：注入、濫用、違反政策 | **測過（v9）** | 誤擋定 5% 時攻擊 recall 96.4%（26B）；E4B 48%、E2B 39%；Gemini 盲寫外部題 74.5%，錯的全是「可以 bypass 嗎」這種正常詢問被擋 | 成立，只能放 26B；錯在過度擋下 |
+| 3 | Tool-call gating：allow／ask／deny | **測過（v9），未過** | 90.0%（門檻 95%）；危險放行 0；錯的全是「該拒絕判成詢問」：參數超規格 7/7、全產線範圍 7/7 | 數字與範圍交給程式規則，模型只處理規則表以外的呼叫 |
+| 4 | Inbox triage：reply now／later／archive；圖註 1,500 封 ≈ 3 美分 | **測過** | `x_ticket_route` 1.00、`m_alarm_severity`（不急／盡快／停線）0.82 → 改寫標準 0.885。成本：L4 逐題 137 ms → 1,500 則約 $0.05；SGLang L40S 整批 92.8 則/秒 → 約 $0.01 | 成立，成本與圖上同量級。**相鄰等級**（now vs later）是最難的一類，要可數標準 |
+| 5 | Reranking：query 對每段打相關分數 | **測過（v9），差一點** | nDCG@5 0.840（門檻 0.85），BM25 0.654；SGLang 同準、20 段 1.2 s vs llama 8.1 s | 可做，但**每段各讀一次**，不要一次塞全部；SGLang 暖前綴後整批送就夠快 |
+| 6 | LLM evals：回 4/5 這種分數 | **測過（v9）** | 600 個回答 5 等級：26B 完全對 99.7%、危險答案被打高分 0%；E4B ±1 內 100%；生成 JSON 打分同準但慢 1.5 倍 | 成立。回傳完整機率向量，期望分數比 argmax 更好用 |
+| 7 | Bulk labeling：百萬列 map-reduce | **測過批次速度** | SGLang L40S D0 1,001 題 10.8 s（92.8 則/秒），llama-server 67 s；補 `<bos>` 後兩者同準 | 成立。批次正是 SGLang 的主場，比 llama-server 快 6 倍 |
+| 8 | Real-time control：每 300 ms 一次 | **測過延遲** | 單題 p50 L4 137 ms、L40S 61 ms；背景生成時 p95 退化 1.31–1.38×；但數字推算最弱：UPH 0.93、JevBench temporal_numeric 27% | 延遲預算夠。**「讀數字做判斷」不要交給它**，數值先用公式算好再給模型 |
+| 9 | Confidence gate：> 0.9 自動、0.5–0.9 確認、< 0.5 轉人；「門檻由分類器決定，不是 LLM」 | **測過，而且這一格要改** | raw 信心平均 0.99；急迫度在 > 0.9 時 coverage 0.97 但只對 0.835，SPC 0.99 / 0.869。改用選擇性風險控制（先定錯誤預算 5%）：強題自動處理 98–100%、實際錯 0–2%，10/10 類守住；做不到的急迫度完全不自動 | 方向對、數字錯。**0.9 / 0.5 不能當固定門檻**：未校準的開源模型幾乎都 > 0.9；Jev 自己的 ECE 也被量到 0.144。門檻要用自己的標註資料反推並鎖檔重測（`bench/thresholds.py`、`verify.py --check-lock`） |
+
+**v10 補充（Clef 同尺對照）**：Clef 27B 把第 5 格重排序翻成過（nDCG@5 0.879），第 2 格護欄的外部題從 74.5% 拉到 98.2%；第 3 格工具守門更差（85%，危險放行 2.7%）。代價是只能 transformers BF16、本機沒有速度優勢（見 `15-clef.md`）。
+
+**一句話（v9 補測後）**：九格全部實測過。成立七格（1、2、4、6、7、8、9）；沒過兩格：工具守門輸在數字比規格與影響範圍（交給程式規則），重排序差門檻 0.01。要改的仍是兩處：第 9 格的固定門檻換成用資料反推的，第 5 格逐段讀、不要打包。第 9 格的「反推」在 v9 修正過方法（見 `14-nine-places.md`）。
+
 ## 來源
 
-Cygnet <https://github.com/blockbrain-ai/cygnet-recipe>、open-alternative-jev <https://github.com/ikermoel/open-alternative-jev>、SemIf <https://tomrochette.com/agents/hybrid-execution/semif/>、openjev-sglang <https://github.com/ekzhang/openjev-sglang>、verdict <https://github.com/khimaros/verdict>、GemmaJev <https://github.com/dashidhy/GemmaJev>、llama.cpp-Jev <https://github.com/NON906/llama.cpp-Jev>、decider <https://github.com/Mapika/decider>、JevK5 <https://github.com/fstandhartinger/jevbench/issues/31>、Open-Jev <https://zefan-cai.github.io/open-jev/story/>、Kev <https://github.com/jaredpalmer/kev/blob/main/PLAN.md>、imajev <https://github.com/fstandhartinger/jevbench/issues/80>、system-one-open <https://github.com/mithalouni/system-one-open>、poorjev <https://github.com/rupeshpoojary9/poorjev>、jevcal <https://github.com/abhixhek/jevcal>、jevkit <https://github.com/JasmineAIGC/jevkit>、awesome-open-system-one <https://github.com/rupeshpoojary9/awesome-open-system-one>、JevBench <https://github.com/fstandhartinger/jevbench>、榜 <https://benchmarkheaven.com/jev-models>、TypeSafe 原文 <https://typesafe.ai/blog/introducing-system-one-models-and-jev>。
+Cygnet <https://github.com/blockbrain-ai/cygnet-recipe>、open-alternative-jev <https://github.com/ikermoel/open-alternative-jev>、SemIf <https://tomrochette.com/agents/hybrid-execution/semif/>、openjev-sglang <https://github.com/ekzhang/openjev-sglang>、verdict <https://github.com/khimaros/verdict>、GemmaJev <https://github.com/dashidhy/GemmaJev>、llama.cpp-Jev <https://github.com/NON906/llama.cpp-Jev>、decider <https://github.com/Mapika/decider>、JevK5 <https://github.com/fstandhartinger/jevbench/issues/31>、Open-Jev <https://zefan-cai.github.io/open-jev/story/>、Kev <https://github.com/jaredpalmer/kev/blob/main/PLAN.md>、imajev <https://github.com/fstandhartinger/jevbench/issues/80>、system-one-open <https://github.com/mithalouni/system-one-open>、poorjev <https://github.com/rupeshpoojary9/poorjev>、jevcal <https://github.com/abhixhek/jevcal>、jevkit <https://github.com/JasmineAIGC/jevkit>、awesome-open-system-one <https://github.com/rupeshpoojary9/awesome-open-system-one>、JevBench <https://github.com/fstandhartinger/jevbench>、Clef <https://blog.cloudflare.com/clef-decision-models/>、<https://huggingface.co/Cloudflare/clef>、榜 <https://benchmarkheaven.com/jev-models>、TypeSafe 原文 <https://typesafe.ai/blog/introducing-system-one-models-and-jev>。

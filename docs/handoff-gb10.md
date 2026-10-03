@@ -81,7 +81,7 @@ python3 bench/run_local.py --which v4bench --backend sglang --base-url http://12
    `thresholds.lock.json` 可以進 repo（只有門檻與筆數）；原始 logprobs 不行。
 4. 門檻（pre-registered）：
    - 零標註 test acc：預期比合成資料低 5–15 點；**< 0.80 的 task 不上線**，回報是題目（標準）還是資料（標籤品質）問題。
-   - conformal ε=5%：保證成立的 task ≥ 上線 task 數的 80%；強題 coverage ≥ 0.90。
+   - 錯誤預算 ε=5%（`thresholds.py` 的選擇性風險控制）：守住預算的 task ≥ 上線 task 數的 80%；強題 coverage ≥ 0.90。做不到的 task 不自動，全部送確認。
    - 順序敏感度：用 `bench/permute.py`（`--perms 4` 即可）量一次，≥ 20% 的 task 上線時選項順序寫死並在 REPORT 註明。
    - 級聯：若 E4B 也跑了真實資料，用 `bench/analyze_ladder.py` 的 cascade 邏輯重算門檻；沒跑就維持「六類 26B、四類 E4B」的查表。
 5. 每三個月或模型檔更換時：`python3 bench/verify.py --check-lock /secure/gb10-real/accuracy-<新>`，失敗就重校準。
@@ -91,13 +91,22 @@ python3 bench/run_local.py --which v4bench --backend sglang --base-url http://12
 REPORT.md 要改的地方，一條一條對：
 - §0 一句話：把「L4 上界」的延遲換成 GB10 實測；加一句真實資料上的零標註 acc 與 5% 預算下的 coverage。
 - §2 Q1 / Q3 / Q4：延遲表加 GB10 欄，L4 欄保留當對照。
-- §2 Q6：換成真實資料的 conformal 表（`11-thresholds.md` 的格式），合成資料版移到附註。
+- §2 Q6：換成真實資料的錯誤預算門檻表（`11-thresholds.md` 的格式），合成資料版移到附註。
 - §3d 後端選擇：填 L5 判定與 SGLang 是否進即時層。
 - §4 限制：刪掉第 1（L4 上界）、3（aarch64 未驗證）、4（校準只有 100 筆）條，補上真實資料的限制（筆數、標註者、時間範圍）。
 - §5 接回 GB10：全部打勾或改成「未做，原因」。
 - `results/cost.md` 加 GB10 電費／時間一列；`README.md` §2 表加「GB10」一列、§3 記分板換 GB10 數字，標題改「（已在 GB10 結案）」。
 - HTML：`bench/render_html_report.py` 讀的是 `results/analysis.json` 等檔，把 GB10 的分析輸出成同名檔放 `results/`（原本的改名 `-modal`），重新 `scripts/publish_report.sh`（需要 `IMITATOR_TOKEN` 環境變數）；TL;DR 第 3 條與第 6 條改成 GB10 數字，「條件四 GB10 實測」改成已完成。
 - 最後一段寫「結案判定」三選一：**上線**（七類強題 + 校準門檻）／**部分上線**（列哪幾類）／**不上線**（原因）。
+
+## 6b. 選配：Clef 27B 在 GB10 上的決定（v10 留下的題，半天）
+
+v10（`results/15-clef.md`）的結論是「判斷層預設不換，Clef 27B 留作 SPC、重排序、同 state 多題、護欄外部題的候選」，缺的是 GB10 實測。要做的話：
+1. 權重：`Cloudflare/clef` 釘 revision `2f3de3dd85f379784083b0814d997ab627200f0c`（55 GB）、`clef-flash` `17f0b0ad64efb65d273590632833508766b2aae6`（19 GB）。只能 **BF16**：FP8 會出 NaN，int8／NF4 機率偏 0.1–0.26，都沒過等價檢查。
+2. 環境：torch 2.11、transformers 5.10.2、torchvision、`flash-linear-attention`；`causal-conv1d` 可選。aarch64 上這幾個能不能裝是第一個要確認的事（Triton 與 fla 的 ARM 支援）。
+3. 跑：`python3 bench/clef_run.py --model <path> --quant bf16 --out results/gb10/clef-bf16 --suites smoke,d0,latency,profile`，smoke 50 題要跟 `results/modal/clef/clef-bf16/smoke.jsonl` 的機率差 ≤ 0.01。
+4. 量：26B（llama-server）常駐時再載 27B BF16 的記憶體、單題延遲（**先把常見長度暖過**，H100 上新長度首次 ≈ 1 秒）、三題一起的延遲。
+5. 判定：27B 在 GB10 上單題 ≤ 26B 的 2 倍、記憶體放得下，才把 SPC 與重排序改走 27B；否則維持 26B。真實資料上 SPC 的差距要重量，合成資料的 +11 點不能直接搬。
 
 ## 7. 你會踩到的坑（都踩過了）
 

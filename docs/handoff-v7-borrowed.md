@@ -38,6 +38,8 @@
 
 ## P3 conformal 門檻 + lock 檔 + CI 重測（抄 poorjev、jevcal）
 
+> **v9 更正**：下面第 2 步寫的「split conformal 分位數」是涵蓋率分位數，會保留約 (1−ε) 的題，**不控制自動段的錯誤率**。v9 改成選擇性風險控制（`bench/thresholds.py` 的 `risk_threshold`），結果重算在 `results/11-thresholds.md`：ε=5% 時 10/10 類守住。
+
 **現況**：Q6 報的是「sel@0.9 / 0.95 的準確率與 coverage」，是描述。長官問的形狀是「我允許 5% 錯，多少比例能自動處理」。
 
 **做法**（`bench/thresholds.py`，離線）：

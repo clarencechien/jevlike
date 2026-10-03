@@ -11,8 +11,10 @@ v10 卡住的三件事（沒有推論引擎、量化不能用、速度）這一�
 ## 0. 版本與檔案（全部釘死）
 
 - **llama.cpp**：`99b95488cac0f00ce3f05af113a8c1e287753f87`（master，2026-10-03 02:50 +0200）。
-  寫這份時最新 tag 是 `b11368`，**不含**這個 commit；Docker `server-cuda` 是 `b11347`，也不含。所以從原始碼編。
-  之後出了包含它的 release tag（預期 `b11369` 之後），可以換成那個 tag，但要在結果裡寫明版本。
+  **= tag `b11371`**（2026-10-03 查到，tag 正好指向這個 commit，原始碼完全相同）。
+  但 `b11371` 的 release 檔案還沒上傳（各平台壓縮檔都是 404，`b11368` 的同名檔是 200），Docker `server-cuda` 仍是 `b11347`。
+  而且 llama.cpp 本來就不出 Linux CUDA 的預編檔（歷來只有 Windows CUDA、Linux CPU／Vulkan／arm64），Modal 上一律從 `b11371` 原始碼編。
+  GB10（arm64 + CUDA）之後可用 Docker `server-cuda` 的 arm64 映像，等它更新到 ≥ `b11371`。
 - **GGUF**（ggml-org，用 `ggml-org/convert` 自動轉的）：
   - `ggml-org/Clef-Flash-GGUF` revision `4a7a08c09bc63baf043b62b5ba89dd67a0357d95`：BF16 18.16 GB、Q8_0 9.66 GB、Q4_K_M 6.49 GB。
   - `ggml-org/Clef-GGUF` revision `5f70656b6670c65eb85ad07a11efe211b5f211bd`：BF16 54.06 GB、Q8_0 28.73 GB、Q4_K_M 19.23 GB。

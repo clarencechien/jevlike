@@ -23,7 +23,8 @@
 | v9 九格補測（L4 + L40S） | 護欄、工具守門 × 3 模型、外部題 × 3、評分 × 3（含 JSON 對照）、重排序 × 3（L4）與 SGLang 一次（L40S）；Gemini 寫題與標註約 16 次呼叫（免費額度） | GPU ≈ 1.3 h | ≈ $1.5 | < $2 |
 | v10 Clef 對照（L40S + H100） | 下載 74 GB（CPU 容器）；L40S：flash BF16 smoke + 延遲 ×2、量化等價檢查 FP8 ×2（一次缺套件）、FP8-nola、int8、NF4、27B FP8，flash 主跑（D0 2,000 + 字母 ID 2,400 + D2 + v9 + R 4,000 + JevBench 509 + packed 600 + 延遲 + profile，13 分鐘）；H100：27B BF16 參考 50 題 + 延遲，27B 主跑（31 分鐘）。image 建了 4 次（torch／torchvision／kernels 版本） | L40S ≈ 0.7 h、H100 ≈ 0.75 h | ≈ $4.5 | $3–4，上限 $8 |
 | v11 Clef on llama-server + jevify（L4 + L40S + H100） | llama.cpp b11371 編譯（image builder 慢放棄一次、32 核 CPU 編兩次，一次連結失敗）；GGUF 下載 136 GB（CPU）；L40S：Clef smoke ×4、主跑 ×4、26B 延遲；H100：27B BF16 smoke；L4：jevify J1／J2（5 個 suite）／J3、混用 ×3、26B D0 新版 | L4 ≈ 2.7 h、L40S ≈ 1.6 h、H100 ≈ 0.1 h、CPU 編譯 ≈ 1 h × 32 核 | ≈ $7 | ≈ $5，上限 $8 |
-| **合計（v2–v11）** | | **GPU ≈ 16 h** | **≈ $28.5** | |
+| v12 借 Gemma 4 新做法（L4 + L40S） | 12B／31B GGUF 下載（CPU）；12B smoke + D0/D2/JevBench/延遲（L4）；31B smoke（OOM 一次）+ 主跑 + JevBench 1 slot 重跑（L40S）；26B 思考尾段步驟 0、弱題主跑、JevBench 2 slot 重跑（L4）；E1/E2 離線 | GPU ≈ 1.3 h | ≈ $1.5 | 約 $4 |
+| **合計（v2–v12）** | | **GPU ≈ 17 h** | **≈ $30** | |
 
 比估算省很多的原因：MoE A4B 在 L4 上每題 200 ms 級，2000 筆 + 1000 筆對照只要 12 分鐘；資料由 Claude Code 端產生不吃 GPU。
 AI Studio：v2 僅能力探測；v3 用 gemini-3.5-flash 盲寫 600 筆 D2 與標註 600 筆，約 80 次呼叫，免費額度內。

@@ -3,7 +3,8 @@
 讀選項字母的第一個 token logprob 當決策 API；不生成文字。合成的台灣 SMT 產線資料（10 類判斷題 × 200 筆），全部在 Modal 雲端 GPU 上跑，真實資料不出廠。
 
 - 長官版 HTML（公開）：<https://imitator.ai-apps.work/r/gb10-typed-decisions>
-- 工程報告：`results/REPORT.md`；分項報告 `results/00`–`16`；費用 `results/cost.md`
+- 懶人包（公開）：<https://imitator.ai-apps.work/r/jevlike-primer>（原理、溫度怎麼校、為什麼準、什麼時候會失靈）
+- 工程報告：`results/REPORT.md`；分項報告 `results/00`–`17`；費用 `results/cost.md`
 - 生態調查與借鏡：`results/10-landscape.md`（本檔 §5 是摘要）
 
 ### 給在 GB10 上接手的 Claude Code：從這裡開始
@@ -14,15 +15,16 @@
    llama.cpp 直接用 **≥ b11371**（v11 驗證 26B 換到這版 check-lock 0 失敗），之後 Clef 也用同一個 build。
 2. **選配：Clef 27B 實測**：`docs/handoff-gb10-clef.md`。主線的真實資料標好之後做最有用（§6 要用到）；沒有真實資料也可以先做 §1–§5（速度與記憶體）。
    回答「SPC（合成資料 97% 對 86%）與重排序（0.878 對 0.840）要不要改走 Clef 27B」，判定門檻在該檔 §7。
-3. **不要做**：訓練 LoRA、用 jevify、讓判斷跟生成共用帶 `--lora` 的 server（v11 證據見 `results/16-clef-llamacpp.md` §4）；不改 `decide/prompt.py` 的模板。
+3. **選配：v12 留下的兩個 GB10 待測**（`results/17-v12.md`）：31B Q8 的延遲（JevBench 公開 91.3% 最高，但 L40S 上單題是 26B 的 3 倍）；只對 SPC、UPH 開「低信心才思考」要先重新預登記（v12 是事後看到的），L4 上每題 11–19 秒。
+4. **不要做**：訓練 LoRA、用 jevify、讓判斷跟生成共用帶 `--lora` 的 server（v11 證據見 `results/16-clef-llamacpp.md` §4）；不改 `decide/prompt.py` 的模板；不要對急迫度開思考（v12 E4 變差）。
 
 要先讀的背景：本檔 §1–§3、`results/REPORT.md` §0／§4／§5、`results/16-clef-llamacpp.md` 的「一句話」。
 
 ## 1. 一句話
 
-值得做、用現有的 Gemma 4 26B-A4B 自己做、不採購 Jev。十類題七類零標註 ≥ 98%；弱的三類靠改寫判斷標準與幾十筆校準；一次判斷 L4 上 0.2 秒（共用現場狀況 0.07 秒）。推理引擎 llama-server 與 SGLang 都可用，SGLang 批次快 5 倍，前提是 prompt 帶 `<bos>`。十一輪實驗約 16 GPU 小時、約 $28.5。在 JevBench 公開子集自跑 88.7%，高於同派的 Cygnet 與訓練過的 Open-Jev。Cloudflare 開源的 Clef 27B 在我們的題上更準（96.6% 對 95.5%）；llama.cpp 已原生支援、Q8 可用，但速度沒贏，判斷層先不換（v10、v11）。
+值得做、用現有的 Gemma 4 26B-A4B 自己做、不採購 Jev。十類題七類零標註 ≥ 98%；弱的三類靠改寫判斷標準與幾十筆校準；一次判斷 L4 上 0.2 秒（共用現場狀況 0.07 秒）。推理引擎 llama-server 與 SGLang 都可用，SGLang 批次快 5 倍，前提是 prompt 帶 `<bos>`。十二輪實驗約 17 GPU 小時、約 $30。在 JevBench 公開子集自跑 88.7%，高於同派的 Cygnet 與訓練過的 Open-Jev。Cloudflare 開源的 Clef 27B 在我們的題上更準（96.6% 對 95.5%）；llama.cpp 已原生支援、Q8 可用，但速度沒贏，判斷層先不換（v10、v11）。v12 借了 Gemma 4 這條線上別人的四個零訓練做法，都沒有改變預設；Gemma 4 31B 在英文 JevBench 公開題最高（91.3%），但慢 3 倍。
 
-## 2. 走到哪裡了（十一輪，每輪先寫門檻再跑）
+## 2. 走到哪裡了（十二輪，每輪先寫門檻再跑）
 
 | 輪 | 交接文件 | 問的問題 | 答案 | 結果檔 |
 |---|---|---|---|---|
@@ -37,12 +39,13 @@
 | v9 | `handoff-v9-nine-places.md` | ByteByteGo 九格裡沒測過的四格 + 三段式門檻 | 護欄（26B 攔 96%，誤擋 5%）、LLM 評分（99.7%）、三段式門檻（11/12）成立；工具守門 90%（數字與範圍交給規則）、重排序 nDCG@5 0.84（差 0.01）沒過；修正 v7 門檻方法 | `14-nine-places.md`、`data/v9/` |
 | v10 | `handoff-v10-clef.md` | Cloudflare 開源的 Clef（訓練判斷頭）能不能取代我們？ | Clef 27B D0 96.6%（SPC +11 點）、重排序 0.879 過、三題一起不掉、護欄外部題 98%；flash 93.0%。但判斷頭接不上推論引擎、量化版不等價（FP8 NaN），只能 transformers BF16，單題 61–87 ms 不比我們快 → 不換，27B 留作弱題與重排序候選 | `15-clef.md`、`modal_clef.py` |
 | v11 | `handoff-v11-clef-llamacpp.md` | llama.cpp 原生支援 Clef 之後能不能換？同底模的 jevify LoRA 有沒有用？ | llama-server 版與原版等價、Q8／Q4 可用；同一張 L40S 上 flash Q8 48 ms 對 26B 56 ms、27B Q8 142 ms，速度沒贏 → 不換，27B Q8 可上 GB10。jevify D0 92.5% 比零訓練差，不採用；`--lora` 混用會拖慢判斷 3 倍。26B 換 b11371 不漂 | `16-clef-llamacpp.md`、`modal_clef_gguf.py` |
+| v12 | `handoff-v12-borrowed-gemma.md` | Gemma 4 這條線的新做法（Cygnet、decisio、Rune）零訓練能借的四件，有用嗎？ | 四件都沒改變預設：分數題改讀機率加權等級 +1.1 點（持平）；每題型溫度在十類內輸給每類溫度，但轉到 JevBench ECE 0.010；12B 當級聯第一階過準確率門檻，但 L4 上比 26B 慢（168 對 137 ms）；31B 弱題 +2 點未達 +3、JevBench 公開 91.3%、慢 3 倍；低信心才思考 +2 點但自動處理只多 2 點（SPC、UPH 有效，急迫度有害） | `17-v12*.md`、`v12.json` |
 
 ## 3. 效果多好（D0 test 每 task 100 筆，L4 / L40S）
 
 | 指標 | 數字 | 註 |
 |---|---|---|
-| JevBench 公開 231 題（self-run） | 88.7%，hard 77.5% | Cygnet 87.9、Open-Jev-27B 85.3、TypeLLM 84.4（各自自跑）；不是官方排名 |
+| JevBench 公開 231 題（self-run） | 88.7%，hard 77.5% | Cygnet 87.9、Open-Jev-27B 85.3、TypeLLM 84.4（各自自跑）；不是官方排名。v12：同讀法 Gemma 4 31B 91.3%、12B 86.1% |
 | 零標註 ≥ 0.98 的 task | 7 / 10 | `m_alarm_category`、`m_needs_dispatch`、`q_defect_root`、`p_line_change`、`x_ticket_route`、`x_escalate`、`x_10way_intent` |
 | 三類弱題（改寫標準後） | 急迫度 0.885、SPC 0.95、UPH 0.93 | 錯集中在相鄰等級；UPH 該用公式 |
 | 5% 錯誤預算下強題 coverage | 0.98–1.00，實際錯 0–2% | 選擇性風險控制，10/10 類守住；急迫度做不到就不自動（`11-thresholds.md`，v9 修正 v7 的方法） |
@@ -50,7 +53,7 @@
 | 共用 state 問 10 / 16 題 | L4 每題 73 ms；L40S llama 813 ms vs SGLang 217 ms（K=16） | SGLang 要帶 `<bos>` |
 | E4B 級聯（門檻 0.999） | acc 0.952 vs 全 26B 0.955，34% 送 26B | 平均延遲 −20% |
 | 順序敏感度 | 急迫度 21%、SPC 19%、其餘 ≤ 3% | 上線選項順序固定 |
-| 累計費用 | ≈ $15、8.6 GPU h | 原估 $5.5–7.5 只算前兩輪 |
+| 累計費用 | ≈ $30、17 GPU h | 原估 $5.5–7.5 只算前兩輪；明細 `results/cost.md` |
 
 ## 4. Quickstart（Modal；GB10 本機見 `docs/handoff-gb10.md` 與 `docs/handoff-gb10-clef.md`）
 
@@ -75,6 +78,7 @@ python3 bench/verify.py && python3 bench/thresholds.py && python3 bench/verify.p
 
 - `PLAN.md`；`docs/` 交接文件（每份先寫門檻，跑完在 §結論填三選一）
 - `modal_clef_gguf.py` llama.cpp b11371 編譯與 Clef GGUF（L4／L40S／H100）
+- `modal_v12.py` v12：Gemma 4 12B（L4）／31B（L40S，ctx 8192）階梯與 26B 思考尾段，用 b11371 binary；`--slots` 換 slot 數（長題要更長的 slot context）
 - `modal_clef.py` Clef／Clef-flash 入口（釘版下載、L40S／H100）；`decide/clef_adapter.py` 題目轉 Clef schema
 - `modal_app.py` llama-server 入口（`MODELS`：26b UD-Q4_K_M / q8 / bf16 / e4b / e2b）；`modal_sglang.py` SGLang 入口（fp8 / bf16，L40S 需自帶 fused-MoE Triton 設定檔）
 - `decide/` `prompt.py`（模板：`/apply-template` 學來，或 SGLang 用的 `GEMMA4_TEMPLATE_NOTHINK_BOS`；T1 變體）、`client.py`（llama `/completion`；SGLang `/generate` 指定 token id / `input_ids`；每次回傳 `option_mass`）、`labels.py`（字母單 token 自檢）
@@ -82,7 +86,8 @@ python3 bench/verify.py && python3 bench/thresholds.py && python3 bench/verify.p
 - `bench/` `run_local.py`（GB10 本機跑）、`clef_under_load.py`（GB10：生成負載下的 Clef 延遲）、`analyze_gb10_clef.py`（26B 對 Clef，合成或真實資料）、`rerank.py`、`smoke*.py`、`latency.py`、`accuracy.py`、`permute.py`、`packed.py`、`v4bench.py`、`jevbench.py`、`tokenize_dump.py`、`option_mass.py`、`thresholds.py`、`analyze*.py`（v2 / ladder / v4–v10）、`clef_run.py`（Clef，transformers）、`systemone_bench.py`（llama-server `/v1/systemone` 與 jevify）、`lora_mix.py`、`verify.py`（含 `--check-lock`）、`render_html_report.py`
 - `data/v9/` 護欄、工具守門、評分、重排序四份資料（產生器、抽查、Gemini 盲寫外部題）
 - `data/jevbench/` JevBench 公開 231 題（MIT，釘版）；`third_party/jevbench/` 評分 harness（MIT）
-- `results/` 分項報告 `00`–`16`、`REPORT.md`、`cost.md`、`thresholds.lock.json`、`fig/`、`modal/`（原始 logprobs）
+- `bench/analyze_v12.py`（E1/E2 離線）、`bench/analyze_v12_gpu.py`（E3/E4）、`bench/think_tail.py`（低信心才思考的兩段讀法）
+- `results/` 分項報告 `00`–`17`、`REPORT.md`、`cost.md`、`thresholds.lock.json`、`fig/`、`modal/`（原始 logprobs）
 
 ### 踩過的坑（接 GB10 時先看）
 
@@ -91,6 +96,8 @@ python3 bench/verify.py && python3 bench/thresholds.py && python3 bench/verify.p
 - **前綴 cache**：llama-server 開 `--swa-full`，同一 slot 順序送；SGLang 先暖一題再整批。多題排成一列一個前向（packed）在 Gemma 4 上會讓後面的題答案變，不用。
 - **選項順序**：弱題兩成會因順序改答案，上線順序固定、校準用同一順序。
 - **信心**：raw 信心平均 0.99，門檻用校準後信心；`thresholds.lock.json` + `--check-lock` 當 CI。
+- **`--reasoning-budget 0`**：會強制關掉思考；要讓模型先想再答（v12 E4）就拿掉，字母讀法走 `/completion` 自帶模板，不受影響。
+- **slot 的 context = `-c` ÷ `-np`**：JevBench 有題目約 3.9k token，2048 的 slot 會直接回 400；31B Q8 加 `--swa-full` 在 48 GB 卡只能開 8192（v12）。
 - **SGLang 重跑**：帶 `<bos>` 99.7%，加 `--enable-deterministic-inference` 99.85%（單題慢三成）；`gemma4-mtp` 映像的 `/v1/tokenize` 會崩，自檢改走 HF tokenizer。
 
 ## 5. 參考：別人怎麼做、我們借鏡了什麼
@@ -99,7 +106,7 @@ Jev（TypeSafe，2026-09-15）發表後兩週，開源替代品三十幾個，�
 
 | 做法 | 代表 | 自報成績 | 對我們 |
 |---|---|---|---|
-| 零樣本讀選項機率（我們這一派） | **Cygnet**（凍結 Gemma-4-12B，vLLM，一個溫度）、open-alternative-jev（packed readout）、SemIf、openjev-sglang、verdict、gemma-jev | Cygnet JevBench 官方第 4（61.8）、公開題 87.9% | 同一條路在公開評測站得住；Gemma 4 只有 Cygnet 和我們 |
+| 零樣本讀選項機率（我們這一派） | **Cygnet**（凍結 Gemma-4-12B，vLLM，一個溫度）、open-alternative-jev（packed readout）、SemIf、openjev-sglang、verdict、gemma-jev、decisio（凍結 Gemma 4 31B） | Cygnet JevBench v1.5.4 官方第 1（73.70，舊版第 4 的 61.8 不同尺）、公開題 87.9% | 同一條路在公開評測站得住；Gemma 4 只有 Cygnet 和我們 |
 | LoRA + 決策頭 | **decider-4b**（8k 筆，榜首 64.1）、JevK5（大模型開思考蒸餾）、Open-Jev（148k 筆、反事實資料）、Kev、imajev、**Clef**（Cloudflare，joint schema head） | 4B 訓練後贏 Jev（63.3）；Clef 27B 我們自跑公開題 87.4%、D0 96.6% | 真實工單到手後的下一步：26B 開思考出題標答 → E4B LoRA；Clef 27B 是現成的候選，但只能 transformers BF16 |
 | 小型非自迴歸 | Laya、von、poorjev 的 NLI | CPU 可跑 | 我們量到 Laya 零樣本接近亂猜 |
 | 校準與門檻工具 | poorjev（conformal）、jevcal（lock 檔 + CI）、jevkit | ECE 0.170 → 0.071 | 已抄成 `bench/thresholds.py` + `verify.py --check-lock` |
@@ -111,5 +118,7 @@ Jev（TypeSafe，2026-09-15）發表後兩週，開源替代品三十幾個，�
 補測結果：`results/14-nine-places.md`（計劃 `docs/handoff-v9-nine-places.md`）。
 
 **Cloudflare Clef 同尺對照**（v10，`results/15-clef.md`）：訓練判斷頭的價值是真的，集中在我們最弱的地方（SPC、外部寫法、同 state 多題、重排序）；但 Cloudflare 宣稱的速度只在他們自己的 serving 上，本機只能 transformers BF16、沒有推論引擎與可用的量化版。工具守門 Clef 更差（危險放行 2.7%）。
+
+**2026-10-06 補調查**（`results/10-landscape.md` §9）：官方 JevBench 前排出現三個 Gemma 4 系統（Cygnet、Winnow-12B、Jev-Omni，都是 12B），Rune 在同一顆 26B-A4B 上做了「低信心才思考」，decisio 的凍結 31B 比凍結 12B 高 8 分。零訓練能借的四件在 v12 量完，都沒改變預設（`results/17-v12.md`）。
 
 **我們比別人多做的**：Gemma 4 的正確模板（空 thought channel、`<bos>`），沒有任何專案寫到；題目簡單還是模型強的階梯；兩個後端同題對照；每輪預先登記門檻、held-out 驗證、獨立抽查。

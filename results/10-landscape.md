@@ -90,6 +90,22 @@ Laya（421M ModernBERT，RLCD 校準）、von（<15 ms）、poorjev 的 NLI 模�
 
 **一句話（v9 補測後）**：九格全部實測過。成立七格（1、2、4、6、7、8、9）；沒過兩格：工具守門輸在數字比規格與影響範圍（交給程式規則），重排序差門檻 0.01。要改的仍是兩處：第 9 格的固定門檻換成用資料反推的，第 5 格逐段讀、不要打包。第 9 格的「反推」在 v9 修正過方法（見 `14-nine-places.md`）。
 
+## 9. 2026-10-06 補調查：Gemma 4 這條線十天內的新東西（v12 的來源）
+
+| 名稱 | 底模 | 做法 | 成績 | v12 怎麼處理 |
+|---|---|---|---|---|
+| Cygnet（更新） | 凍結 Gemma 4 12B | 零訓練讀字母；所有解碼成同一字母的 token 機率相加；score 題回機率加權等級；T=3.4 | JevBench v1.5.4 官方第 1（73.70） | E1 借「機率加權等級」：持平；E3 補 12B |
+| Winnow-12B | Gemma 4 12B | LoRA r32 合併，讀答案 token logit，有 GGUF 與自帶 server | 73.23，與第一並列 | 未測：英文通用訓練，v11 jevify 的教訓 |
+| Jev-Omni | Gemma 4 12B | 加分類頭，3 萬題，支援圖、聲音、影片 | 71.50 | 未測：只有 transformers |
+| Surogate Rune 26B-A4B v3 | **Gemma 4 26B-A4B** | 微調；信心 < 0.7 才思考 ≤ 512 token（約一成觸發，Decision Index +1.5） | 66.47 | E4 借「低信心才思考」：持平 |
+| decisio 0.6.0 | 凍結 Gemma 4 31B | 零訓練讀字母；choice 與其他題型各一個溫度 | Decision Index 57.58（凍結 12B 49.43） | E2 借「題型溫度」：維持每類；E3 補 31B |
+| llama.cpp `/v1/systemone`（PR #29818） | — | 只支援 Laya、Julia-1、Lev、OpenJev 27B、Kev | — | 一般 Gemma 不能用，維持自己的 client |
+| DiffusionGemma 26B | Gemma 4 擴散版 | 外部實測落在合法答案上的機率只有 37–59% | — | 不能用讀 logit 的方式 |
+| JevOut（arXiv 2609.30243） | — | 刻意優化的自然語境翻掉 Jev 61% 的決策，翻錯的近半信心 ≥ 0.7；中性一句只翻 2.2% | — | 記為風險：吃外部文字的題要注意 |
+
+另一個獨立對照：純 Gemma 4 26B 在 Bespoke Labs 3,880 題上 75.3%，Jev 77.3%（L4、vLLM、AWQ 4-bit），是非題打平、選擇題落後 4.5 點，與我們的結論一致。
+來源：JevBench <https://benchlm.ai/benchmarks/jevbench>、Cygnet <https://github.com/blockbrain-ai/cygnet-recipe>、Winnow <https://huggingface.co/EldanRing/Winnow-12B>、Jev-Omni <https://jev-ai.pro/model/jev-omni>、Rune <https://huggingface.co/michaelfeil/rune-26b-a4b>、decisio <https://github.com/apolinario/decision-index/pull/62>、llama.cpp <https://huggingface.co/blog/ggml-org/decision-models-in-llamacpp>、JevOut <https://arxiv.org/abs/2609.30243>、L4 對照 <https://dev.to/gde/plain-gemma-4-26b-vs-jev-on-one-ec2-l4-21-points-behind-overall-level-on-yesno-45-behind-on-15k6>
+
 ## 來源
 
 Cygnet <https://github.com/blockbrain-ai/cygnet-recipe>、open-alternative-jev <https://github.com/ikermoel/open-alternative-jev>、SemIf <https://tomrochette.com/agents/hybrid-execution/semif/>、openjev-sglang <https://github.com/ekzhang/openjev-sglang>、verdict <https://github.com/khimaros/verdict>、GemmaJev <https://github.com/dashidhy/GemmaJev>、llama.cpp-Jev <https://github.com/NON906/llama.cpp-Jev>、decider <https://github.com/Mapika/decider>、JevK5 <https://github.com/fstandhartinger/jevbench/issues/31>、Open-Jev <https://zefan-cai.github.io/open-jev/story/>、Kev <https://github.com/jaredpalmer/kev/blob/main/PLAN.md>、imajev <https://github.com/fstandhartinger/jevbench/issues/80>、system-one-open <https://github.com/mithalouni/system-one-open>、poorjev <https://github.com/rupeshpoojary9/poorjev>、jevcal <https://github.com/abhixhek/jevcal>、jevkit <https://github.com/JasmineAIGC/jevkit>、awesome-open-system-one <https://github.com/rupeshpoojary9/awesome-open-system-one>、JevBench <https://github.com/fstandhartinger/jevbench>、Clef <https://blog.cloudflare.com/clef-decision-models/>、<https://huggingface.co/Cloudflare/clef>、榜 <https://benchmarkheaven.com/jev-models>、TypeSafe 原文 <https://typesafe.ai/blog/introducing-system-one-models-and-jev>。

@@ -106,6 +106,20 @@ Laya（421M ModernBERT，RLCD 校準）、von（<15 ms）、poorjev 的 NLI 模�
 另一個獨立對照：純 Gemma 4 26B 在 Bespoke Labs 3,880 題上 75.3%，Jev 77.3%（L4、vLLM、AWQ 4-bit），是非題打平、選擇題落後 4.5 點，與我們的結論一致。
 來源：JevBench <https://benchlm.ai/benchmarks/jevbench>、Cygnet <https://github.com/blockbrain-ai/cygnet-recipe>、Winnow <https://huggingface.co/EldanRing/Winnow-12B>、Jev-Omni <https://jev-ai.pro/model/jev-omni>、Rune <https://huggingface.co/michaelfeil/rune-26b-a4b>、decisio <https://github.com/apolinario/decision-index/pull/62>、llama.cpp <https://huggingface.co/blog/ggml-org/decision-models-in-llamacpp>、JevOut <https://arxiv.org/abs/2609.30243>、L4 對照 <https://dev.to/gde/plain-gemma-4-26b-vs-jev-on-one-ec2-l4-21-points-behind-overall-level-on-yesno-45-behind-on-15k6>
 
+## 10. 2026-10-07 補調查：Google 自家的 Decision Maker 與 EmbeddingGemma 2（v13–v16 的來源）
+
+MediaPipe Decision Maker 是 Google 的裝置端決策 API，後端有二：Gemma 系列 LLM，以及標榜「ultra-low latency」的 EmbeddingGemma 2（bi-encoder，270M／300M）。頁面範例是主題分得很開的意圖分類（訂票／退票退款／行李）。
+EmbeddingGemma 2 部落格的示範全是「從一大堆候選裡找最像的」：相片與影片語意搜尋、跨模態檢索、西洋棋每步 100 ms 內評估 500 個選項；模型卡列的用途是檢索、分類、分群、相似度，並寫明「可能抓不到細微語意」。
+
+| 我們怎麼測 | 結果 | 判定 |
+|---|---|---|
+| v13 直接跑 D0 十類判斷題（分類前綴 + 題內中心化） | 0.637；孿生題 45% 同答案 | 判斷題不是它的事 |
+| v14 給它主場：100 份 SOP 路由、非對稱檢索前綴 | top-1 0.527、recall@20 0.953；L4 單則 70 ms | 選擇不行，粗篩可以 |
+| v15／v16 當 26B 的前置（前 K 名、打散分組） | 0.873–0.900，完整淘汰賽 0.947 | 不當前置，100 選 1 用完整淘汰賽 |
+
+對我們的意義：它和讀字母是兩種不同的東西。讀字母把題目和選項**一起**讀，能比「符不符合條件」；bi-encoder 各自編碼再比相似度，只能比「像不像」。選項超過 10 個時我們用淘汰賽（每 10 份一組、勝出者再比），EG 唯一的位子是把 100 份縮到 20 份，而且這 5 個百分點的召回損失目前補不回來。
+來源：Decision Maker <https://developers.google.com/edge/mediapipe/solutions/decision/decision_maker>、EmbeddingGemma 2 模型卡 <https://huggingface.co/google/embeddinggemma-2>。
+
 ## 來源
 
 Cygnet <https://github.com/blockbrain-ai/cygnet-recipe>、open-alternative-jev <https://github.com/ikermoel/open-alternative-jev>、SemIf <https://tomrochette.com/agents/hybrid-execution/semif/>、openjev-sglang <https://github.com/ekzhang/openjev-sglang>、verdict <https://github.com/khimaros/verdict>、GemmaJev <https://github.com/dashidhy/GemmaJev>、llama.cpp-Jev <https://github.com/NON906/llama.cpp-Jev>、decider <https://github.com/Mapika/decider>、JevK5 <https://github.com/fstandhartinger/jevbench/issues/31>、Open-Jev <https://zefan-cai.github.io/open-jev/story/>、Kev <https://github.com/jaredpalmer/kev/blob/main/PLAN.md>、imajev <https://github.com/fstandhartinger/jevbench/issues/80>、system-one-open <https://github.com/mithalouni/system-one-open>、poorjev <https://github.com/rupeshpoojary9/poorjev>、jevcal <https://github.com/abhixhek/jevcal>、jevkit <https://github.com/JasmineAIGC/jevkit>、awesome-open-system-one <https://github.com/rupeshpoojary9/awesome-open-system-one>、JevBench <https://github.com/fstandhartinger/jevbench>、Clef <https://blog.cloudflare.com/clef-decision-models/>、<https://huggingface.co/Cloudflare/clef>、榜 <https://benchmarkheaven.com/jev-models>、TypeSafe 原文 <https://typesafe.ai/blog/introducing-system-one-models-and-jev>。

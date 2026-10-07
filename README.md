@@ -4,7 +4,7 @@
 
 - 長官版 HTML（公開）：<https://imitator.ai-apps.work/r/gb10-typed-decisions>
 - 懶人包（公開）：<https://imitator.ai-apps.work/r/jevlike-primer>（原理、溫度怎麼校、為什麼準、什麼時候會失靈）
-- 工程報告：`results/REPORT.md`；分項報告 `results/00`–`18`；費用 `results/cost.md`
+- 工程報告：`results/REPORT.md`；分項報告 `results/00`–`19`；費用 `results/cost.md`
 - 生態調查與借鏡：`results/10-landscape.md`（本檔 §5 是摘要）
 
 ### 給在 GB10 上接手的 Claude Code：從這裡開始
@@ -22,9 +22,9 @@
 
 ## 1. 一句話
 
-值得做、用現有的 Gemma 4 26B-A4B 自己做、不採購 Jev。十類題七類零標註 ≥ 98%；弱的三類靠改寫判斷標準與幾十筆校準；一次判斷 L4 上 0.2 秒（共用現場狀況 0.07 秒）。推理引擎 llama-server 與 SGLang 都可用，SGLang 批次快 5 倍，前提是 prompt 帶 `<bos>`。十三輪實驗約 17 GPU 小時、約 $30（v13 只用 CPU）。在 JevBench 公開子集自跑 88.7%，高於同派的 Cygnet 與訓練過的 Open-Jev。Cloudflare 開源的 Clef 27B 在我們的題上更準（96.6% 對 95.5%）；llama.cpp 已原生支援、Q8 可用，但速度沒贏，判斷層先不換（v10、v11）。v12 借了 Gemma 4 這條線上別人的四個零訓練做法，都沒有改變預設；Gemma 4 31B 在英文 JevBench 公開題最高（91.3%），但慢 3 倍。
+值得做、用現有的 Gemma 4 26B-A4B 自己做、不採購 Jev。十類題七類零標註 ≥ 98%；弱的三類靠改寫判斷標準與幾十筆校準；一次判斷 L4 上 0.2 秒（共用現場狀況 0.07 秒）。推理引擎 llama-server 與 SGLang 都可用，SGLang 批次快 5 倍，前提是 prompt 帶 `<bos>`。十六輪實驗約 18.5 GPU 小時、約 $31.5。在 JevBench 公開子集自跑 88.7%，高於同派的 Cygnet 與訓練過的 Open-Jev。Cloudflare 開源的 Clef 27B 在我們的題上更準（96.6% 對 95.5%）；llama.cpp 已原生支援、Q8 可用，但速度沒贏，判斷層先不換（v10、v11）。v12 借了 Gemma 4 這條線上別人的四個零訓練做法，都沒有改變預設；Gemma 4 31B 在英文 JevBench 公開題最高（91.3%），但慢 3 倍。
 
-## 2. 走到哪裡了（十三輪，每輪先寫門檻再跑）
+## 2. 走到哪裡了（十六輪，每輪先寫門檻再跑）
 
 | 輪 | 交接文件 | 問的問題 | 答案 | 結果檔 |
 |---|---|---|---|---|
@@ -41,6 +41,9 @@
 | v11 | `handoff-v11-clef-llamacpp.md` | llama.cpp 原生支援 Clef 之後能不能換？同底模的 jevify LoRA 有沒有用？ | llama-server 版與原版等價、Q8／Q4 可用；同一張 L40S 上 flash Q8 48 ms 對 26B 56 ms、27B Q8 142 ms，速度沒贏 → 不換，27B Q8 可上 GB10。jevify D0 92.5% 比零訓練差，不採用；`--lora` 混用會拖慢判斷 3 倍。26B 換 b11371 不漂 | `16-clef-llamacpp.md`、`modal_clef_gguf.py` |
 | v12 | `handoff-v12-borrowed-gemma.md` | Gemma 4 這條線的新做法（Cygnet、decisio、Rune）零訓練能借的四件，有用嗎？ | 四件都沒改變預設：分數題改讀機率加權等級 +1.1 點（持平）；每題型溫度在十類內輸給每類溫度，但轉到 JevBench ECE 0.010；12B 當級聯第一階過準確率門檻，但 L4 上比 26B 慢（168 對 137 ms）；31B 弱題 +2 點未達 +3、JevBench 公開 91.3%、慢 3 倍；低信心才思考 +2 點但自動處理只多 2 點（SPC、UPH 有效，急迫度有害） | `17-v12*.md`、`v12.json` |
 | v13 | `handoff-v13-embeddinggemma2.md` | Google MediaPipe Decision Maker 的 EmbeddingGemma 2 後端（bi-encoder、零樣本）在 D0 到什麼程度？ | 十類平均 0.637，低於 E2B 0.807、E4B 0.885、26B 0.955；主題型三類 0.714，三條門檻全沒過。答案相反的孿生題 45% 給同一個答案（26B 6%）。本機 CPU 免費 | `18-embeddinggemma2.md`、`v13.json` |
+| v14 | `handoff-v14-sop-routing.md` | 給 EmbeddingGemma 2 它的主場（100 份 SOP 路由，Gemini 盲寫），對 E4B、26B 誰贏？ | 主場也輸：EG top-1 0.527、E4B 淘汰賽 0.907、26B 0.947；EG 前 10 名給 26B 讀一次 0.860（輸在 EG 召回 0.887）。EG 前 20 名召回 0.953，可當寬鬆的前置 | `19-sop-routing.md`、`v14.json`、`data/v14/` |
+| v15 | `handoff-v15-shortlist-tournament.md` | EG 先縮到前 20／30／50 名、26B 打小型淘汰賽，能不能追平完整淘汰賽？ | 追不平：前 20／30／50 名 0.893／0.900／0.893，完整淘汰賽 0.947。召回補回來了，但候選越寬、進了名單後答對越低（前 50 名 p ≈ 0.008）。單則延遲：前 20 名 0.72 秒、完整淘汰賽 2.7 秒。100 選 1 仍用完整淘汰賽 | `20-shortlist-tournament.md`、`v15.json` |
+| v16 | `handoff-v16-dealt-groups.md` | 把長得像的對手打散到不同組，小型淘汰賽會不會變準？ | 不會：前 20 名四種排法 0.873–0.893，全部 100 份打散 0.927（照目錄 0.947）。打散只把近親搬進決賽。錯誤跟著訊息走、不跟著分組走；剩下的槓桿是召回或每次讀取的判斷力 | `21-dealt-groups.md`、`v16.json` |
 
 ## 3. 效果多好（D0 test 每 task 100 筆，L4 / L40S）
 
@@ -88,8 +91,9 @@ python3 bench/verify.py && python3 bench/thresholds.py && python3 bench/verify.p
 - `data/v9/` 護欄、工具守門、評分、重排序四份資料（產生器、抽查、Gemini 盲寫外部題）
 - `data/jevbench/` JevBench 公開 231 題（MIT，釘版）；`third_party/jevbench/` 評分 harness（MIT）
 - `bench/embed_d0.py`、`bench/analyze_v13.py`（v13：EmbeddingGemma 2 零樣本，CPU）
+- `modal_v14.py`、`bench/embed_route.py`、`bench/route_bench.py`（淘汰賽／混合式／v15 前 K 名小型淘汰賽）、`bench/analyze_v14.py`、`bench/analyze_v15.py`、`bench/analyze_v16.py`（v16 打散分組，`--mode deal`）；`data/v14/`（Gemini 寫的 100 份 SOP 與 300 則訊息）
 - `bench/analyze_v12.py`（E1/E2 離線）、`bench/analyze_v12_gpu.py`（E3/E4）、`bench/think_tail.py`（低信心才思考的兩段讀法）
-- `results/` 分項報告 `00`–`18`、`REPORT.md`、`cost.md`、`thresholds.lock.json`、`fig/`、`modal/`（原始 logprobs）
+- `results/` 分項報告 `00`–`21`、`REPORT.md`、`cost.md`、`thresholds.lock.json`、`fig/`、`modal/`（原始 logprobs）
 
 ### 踩過的坑（接 GB10 時先看）
 

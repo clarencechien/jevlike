@@ -1,0 +1,10 @@
+{
+ "mode": "deal",
+ "arm": "S20",
+ "k": null,
+ "subset": "",
+ "workers": 4,
+ "n": 300,
+ "acc_all": 0.8666666666666667,
+ "wall_s": 244.3
+}

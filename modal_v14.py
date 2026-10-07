@@ -52,18 +52,19 @@ def _start(model_path):
 
 
 @app.function(image=llm_image, gpu="L4", volumes={"/models": models, "/results": results}, timeout=60 * 60 * 2)
-def llm(name: str = "26b", mode: str = "tournament", workers: int = 4, limit: int = 0, k: int = 10, subset: str = "", out: str = "v14"):
-    """v14: modes tournament / hybrid. v15 (docs/handoff-v15-shortlist-tournament.md): mode shortlist with k = 20/30/50, out = v15."""
+def llm(name: str = "26b", mode: str = "tournament", workers: int = 4, limit: int = 0, k: int = 10, subset: str = "", out: str = "v14", arm: str = ""):
+    """v14: modes tournament / hybrid. v15 (docs/handoff-v15-shortlist-tournament.md): mode shortlist with k = 20/30/50, out = v15.
+    v16 (docs/handoff-v16-dealt-groups.md): mode deal with arm = D20/S20/P20/D100, out = v16."""
     import sys
     sys.path.insert(0, "/root")
     proc = _start(MODEL_PATH[name])
     try:
         from bench import route_bench
         out_dir = f"/results/{out}/{name}"
-        args = f"--mode {mode} --workers {workers} --limit {limit} --k {k}" + (f" --subset {subset}" if subset else "")
+        args = f"--mode {mode} --workers {workers} --limit {limit} --k {k}" + (f" --subset {subset}" if subset else "") + (f" --arm {arm}" if arm else "")
         ret = route_bench.main(base_url=f"http://127.0.0.1:{PORT}", out_dir=out_dir, args=args)
         smi = subprocess.run(["nvidia-smi", "--query-gpu=name", "--format=csv,noheader"], capture_output=True, text=True).stdout.strip()
-        tag = mode + (str(k) if mode == "shortlist" else "") + (f"_{subset}" if subset else "")
+        tag = mode + (str(k) if mode == "shortlist" else "") + arm + (f"_{subset}" if subset else "")
         json.dump({**ret, "gpu": smi, "model": MODEL_PATH[name], "server": "llama.cpp b11371"}, open(f"{out_dir}/_run_{tag}.json", "w"), indent=1)
         results.commit()
         return ret

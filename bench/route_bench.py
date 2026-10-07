@@ -4,10 +4,13 @@ Letters are A–J, so 100 options need a tournament: catalog order in groups of 
 over the 10 winners (11 reads). Hybrid mode reads once over EmbeddingGemma 2's top-10 (data/v14/eg2_top10.json, in
 catalog order). Reads within a query are sequential (the honest per-query cost); queries run in parallel slots.
 
-args: "--mode tournament|hybrid|shortlist --k 20 --subset test30 --workers 4 --limit 0"
+args: "--mode tournament|hybrid|shortlist|deal --arm D20 --k 20 --subset test30 --workers 4 --limit 0"
 v15 shortlist mode: EG's top-K (data/v14/eg2_top<K>.json, catalog order), then the same group-of-10 tournament until at
 most 10 remain, then a final read (K=10 -> 1 read, 20 -> 3, 30 -> 4, 50 -> 6; the full catalog would be 11).
 --subset test30 runs only the first 30 test-split queries (single-stream latency runs use --workers 1).
+v16 deal mode (docs/handoff-v16-dealt-groups.md): --arm D20|S20|P20|D100. EG's ranking (data/v14/eg2_rank.json) is dealt
+round-robin into G groups (group g gets ranks g, g+G, ...); P20 pads each group with 5 SOPs from EG ranks 51-70 dealt the
+same way. Groups and the final are in catalog order. D20 -> 3 reads, S20/P20 -> 5, D100 -> 11.
 Out: <out_dir>/route_<mode>[<k>][_<subset>].jsonl, <out_dir>/_summary_<same>.json
 """
 import json
@@ -53,7 +56,12 @@ def main(base_url, out_dir, args="", **kw):
         shortlist = json.load(open(os.path.join(DATA, "eg2_top10.json"), encoding="utf-8"))
     elif mode == "shortlist":
         shortlist = json.load(open(os.path.join(DATA, f"eg2_top{k}.json"), encoding="utf-8"))
-    tag = mode + (str(k) if mode == "shortlist" else "") + (f"_{subset}" if subset else "")
+    arm = a.get("--arm", "")
+    DEAL = {"D20": (20, 2, 0), "S20": (20, 4, 0), "P20": (20, 4, 5), "D100": (100, 10, 0)}  # (K, groups, fillers per group)
+    if mode == "deal":
+        rank = json.load(open(os.path.join(DATA, "eg2_rank.json"), encoding="utf-8"))
+        shortlist = {i: r[:DEAL[arm][0]] for i, r in rank.items()}
+    tag = mode + (str(k) if mode == "shortlist" else "") + arm + (f"_{subset}" if subset else "")
     tr = TemplateRenderer(base_url)
     tls = threading.local()
 
@@ -71,7 +79,15 @@ def main(base_url, out_dir, args="", **kw):
 
     def one(q):
         t0 = time.perf_counter(); reads = 0; stages = []
-        if mode in ("tournament", "shortlist"):
+        if mode == "deal":
+            K, G, pad = DEAL[arm]; r = rank[q["id"]]; pos = {sid: n for n, sid in enumerate(c["id"] for c in cat)}
+            groups = [sorted(r[g:K:G] + (r[50 + g:50 + G * pad:G] if pad else []), key=pos.get) for g in range(G)]
+            winners = []
+            for g, grp in enumerate(groups):
+                w, p, lat, mass = pick(q["state"], [by_id[i] for i in grp]); reads += 1; winners.append(w)
+                stages.append({"level": 0, "group": g, "members": grp, "winner": w, "p_winner": p.get(w), "mass": mass})
+            final_sops = sorted((by_id[w] for w in winners), key=lambda s: pos[s["id"]])
+        elif mode in ("tournament", "shortlist"):
             pool = list(cat) if mode == "tournament" else [by_id[i] for i in shortlist[q["id"]]]
             level = 0
             while len(pool) > 10:  # groups of 10 in catalog order; winners go up a level
@@ -96,7 +112,7 @@ def main(base_url, out_dir, args="", **kw):
             f.write(json.dumps(r, ensure_ascii=False) + "\n"); ok += r["correct"]
             if (i + 1) % 50 == 0:
                 print(f"  [{tag}] {i + 1}/{len(qs)} acc {ok / (i + 1):.3f} ({time.time() - t0:.0f}s)", flush=True)
-    summ = {"mode": mode, "k": k if mode == "shortlist" else None, "subset": subset, "workers": workers, "n": len(qs), "acc_all": ok / len(qs),
+    summ = {"mode": mode, "arm": arm or None, "k": k if mode == "shortlist" else None, "subset": subset, "workers": workers, "n": len(qs), "acc_all": ok / len(qs),
             "wall_s": round(time.time() - t0, 1)}
     json.dump(summ, open(os.path.join(out_dir, f"_summary_{tag}.json"), "w"), indent=1)
     return summ

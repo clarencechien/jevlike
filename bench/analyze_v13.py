@@ -14,6 +14,7 @@ ROOT = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 os.environ.setdefault("MPLBACKEND", "Agg")
 from analyze import TASKS, ece, group_split, load_jsonl, logit_matrix, softmax  # noqa: E402
+from thresholds import risk_threshold  # noqa: E402
 
 V13 = os.path.join(ROOT, "results/modal/v13")
 ACC = os.path.join(ROOT, "results/modal/accuracy")
@@ -70,6 +71,29 @@ def twin_pairs():
     return out
 
 
+def confidence_and_cascade():
+    """Added 2026-10-07 after the run (not a gate): can Z1's calibrated confidence tell right from wrong, how much can it
+    auto-handle under a 5% error budget (v9 selective risk control, cut chosen on cal), and an EG2 -> 26B cascade where
+    EG2 answers above that cut and everything else goes to 26B."""
+    from sklearn.metrics import roc_auc_score
+    per, ok_c, sent, n = {}, 0, 0, 0
+    for t in TASKS:
+        d = np.load(os.path.join(V13, f"{t}.npz")); y = d["gold"]; ca = d["cal"].astype(bool); te = ~ca; Z = d["Z1"]
+        tau = fit_tau(Z[ca], y[ca]); P = softmax(Z / tau); conf = P.max(1); ok = P.argmax(1) == y
+        au = float(roc_auc_score(ok[te], conf[te])) if len(set(ok[te].tolist())) > 1 else None
+        cut, _ = risk_threshold(conf[ca], ok[ca], 0.05); h = conf[te] >= cut
+        L = list(TASKS[t]["options"]); ids = list(d["ids"])
+        p26 = {r["id"]: int(logit_matrix([r], L).argmax()) for r in load_jsonl(os.path.join(ACC, f"{t}.jsonl")) if "raw_logprobs" in r}
+        for i in np.where(te)[0]:
+            n += 1
+            if conf[i] >= cut:
+                ok_c += int(ok[i])
+            else:
+                sent += 1; ok_c += int(p26[ids[i]] == y[i])
+        per[t] = {"K": int(Z.shape[1]), "auroc": au, "coverage_eps5": float(h.mean()), "error_eps5": float((~ok[te][h]).mean()) if h.any() else 0.0}
+    return {"per_task": per, "cascade_eg2_to_26b_eps5": {"acc": ok_c / n, "sent_to_26b": sent / n, "n": n}}
+
+
 def main():
     from sklearn.linear_model import LogisticRegression
     run = json.load(open(os.path.join(V13, "_run.json")))
@@ -109,7 +133,8 @@ def main():
     pred_topic = all(res["per_task"][t]["Z1"] >= 0.80 for t in TOPIC)
     pred_cond = all(res["per_task"][t]["Z1"] <= 0.65 for t in COND)
     tw = twin_pairs()
-    res.update({"twin_pairs": tw, "llm": llm, "gates": {"A_intent_router": gA, "B_replace_26b_tasks": replace, "C_beats_e4b": gC},
+    cc = confidence_and_cascade()
+    res.update({"confidence": cc, "twin_pairs": tw, "llm": llm, "gates": {"A_intent_router": gA, "B_replace_26b_tasks": replace, "C_beats_e4b": gC},
                 "predictions": {"topic_ge_0.80": pred_topic, "cond_le_0.65": pred_cond}, "run": run})
     json.dump(res, open(os.path.join(ROOT, "results/v13.json"), "w"), ensure_ascii=False, indent=1)
     lat = run.get("latency_ms_batch1", {})
@@ -143,6 +168,21 @@ def main():
     for t in TOPIC + MID + COND:
         v = tw[t]
         L.append(f"| {ZH[t]} | {v['pairs']} | {v['eg2_same'] / v['pairs']:.0%} | {v['26b_same'] / v['pairs']:.0%} | {v['eg2_both_right'] / v['pairs']:.0%} |")
+    au = [v["auroc"] for v in cc["per_task"].values() if v["auroc"] is not None]
+    kk = {}
+    for t in TASKS:
+        kk.setdefault(res["per_task"][t]["K"], []).append(res["per_task"][t]["Z1"])
+    c = cc["cascade_eg2_to_26b_eps5"]
+    L += ["", "## 信心與級聯（2026-10-07 跑完後補算，不判定）", "",
+          f"溫度在 cal 半擬合後，信心分辨對錯的 AUROC 十類平均 {np.mean(au):.2f}（0.5 = 亂猜）；5% 錯誤預算（v9 選擇性風險控制，切點在 cal 上定）下只有 "
+          f"{sum(v['coverage_eps5'] > 0 for v in cc['per_task'].values())} 類能自動處理任何題，平均自動處理 {np.mean([v['coverage_eps5'] for v in cc['per_task'].values()]):.0%}。"
+          f"EmbeddingGemma 2 當第一關、沒過切點的送 26B：準確率 {c['acc']:.3f}（全 26B {llm['26B'] and np.mean(list(llm['26B'].values())):.3f}），但 {c['sent_to_26b']:.0%} 的題還是送 26B（E4B 當第一關是 34%）。", "",
+          "| 類別 | 選項數 | Z1 準確率 | 信心 AUROC | 5% 預算自動處理 | 自動處理中的錯誤率 |", "|---|---|---|---|---|---|"]
+    for t in TOPIC + MID + COND:
+        v = cc["per_task"][t]
+        L.append(f"| {ZH[t]} | {v['K']} | {res['per_task'][t]['Z1']:.2f} | {f(v['auroc'], 2)} | {v['coverage_eps5']:.0%} | {v['error_eps5']:.0%} |")
+    L += ["", "依選項數平均 Z1 準確率：" + "；".join(f"{k} 選 {np.mean(v):.2f}（{len(v)} 類）" for k, v in sorted(kk.items()))
+          + "。二選一並沒有比較容易：同樣是二選一，答案靠用詞的「要不要派工」0.89，靠數字的「UPH 異常」0.58。決定成敗的是答案在用詞裡還是在數字與狀態裡，不是選項數。"]
     L += ["", "## 速度與其他", "",
           f"- 本機 CPU（4 vCPU、torch {run.get('threads')} 執行緒）單一 state 編碼 p50 {f(lat.get('p50'), 1)} ms、p95 {f(lat.get('p95'), 1)} ms；模型載入 {run.get('load_s')} 秒。"
           "選項向量在 prewarm 算一次，之後每題只多 K 個內積，選項多寡幾乎不影響延遲。"

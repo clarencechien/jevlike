@@ -228,6 +228,75 @@
    "P2": 0.43564356435643564
   }
  },
+ "confidence": {
+  "per_task": {
+   "m_alarm_severity": {
+    "K": 3,
+    "auroc": 0.5095879232966136,
+    "coverage_eps5": 0.0,
+    "error_eps5": 0.0
+   },
+   "m_alarm_category": {
+    "K": 5,
+    "auroc": 0.5982417582417582,
+    "coverage_eps5": 0.0,
+    "error_eps5": 0.0
+   },
+   "m_needs_dispatch": {
+    "K": 2,
+    "auroc": 0.6700715015321757,
+    "coverage_eps5": 0.54,
+    "error_eps5": 0.05555555555555555
+   },
+   "q_spc_action": {
+    "K": 4,
+    "auroc": 0.42412778478352253,
+    "coverage_eps5": 0.0,
+    "error_eps5": 0.0
+   },
+   "q_defect_root": {
+    "K": 6,
+    "auroc": 0.6531624638280281,
+    "coverage_eps5": 0.0,
+    "error_eps5": 0.0
+   },
+   "p_uph_anomaly": {
+    "K": 2,
+    "auroc": 0.5899014778325123,
+    "coverage_eps5": 0.0,
+    "error_eps5": 0.0
+   },
+   "p_line_change": {
+    "K": 3,
+    "auroc": 0.7888022678951099,
+    "coverage_eps5": 0.49,
+    "error_eps5": 0.061224489795918366
+   },
+   "x_ticket_route": {
+    "K": 4,
+    "auroc": 0.78125,
+    "coverage_eps5": 0.29,
+    "error_eps5": 0.0
+   },
+   "x_escalate": {
+    "K": 2,
+    "auroc": 0.6495238095238095,
+    "coverage_eps5": 0.0,
+    "error_eps5": 0.0
+   },
+   "x_10way_intent": {
+    "K": 10,
+    "auroc": 0.8359447004608295,
+    "coverage_eps5": 0.3564356435643564,
+    "error_eps5": 0.05555555555555555
+   }
+  },
+  "cascade_eg2_to_26b_eps5": {
+   "acc": 0.948051948051948,
+   "sent_to_26b": 0.8321678321678322,
+   "n": 1001
+  }
+ },
  "twin_pairs": {
   "m_alarm_severity": {
    "pairs": 85,

@@ -52,18 +52,39 @@ def _start(model_path):
 
 
 @app.function(image=llm_image, gpu="L4", volumes={"/models": models, "/results": results}, timeout=60 * 60 * 2)
-def llm(name: str = "26b", mode: str = "tournament", workers: int = 4, limit: int = 0):
+def llm(name: str = "26b", mode: str = "tournament", workers: int = 4, limit: int = 0, k: int = 10, subset: str = "", out: str = "v14"):
+    """v14: modes tournament / hybrid. v15 (docs/handoff-v15-shortlist-tournament.md): mode shortlist with k = 20/30/50, out = v15."""
     import sys
     sys.path.insert(0, "/root")
     proc = _start(MODEL_PATH[name])
     try:
         from bench import route_bench
-        out_dir = f"/results/v14/{name}"
-        ret = route_bench.main(base_url=f"http://127.0.0.1:{PORT}", out_dir=out_dir, args=f"--mode {mode} --workers {workers} --limit {limit}")
+        out_dir = f"/results/{out}/{name}"
+        args = f"--mode {mode} --workers {workers} --limit {limit} --k {k}" + (f" --subset {subset}" if subset else "")
+        ret = route_bench.main(base_url=f"http://127.0.0.1:{PORT}", out_dir=out_dir, args=args)
         smi = subprocess.run(["nvidia-smi", "--query-gpu=name", "--format=csv,noheader"], capture_output=True, text=True).stdout.strip()
-        json.dump({**ret, "gpu": smi, "model": MODEL_PATH[name], "server": "llama.cpp b11371"}, open(f"{out_dir}/_run_{mode}.json", "w"), indent=1)
+        tag = mode + (str(k) if mode == "shortlist" else "") + (f"_{subset}" if subset else "")
+        json.dump({**ret, "gpu": smi, "model": MODEL_PATH[name], "server": "llama.cpp b11371"}, open(f"{out_dir}/_run_{tag}.json", "w"), indent=1)
         results.commit()
         return ret
+    finally:
+        proc.terminate()
+
+
+@app.function(image=llm_image, gpu="L4", volumes={"/models": models, "/results": results}, timeout=60 * 60 * 2)
+def latency_single(name: str = "26b"):
+    """v15: one query at a time (workers 1) on the first 30 test queries, all five configs in one container and one server."""
+    import sys
+    sys.path.insert(0, "/root")
+    proc = _start(MODEL_PATH[name])
+    try:
+        from bench import route_bench
+        out = {}
+        for mode, k in (("shortlist", 10), ("shortlist", 20), ("shortlist", 30), ("shortlist", 50), ("tournament", 0)):
+            out[f"{mode}{k or ''}"] = route_bench.main(base_url=f"http://127.0.0.1:{PORT}", out_dir=f"/results/v15/{name}",
+                                                   args=f"--mode {mode} --k {k or 10} --subset test30 --workers 1")
+            results.commit()
+        return out
     finally:
         proc.terminate()
 

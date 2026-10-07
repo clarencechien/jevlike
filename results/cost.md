@@ -25,7 +25,8 @@
 | v11 Clef on llama-server + jevify（L4 + L40S + H100） | llama.cpp b11371 編譯（image builder 慢放棄一次、32 核 CPU 編兩次，一次連結失敗）；GGUF 下載 136 GB（CPU）；L40S：Clef smoke ×4、主跑 ×4、26B 延遲；H100：27B BF16 smoke；L4：jevify J1／J2（5 個 suite）／J3、混用 ×3、26B D0 新版 | L4 ≈ 2.7 h、L40S ≈ 1.6 h、H100 ≈ 0.1 h、CPU 編譯 ≈ 1 h × 32 核 | ≈ $7 | ≈ $5，上限 $8 |
 | v12 借 Gemma 4 新做法（L4 + L40S） | 12B／31B GGUF 下載（CPU）；12B smoke + D0/D2/JevBench/延遲（L4）；31B smoke（OOM 一次）+ 主跑 + JevBench 1 slot 重跑（L40S）；26B 思考尾段步驟 0、弱題主跑、JevBench 2 slot 重跑（L4）；E1/E2 離線 | GPU ≈ 1.3 h | ≈ $1.5 | 約 $4 |
 | v13 EmbeddingGemma 2 D0（本機 CPU） | 10 類 × 200 筆，雲端容器 4 核 CPU 約 15 分鐘 | 0 | $0 | — |
-| **合計（v2–v13）** | | **GPU ≈ 17 h** | **≈ $30** | |
+| v14 SOP 路由（L4） | E4B／26B 淘汰賽與混合式各一次（300 則）、EmbeddingGemma 2 GPU 延遲一次；Gemini 出題約 101 次呼叫（免費額度） | GPU ≈ 0.5 h | ≈ $0.4 | — |
+| **合計（v2–v14）** | | **GPU ≈ 17.5 h** | **≈ $30.5** | |
 
 比估算省很多的原因：MoE A4B 在 L4 上每題 200 ms 級，2000 筆 + 1000 筆對照只要 12 分鐘；資料由 Claude Code 端產生不吃 GPU。
 AI Studio：v2 僅能力探測；v3 用 gemini-3.5-flash 盲寫 600 筆 D2 與標註 600 筆，約 80 次呼叫，免費額度內。

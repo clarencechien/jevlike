@@ -1,0 +1,14 @@
+{
+ "device": "cuda",
+ "gpu": "NVIDIA L4",
+ "load_s": 15.0,
+ "prewarm_100_sops_s": 1.58,
+ "latency_ms_batch1": {
+  "p50": 69.83623850000242,
+  "p95": 74.18310190000204,
+  "n": 60
+ },
+ "throughput_per_s_batch64": 668.3,
+ "top1_eg_all": 0.55,
+ "ts": "2026-10-07T02:17:35Z"
+}

@@ -16,7 +16,8 @@
 2. **選配：Clef 27B 實測**：`docs/handoff-gb10-clef.md`。主線的真實資料標好之後做最有用（§6 要用到）；沒有真實資料也可以先做 §1–§5（速度與記憶體）。
    回答「SPC（合成資料 97% 對 86%）與重排序（0.878 對 0.840）要不要改走 Clef 27B」，判定門檻在該檔 §7。
 3. **選配：v12 留下的兩個 GB10 待測**（`results/17-v12.md`）：31B Q8 的延遲（JevBench 公開 91.3% 最高，但 L40S 上單題是 26B 的 3 倍）；只對 SPC、UPH 開「低信心才思考」要先重新預登記（v12 是事後看到的），L4 上每題 11–19 秒。
-4. **不要做**：訓練 LoRA、用 jevify、讓判斷跟生成共用帶 `--lora` 的 server（v11 證據見 `results/16-clef-llamacpp.md` §4）；不改 `decide/prompt.py` 的模板；不要對急迫度開思考（v12 E4 變差）；不要用 EmbeddingGemma 2 當選擇器，它只能當前 20 名的粗篩（v13–v16）。
+4. **選配：IPC 全層事故的案例推理系統**：`docs/handoff-v17-ipc-cbr.md`。提案，從 Phase 0（定分層、定卡、手填 30 張歷史卡，不用模型）開始。
+5. **不要做**：訓練 LoRA、用 jevify、讓判斷跟生成共用帶 `--lora` 的 server（v11 證據見 `results/16-clef-llamacpp.md` §4）；不改 `decide/prompt.py` 的模板；不要對急迫度開思考（v12 E4 變差）；不要用 EmbeddingGemma 2 當選擇器，它只能當前 20 名的粗篩（v13–v16）。
 
 要先讀的背景：本檔 §1–§3、`results/REPORT.md` §0／§4／§5、`results/16-clef-llamacpp.md` 的「一句話」。
 
@@ -44,6 +45,7 @@
 | v14 | `handoff-v14-sop-routing.md` | 給 EmbeddingGemma 2 它的主場（100 份 SOP 路由，Gemini 盲寫），對 E4B、26B 誰贏？ | 主場也輸：EG top-1 0.527、E4B 淘汰賽 0.907、26B 0.947；EG 前 10 名給 26B 讀一次 0.860（輸在 EG 召回 0.887）。EG 前 20 名召回 0.953，可當寬鬆的前置 | `19-sop-routing.md`、`v14.json`、`data/v14/` |
 | v15 | `handoff-v15-shortlist-tournament.md` | EG 先縮到前 20／30／50 名、26B 打小型淘汰賽，能不能追平完整淘汰賽？ | 追不平：前 20／30／50 名 0.893／0.900／0.893，完整淘汰賽 0.947。召回補回來了，但候選越寬、進了名單後答對越低（前 50 名 p ≈ 0.008）。單則延遲：前 20 名 0.72 秒、完整淘汰賽 2.7 秒。100 選 1 仍用完整淘汰賽 | `20-shortlist-tournament.md`、`v15.json` |
 | v16 | `handoff-v16-dealt-groups.md` | 把長得像的對手打散到不同組，小型淘汰賽會不會變準？ | 不會：前 20 名四種排法 0.873–0.893，全部 100 份打散 0.927（照目錄 0.947）。打散只把近親搬進決賽。錯誤跟著訊息走、不跟著分組走；剩下的槓桿是召回或每次讀取的判斷力 | `21-dealt-groups.md`、`v16.json` |
+| v17（提案，未跑） | `handoff-v17-ipc-cbr.md` | 一群 Ubuntu + microk8s 的 IPC 全層進 LGTM，出事時判層、找舊案、套 SOP、掉人工再存回，EG2／E4B／26B 怎麼分工？ | 案例推理：卡生成器 → EG2 卡對卡檢索與 novelty → E4B 先答 → 26B 四道選擇題；Keep 開源版 + Tempo service graph，不訓練。P0–P4 門檻已寫死 | — |
 
 ## 3. 效果多好（D0 test 每 task 100 筆，L4 / L40S）
 

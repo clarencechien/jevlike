@@ -26,7 +26,8 @@
 | v12 借 Gemma 4 新做法（L4 + L40S） | 12B／31B GGUF 下載（CPU）；12B smoke + D0/D2/JevBench/延遲（L4）；31B smoke（OOM 一次）+ 主跑 + JevBench 1 slot 重跑（L40S）；26B 思考尾段步驟 0、弱題主跑、JevBench 2 slot 重跑（L4）；E1/E2 離線 | GPU ≈ 1.3 h | ≈ $1.5 | 約 $4 |
 | v13 EmbeddingGemma 2 D0（本機 CPU） | 10 類 × 200 筆，雲端容器 4 核 CPU 約 15 分鐘 | 0 | $0 | — |
 | v14 SOP 路由（L4） | E4B／26B 淘汰賽與混合式各一次（300 則）、EmbeddingGemma 2 GPU 延遲一次；Gemini 出題約 101 次呼叫（免費額度） | GPU ≈ 0.5 h | ≈ $0.4 | — |
-| **合計（v2–v14）** | | **GPU ≈ 17.5 h** | **≈ $30.5** | |
+| v15 前 K 名小型淘汰賽（L4） | 26B 前 20／30／50 名各一次（300 則，4 則並行）；單則延遲容器一個（test 前 30 則 × 5 種做法） | GPU ≈ 0.5 h | ≈ $0.4 | — |
+| **合計（v2–v15）** | | **GPU ≈ 18 h** | **≈ $31** | |
 
 比估算省很多的原因：MoE A4B 在 L4 上每題 200 ms 級，2000 筆 + 1000 筆對照只要 12 分鐘；資料由 Claude Code 端產生不吃 GPU。
 AI Studio：v2 僅能力探測；v3 用 gemini-3.5-flash 盲寫 600 筆 D2 與標註 600 筆，約 80 次呼叫，免費額度內。

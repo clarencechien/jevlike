@@ -1,0 +1,13 @@
+{
+ "which": "think_tail",
+ "out_sub": "think",
+ "arm": "base",
+ "args": "--tasks m_alarm_severity,q_spc_action,p_uph_anomaly --trigger 0.9 --budget 512 --workers 4 --jevbench 0 --limit 50",
+ "gpu": "NVIDIA L4, 20089 MiB",
+ "server": "version: 0.5.0-dev (build 1, commit 99b9548)\nbuilt with GNU 11.4.0 for Linux x86_64",
+ "bench_s": 282.0,
+ "ts": "2026-10-08T10:27:05Z",
+ "server_start_s": 16.4,
+ "cmd": "/models/llama-b11371/bin/llama-server -m /models/gemma-4-26B-A4B-it-UD-Q4_K_M.gguf -ngl 99 -c 16384 -np 4 --port 8080 --host 127.0.0.1 --jinja --swa-full --metrics",
+ "mtp": false
+}

@@ -1,0 +1,13 @@
+{
+ "which": "accuracy",
+ "out_sub": "accuracy",
+ "arm": "base",
+ "args": "--control-n 0 --workers 4",
+ "gpu": "NVIDIA L4, 20092 MiB",
+ "server": "version: 0.5.0-dev (build 1, commit 99b9548)\nbuilt with GNU 11.4.0 for Linux x86_64",
+ "bench_s": 316.4,
+ "ts": "2026-10-08T10:27:39Z",
+ "server_start_s": 18.1,
+ "cmd": "/models/llama-b11371/bin/llama-server -m /models/gemma-4-26B-A4B-it-UD-Q4_K_M.gguf -ngl 99 -c 16384 -np 4 --port 8080 --host 127.0.0.1 --jinja --reasoning-budget 0 --swa-full --metrics",
+ "mtp": false
+}

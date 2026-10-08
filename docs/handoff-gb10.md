@@ -118,6 +118,7 @@ v12（`results/17-v12.md`）量了 Gemma 4 12B／31B 與「低信心才思考」
 1. **31B Q8 的延遲**（`unsloth/gemma-4-31B-it-GGUF` @ `c1ac76e99d5513b141e8adde7288b85c3f9c32ec`，32.6 GB）。合成資料 D0 96.5%、JevBench 公開 91.3%，但 L40S 上單題 181 ms 是 26B 的 3 倍。GB10 記憶體夠開 `-c 16384 -np 4 --swa-full`。判定：單題 ≤ 26B 的 2 倍、真實資料弱題 ≥ 26B + 3 點，才考慮讓弱題改走 31B。
 2. **只對 SPC、UPH 開思考**：v12 是事後看到這兩類有效（觸發列 0.50 → 0.79／1.00），要先重新寫門檻；跑法是 `bench/think_tail.py`，server 不帶 `--reasoning-budget 0`。L4 上每題 11–19 秒，GB10 若超過 5 秒就只適合事後批次。急迫度不要開（變差）。
 12B 不用量：L4 上已經比 26B 慢，GB10 上 26B-A4B 仍是較好的單一選擇。
+3. **MTP 草稿頭只給生成 server**（v18，`results/22-mtp.md`）：`--model-draft <unsloth MTP/mtp-gemma-4-26B-A4B-it-Q8_0.gguf> --spec-type draft-mtp --spec-draft-n-max 4`，L4 上生成 1.72×。判斷 server **不開**，也不要讓判斷跟開了 MTP 的生成共用一個 server：字母機率重跑會變（最大差 0.9）、負載下判斷更慢。GB10 若兩個 server 記憶體夠就分開跑；不夠就生成也不開。
 
 ## 7. 你會踩到的坑（都踩過了）
 

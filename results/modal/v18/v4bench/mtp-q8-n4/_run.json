@@ -1,0 +1,13 @@
+{
+ "which": "v4bench",
+ "out_sub": "v4bench",
+ "arm": "mtp-q8-n4",
+ "args": "--n 100 --warmup 10 --only L1,L4,L6 --out v18.json",
+ "gpu": "NVIDIA L4, 20597 MiB",
+ "server": "version: 0.5.0-dev (build 1, commit 99b9548)\nbuilt with GNU 11.4.0 for Linux x86_64",
+ "bench_s": 384.7,
+ "ts": "2026-10-08T10:34:25Z",
+ "server_start_s": 22.8,
+ "cmd": "/models/llama-b11371/bin/llama-server -m /models/gemma-4-26B-A4B-it-UD-Q4_K_M.gguf -ngl 99 -c 16384 -np 4 --port 8080 --host 127.0.0.1 --jinja --reasoning-budget 0 --swa-full --metrics --model-draft /models/v18/MTP/mtp-gemma-4-26B-A4B-it-Q8_0.gguf --spec-type draft-mtp --spec-draft-n-max 4",
+ "mtp": true
+}

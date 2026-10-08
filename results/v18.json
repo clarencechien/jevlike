@@ -1,0 +1,244 @@
+{
+ "arm": "mtp-q8-n4",
+ "equivalence": {
+  "n": 2000,
+  "flips": 7,
+  "dp_max": 0.9282183965167567,
+  "dp_mean": 0.004185980524460949,
+  "dp_p99": 0.0793137004907563,
+  "per_task": {
+   "m_alarm_category": {
+    "n": 200,
+    "flips": 0,
+    "acc_base": 0.975,
+    "acc_mtp": 0.975,
+    "lat_base_p50": 621.214546000001,
+    "lat_mtp_p50": 686.0208939999986
+   },
+   "m_alarm_severity": {
+    "n": 200,
+    "flips": 1,
+    "acc_base": 0.81,
+    "acc_mtp": 0.815,
+    "lat_base_p50": 465.4017309999982,
+    "lat_mtp_p50": 528.6143414999991
+   },
+   "m_needs_dispatch": {
+    "n": 200,
+    "flips": 0,
+    "acc_base": 0.995,
+    "acc_mtp": 0.995,
+    "lat_base_p50": 476.8356475000033,
+    "lat_mtp_p50": 487.80602450001
+   },
+   "q_spc_action": {
+    "n": 200,
+    "flips": 2,
+    "acc_base": 0.81,
+    "acc_mtp": 0.82,
+    "lat_base_p50": 730.8974269999951,
+    "lat_mtp_p50": 703.0817739999975
+   },
+   "q_defect_root": {
+    "n": 200,
+    "flips": 3,
+    "acc_base": 0.985,
+    "acc_mtp": 0.98,
+    "lat_base_p50": 766.4797719999967,
+    "lat_mtp_p50": 796.0249154999985
+   },
+   "p_uph_anomaly": {
+    "n": 200,
+    "flips": 1,
+    "acc_base": 0.925,
+    "acc_mtp": 0.93,
+    "lat_base_p50": 482.6567090000111,
+    "lat_mtp_p50": 478.7499595000071
+   },
+   "p_line_change": {
+    "n": 200,
+    "flips": 0,
+    "acc_base": 0.985,
+    "acc_mtp": 0.985,
+    "lat_base_p50": 556.9802805000137,
+    "lat_mtp_p50": 575.6289389999978
+   },
+   "x_ticket_route": {
+    "n": 200,
+    "flips": 0,
+    "acc_base": 0.99,
+    "acc_mtp": 0.99,
+    "lat_base_p50": 606.4433230000077,
+    "lat_mtp_p50": 590.0547174999815
+   },
+   "x_escalate": {
+    "n": 200,
+    "flips": 0,
+    "acc_base": 1.0,
+    "acc_mtp": 1.0,
+    "lat_base_p50": 448.0935294999995,
+    "lat_mtp_p50": 438.7985544999822
+   },
+   "x_10way_intent": {
+    "n": 200,
+    "flips": 0,
+    "acc_base": 0.98,
+    "acc_mtp": 0.98,
+    "lat_base_p50": 760.402431999978,
+    "lat_mtp_p50": 753.0346245000032
+   }
+  }
+ },
+ "check_lock_failures": {
+  "mtp": 0,
+  "base": 0
+ },
+ "latency": {
+  "L1_p50": [
+   135.53766649999943,
+   135.06268800000498
+  ],
+  "L4_16q_p50": [
+   4293.453777499963,
+   4416.454237000039
+  ],
+  "L6_p50": [
+   179.68234199997823,
+   215.5904309999528
+  ],
+  "L6_slowdown_p50": [
+   1.3257004243907282,
+   1.5962249396365105
+  ],
+  "L6_bg_tokens": [
+   512,
+   1024
+  ],
+  "L6_wall_s": [
+   18.03390268100043,
+   21.02532131800035
+  ],
+  "L6_bg_tok_per_s": [
+   28.39097055455535,
+   48.7031795858133
+  ],
+  "L1_ratio": 0.9964955977754387,
+  "L6_bg_ratio": 1.7154460955192266
+ },
+ "think": {
+  "m_alarm_severity": {
+   "n_B": 24,
+   "gen_ms_p50_base": 15813.632736499996,
+   "gen_ms_p50_mtp": 12893.600220999993,
+   "tok_per_s_base": 28.96941636236187,
+   "tok_per_s_mtp": 39.00961278185086,
+   "letter_flips": 1,
+   "same_thought_text": 0
+  },
+  "q_spc_action": {
+   "n_B": 33,
+   "gen_ms_p50_base": 17372.934109000027,
+   "gen_ms_p50_mtp": 12090.60779699999,
+   "tok_per_s_base": 27.69526264756607,
+   "tok_per_s_mtp": 38.451300109442464,
+   "letter_flips": 3,
+   "same_thought_text": 0
+  },
+  "p_uph_anomaly": {
+   "n_B": 3,
+   "gen_ms_p50_base": 23659.699079999995,
+   "gen_ms_p50_mtp": 11702.282343999997,
+   "tok_per_s_base": 21.41305066877676,
+   "tok_per_s_mtp": 38.57197719111427,
+   "letter_flips": 0,
+   "same_thought_text": 0
+  },
+  "all": {
+   "n_B": 60,
+   "gen_ms_p50_base": 17096.297058499997,
+   "gen_ms_p50_mtp": 12519.732370999996,
+   "ratio_p50": 0.732306670161384,
+   "letter_flips": 4
+  }
+ },
+ "draft_metrics": {
+  "mtp-q8-n4": [
+   "llamacpp:spec_decode_num_draft_tokens_total 33940",
+   "llamacpp:spec_decode_num_accepted_tokens_total 19700",
+   "llamacpp:spec_decode_num_drafts_total 8498",
+   "llamacpp:spec_decode_num_accepted_tokens_per_pos_total{position=\"0\"} 6787",
+   "llamacpp:spec_decode_num_accepted_tokens_per_pos_total{position=\"1\"} 5299",
+   "llamacpp:spec_decode_num_accepted_tokens_per_pos_total{position=\"2\"} 4220",
+   "llamacpp:spec_decode_num_accepted_tokens_per_pos_total{position=\"3\"} 3394"
+  ]
+ },
+ "runs": {
+  "base": {
+   "which": "accuracy",
+   "out_sub": "accuracy",
+   "arm": "base",
+   "args": "--control-n 0 --workers 4",
+   "gpu": "NVIDIA L4, 20092 MiB",
+   "server": "version: 0.5.0-dev (build 1, commit 99b9548)\nbuilt with GNU 11.4.0 for Linux x86_64",
+   "bench_s": 316.4,
+   "ts": "2026-10-08T10:27:39Z",
+   "server_start_s": 18.1,
+   "cmd": "/models/llama-b11371/bin/llama-server -m /models/gemma-4-26B-A4B-it-UD-Q4_K_M.gguf -ngl 99 -c 16384 -np 4 --port 8080 --host 127.0.0.1 --jinja --reasoning-budget 0 --swa-full --metrics",
+   "mtp": false
+  },
+  "mtp-q8-n4": {
+   "which": "accuracy",
+   "out_sub": "accuracy",
+   "arm": "mtp-q8-n4",
+   "args": "--control-n 0 --workers 4",
+   "gpu": "NVIDIA L4, 20597 MiB",
+   "server": "version: 0.5.0-dev (build 1, commit 99b9548)\nbuilt with GNU 11.4.0 for Linux x86_64",
+   "bench_s": 318.0,
+   "ts": "2026-10-08T10:27:59Z",
+   "server_start_s": 22.8,
+   "cmd": "/models/llama-b11371/bin/llama-server -m /models/gemma-4-26B-A4B-it-UD-Q4_K_M.gguf -ngl 99 -c 16384 -np 4 --port 8080 --host 127.0.0.1 --jinja --reasoning-budget 0 --swa-full --metrics --model-draft /models/v18/MTP/mtp-gemma-4-26B-A4B-it-Q8_0.gguf --spec-type draft-mtp --spec-draft-n-max 4",
+   "mtp": true
+  }
+ },
+ "noise_control": {
+  "base_vs_base": {
+   "n": 150,
+   "dp_max": 0.020014124053316616,
+   "dp_mean": 0.0003100642602583094,
+   "n_over_0.01": 3,
+   "n_over_0.05": 0,
+   "flips": 0
+  },
+  "mtp_vs_mtp": {
+   "n": 150,
+   "dp_max": 0.8397458799634977,
+   "dp_mean": 0.013113729015469816,
+   "n_over_0.01": 6,
+   "n_over_0.05": 4,
+   "flips": 2
+  },
+  "base_vs_mtp_same_rows": {
+   "n": 150,
+   "dp_max": 0.8397458799634977,
+   "dp_mean": 0.015529166318077537,
+   "n_over_0.01": 10,
+   "n_over_0.05": 5,
+   "flips": 2
+  }
+ },
+ "gates": {
+  "G1_equivalent": false,
+  "G2_single_not_slower": true,
+  "G3_generation_faster": true,
+  "G4_under_load_not_worse": false,
+  "recommendation": "判斷 server 不開 MTP（v4 規定不變）；生成 server 開"
+ },
+ "predictions": {
+  "A_flips_0_2": false,
+  "B_L1_within_5pct": true,
+  "B_L6_gen_1.5x": true,
+  "B_L6_slowdown_not_worse": false,
+  "C_genms_0.6x": false,
+  "C_flips_le_2pct": false
+ }
+}

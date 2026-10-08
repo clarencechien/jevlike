@@ -17,15 +17,15 @@
    回答「SPC（合成資料 97% 對 86%）與重排序（0.878 對 0.840）要不要改走 Clef 27B」，判定門檻在該檔 §7。
 3. **選配：v12 留下的兩個 GB10 待測**（`results/17-v12.md`）：31B Q8 的延遲（JevBench 公開 91.3% 最高，但 L40S 上單題是 26B 的 3 倍）；只對 SPC、UPH 開「低信心才思考」要先重新預登記（v12 是事後看到的），L4 上每題 11–19 秒。
 4. **選配：IPC 全層事故的案例推理系統**：`docs/handoff-v17-ipc-cbr.md`。提案，從 Phase 0（定分層、定卡、手填 30 張歷史卡，不用模型）開始。
-5. **不要做**：訓練 LoRA、用 jevify、讓判斷跟生成共用帶 `--lora` 的 server（v11 證據見 `results/16-clef-llamacpp.md` §4）；不改 `decide/prompt.py` 的模板；不要對急迫度開思考（v12 E4 變差）；不要用 EmbeddingGemma 2 當選擇器，它只能當前 20 名的粗篩（v13–v16）。
+5. **不要做**：訓練 LoRA、用 jevify、讓判斷跟生成共用帶 `--lora` 的 server（v11 證據見 `results/16-clef-llamacpp.md` §4）；不改 `decide/prompt.py` 的模板；不要對急迫度開思考（v12 E4 變差）；不要用 EmbeddingGemma 2 當選擇器，它只能當前 20 名的粗篩（v13–v16）；判斷 server 不開 MTP 草稿頭、也不跟開了 MTP 的生成 server 共用（v18）。
 
 要先讀的背景：本檔 §1–§3、`results/REPORT.md` §0／§4／§5、`results/16-clef-llamacpp.md` 的「一句話」。
 
 ## 1. 一句話
 
-值得做、用現有的 Gemma 4 26B-A4B 自己做、不採購 Jev。十類題七類零標註 ≥ 98%；弱的三類靠改寫判斷標準與幾十筆校準；一次判斷 L4 上 0.2 秒（共用現場狀況 0.07 秒）。推理引擎 llama-server 與 SGLang 都可用，SGLang 批次快 5 倍，前提是 prompt 帶 `<bos>`。十六輪實驗約 18.5 GPU 小時、約 $31.5。v13–v16 試了 Google 自家 Decision Maker 用的 EmbeddingGemma 2：零樣本是召回約 0.95 的粗篩，不是選擇器（十類 0.637、100 份 SOP 選一份 0.527）；100 選 1 維持 26B 完整淘汰賽 0.947。在 JevBench 公開子集自跑 88.7%，高於同派的 Cygnet 與訓練過的 Open-Jev。Cloudflare 開源的 Clef 27B 在我們的題上更準（96.6% 對 95.5%）；llama.cpp 已原生支援、Q8 可用，但速度沒贏，判斷層先不換（v10、v11）。v12 借了 Gemma 4 這條線上別人的四個零訓練做法，都沒有改變預設；Gemma 4 31B 在英文 JevBench 公開題最高（91.3%），但慢 3 倍。
+值得做、用現有的 Gemma 4 26B-A4B 自己做、不採購 Jev。十類題七類零標註 ≥ 98%；弱的三類靠改寫判斷標準與幾十筆校準；一次判斷 L4 上 0.2 秒（共用現場狀況 0.07 秒）。推理引擎 llama-server 與 SGLang 都可用，SGLang 批次快 5 倍，前提是 prompt 帶 `<bos>`。十八輪（v17 是提案未跑）實驗約 19.6 GPU 小時、約 $32.5。v18：Gemma 4 MTP 草稿頭讓生成快 1.7 倍，但判斷 server 開了之後第一個 token 的機率重跑會變（2,000 題翻 7 題、最大差 0.93），判斷 server 不開、生成 server 另開。v13–v16 試了 Google 自家 Decision Maker 用的 EmbeddingGemma 2：零樣本是召回約 0.95 的粗篩，不是選擇器（十類 0.637、100 份 SOP 選一份 0.527）；100 選 1 維持 26B 完整淘汰賽 0.947。在 JevBench 公開子集自跑 88.7%，高於同派的 Cygnet 與訓練過的 Open-Jev。Cloudflare 開源的 Clef 27B 在我們的題上更準（96.6% 對 95.5%）；llama.cpp 已原生支援、Q8 可用，但速度沒贏，判斷層先不換（v10、v11）。v12 借了 Gemma 4 這條線上別人的四個零訓練做法，都沒有改變預設；Gemma 4 31B 在英文 JevBench 公開題最高（91.3%），但慢 3 倍。
 
-## 2. 走到哪裡了（十六輪，每輪先寫門檻再跑）
+## 2. 走到哪裡了（十八輪，每輪先寫門檻再跑）
 
 | 輪 | 交接文件 | 問的問題 | 答案 | 結果檔 |
 |---|---|---|---|---|
@@ -46,6 +46,7 @@
 | v15 | `handoff-v15-shortlist-tournament.md` | EG 先縮到前 20／30／50 名、26B 打小型淘汰賽，能不能追平完整淘汰賽？ | 追不平：前 20／30／50 名 0.893／0.900／0.893，完整淘汰賽 0.947。召回補回來了，但候選越寬、進了名單後答對越低（前 50 名 p ≈ 0.008）。單則延遲：前 20 名 0.72 秒、完整淘汰賽 2.7 秒。100 選 1 仍用完整淘汰賽 | `20-shortlist-tournament.md`、`v15.json` |
 | v16 | `handoff-v16-dealt-groups.md` | 把長得像的對手打散到不同組，小型淘汰賽會不會變準？ | 不會：前 20 名四種排法 0.873–0.893，全部 100 份打散 0.927（照目錄 0.947）。打散只把近親搬進決賽。錯誤跟著訊息走、不跟著分組走；剩下的槓桿是召回或每次讀取的判斷力 | `21-dealt-groups.md`、`v16.json` |
 | v17（提案，未跑） | `handoff-v17-ipc-cbr.md` | 一群 Ubuntu + microk8s 的 IPC 全層進 LGTM，出事時判層、找舊案、套 SOP、掉人工再存回，EG2／E4B／26B 怎麼分工？ | 案例推理：卡生成器 → EG2 卡對卡檢索與 novelty → E4B 先答 → 26B 四道選擇題；Keep 開源版 + Tempo service graph，不訓練。P0–P4 門檻已寫死 | — |
+| v18 | `handoff-v18-mtp.md` | Gemma 4 的 MTP 草稿頭（llama-server `--spec-type draft-mtp`）開了，判斷會不會變、生成快多少？ | 生成 1.72×、思考模式 0.73×（接受率 58%）；單題不變慢；但判斷等價沒過：2,000 題翻 7 題、最大機率差 0.93，而且 MTP 臂自己重跑也差到 0.84；背景生成下判斷反而更慢（1.33× → 1.60×）。判斷 server 不開，生成 server 另開 | `22-mtp.md`、`v18.json` |
 
 ## 3. 效果多好（D0 test 每 task 100 筆，L4 / L40S）
 
@@ -93,9 +94,9 @@ python3 bench/verify.py && python3 bench/thresholds.py && python3 bench/verify.p
 - `data/v9/` 護欄、工具守門、評分、重排序四份資料（產生器、抽查、Gemini 盲寫外部題）
 - `data/jevbench/` JevBench 公開 231 題（MIT，釘版）；`third_party/jevbench/` 評分 harness（MIT）
 - `bench/embed_d0.py`、`bench/analyze_v13.py`（v13：EmbeddingGemma 2 零樣本，CPU）
-- `modal_v14.py`、`bench/embed_route.py`、`bench/route_bench.py`（淘汰賽／混合式／v15 前 K 名小型淘汰賽）、`bench/analyze_v14.py`、`bench/analyze_v15.py`、`bench/analyze_v16.py`（v16 打散分組，`--mode deal`）；`data/v14/`（Gemini 寫的 100 份 SOP 與 300 則訊息）
+- `modal_v14.py`、`bench/embed_route.py`、`bench/route_bench.py`（淘汰賽／混合式／v15 前 K 名小型淘汰賽）、`bench/analyze_v14.py`、`bench/analyze_v15.py`、`bench/analyze_v16.py`（v16 打散分組，`--mode deal`）、`modal_v18.py`、`bench/analyze_v18.py`（v18 MTP 開關）；`data/v14/`（Gemini 寫的 100 份 SOP 與 300 則訊息）
 - `bench/analyze_v12.py`（E1/E2 離線）、`bench/analyze_v12_gpu.py`（E3/E4）、`bench/think_tail.py`（低信心才思考的兩段讀法）
-- `results/` 分項報告 `00`–`21`、`REPORT.md`、`cost.md`、`thresholds.lock.json`、`fig/`、`modal/`（原始 logprobs）
+- `results/` 分項報告 `00`–`22`、`REPORT.md`、`cost.md`、`thresholds.lock.json`、`fig/`、`modal/`（原始 logprobs）
 
 ### 踩過的坑（接 GB10 時先看）
 
@@ -104,6 +105,7 @@ python3 bench/verify.py && python3 bench/thresholds.py && python3 bench/verify.p
 - **前綴 cache**：llama-server 開 `--swa-full`，同一 slot 順序送；SGLang 先暖一題再整批。多題排成一列一個前向（packed）在 Gemma 4 上會讓後面的題答案變，不用。
 - **選項順序**：弱題兩成會因順序改答案，上線順序固定、校準用同一順序。
 - **信心**：raw 信心平均 0.99，門檻用校準後信心；`thresholds.lock.json` + `--check-lock` 當 CI。
+- **MTP 草稿頭**（`--spec-type draft-mtp`，b11371 已支援）：生成快 1.7 倍，但判斷 server 開了之後字母機率重跑會變（v18）；判斷與生成分兩個 server。
 - **`--reasoning-budget 0`**：會強制關掉思考；要讓模型先想再答（v12 E4）就拿掉，字母讀法走 `/completion` 自帶模板，不受影響。
 - **slot 的 context = `-c` ÷ `-np`**：JevBench 有題目約 3.9k token，2048 的 slot 會直接回 400；31B Q8 加 `--swa-full` 在 48 GB 卡只能開 8192（v12）。
 - **SGLang 重跑**：帶 `<bos>` 99.7%，加 `--enable-deterministic-inference` 99.85%（單題慢三成）；`gemma4-mtp` 映像的 `/v1/tokenize` 會崩，自檢改走 HF tokenizer。

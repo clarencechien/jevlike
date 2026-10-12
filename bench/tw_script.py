@@ -13,7 +13,8 @@ Arms (llama only):
 Records follow the paper's results/<model>.jsonl schema ({"job", "rep", "exp", "answers": {q: {"p"} | {"choice", "probs"}}}),
 so third_party/tw-sovereignty/analyze.py aggregates them unchanged. Extra per-question fields: p_yes_first, p_no_first, mass.
 
-args: "--arms prod,native,prod_s2t --reps 2 --native-reps 1 --workers 4 --limit 0 --exps E1,E2,E3,E4,E5"
+args: "--arms prod,native,prod_s2t --reps 2 --native-reps 1 --workers 4 --cache 1 --limit 0 --exps E1,E2,E3,E4,E5"
+  --cache 0 sends cache_prompt=false (post-hoc determinism check, results/23-tw-script.md §G4)
 Output: <out_dir>/<arm>.jsonl (llama) or <out_dir>/systemone.jsonl
 """
 from __future__ import annotations
@@ -70,8 +71,8 @@ def s2t(text):
 
 
 class GemmaReader:
-    def __init__(self, base_url, arm):
-        self.base_url, self.arm = base_url, arm
+    def __init__(self, base_url, arm, cache_prompt=True):
+        self.base_url, self.arm, self.cache_prompt = base_url, arm, cache_prompt
         self.tr = TemplateRenderer(base_url)
         self.tls = threading.local()
 
@@ -87,7 +88,7 @@ class GemmaReader:
         else:
             q = {"instructions": instructions, "options": dict(labels)}
             prompt = self.tr.render_messages(build_messages(state, q, SYSTEM))
-        return read_option_probs(self.base_url, prompt, letters, session=self._sess())
+        return read_option_probs(self.base_url, prompt, letters, session=self._sess(), cache_prompt=self.cache_prompt)
 
     def answer(self, job):
         lang = job["lang"]
@@ -210,7 +211,7 @@ def main(base_url, out_dir, args="", commit=None, model="26b", backend="llama", 
         return out
     reps = int(a.get("--reps", 2)); native_reps = int(a.get("--native-reps", 1))
     for arm in a.get("--arms", "prod,native,prod_s2t").split(","):
-        reader = GemmaReader(base_url, arm)
+        reader = GemmaReader(base_url, arm, cache_prompt=a.get("--cache", "1") == "1")
         out["template_honored_kwargs"] = reader.tr.server_honored_kwargs
         for rep in range(reps if arm == "prod" else native_reps):
             print(f"[{model}] arm {arm} rep {rep}: {len(jobs)} jobs", flush=True)

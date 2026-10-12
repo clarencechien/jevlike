@@ -1,0 +1,80 @@
+{
+ "per_task": {
+  "m_alarm_severity": {
+   "n": 200,
+   "acc_trad": 0.81,
+   "acc_simp": 0.75,
+   "agree": 0.94,
+   "max_dp_gold": 0.9984006699375017
+  },
+  "m_alarm_category": {
+   "n": 200,
+   "acc_trad": 0.975,
+   "acc_simp": 0.98,
+   "agree": 0.995,
+   "max_dp_gold": 0.9750064320842537
+  },
+  "m_needs_dispatch": {
+   "n": 200,
+   "acc_trad": 0.995,
+   "acc_simp": 0.99,
+   "agree": 0.995,
+   "max_dp_gold": 0.9958895058844768
+  },
+  "q_spc_action": {
+   "n": 200,
+   "acc_trad": 0.81,
+   "acc_simp": 0.81,
+   "agree": 0.975,
+   "max_dp_gold": 0.9782992892155812
+  },
+  "q_defect_root": {
+   "n": 200,
+   "acc_trad": 0.985,
+   "acc_simp": 0.985,
+   "agree": 0.99,
+   "max_dp_gold": 0.9389213542304673
+  },
+  "p_uph_anomaly": {
+   "n": 200,
+   "acc_trad": 0.925,
+   "acc_simp": 0.9,
+   "agree": 0.965,
+   "max_dp_gold": 0.9886662243655342
+  },
+  "p_line_change": {
+   "n": 200,
+   "acc_trad": 0.985,
+   "acc_simp": 0.985,
+   "agree": 1.0,
+   "max_dp_gold": 0.02405478736567684
+  },
+  "x_ticket_route": {
+   "n": 200,
+   "acc_trad": 0.99,
+   "acc_simp": 1.0,
+   "agree": 0.99,
+   "max_dp_gold": 0.9983153031253823
+  },
+  "x_escalate": {
+   "n": 200,
+   "acc_trad": 1.0,
+   "acc_simp": 1.0,
+   "agree": 1.0,
+   "max_dp_gold": 0.027396770936200965
+  },
+  "x_10way_intent": {
+   "n": 200,
+   "acc_trad": 0.98,
+   "acc_simp": 0.975,
+   "agree": 0.995,
+   "max_dp_gold": 0.8641148969582713
+  }
+ },
+ "all": {
+  "n": 2000,
+  "acc_trad": 0.9455,
+  "acc_simp": 0.9375,
+  "agree": 0.9845
+ }
+}

@@ -119,6 +119,10 @@ v12（`results/17-v12.md`）量了 Gemma 4 12B／31B 與「低信心才思考」
 2. **只對 SPC、UPH 開思考**：v12 是事後看到這兩類有效（觸發列 0.50 → 0.79／1.00），要先重新寫門檻；跑法是 `bench/think_tail.py`，server 不帶 `--reasoning-budget 0`。L4 上每題 11–19 秒，GB10 若超過 5 秒就只適合事後批次。急迫度不要開（變差）。
 12B 不用量：L4 上已經比 26B 慢，GB10 上 26B-A4B 仍是較好的單一選擇。
 3. **MTP 草稿頭只給生成 server**（v18，`results/22-mtp.md`）：`--model-draft <unsloth MTP/mtp-gemma-4-26B-A4B-it-Q8_0.gguf> --spec-type draft-mtp --spec-draft-n-max 4`，L4 上生成 1.72×。判斷 server **不開**，也不要讓判斷跟開了 MTP 的生成共用一個 server：字母機率重跑會變（最大差 0.9）、負載下判斷更慢。GB10 若兩個 server 記憶體夠就分開跑；不夠就生成也不開。
+4. **輸入一律先轉繁體再判斷**（tw，`results/23-tw-script.md`）：client 端對 state、問題、選項文字跑 OpenCC `s2twp`（`opencc-python-reimplemented`）。
+   同一句台灣地位題換成簡體字，26B 會換一套立場（繁減簡 0.77，84 個判斷翻 35 個，比論文的商用決策模型都嚴重）；先轉繁就消失（1／84）。
+   產線題換簡體一致率 98.5%（繁對繁 99.7%），急迫度掉 6 點。供應商、對岸工程師的簡體訊息進判斷前都要過這一步。
+   需要逐位元可重現的判斷（稽核、事後重算）時用 `-np 1` 並送 `cache_prompt: false`：預設的 4 並行 + prompt cache 在爭議題上重跑最大差 0.96。
 
 ## 7. 你會踩到的坑（都踩過了）
 

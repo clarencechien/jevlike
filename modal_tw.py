@@ -3,6 +3,8 @@
 Run from the repo root:
   scripts/modal.sh run modal_tw.py::smoke --name 26b               # 12 jobs, all arms, prints one rendered prompt
   scripts/modal.sh run --detach modal_tw.py::run_all               # every model, one container each, in parallel
+  scripts/modal.sh run --detach modal_tw.py::det --name 26b         # post-hoc: workers 1 vs 4, cache_prompt on vs off
+  scripts/modal.sh run modal_tw.py::d0s --name 26b                  # §6: D0 factory set, Traditional vs Simplified
   scripts/modal.sh volume get gb10-decide-results /tw results/modal/tw
 Server: the llama.cpp b11371 build in the models volume (v11), same flags as v12. Only data/ (synthetic + data/tw) is mounted.
 """
@@ -114,6 +116,45 @@ def _fn(name):
 @app.local_entrypoint()
 def smoke(name: str = "26b"):
     print(json.dumps(_fn(name).remote(name, "--limit 12 --reps 1", "smoke"), ensure_ascii=False, indent=1, default=str))
+
+
+# post-hoc (not in the pre-registered gates): where does the rep-to-rep drift of the main run come from? 26B prod arm only.
+DET = {"det_w1_c1": "--arms prod --reps 2 --workers 1 --cache 1", "det_w4_c0": "--arms prod --reps 2 --workers 4 --cache 0",
+       "det_w1_c0": "--arms prod --reps 2 --workers 1 --cache 0"}
+
+
+@app.function(image=image, gpu="L4", volumes={"/models": models, "/results": results}, timeout=60 * 60)
+def d0s_l4(name: str = "26b"):
+    """§6: D0 in Traditional, then the same rows in Simplified (data/tw/D0_s), one container, one server."""
+    import sys
+
+    sys.path.insert(0, "/root")
+    from bench import accuracy
+
+    proc, _ = _start(name)
+    out = {}
+    try:
+        for sub, extra in (("trad", ""), ("simp", "--data-dir /root/data/tw/D0_s")):
+            out_dir = f"/results/tw/d0s/{name}/{sub}"
+            os.makedirs(out_dir, exist_ok=True)
+            out[sub] = accuracy.main(base_url=f"http://127.0.0.1:{PORT}", out_dir=out_dir, args=f"--control-n 0 --workers 4 {extra}".strip(),
+                                     commit=results.commit, model=name, backend="llama")
+            results.commit()
+        return out
+    finally:
+        proc.terminate()
+
+
+@app.local_entrypoint()
+def d0s(name: str = "26b"):
+    print(json.dumps(d0s_l4.remote(name), default=str)[:1500])
+
+
+@app.local_entrypoint()
+def det(name: str = "26b"):
+    calls = [(sub, _fn(name).spawn(name, args, sub)) for sub, args in DET.items()]
+    for sub, c in calls:
+        print(sub, json.dumps(c.get(), default=str)[:600], flush=True)
 
 
 @app.local_entrypoint()

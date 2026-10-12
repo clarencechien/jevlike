@@ -47,6 +47,7 @@
 | v16 | `handoff-v16-dealt-groups.md` | 把長得像的對手打散到不同組，小型淘汰賽會不會變準？ | 不會：前 20 名四種排法 0.873–0.893，全部 100 份打散 0.927（照目錄 0.947）。打散只把近親搬進決賽。錯誤跟著訊息走、不跟著分組走；剩下的槓桿是召回或每次讀取的判斷力 | `21-dealt-groups.md`、`v16.json` |
 | v17（提案，未跑） | `handoff-v17-ipc-cbr.md` | 一群 Ubuntu + microk8s 的 IPC 全層進 LGTM，出事時判層、找舊案、套 SOP、掉人工再存回，EG2／E4B／26B 怎麼分工？ | 案例推理：卡生成器 → EG2 卡對卡檢索與 novelty → E4B 先答 → 26B 四道選擇題；Keep 開源版 + Tempo service graph，不訓練。P0–P4 門檻已寫死 | — |
 | v18 | `handoff-v18-mtp.md` | Gemma 4 的 MTP 草稿頭（llama-server `--spec-type draft-mtp`）開了，判斷會不會變、生成快多少？ | 生成 1.72×、思考模式 0.73×（接受率 58%）；單題不變慢；但判斷等價沒過：2,000 題翻 7 題、最大機率差 0.93，而且 MTP 臂自己重跑也差到 0.84；背景生成下判斷反而更慢（1.33× → 1.60×）。判斷 server 不開，生成 server 另開 | `22-mtp.md`、`v18.json` |
+| tw（`tw` 分支） | `handoff-tw-script.md` | 論文 *Same Statement, Different Script* 說商用決策模型換簡體字就往北京立場偏；Gemma 4 會不會？ | 會，26B 最嚴重：台灣地位題繁 0.91、簡 0.14、英 0.89（繁減簡 0.77，84 個判斷翻 35 個；論文 Clef 0.47）。中性事實不動。輸入先轉繁（s2twp）就消失（1／84）。產線題換簡體一致率 98.5%、急迫度 −6 點。另：4 並行 + prompt cache 重跑最大差 0.96，只有一次一題不 cache 才逐位元相同 | `23-tw-script.md`、`tw.json` |
 
 ## 3. 效果多好（D0 test 每 task 100 筆，L4 / L40S）
 

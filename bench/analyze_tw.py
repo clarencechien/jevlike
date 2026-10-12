@@ -345,6 +345,23 @@ def main():
             row.append(" / ".join(cell))
         w(f"| {m} | " + " | ".join(row) + " |")
 
+    # post-hoc (not a pre-registered gate): where does the G4 drift come from? 26B prod arm, two reps per setting
+    det = {"main": "4 workers, cache_prompt on (main run)", "det_w1_c1": "1 worker, cache_prompt on",
+           "det_w4_c0": "4 workers, cache_prompt off", "det_w1_c0": "1 worker, cache_prompt off"}
+    det_raw = {s: read(os.path.join(REPO, "results", "modal", "tw", s, "26b", "prod.jsonl")) for s in det}
+    det_raw = {s: r for s, r in det_raw.items() if r}
+    if det_raw:
+        dagg, _ = A.aggregate(jobs, det_raw)
+        w("\n## Post-hoc: 26B prod repeat drift by request concurrency and prompt cache (rep 0 vs rep 1)\n")
+        w("| Setting | identical | p95 | p99 | max | crossings of 0.5 | E1 Trad−Simp gap [CI] | E1 T/S flips |")
+        w("|---|---|---|---|---|---|---|---|")
+        J["determinism"] = {}
+        for s, recs in det_raw.items():
+            sst, r, (f, n, _) = rep_stability(recs), e1(jobs, dagg, s), flips(jobs, dagg, s, "E1")
+            J["determinism"][s] = {"setting": det[s], "stability": sst, "gap": r["ts"], "gap_ci": r["ts_ci"], "flips": [f, n]}
+            w(f"| {det[s]} | {sst['identical']:.1%} | {sst['p95']:.3f} | {sst['p99']:.3f} | {sst['max']:.3f} | {sst['cross_05']} | "
+              f"{fmt(r['ts'])} [{fmt(r['ts_ci'][0])}, {fmt(r['ts_ci'][1])}] | {f}/{n} |")
+
     open(os.path.join(REPO, "results", "23-tw-script-tables.md"), "w", encoding="utf-8").write("\n".join(L) + "\n")
     json.dump(J, open(os.path.join(REPO, "results", "tw.json"), "w"), ensure_ascii=False, indent=1, default=str)
     print("\n".join(L[:60]))

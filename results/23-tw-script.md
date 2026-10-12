@@ -3,6 +3,7 @@
 計劃與門檻：`docs/handoff-tw-script.md`（跑前寫死，commit `0858a09`）。題目：Hsiao (2026) *Same Statement, Different Script*
 （pirrer/taiwan-sovereignty-decision-models @ `ebafab7`）的 1,215 個 job 原樣使用（E6 圖片題 15 個略過，剩 1,200）。
 llama.cpp b11371；Gemma 4 E2B／E4B／12B／26B-A4B（L4）、31B（L40S）；Clef／Clef-flash Q8 GGUF 走 `/v1/systemone`（L40S）。
+白話版 HTML（公開）：<https://imitator.ai-apps.work/r/jevlike-tw-script>（`bench/render_tw_report.py`、`scripts/publish_tw_report.sh`）。
 完整表格：`results/23-tw-script-tables.md`（`bench/analyze_tw.py` 產生）；數字：`results/tw.json`；原始讀數：`results/modal/tw/`。
 
 ## 一句話

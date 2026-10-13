@@ -5,7 +5,7 @@
 - 長官版 HTML（公開）：<https://imitator.ai-apps.work/r/gb10-typed-decisions>
 - 懶人包（公開）：<https://imitator.ai-apps.work/r/jevlike-primer>（原理、溫度怎麼校、為什麼準、什麼時候會失靈）
 - 工程報告：`results/REPORT.md`；分項報告 `results/00`–`21`；費用 `results/cost.md`
-- 生態調查與借鏡：`results/10-landscape.md`（本檔 §5 是摘要）
+- 生態調查與借鏡：`results/10-landscape.md`（本檔 §5 是摘要）；§11 是 2026-10-13 的補調查（AnyJev、Jeeves、JevEmbed、連貫性與審查論文）
 
 ### 給在 GB10 上接手的 Claude Code：從這裡開始
 

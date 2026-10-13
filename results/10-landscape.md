@@ -120,6 +120,69 @@ EmbeddingGemma 2 部落格的示範全是「從一大堆候選裡找最像的」
 對我們的意義：它和讀字母是兩種不同的東西。讀字母把題目和選項**一起**讀，能比「符不符合條件」；bi-encoder 各自編碼再比相似度，只能比「像不像」。選項超過 10 個時我們用淘汰賽（每 10 份一組、勝出者再比），EG 唯一的位子是把 100 份縮到 20 份，而且這 5 個百分點的召回損失目前補不回來。
 來源：Decision Maker <https://developers.google.com/edge/mediapipe/solutions/decision/decision_maker>、EmbeddingGemma 2 模型卡 <https://huggingface.co/google/embeddinggemma-2>。
 
+## 11. 2026-10-13 補調查：誰也在仿 Jev 做延伸（上次調查 10-06 之後的新東西）
+
+生態清單（VoltAgent/typesafe-jev-ecosystem）已有約 190 個條目，絕大多數是「把 Jev 接進某個 agent／工具」的整合，不是模型或方法。真正**仿了 Jev 再往前走**的，依延伸方向分六類；數字全是各自自報，未獨立驗證。
+
+### 11.1 同派：零訓練讀 logit，但多做了一步
+
+| 名稱 | 底模／做法 | 延伸了什麼 | 自報數字 | 對我們 |
+|---|---|---|---|---|
+| **AnyJev**（Nokia Applied Research，arXiv 2610.00831，0.3.0） | 任何指令模型，HF／vLLM／SGLang／llama.cpp | **L0**：對選項做 K 次循環旋轉取平均 + 用無標註資料估出字母先驗再除掉；無標註的提早停止規則（18 次旋轉降到 7.3）；**Tacit**：把「想過再答」的答案自蒸餾回單次讀出；信心低才升級到思考 | Qwen3-8B 20 類：翻轉率 0.23 → 0.07、準確率 0.747 → 0.803、5% 錯誤預算下可自動處理 7.7% → 46.3%；原封不動的 Gemma-4-31B 在 Decision Index 0.3 第 5／149 | 最像我們的專案。v5 量過「順序平均」−1.3 點沒過，但沒試「除掉字母先驗」；他們的「固定錯誤率下可自動處理比例」就是我們的錯誤預算指標，可直接對數字 |
+| **LLM2Jev**（Yinsongxu，v0.1.0 2026-10-11） | Qwen3，SGLang／Transformers／MLX | 只 prefill、讀 yes/no logit 組出機率；選項用具名 key 不用字母；多模態 | Qwen3.5-4B JevBench 公開 231 題 76.2%，p50 48 ms | 比我們 88.7% 低，底模小三倍 |
+| **LLM-as-Jev**（Li & Wagle，arXiv 2610.02076） | Qwen3.5-4B、Qwen3-0.6B | 讀**帶括號的數字編號**而非字母；聲稱零訓練勝過字母讀出、選項數不限；微調用 listwise loss + KL 錨定 | 摘要沒給數字 | 「數字編號 vs 字母」值得一輪 A/B；我們字母只到 A–J |
+| **notjev**（9pings） | 任何 OpenAI 相容端點（vLLM、llama.cpp、Ollama、OpenAI） | `max_tokens: 1` + `logprobs`，`coverage` = 我們的 option mass；字母先驗修正 | Qwen3.8-27B 2 選項 97.5%、19 選項 64.3%（翻轉 40%）；小模型 19 選項翻 60–76% | 證明「任何有 logprobs 的端點」路徑可行；19 選項翻一半，支持我們每組 ≤ 10 份的淘汰賽 |
+| rizzo-flow、Simple Jev、TurboJev（Rust）、sys1（Rust）、deqio、decisor（SGLang 補丁） | 同派 | 包裝與服務層 | — | 不追 |
+
+### 11.2 加思考
+
+| 名稱 | 做法 | 自報數字 | 對我們 |
+|---|---|---|---|
+| **Jeeves**（PostHog） | Qwen3.5-9B LoRA + pointer head，SFT + CISPO（RL）訓練思考；`nothink_threshold`：不思考時信心 ≥ 0.9 就不想 | JevBench 0.935（Jev 0.866、hard 0.865 vs 0.730）；不想 0.3 s、全想中位 3.3 s、p90 17 s；門檻 0.9 + 768 token 上限：中位 2.0 s，準確率 0.806 vs 全想 0.825 | 設計跟 v12 E4 一樣（低信心才思考、門檻 0.9），差在他們用 RL 訓過思考。我們零訓練只 +2 點，他們 +7 點；呼應 §11.5 審查「增益要靠訓練」 |
+| **SearchJev**（arXiv 2610.05107） | 搜尋 agent 專用的 System 1：相關性、證據夠不夠、下一步動作；軟標籤校準訓練（SLCD） | 決策快 5.2×、ECE 降 41–74%、BrowseComp-Plus 答對 45% → 54% | 「System 1 管短決策、System 2 管規劃」就是 v17 提案的分工 |
+
+### 11.3 Embedding 路線（對照 v13–v16）
+
+| 名稱 | 做法 | 自報數字 | 對我們 |
+|---|---|---|---|
+| **JevEmbed**（HITsz-TMG，9/24–9/29） | 把 Sentence Transformers 編碼器用 LoRA 微調在 Choice／Score／Noul 上，**167 萬題**合成訓練資料 | 零訓練 33–36%；微調後 Qwen3-Embedding 0.6B 82%、4B 86%（自家測試集 6.6 萬題） | 直接印證 v13–v16：embedding 零樣本做不了判斷題，要靠大量訓練才能到八成多；我們守「不訓練」就不走這條 |
+| CLM | Qwen3-8B 加 state／action 投影頭 | — | 同上 |
+
+### 11.4 非自迴歸、CPU、瀏覽器
+
+| 名稱 | 自報數字 | 對我們 |
+|---|---|---|
+| **jevos**（feder-cr/jev，1.3k 星，MIT） | CPU 28／130 ms；六個任務全輸 Jev（0.95／0.76／0.76／0.81／0.50／0.37 對 1.00／0.91／0.88／0.98／0.69／0.59）、全贏 Qwen3.5-4B 與 Laya；作者自承六集裡五集參與選 checkpoint | 這一派仍是「快但差 Jev 一截」，跟 v7 量 Laya 的結論同方向 |
+| WaterSheep（多標籤）、decima（瀏覽器內）、tamev、von | — | 不追 |
+
+### 11.5 研究：校準、連貫性、對照分類器
+
+| 論文 | 結論 | 對我們 |
+|---|---|---|
+| **Typed Decision Models: An Early Evidence Audit**（arXiv 2609.32160，審 28 篇） | 讀選項機率這件事**沒有獨立於「讀標籤機率」的準確率優勢**；Jev 的優勢在延遲與成本；信心主要用來決定何時升級；附 14 條評估清單 | 跟我們 v1 以來的定位一致：價值在速度、校準與升級，不在準確率 |
+| **Beyond Calibration**（arXiv 2609.33209） | Jev 的機率**不連貫**：「是 X」與「不是 X」加起來平均差 1 有 0.064；三個單標籤機率和 1.14；違反量是重跑雜訊的 5 倍。Qwen3.8-27B 第一 token 讀出更差（0.293） | 我們從沒測過連貫性。可以在 D0 的 noul 題加一組「正／反問」檢查，成本接近零 |
+| **Benchmarking System One vs trained classifiers**（arXiv 2610.00346 v2） | 有標註時微調 DeBERTa-v3-large 幾乎每個任務最準；無標註時 Gemma-4-31B 在 workflow 題打平 Jev、CLINC-150 贏 Jev；**yes/no 對調，Jev 每百題改 50.5 個答案**，生成模型 ≥ 16.8，微調判斷頭 ≤ 6.5；先用意圖分類器、沒把握升級 31B，準確率等於 31B、價格接近 Jev | 順序敏感是整派的通病（我們弱題 21%／19%）；「選項順序固定」的上線條件站得住；訓練買到的是順序穩定，不是準確率 |
+| jev-align（sutro-sh） | 用人的回饋 + GEPA 建校準過的 AI function | — | 校準方法可看 |
+
+### 11.6 排行榜與官方
+
+- **JevBench v1.5.4**（112 系統）：Cygnet 73.70、Winnow-12B 73.23、**Jev 1.13.0 72.13**、JevK5 71.90、Plumb-4B 71.56、Jev-Omni 71.50、decider-4b 71.28。前兩名都是 Gemma 4 12B。v1.4 與 v1.5 分數不可直接比。
+- **Decision Index 0.3**（社群，37 個公開基準）：原封不動的 Gemma-4-31B 加「依選項數調溫度」第 2／70（57.33、ECE 0.047）；AnyJev L0 在 31B 上 60.22、第 5／149。
+- **TypeSafe Jev**：1.13.0 自 9/15 早期存取、候補名單；輸入 $0.042／百萬 token、輸出免費；權重封閉、不能自架、企業方案找業務。十月沒有新公告。
+
+### 11.7 延伸出去的用途（只列方向）
+
+工具呼叫守門與 agent 護欄（jev-guard、pi-warden、foreman）、電腦操作選動作（cua、agent-desktop 等 18 個）、SRE 事故審查（SREGym）、滲透測試 agent 的決策層（arXiv 2609.28940）、交通事故敘述轉結構化變數（arXiv 2609.24052）、視覺選擇（PixelJev，arXiv 2609.29283）、語意 grep（jevgrep 等五個）。跟 v17 提案最近的是 SREGym 與 SearchJev 的「System 1 管短決策」。
+
+### 11.8 從這一輪可以借的（先寫門檻再跑）
+
+1. **字母先驗除法 + 旋轉平均**（AnyJev L0）：v5 只試過旋轉平均；補「除先驗」再量弱題翻轉率與 5% 預算下的 coverage。
+2. **數字編號讀出**（LLM-as-Jev）：`[1]`、`[2]` 對 A、B 的 A/B，順便解掉 A–J 十個上限。
+3. **連貫性檢查**（Beyond Calibration）：noul 題加正反問，量「P(是) + P(不是) − 1」。
+4. 不借：訓練思考（Jeeves）、訓練 embedding（JevEmbed）、非自迴歸小模型——都要訓練，違反本專案的前提；且審查結論說準確率優勢來自訓練不是讀法。
+
+來源：生態清單 <https://github.com/VoltAgent/typesafe-jev-ecosystem>、主題頁 <https://github.com/topics/jev-alternative>、JevBench <https://benchlm.ai/benchmarks/jevbench>、AnyJev <https://github.com/nokia-applied-research/AnyJev>、LLM2Jev <https://github.com/Yinsongxu/LLM2Jev>、notjev <https://github.com/9pings/notjev>、Jeeves <https://github.com/PostHog/jeeves>、JevEmbed <https://github.com/HITsz-TMG/JevEmbed>、jevos <https://github.com/feder-cr/jev>、arXiv 2610.00831、2610.02076、2610.05107、2609.32160、2609.33209、2610.00346。
+
 ## 來源
 
 Cygnet <https://github.com/blockbrain-ai/cygnet-recipe>、open-alternative-jev <https://github.com/ikermoel/open-alternative-jev>、SemIf <https://tomrochette.com/agents/hybrid-execution/semif/>、openjev-sglang <https://github.com/ekzhang/openjev-sglang>、verdict <https://github.com/khimaros/verdict>、GemmaJev <https://github.com/dashidhy/GemmaJev>、llama.cpp-Jev <https://github.com/NON906/llama.cpp-Jev>、decider <https://github.com/Mapika/decider>、JevK5 <https://github.com/fstandhartinger/jevbench/issues/31>、Open-Jev <https://zefan-cai.github.io/open-jev/story/>、Kev <https://github.com/jaredpalmer/kev/blob/main/PLAN.md>、imajev <https://github.com/fstandhartinger/jevbench/issues/80>、system-one-open <https://github.com/mithalouni/system-one-open>、poorjev <https://github.com/rupeshpoojary9/poorjev>、jevcal <https://github.com/abhixhek/jevcal>、jevkit <https://github.com/JasmineAIGC/jevkit>、awesome-open-system-one <https://github.com/rupeshpoojary9/awesome-open-system-one>、JevBench <https://github.com/fstandhartinger/jevbench>、Clef <https://blog.cloudflare.com/clef-decision-models/>、<https://huggingface.co/Cloudflare/clef>、榜 <https://benchmarkheaven.com/jev-models>、TypeSafe 原文 <https://typesafe.ai/blog/introducing-system-one-models-and-jev>。

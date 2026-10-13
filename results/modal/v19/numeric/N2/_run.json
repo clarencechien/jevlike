@@ -1,0 +1,7 @@
+{
+ "args": "--mode numeric --variant N2 --workers 4",
+ "extra": "",
+ "server": "version: 0.5.0-dev (build 1, commit 99b9548)\nbuilt with GNU 11.4.0 for Linux x86_64",
+ "bench_s": 139.6,
+ "ts": "2026-10-13T02:43:07Z"
+}

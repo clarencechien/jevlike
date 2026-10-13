@@ -174,7 +174,7 @@ EmbeddingGemma 2 部落格的示範全是「從一大堆候選裡找最像的」
 
 工具呼叫守門與 agent 護欄（jev-guard、pi-warden、foreman）、電腦操作選動作（cua、agent-desktop 等 18 個）、SRE 事故審查（SREGym）、滲透測試 agent 的決策層（arXiv 2609.28940）、交通事故敘述轉結構化變數（arXiv 2609.24052）、視覺選擇（PixelJev，arXiv 2609.29283）、語意 grep（jevgrep 等五個）。跟 v17 提案最近的是 SREGym 與 SearchJev 的「System 1 管短決策」。
 
-### 11.8 從這一輪可以借的（先寫門檻再跑）
+### 11.8 從這一輪可以借的（先寫門檻再跑）→ v19 跑了前三件，都沒過（`23-l0-numeric-coherence.md`）
 
 1. **字母先驗除法 + 旋轉平均**（AnyJev L0）：v5 只試過旋轉平均；補「除先驗」再量弱題翻轉率與 5% 預算下的 coverage。
 2. **數字編號讀出**（LLM-as-Jev）：`[1]`、`[2]` 對 A、B 的 A/B，順便解掉 A–J 十個上限。

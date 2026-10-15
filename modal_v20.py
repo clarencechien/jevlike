@@ -95,16 +95,17 @@ def llama(model: str = "26b", limit: int = 0, root: str = "v20"):
 
 
 @app.function(image=llm_image, gpu="L4", volumes={"/models": models, "/results": results}, timeout=60 * 60)
-def diag(model: str = "26b", limit: int = 0, root: str = "v20-diag"):
-    """Why was S3 slower than S2? Same server: S2 -> S3 -> S2 again, per-request latencies kept; plus S3b (Q1 then Q2
-    on the same slot, one item at a time), the shared-state shape S3 was meant to measure. Server log tail is saved."""
+def diag(model: str = "26b", limit: int = 0, root: str = "v20-diag", engine: str = "jev"):
+    """Why was S3 slower than S2? Same server, no S1 first: S2 (cold) -> S3 -> S2 again (warm), per-request latencies kept;
+    plus S3b (Q1 then Q2 on the same slot, one item at a time), the shared-state shape S3 was meant to measure.
+    The suite's S2 ran right after S1 had sent the identical prompts, so the server's prompt cache replayed them."""
     import sys
     sys.path.insert(0, "/root")
     from bench import v20_speed
-    proc, start_s = _start(model); tag = f"jev_{model}_diag"; out_dir = f"/results/{root}/{tag}"; os.makedirs(out_dir, exist_ok=True)
+    proc, start_s = _start(model); tag = f"{engine}_{model}_diag"; out_dir = f"/results/{root}/{tag}"; os.makedirs(out_dir, exist_ok=True)
     try:
         ret = v20_speed.main(base_url=f"http://127.0.0.1:{PORT}", out_dir=out_dir,
-                             args=f"--engine jev --tag {tag} --workers 4 --scenarios S2,S3,S2r,S3b" + (f" --limit {limit}" if limit else ""))
+                             args=f"--engine {engine} --tag {tag} --workers 4 --scenarios S2,S3,S2r,S3b" + (f" --limit {limit}" if limit else ""))
         _meta(out_dir, {"model": MODEL_PATH[model], "server_start_s": start_s})
         open(f"{out_dir}/_server.log", "w").write(open("/tmp/server.log").read()[-300000:]); results.commit()
         return ret

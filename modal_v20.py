@@ -52,7 +52,10 @@ def _start(model):
 
 
 def _meta(out_dir, extra):
-    smi = subprocess.run(["nvidia-smi", "--query-gpu=name,memory.used", "--format=csv,noheader"], capture_output=True, text=True).stdout.strip()
+    try:
+        smi = subprocess.run(["nvidia-smi", "--query-gpu=name,memory.used", "--format=csv,noheader"], capture_output=True, text=True).stdout.strip()
+    except FileNotFoundError:
+        smi = None  # CPU container
     json.dump({"gpu": smi, "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), **extra}, open(f"{out_dir}/_run.json", "w"), indent=1)
 
 

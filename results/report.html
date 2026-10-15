@@ -984,6 +984,74 @@ button, summary { transition: transform var(--dur-fast) var(--ease-out); }
     </table>
   </div>
   <p>第二十輪把四個引擎放到同一張 L4、同一批題上量：批次時 EmbeddingGemma 每筆 2 毫秒，是 E4B 讀字母的 40 分之一、讓模型寫答案的 100 分之一；單筆時 70 毫秒，跟 E4B 差不多。便宜是真的，但在產線四類題上準確率差 10 到 27 個百分點，只有「專案狀態四類」這種粗分題跟 E4B 打平。</p>
+  <figure class="reveal">
+    <p class="title">同一批題、同一張 L4：速度與答對率</p>
+    <p class="subtitle">四個引擎，EmbeddingGemma 另列 CPU 版。左：批次時每筆毫秒（對數刻度，冷跑，橫條越短越快；圓點是一次一筆的延遲）。右：產線四類題平均答對率。</p>
+    <div class="chart">
+<svg viewBox="0 0 640 196" role="img" aria-label="四個引擎的批次每筆毫秒（對數刻度）與產線四類題答對率">
+<line class="grid" x1="150" y1="10" x2="150" y2="166"/>
+<text class="axis" x="150" y="182" text-anchor="middle">1</text>
+<line class="grid" x1="233" y1="10" x2="233" y2="166"/>
+<text class="axis" x="233" y="182" text-anchor="middle">10</text>
+<line class="grid" x1="317" y1="10" x2="317" y2="166"/>
+<text class="axis" x="317" y="182" text-anchor="middle">100</text>
+<line class="grid" x1="400" y1="10" x2="400" y2="166"/>
+<text class="axis" x="400" y="182" text-anchor="middle">1000</text>
+<line class="grid" x1="460" y1="10" x2="460" y2="166"/>
+<text class="axis" x="460" y="182" text-anchor="middle">50%</text>
+<line class="grid" x1="535" y1="10" x2="535" y2="166"/>
+<text class="axis" x="535" y="182" text-anchor="middle">75%</text>
+<line class="grid" x1="610" y1="10" x2="610" y2="166"/>
+<text class="axis" x="610" y="182" text-anchor="middle">100%</text>
+<text class="axis" x="275" y="195" text-anchor="middle">批次每筆毫秒（對數刻度；● 單筆）</text>
+<text class="axis" x="535" y="195" text-anchor="middle">產線四類題答對率</text>
+<text class="axis" x="142" y="28" text-anchor="end">EmbeddingGemma · L4</text>
+<rect class="bar" x="150" y="14" width="29.0" height="18" fill="var(--c1)"><title>EmbeddingGemma · L4：批次每筆 2 ms、單筆 72 ms</title></rect>
+<circle class="dot" cx="304.7" cy="23" r="5" fill="var(--c2)"><title>EmbeddingGemma · L4：單筆 p50 72 ms</title></circle>
+<text class="label" x="317.7" y="28">2</text>
+<rect class="bar" x="460" y="14" width="73.7" height="18" fill="var(--c1)"><title>EmbeddingGemma · L4：答對率 75%</title></rect>
+<text class="label" x="539.7" y="28">75%</text>
+<text class="axis" x="142" y="58" text-anchor="end">EmbeddingGemma · CPU</text>
+<rect class="bar" x="150" y="44" width="142.5" height="18" fill="var(--c1)"><title>EmbeddingGemma · CPU：批次每筆 51 ms、單筆 95 ms</title></rect>
+<circle class="dot" cx="314.9" cy="53" r="5" fill="var(--c2)"><title>EmbeddingGemma · CPU：單筆 p50 95 ms</title></circle>
+<text class="label" x="327.9" y="58">51</text>
+<rect class="bar" x="460" y="44" width="73.0" height="18" fill="var(--c1)"><title>EmbeddingGemma · CPU：答對率 74%</title></rect>
+<text class="label" x="539.0" y="58">74%</text>
+<text class="axis" x="142" y="88" text-anchor="end">jevlike E4B</text>
+<rect class="bar" x="150" y="74" width="165.1" height="18" fill="var(--c1)"><title>jevlike E4B：批次每筆 96 ms、單筆 89 ms</title></rect>
+<circle class="dot" cx="312.3" cy="83" r="5" fill="var(--c2)"><title>jevlike E4B：單筆 p50 89 ms</title></circle>
+<text class="label" x="325.3" y="88">96</text>
+<rect class="bar" x="460" y="74" width="136.6" height="18" fill="var(--c1)"><title>jevlike E4B：答對率 96%</title></rect>
+<text class="label" x="602.6" y="88">96%</text>
+<text class="axis" x="142" y="118" text-anchor="end">jevlike 26B</text>
+<rect class="bar" x="150" y="104" width="183.1" height="18" fill="var(--c1)"><title>jevlike 26B：批次每筆 157 ms、單筆 151 ms</title></rect>
+<circle class="dot" cx="331.7" cy="113" r="5" fill="var(--c2)"><title>jevlike 26B：單筆 p50 151 ms</title></circle>
+<text class="label" x="344.7" y="118">157</text>
+<rect class="bar" x="460" y="104" width="147.0" height="18" fill="var(--c1)"><title>jevlike 26B：答對率 99%</title></rect>
+<text class="label" x="613.0" y="118">99%</text>
+<text class="axis" x="142" y="148" text-anchor="end">LLM call 26B</text>
+<rect class="bar" x="150" y="134" width="197.1" height="18" fill="var(--c1)"><title>LLM call 26B：批次每筆 232 ms、單筆 407 ms</title></rect>
+<circle class="dot" cx="367.5" cy="143" r="5" fill="var(--c2)"><title>LLM call 26B：單筆 p50 407 ms</title></circle>
+<text class="label" x="380.5" y="148">232</text>
+<rect class="bar" x="460" y="134" width="141.0" height="18" fill="var(--c1)"><title>LLM call 26B：答對率 97%</title></rect>
+<text class="label" x="607.0" y="148">97%</text>
+</svg>
+    </div>
+    <div class="legend">
+      <span class="key"><span class="swatch" style="background:var(--c1)"></span>批次每筆（左）／答對率（右）</span>
+      <span class="key"><span class="swatch" style="background:var(--c2);border-radius:50%"></span>單筆延遲</span>
+    </div>
+    <details class="datatable">
+      <summary>看數字</summary>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>引擎</th><th class="num">批次每筆 ms</th><th class="num">單筆 p50 ms</th><th class="num">四類題答對率</th></tr></thead>
+          <tbody><tr><td>EmbeddingGemma · L4</td><td class="num">2</td><td class="num">72</td><td class="num">75%</td></tr><tr><td>EmbeddingGemma · CPU</td><td class="num">51</td><td class="num">95</td><td class="num">74%</td></tr><tr><td>jevlike E4B</td><td class="num">96</td><td class="num">89</td><td class="num">96%</td></tr><tr><td>jevlike 26B</td><td class="num">157</td><td class="num">151</td><td class="num">99%</td></tr><tr><td>LLM call 26B</td><td class="num">232</td><td class="num">407</td><td class="num">97%</td></tr></tbody>
+        </table>
+      </div>
+    </details>
+    <figcaption>EmbeddingGemma 批次時每筆 2 毫秒，是 E4B 的 40 分之一；但答對率只有 0.75，E4B 0.96、26B 0.99。便宜在左邊，代價在右邊。</figcaption>
+  </figure>
   <p>結論：<span class="mark">它只能比「像不像」，我們的題要比「符不符合條件」</span>。選項超過十個時我們用淘汰賽（每十份一組、勝出者再比，100 份讀 11 次、2.7 秒）；它唯一的位子是把 100 份縮到 20 份（讀 3 次、0.7 秒），代價是少 5 個百分點，而且這 5 點目前補不回來。要公平地說，第十四輪的題目對它偏嚴：零樣本、只看 SOP 說明、訊息刻意不用標題字眼；它實際部署是拿新訊息比歷史訊息，那一版沒有測。</p>
 
   <details class="appendix">

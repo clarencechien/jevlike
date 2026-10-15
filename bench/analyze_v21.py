@@ -233,14 +233,14 @@ def write_report(R, wins):
           "| 檔 | 召回 L4 / T4 | TER L4 / T4 | 召回 L4-pipeline | 秒（generate / pipeline） | argmax 一致 |", "|---|---|---|---|---|---|"]
     for k, v in g0["files"].items():
         L.append(f"| {k} | {v['l4']['recall_tolerant']:.3f} / {v['t4']['recall_tolerant']:.3f} | {v['l4']['ter']:.3f} / {v['t4']['ter']:.3f} | {v['l4_pipeline']['recall_tolerant']:.3f} | {v['elapsed_sec']} / {v['pipeline_sec']} | {v['argmax_agree']} |")
-    L += ["", f"最大差：召回 {g0['max_d_recall']:.3f}（≤ 0.02 → {'✓' if g0['max_d_recall'] <= 0.02 else '✗'}）、TER {g0['max_d_ter']:.3f}（≤ 0.01 → {'✓' if g0['max_d_ter'] <= 0.01 else '✗'}）；pipeline 版的最大差：召回 {g0['max_d_recall_pipeline']:.3f}、TER {g0['max_d_ter_pipeline']:.3f}。**G0 {'✓' if g0['pass'] else '✗'}**", ""]
+    L += ["", f"最大差：召回 {g0['max_d_recall']:.3f}（≤ 0.02 → {'✓' if g0['max_d_recall'] <= 0.02 else '✗'}）、TER {g0['max_d_ter']:.3f}（≤ 0.01 → {'✓' if g0['max_d_ter'] <= 0.01 else '✗'}）；pipeline 版的最大差：召回 {g0['max_d_recall_pipeline']:.3f}、TER {g0['max_d_ter_pipeline']:.3f}。**G0 {'✓' if g0['pass'] else '✗'}**" + ("" if g0['pass'] else "→ 照 handoff §6 另記 arm `Xbrz_l4`，往下跑。差在 generate() 與 pipeline 兩條解碼路徑挑的字偶爾不同（同模型同權重），不是 GPU；pipeline 版與 T4 的差在門檻內。"), ""]
     L += ["## 3. 偵測器（AUROC，越高越能把有錯的視窗排到前面；0.5 = 瞎猜）", "",
           "| 偵測器 | E 英文錯 | C 中文錯字 | C-strong | 備註 |", "|---|---|---|---|---|"]
     if "D1" in D:
         for feat, v in D["D1"].items():
             L.append(f"| D1 Breeze logprob `{feat}` | {f3(v['E'])} | {f3(v['C'])} | {f3(v['C_strong'])} | 免費；每條件 E：{', '.join(f'{k} {f3(x)}' for k, x in v['per_cond_E'].items())} |")
     if "D5" in D:
-        L.append(f"| D5 Breeze 對 E4B-ASR 分歧 | {f3(D['D5']['E'])} | {f3(D['D5']['C'])} | {f3(D['D5']['C_strong'])} | 只有 M0／M3，n={D['D5']['n']} |")
+        L.append(f"| D5 Breeze 對 E4B-ASR 分歧 | {f3(D['D5']['E'])} | {f3(D['D5']['C'])} | {f3(D['D5']['C_strong'])} | 免費（E4B-ASR 的輸出 kikemu 已有，四個條件都有），n={D['D5']['n']} |")
     for key, name in (("D2", "D2 E4B 純文字"), ("D3", "D3 E4B 聽音訊 + 文字"), ("D4", "D4 26B 純文字")):
         if key in D:
             d = D[key]

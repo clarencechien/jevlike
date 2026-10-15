@@ -1,0 +1,68 @@
+0.00.074.634 I srv  llama_server: initializing ...
+0.00.074.669 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.075.556 W srv  llama_server: security: no API key is set and CORS allows all origins (see https://github.com/ggml-org/llama.cpp/pull/25655)
+0.00.080.818 I srv    load_model: loading model '/models/gemma-4-E4B-it-Q8_0.gguf'
+0.02.456.138 W load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.02.457.061 W load: control-looking token:     50 '<|tool_response>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.02.469.259 W load: control-looking token:      1 '<eos>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.02.507.889 W load: '</s>' is a normal token here, removing it from EOG list
+0.06.040.408 W llama_kv_cache_iswa: using full-size SWA cache (ref: https://github.com/ggml-org/llama.cpp/pull/13194#issuecomment-2868343055)
+0.06.084.772 I cmn          init: llama threadpool init, n_threads = 17
+0.07.187.505 W init_audio: audio input is in experimental stage and may have reduced quality:
+    https://github.com/ggml-org/llama.cpp/discussions/13759
+0.07.187.646 I srv    load_model: loaded multimodal model, '/models/v21/mmproj-gemma-4-E4B-it-BF16.gguf'
+0.07.227.967 I srv    load_model: initializing, n_slots = 4, n_ctx_slot = 4096, kv_unified = 'false'
+0.07.241.638 I srv  llama_server: model loaded
+0.07.241.700 I srv  llama_server: listening on http://127.0.0.1:8080
+0.07.241.701 W srv  llama_server: notice: server default port will be changed to :9931 in a future release (ref: https://github.com/ggml-org/llama.cpp/pull/26508)
+0.08.138.873 I slot get_availabl: id  3 | task -1 | selected slot by LRU, t_last = -1
+0.08.139.018 I slot launch_slot_: id  3 | task 0 | processing task, is_child = 0
+0.09.429.564 I slot print_timing: id  3 | task 0 | prompt eval time =     705.46 ms /   359 tokens (    1.97 ms per token,   508.89 tokens per second)
+0.09.429.590 I slot print_timing: id  3 | task 0 |        eval time =     585.02 ms /    24 tokens (   25.44 ms per token,    39.31 tokens per second)
+0.09.429.592 I slot print_timing: id  3 | task 0 |       total time =    1290.49 ms /   383 tokens
+0.09.429.602 I slot print_timing: id  3 | task 0 |    graphs reused =         23
+0.09.429.722 I slot      release: id  3 | task 0 | stop processing: n_tokens = 382, truncated = 0
+0.09.615.081 I slot get_availabl: id  3 | task -1 | selected slot by LCP similarity, f_sim_best = 0.266 (> 0.100 thold), f_keep = 0.202
+0.09.629.092 I slot launch_slot_: id  3 | task 26 | processing task, is_child = 0
+0.10.331.254 I slot print_timing: id  3 | task 26 | prompt eval time =     174.70 ms /   213 tokens (    0.82 ms per token,  1219.22 tokens per second)
+0.10.331.276 I slot print_timing: id  3 | task 26 |        eval time =     527.39 ms /    20 tokens (   27.76 ms per token,    36.03 tokens per second)
+0.10.331.278 I slot print_timing: id  3 | task 26 |       total time =     702.09 ms /   233 tokens
+0.10.331.280 I slot print_timing: id  3 | task 26 |    graphs reused =         41
+0.10.331.341 I slot      release: id  3 | task 26 | stop processing: n_tokens = 309, truncated = 0
+0.10.352.113 E mtmd_tokenize: error: number of media markers in text (0) does not match number of bitmaps (1)
+0.10.363.130 I slot get_availabl: id  2 | task -1 | selected slot by LRU, t_last = -1
+0.10.363.177 I slot launch_slot_: id  2 | task 48 | processing task, is_child = 0
+0.10.703.579 I slot print_timing: id  2 | task 48 | prompt eval time =     323.91 ms /   184 tokens (    1.76 ms per token,   568.06 tokens per second)
+0.10.703.607 I slot print_timing: id  2 | task 48 |        eval time =       0.00 ms /     1 tokens (    0.00 ms per token,     0.00 tokens per second)
+0.10.703.608 I slot print_timing: id  2 | task 48 |       total time =     323.91 ms /   185 tokens
+0.10.703.610 I slot print_timing: id  2 | task 48 |    graphs reused =         41
+0.10.703.669 I slot      release: id  2 | task 48 | stop processing: n_tokens = 184, truncated = 0
+0.10.708.448 I slot get_availabl: id  2 | task -1 | selected slot by LCP similarity, f_sim_best = 0.971 (> 0.100 thold), f_keep = 0.908
+0.10.708.504 I slot launch_slot_: id  2 | task 50 | processing task, is_child = 0
+0.10.750.667 I slot print_timing: id  2 | task 50 | prompt eval time =      38.35 ms /     5 tokens (    7.67 ms per token,   130.37 tokens per second)
+0.10.750.695 I slot print_timing: id  2 | task 50 |        eval time =       0.00 ms /     1 tokens (    0.00 ms per token,     0.00 tokens per second)
+0.10.750.697 I slot print_timing: id  2 | task 50 |       total time =      38.35 ms /     6 tokens
+0.10.750.699 I slot print_timing: id  2 | task 50 |    graphs reused =         41
+0.10.750.765 I slot      release: id  2 | task 50 | stop processing: n_tokens = 172, truncated = 0
+0.10.783.660 I slot get_availabl: id  3 | task -1 | selected slot by LCP similarity, f_sim_best = 0.366 (> 0.100 thold), f_keep = 0.340
+0.10.783.878 I slot launch_slot_: id  3 | task 52 | processing task, is_child = 0
+0.11.420.139 I slot print_timing: id  3 | task 52 | prompt eval time =      95.26 ms /   182 tokens (    0.52 ms per token,  1910.48 tokens per second)
+0.11.420.172 I slot print_timing: id  3 | task 52 |        eval time =     531.93 ms /    22 tokens (   25.33 ms per token,    39.48 tokens per second)
+0.11.420.174 I slot print_timing: id  3 | task 52 |       total time =     627.20 ms /   204 tokens
+0.11.420.175 I slot print_timing: id  3 | task 52 |    graphs reused =         61
+0.11.420.242 I slot      release: id  3 | task 52 | stop processing: n_tokens = 308, truncated = 0
+0.11.440.399 E mtmd_tokenize: error: number of media markers in text (0) does not match number of bitmaps (1)
+0.11.453.050 I slot get_availabl: id  2 | task -1 | selected slot by LCP similarity, f_sim_best = 0.295 (> 0.100 thold), f_keep = 0.326
+0.11.453.210 I slot launch_slot_: id  2 | task 75 | processing task, is_child = 0
+0.11.527.078 I slot print_timing: id  2 | task 75 | prompt eval time =      55.32 ms /   134 tokens (    0.41 ms per token,  2422.31 tokens per second)
+0.11.527.119 I slot print_timing: id  2 | task 75 |        eval time =       0.00 ms /     1 tokens (    0.00 ms per token,     0.00 tokens per second)
+0.11.527.120 I slot print_timing: id  2 | task 75 |       total time =      55.32 ms /   135 tokens
+0.11.527.122 I slot print_timing: id  2 | task 75 |    graphs reused =         61
+0.11.527.193 I slot      release: id  2 | task 75 | stop processing: n_tokens = 190, truncated = 0
+0.11.532.482 I slot get_availabl: id  2 | task -1 | selected slot by LCP similarity, f_sim_best = 0.972 (> 0.100 thold), f_keep = 0.911
+0.11.532.535 I slot launch_slot_: id  2 | task 77 | processing task, is_child = 0
+0.11.570.971 I slot print_timing: id  2 | task 77 | prompt eval time =      34.11 ms /     5 tokens (    6.82 ms per token,   146.58 tokens per second)
+0.11.571.004 I slot print_timing: id  2 | task 77 |        eval time =       0.00 ms /     1 tokens (    0.00 ms per token,     0.00 tokens per second)
+0.11.571.006 I slot print_timing: id  2 | task 77 |       total time =      34.11 ms /     6 tokens
+0.11.571.008 I slot print_timing: id  2 | task 77 |    graphs reused =         61
+0.11.571.084 I slot      release: id  2 | task 77 | stop processing: n_tokens = 178, truncated = 0

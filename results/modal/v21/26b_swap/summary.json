@@ -1,0 +1,10 @@
+{
+ "engine": "26b",
+ "mode": "swap",
+ "n": 544,
+ "wall_s": 194.9,
+ "latency_p50_ms": 268.476929000002,
+ "latency_p95_ms": 404.3662839999982,
+ "errors": 0,
+ "option_mass_mean": 1.0
+}

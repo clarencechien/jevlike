@@ -1,0 +1,10 @@
+{
+ "engine": "e4b",
+ "mode": "text",
+ "n": 544,
+ "wall_s": 71.0,
+ "latency_p50_ms": 150.65140800000165,
+ "latency_p95_ms": 256.0685480000018,
+ "errors": 0,
+ "option_mass_mean": 1.0
+}

@@ -120,6 +120,10 @@ v12（`results/17-v12.md`）量了 Gemma 4 12B／31B 與「低信心才思考」
 12B 不用量：L4 上已經比 26B 慢，GB10 上 26B-A4B 仍是較好的單一選擇。
 3. **MTP 草稿頭只給生成 server**（v18，`results/22-mtp.md`）：`--model-draft <unsloth MTP/mtp-gemma-4-26B-A4B-it-Q8_0.gguf> --spec-type draft-mtp --spec-draft-n-max 4`，L4 上生成 1.72×。判斷 server **不開**，也不要讓判斷跟開了 MTP 的生成共用一個 server：字母機率重跑會變（最大差 0.9）、負載下判斷更慢。GB10 若兩個 server 記憶體夠就分開跑；不夠就生成也不開。
 
+## 6d. 選配：v21 的 ASR 抓錯閘門在 GB10 重量（半天）
+
+`docs/handoff-v21-asr-error-gate.md` §7 Phase 0–2 在 GB10 跑一次（Breeze 要 aarch64 的 CUDA torch），只為了 G0 與 G5 的 GB10 數字；結論在 L4 上已經出來（讀文字抓不到 ASR 的錯，閘門用 Breeze 自己的 logprob），不會因為換卡改變。
+
 ## 7. 你會踩到的坑（都踩過了）
 
 - `<bos>`：HF tokenizer 引擎（SGLang、vLLM）對 Gemma 4 預設不加，llama-server 會加；差 2–3 分。靜態模板已含，smoke 會查 token 數。

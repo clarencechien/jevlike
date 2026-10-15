@@ -143,6 +143,73 @@ def audio_smoke(root: str = "v21"):
         proc.terminate()
 
 
+@app.function(image=llm_image, gpu="L4", volumes={"/models": models, "/results": results}, timeout=60 * 60)
+def audio_smoke_then_judge(root: str = "v21", workers: int = 2):
+    """Phase 3 in one container: smoke, then the full D3 run only if check 1 (letter probabilities readable, option mass >= 0.9) passes."""
+    import sys
+    sys.path.insert(0, "/root")
+    from bench import v21_judge
+    proc, start_s = _start("e4b", MMPROJ)
+    try:
+        out = v21_judge.smoke(f"http://127.0.0.1:{PORT}", AUDIO); out["server_start_s"] = start_s
+        os.makedirs(f"/results/{root}", exist_ok=True)
+        json.dump(out, open(f"/results/{root}/audio_smoke.json", "w"), ensure_ascii=False, indent=1); results.commit()
+        ret = {"smoke": {k: out.get(k) for k in ("check1_probs_readable", "check2_transcription", "check3_q1_direction", "all_pass")}}
+        if out.get("check1_probs_readable"):
+            out_dir = f"/results/{root}/e4b_audio"; os.makedirs(out_dir, exist_ok=True)
+            ret["judge"] = v21_judge.main(base_url=f"http://127.0.0.1:{PORT}", out_dir=out_dir, args=f"--engine e4b --mode audio --workers {workers} --audio-dir {AUDIO}")
+            json.dump({"model": MODEL_PATH["e4b"], "mmproj": MMPROJ, "server_start_s": start_s, "route": "chat_logprobs"}, open(f"{out_dir}/_run.json", "w"), indent=1)
+            results.commit()
+        return ret
+    finally:
+        proc.terminate()
+
+
+@app.local_entrypoint()
+def audio_run():
+    print(json.dumps(audio_smoke_then_judge.remote(), ensure_ascii=False, default=str)[:3000])
+
+
 @app.local_entrypoint()
 def audio_smoke_run():
     print(json.dumps(audio_smoke.remote(), ensure_ascii=False, indent=1, default=str)[:6000])
+
+
+@app.function(image=llm_image, gpu="L4", volumes={"/models": models, "/results": results}, timeout=900)
+def mm_probe(root: str = "v21"):
+    """Which /completion prompt form does this build accept for audio? Findings go to /results/v21/probe_mm.json as they arrive."""
+    import base64
+    import io
+    import requests
+    import soundfile as sf
+    out = {}
+
+    def save():
+        json.dump(out, open(f"/results/{root}/probe_mm.json", "w"), ensure_ascii=False, indent=1); results.commit()
+    proc, _ = _start("e4b", MMPROJ)
+    try:
+        p = requests.get(f"http://127.0.0.1:{PORT}/props", timeout=30).json()
+        out["props"] = {k: (str(v)[:1200] if k == "chat_template" else v) for k, v in p.items() if k in ("modalities", "model_path", "build_info", "chat_template")}
+        save()
+        data, sr = sf.read(f"{AUDIO}/T1__M0.wav", dtype="int16"); seg = data[int(10 * sr):int(17 * sr)]
+        buf = io.BytesIO(); sf.write(buf, seg, sr, format="WAV", subtype="PCM_16"); b64 = base64.b64encode(buf.getvalue()).decode()
+        tests = [("gemma4_turns", "<|turn>user\nTranscribe this audio.\n<__media__><turn|>\n<|turn>model\n"),
+                 ("marker_only", "<__media__>"),
+                 ("alt_image_marker", "<|turn>user\nTranscribe.\n<__image__><turn|>\n<|turn>model\n")]
+        for name, prompt in tests:
+            body = {"prompt": {"prompt_string": prompt, "multimodal_data": [b64]}, "n_predict": 16, "temperature": 0, "n_probs": 3, "samplers": []}
+            try:
+                r = requests.post(f"http://127.0.0.1:{PORT}/completion", json=body, timeout=300)
+                out[name] = {"status": r.status_code, "body": r.text[:400]}
+            except Exception as e:  # noqa: BLE001
+                out[name] = {"error": str(e)[:300]}
+            save()
+        out["log_tail"] = open("/tmp/server.log").read()[-5000:]; save()
+    finally:
+        proc.terminate()
+    return {k: v for k, v in out.items() if k != "log_tail"}
+
+
+@app.local_entrypoint()
+def mm_probe_run():
+    print(json.dumps(mm_probe.remote(), ensure_ascii=False)[:3000])

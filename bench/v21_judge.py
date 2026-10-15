@@ -70,7 +70,9 @@ def read_mm(base_url, prompt, letters, wav_b64, session=None, n_probs=40, timeou
     if slot_id is not None:
         body["id_slot"] = slot_id
     t0 = time.perf_counter(); resp = sess.post(f"{base_url}/completion", json=body, timeout=timeout); dt = (time.perf_counter() - t0) * 1000
-    resp.raise_for_status(); r = resp.json(); top, cand = _parse_candidates(r); logp = {}
+    if resp.status_code != 200:
+        raise RuntimeError(f"/completion {resp.status_code}: {resp.text[:400]}")
+    r = resp.json(); top, cand = _parse_candidates(r); logp = {}
     for c in cand:
         tok = (c.get("token") or "").strip()
         if tok in letters:
@@ -83,6 +85,34 @@ def read_mm(base_url, prompt, letters, wav_b64, session=None, n_probs=40, timeou
     return {"probs": probs, "raw_logprobs": logp, "option_mass": option_mass(logp), "latency_ms": dt, "first_token": r.get("content"),
             "prompt_tokens": r.get("tokens_evaluated"), "server_cache_n": tm.get("cache_n"), "server_prompt_ms": tm.get("prompt_ms"),
             "top_tokens": [{"token": c.get("token"), "logprob": c.get("logprob", c.get("prob"))} for c in cand[:8]]}
+
+
+def read_mm_chat(base_url, w, q, letters, wav_b64, session=None, timeout=600, top=20):
+    """First-token letter probabilities through /v1/chat/completions with input_audio + logprobs (the OpenAI-style route is the
+    one that accepts audio on this build; the server applies the same no-think template, --reasoning-budget 0)."""
+    import math
+    sess = session or requests
+    msgs = build_messages(state_text(w), q, SYSTEM_V21)
+    body = {"messages": [msgs[0], {"role": "user", "content": [{"type": "text", "text": msgs[1]["content"] + "\n【這一段的聲音】"},
+                                                             {"type": "input_audio", "input_audio": {"data": wav_b64, "format": "wav"}}]}],
+            "max_tokens": 1, "temperature": 0, "logprobs": True, "top_logprobs": top, "cache_prompt": True,
+            "chat_template_kwargs": {"enable_thinking": False}}  # else the first token competes with '<|channel>' (option mass 0.5-0.8 in the smoke)
+    t0 = time.perf_counter(); resp = sess.post(f"{base_url}/v1/chat/completions", json=body, timeout=timeout); dt = (time.perf_counter() - t0) * 1000
+    if resp.status_code != 200:
+        raise RuntimeError(f"/v1/chat/completions {resp.status_code}: {resp.text[:400]}")
+    r = resp.json(); ch = r["choices"][0]; lp_c = ((ch.get("logprobs") or {}).get("content") or [{}])[0]
+    cand = lp_c.get("top_logprobs") or []; logp = {}
+    for c in cand:
+        tok = (c.get("token") or "").strip()
+        if tok in letters:
+            logp[tok] = max(logp.get(tok, -1e9), c.get("logprob", -1e9))
+    probs = {}
+    if logp:
+        m = max(logp.values()); z = sum(math.exp(v - m) for v in logp.values()); probs = {k: math.exp(v - m) / z for k, v in logp.items()}
+    tm = r.get("timings") or {}
+    return {"probs": probs, "raw_logprobs": logp, "option_mass": option_mass(logp), "latency_ms": dt, "first_token": ch["message"].get("content"),
+            "prompt_tokens": (r.get("usage") or {}).get("prompt_tokens"), "server_cache_n": tm.get("cache_n"), "server_prompt_ms": tm.get("prompt_ms"),
+            "top_tokens": [{"token": c.get("token"), "logprob": c.get("logprob")} for c in cand[:8]], "route": "chat_logprobs"}
 
 
 def render(tr, w, q, audio=False):
@@ -120,7 +150,7 @@ def main(base_url, out_dir, args="", **kw):
             try:
                 if wav is None:
                     return read_option_probs(base_url, prompt, letters, session=s, slot_id=slot)
-                return read_mm(base_url, prompt, letters, wav, session=s, slot_id=slot)
+                return read_mm_chat(base_url, w, q, letters, wav, session=s)
             except Exception as e:  # noqa: BLE001
                 if attempt == 2:
                     return {"error": str(e)[:300], "probs": {}}
@@ -201,7 +231,21 @@ def smoke(base_url, audio_dir, windows_p=None):
         rec["has_simplified_marker"] = any(c in txt for c in "这个们说对来时为么还会后")
         # (1)+(3): multimodal /completion with n_probs, Q1
         prompt = render(tr, w, Q["q1"], audio=True)
-        rec["q1_audio"] = read_mm(base_url, prompt, ["A", "B"], wav)
+        try:
+            rec["q1_audio_completion"] = read_mm(base_url, prompt, ["A", "B"], wav)
+        except Exception as e:  # noqa: BLE001
+            rec["q1_audio_completion"] = {"error": str(e)[:300], "probs": {}}
+        try:
+            rec["q1_audio"] = read_mm_chat(base_url, w, Q["q1"], ["A", "B"], wav)
+        except Exception as e:  # noqa: BLE001
+            rec["q1_audio"] = {"error": str(e)[:600], "probs": {}}
+            # variant B: the OpenAI-style route cannot return first-token probabilities, but tell whether the marker is the problem
+            try:
+                body = {"prompt": prompt.replace(MARKER, "<__media__>"), "multimodal_data": [wav], "n_predict": 1, "n_probs": 40, "temperature": 0, "samplers": []}
+                r2 = requests.post(f"{base_url}/completion", json=body, timeout=600)
+                rec["q1_audio_variant_flat"] = {"status": r2.status_code, "body": r2.text[:400]}
+            except Exception as e2:  # noqa: BLE001
+                rec["q1_audio_variant_flat"] = {"error": str(e2)[:300]}
         rec["q1_text"] = read_option_probs(base_url, render(tr, w, Q["q1"]), ["A", "B"])
         out[name] = rec
     pa = out.get("err_window", {}).get("q1_audio", {}); pb = out.get("clean_window", {}).get("q1_audio", {})

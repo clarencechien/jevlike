@@ -120,6 +120,48 @@ def acc_bar_chart():
     return "\n".join(out), table
 
 
+def speed_acc_chart():
+    """v20: two aligned horizontal-bar panels, one row per engine — cold batch ms/item (log scale, with the single-item
+    p50 as a dot) and accuracy on the four D0 topic tasks. Numbers from results/v20.json (diag = cold batch)."""
+    V = json.load(open(os.path.join(ROOT, "results/v20.json")))
+    d0 = ["x_ticket_route", "x_10way_intent", "m_alarm_category", "p_line_change"]
+    arms = [("eg_cuda", "EmbeddingGemma · L4"), ("eg_cpu", "EmbeddingGemma · CPU"), ("jev_e4b", "jevlike E4B"), ("jev_26b", "jevlike 26B"), ("llm_26b", "LLM call 26B")]
+    rows = []
+    for arm, name in arms:
+        T = V["summaries"][arm]["tasks"]; D = V["diag"].get(arm, {}).get("tasks")
+        batch = sum((D or T)[t]["S2"]["per_item_ms"] for t in d0) / 4
+        rows.append((name, batch, sum(T[t]["S1"]["p50"] for t in d0) / 4, sum(T[t]["S1_acc"] for t in d0) / 4))
+    import math as _m
+    RH = 36; H = RH * len(rows) + 46; top = 10   # each row: the batch bar on top, the single-item dot on its own line below
+    lx0, lx1 = 182, 400; rx0, rx1 = 460, 610   # left panel: log ms 1..1000 (182 px of name room: the font differs per browser); right panel: accuracy 0.5..1.0
+    lx = lambda v: lx0 + (lx1 - lx0) * _m.log10(max(v, 1)) / 3
+    rx = lambda v: rx0 + (rx1 - rx0) * (v - 0.5) / 0.5
+    o = [f'<svg viewBox="0 0 640 {H}" role="img" aria-label="四個引擎的批次每筆毫秒與單筆延遲（對數刻度）與產線四類題答對率">']
+    for g in (1, 10, 100, 1000):
+        x = lx(g); o.append(f'<line class="grid" x1="{x:.0f}" y1="{top}" x2="{x:.0f}" y2="{H - 30}"/>')
+        o.append(f'<text class="axis" x="{x:.0f}" y="{H - 14}" text-anchor="middle">{g}</text>')
+    for g in (0.5, 0.75, 1.0):
+        x = rx(g); o.append(f'<line class="grid" x1="{x:.0f}" y1="{top}" x2="{x:.0f}" y2="{H - 30}"/>')
+        o.append(f'<text class="axis" x="{x:.0f}" y="{H - 14}" text-anchor="middle">{g * 100:.0f}%</text>')
+    o.append(f'<text class="axis" x="{(lx0 + lx1) / 2:.0f}" y="{H - 1}" text-anchor="middle">每筆毫秒（對數刻度）：■ 批次、● 單筆</text>')
+    o.append(f'<text class="axis" x="{(rx0 + rx1) / 2:.0f}" y="{H - 1}" text-anchor="middle">產線四類題答對率</text>')
+    for i, (name, batch, single, acc) in enumerate(rows):
+        y = top + RH * i + 3
+        o.append(f'<text class="axis" x="{lx0 - 8}" y="{y + 15}" text-anchor="end">{e(name)}</text>')
+        w = lx(batch) - lx0   # batch bar: its value sits at the bar tip
+        o.append(f'<rect class="bar" x="{lx0}" y="{y}" width="{w:.1f}" height="12" fill="var(--c1)"><title>{e(name)}：批次每筆 {batch:.0f} ms</title></rect>')
+        o.append(f'<text class="label" x="{lx0 + w + 6:.1f}" y="{y + 10}">{batch:.0f}</text>')
+        cy = y + 23   # single-item dot: its own line, its own (muted) value
+        o.append(f'<circle class="dot" cx="{lx(single):.1f}" cy="{cy}" r="4.5" fill="var(--c2)"><title>{e(name)}：單筆 p50 {single:.0f} ms</title></circle>')
+        o.append(f'<text class="axis" x="{lx(single) + 9:.1f}" y="{cy + 4}">{single:.0f}</text>')
+        wr = rx(acc) - rx0
+        o.append(f'<rect class="bar" x="{rx0}" y="{y}" width="{wr:.1f}" height="12" fill="var(--c1)"><title>{e(name)}：答對率 {acc * 100:.0f}%</title></rect>')
+        o.append(f'<text class="label" x="{rx0 + wr + 6:.1f}" y="{y + 10}">{acc * 100:.0f}%</text>')
+    o.append("</svg>")
+    table = "".join(f'<tr><td>{e(n)}</td><td class="num">{b:.0f}</td><td class="num">{sg:.0f}</td><td class="num">{a * 100:.0f}%</td></tr>' for n, b, sg, a in rows)
+    return "\n".join(o), table
+
+
 def learning_curve_chart():
     ns = lc["N"]
     series = [("傳統機器學習，用 N 筆標註訓練", "tfidf", "--c1"), ("Jev 式，完全不標註", "typed0", "--c2"),
@@ -181,6 +223,7 @@ for t in H2 + H1:
     ex_rows += (f'<tr><td class="nowrap">{e(ZH[t])}<span class="sub">{"26B 真的強" if t in H2 else "小模型也行"}</span></td>'
                 f'<td>{e(st)}</td><td>{e(opts)}</td><td class="nowrap">{e(ans)}</td></tr>')
 acc_svg, acc_table = acc_bar_chart()
+speed_svg, speed_table = speed_acc_chart()
 lc_svg, lc_legend, lc_table = learning_curve_chart()
 
 # ------------------------------------------------------------------ the eight questions, in plain language
@@ -637,6 +680,27 @@ page = f"""<!doctype html>
     </table>
   </div>
   <p>第二十輪把四個引擎放到同一張 L4、同一批題上量：批次時 EmbeddingGemma 每筆 2 毫秒，是 E4B 讀字母的 40 分之一、讓模型寫答案的 100 分之一；單筆時 70 毫秒，跟 E4B 差不多。便宜是真的，但在產線四類題上準確率差 10 到 27 個百分點，只有「專案狀態四類」這種粗分題跟 E4B 打平。</p>
+  <figure class="reveal">
+    <p class="title">同一批題、同一張 L4：速度與答對率</p>
+    <p class="subtitle">四個引擎，EmbeddingGemma 另列 CPU 版。左：每筆毫秒（對數刻度）。橫條是批次（冷跑，100 筆一起送，越短越快）；橫條下方的圓點是一次送一筆的延遲，兩個數字分開標。右：產線四類題平均答對率。</p>
+    <div class="chart">
+{speed_svg}
+    </div>
+    <div class="legend">
+      <span class="key"><span class="swatch" style="background:var(--c1)"></span>批次每筆（左）／答對率（右）</span>
+      <span class="key"><span class="swatch" style="background:var(--c2);border-radius:50%"></span>單筆延遲</span>
+    </div>
+    <details class="datatable">
+      <summary>看數字</summary>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>引擎</th><th class="num">批次每筆 ms</th><th class="num">單筆 p50 ms</th><th class="num">四類題答對率</th></tr></thead>
+          <tbody>{speed_table}</tbody>
+        </table>
+      </div>
+    </details>
+    <figcaption>EmbeddingGemma 批次時每筆 2 毫秒，是 E4B 的 40 分之一；單筆時 70 毫秒，跟 E4B 差不多（它的優勢只在批次）。但答對率只有 0.75，E4B 0.96、26B 0.99。便宜在左邊，代價在右邊。</figcaption>
+  </figure>
   <p>結論：<span class="mark">它只能比「像不像」，我們的題要比「符不符合條件」</span>。選項超過十個時我們用淘汰賽（每十份一組、勝出者再比，100 份讀 11 次、2.7 秒）；它唯一的位子是把 100 份縮到 20 份（讀 3 次、0.7 秒），代價是少 5 個百分點，而且這 5 點目前補不回來。要公平地說，第十四輪的題目對它偏嚴：零樣本、只看 SOP 說明、訊息刻意不用標題字眼；它實際部署是拿新訊息比歷史訊息，那一版沒有測。</p>
 
   <details class="appendix">

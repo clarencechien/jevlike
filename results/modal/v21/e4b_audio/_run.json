@@ -1,0 +1,6 @@
+{
+ "model": "/models/gemma-4-E4B-it-Q8_0.gguf",
+ "mmproj": "/models/v21/mmproj-gemma-4-E4B-it-BF16.gguf",
+ "server_start_s": 9.8,
+ "route": "chat_logprobs"
+}

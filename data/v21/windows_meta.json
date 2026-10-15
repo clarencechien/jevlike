@@ -1,0 +1,45 @@
+{
+ "counts": {
+  "windows": 544,
+  "E": 117,
+  "C": 210,
+  "C_strong": 136,
+  "N": 271,
+  "has_latin": 267,
+  "noise_E": 28,
+  "noise_C": 172,
+  "has_d1": 544,
+  "has_d5": 544
+ },
+ "window_seconds_p50": 6.4,
+ "window_tokens_p50": 30.0,
+ "noise_floor": {
+  "C_frac": 0.316,
+  "E_frac": 0.051
+ },
+ "per_cond": {
+  "M0": {
+   "n": 134,
+   "E": 25,
+   "C": 44
+  },
+  "M1": {
+   "n": 137,
+   "E": 29,
+   "C": 51
+  },
+  "M2": {
+   "n": 137,
+   "E": 29,
+   "C": 51
+  },
+  "M3": {
+   "n": 136,
+   "E": 34,
+   "C": 64
+  }
+ },
+ "breeze_dir": "results/modal/v21/breeze",
+ "rule": "merge segments until >= 8.0s or >= 25 tokens, cap 15.0s",
+ "sha256": "224fe9e9b9aa585da5d3088427dfe3f201aa2559c76773f5ba7a996957747e28"
+}

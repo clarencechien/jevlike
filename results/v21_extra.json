@@ -1,0 +1,77 @@
+{
+ "part1": [
+  {
+   "label": "E",
+   "d1_mean": 0.726,
+   "d1_min": 0.747,
+   "d5": 0.665,
+   "e4b": 0.713,
+   "rankavg_d1+e4b": 0.762,
+   "rankavg_d1+d1min+e4b": 0.776,
+   "logit_d1x3+e4b": 0.719,
+   "26b": 0.777,
+   "rankavg_d1+26b": 0.802,
+   "rankavg_d1+d1min+26b": 0.797,
+   "logit_d1x3+26b": 0.738,
+   "rankavg_d1+d5": 0.712,
+   "logit_d1x3": 0.696,
+   "logit_d1x3+d5": 0.69,
+   "logit_all": 0.741
+  },
+  {
+   "label": "C",
+   "d1_mean": 0.783,
+   "d1_min": 0.737,
+   "d5": 0.775,
+   "e4b": 0.629,
+   "rankavg_d1+e4b": 0.746,
+   "rankavg_d1+d1min+e4b": 0.759,
+   "logit_d1x3+e4b": 0.751,
+   "26b": 0.666,
+   "rankavg_d1+26b": 0.768,
+   "rankavg_d1+d1min+26b": 0.771,
+   "logit_d1x3+26b": 0.766,
+   "rankavg_d1+d5": 0.805,
+   "logit_d1x3": 0.766,
+   "logit_d1x3+d5": 0.789,
+   "logit_all": 0.782
+  }
+ ],
+ "part2": {
+  "windows": 544,
+  "C_original": 210,
+  "C_proxy_positive": 114,
+  "excluded_uncertain": 96,
+  "negatives": 334,
+  "note": "positive = Breeze differs from reference (>=2 CJK replace) and the second Gemini pass agrees with the reference in that span; windows where both differ are excluded",
+  "auroc_d1_mean_proxy": 0.781,
+  "auroc_d1_mean_original": 0.783,
+  "auroc_d1_min_proxy": 0.722,
+  "auroc_d1_min_original": 0.737,
+  "auroc_d5_proxy": 0.802,
+  "auroc_d5_original": 0.775,
+  "auroc_e4b_q2_proxy": 0.604,
+  "auroc_e4b_q2_original": 0.629,
+  "auroc_26b_q2_proxy": 0.648,
+  "auroc_26b_q2_original": 0.666,
+  "logit_d1x3_proxy": null,
+  "per_cond": {
+   "M0": {
+    "pos": 24,
+    "excluded": 20
+   },
+   "M1": {
+    "pos": 26,
+    "excluded": 25
+   },
+   "M2": {
+    "pos": 25,
+    "excluded": 26
+   },
+   "M3": {
+    "pos": 39,
+    "excluded": 25
+   }
+  }
+ }
+}

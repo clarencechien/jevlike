@@ -133,7 +133,7 @@ def speed_acc_chart():
         rows.append((name, batch, sum(T[t]["S1"]["p50"] for t in d0) / 4, sum(T[t]["S1_acc"] for t in d0) / 4))
     import math as _m
     RH = 36; H = RH * len(rows) + 46; top = 10   # each row: the batch bar on top, the single-item dot on its own line below
-    lx0, lx1 = 150, 400; rx0, rx1 = 460, 610   # left panel: log ms 1..1000; right panel: accuracy 0.5..1.0
+    lx0, lx1 = 182, 400; rx0, rx1 = 460, 610   # left panel: log ms 1..1000 (182 px of name room: the font differs per browser); right panel: accuracy 0.5..1.0
     lx = lambda v: lx0 + (lx1 - lx0) * _m.log10(max(v, 1)) / 3
     rx = lambda v: rx0 + (rx1 - rx0) * (v - 0.5) / 0.5
     o = [f'<svg viewBox="0 0 640 {H}" role="img" aria-label="四個引擎的批次每筆毫秒與單筆延遲（對數刻度）與產線四類題答對率">']

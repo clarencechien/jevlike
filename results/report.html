@@ -989,12 +989,12 @@ button, summary { transition: transform var(--dur-fast) var(--ease-out); }
     <p class="subtitle">四個引擎，EmbeddingGemma 另列 CPU 版。左：每筆毫秒（對數刻度）。橫條是批次（冷跑，100 筆一起送，越短越快）；橫條下方的圓點是一次送一筆的延遲，兩個數字分開標。右：產線四類題平均答對率。</p>
     <div class="chart">
 <svg viewBox="0 0 640 226" role="img" aria-label="四個引擎的批次每筆毫秒與單筆延遲（對數刻度）與產線四類題答對率">
-<line class="grid" x1="150" y1="10" x2="150" y2="196"/>
-<text class="axis" x="150" y="212" text-anchor="middle">1</text>
-<line class="grid" x1="233" y1="10" x2="233" y2="196"/>
-<text class="axis" x="233" y="212" text-anchor="middle">10</text>
-<line class="grid" x1="317" y1="10" x2="317" y2="196"/>
-<text class="axis" x="317" y="212" text-anchor="middle">100</text>
+<line class="grid" x1="182" y1="10" x2="182" y2="196"/>
+<text class="axis" x="182" y="212" text-anchor="middle">1</text>
+<line class="grid" x1="255" y1="10" x2="255" y2="196"/>
+<text class="axis" x="255" y="212" text-anchor="middle">10</text>
+<line class="grid" x1="327" y1="10" x2="327" y2="196"/>
+<text class="axis" x="327" y="212" text-anchor="middle">100</text>
 <line class="grid" x1="400" y1="10" x2="400" y2="196"/>
 <text class="axis" x="400" y="212" text-anchor="middle">1000</text>
 <line class="grid" x1="460" y1="10" x2="460" y2="196"/>
@@ -1003,41 +1003,41 @@ button, summary { transition: transform var(--dur-fast) var(--ease-out); }
 <text class="axis" x="535" y="212" text-anchor="middle">75%</text>
 <line class="grid" x1="610" y1="10" x2="610" y2="196"/>
 <text class="axis" x="610" y="212" text-anchor="middle">100%</text>
-<text class="axis" x="275" y="225" text-anchor="middle">每筆毫秒（對數刻度）：■ 批次、● 單筆</text>
+<text class="axis" x="291" y="225" text-anchor="middle">每筆毫秒（對數刻度）：■ 批次、● 單筆</text>
 <text class="axis" x="535" y="225" text-anchor="middle">產線四類題答對率</text>
-<text class="axis" x="142" y="28" text-anchor="end">EmbeddingGemma · L4</text>
-<rect class="bar" x="150" y="13" width="29.0" height="12" fill="var(--c1)"><title>EmbeddingGemma · L4：批次每筆 2 ms</title></rect>
-<text class="label" x="185.0" y="23">2</text>
-<circle class="dot" cx="304.7" cy="36" r="4.5" fill="var(--c2)"><title>EmbeddingGemma · L4：單筆 p50 72 ms</title></circle>
-<text class="axis" x="313.7" y="40">72</text>
+<text class="axis" x="174" y="28" text-anchor="end">EmbeddingGemma · L4</text>
+<rect class="bar" x="182" y="13" width="25.3" height="12" fill="var(--c1)"><title>EmbeddingGemma · L4：批次每筆 2 ms</title></rect>
+<text class="label" x="213.3" y="23">2</text>
+<circle class="dot" cx="316.9" cy="36" r="4.5" fill="var(--c2)"><title>EmbeddingGemma · L4：單筆 p50 72 ms</title></circle>
+<text class="axis" x="325.9" y="40">72</text>
 <rect class="bar" x="460" y="13" width="73.7" height="12" fill="var(--c1)"><title>EmbeddingGemma · L4：答對率 75%</title></rect>
 <text class="label" x="539.7" y="23">75%</text>
-<text class="axis" x="142" y="64" text-anchor="end">EmbeddingGemma · CPU</text>
-<rect class="bar" x="150" y="49" width="142.5" height="12" fill="var(--c1)"><title>EmbeddingGemma · CPU：批次每筆 51 ms</title></rect>
-<text class="label" x="298.5" y="59">51</text>
-<circle class="dot" cx="314.9" cy="72" r="4.5" fill="var(--c2)"><title>EmbeddingGemma · CPU：單筆 p50 95 ms</title></circle>
-<text class="axis" x="323.9" y="76">95</text>
+<text class="axis" x="174" y="64" text-anchor="end">EmbeddingGemma · CPU</text>
+<rect class="bar" x="182" y="49" width="124.2" height="12" fill="var(--c1)"><title>EmbeddingGemma · CPU：批次每筆 51 ms</title></rect>
+<text class="label" x="312.2" y="59">51</text>
+<circle class="dot" cx="325.8" cy="72" r="4.5" fill="var(--c2)"><title>EmbeddingGemma · CPU：單筆 p50 95 ms</title></circle>
+<text class="axis" x="334.8" y="76">95</text>
 <rect class="bar" x="460" y="49" width="73.0" height="12" fill="var(--c1)"><title>EmbeddingGemma · CPU：答對率 74%</title></rect>
 <text class="label" x="539.0" y="59">74%</text>
-<text class="axis" x="142" y="100" text-anchor="end">jevlike E4B</text>
-<rect class="bar" x="150" y="85" width="165.1" height="12" fill="var(--c1)"><title>jevlike E4B：批次每筆 96 ms</title></rect>
-<text class="label" x="321.1" y="95">96</text>
-<circle class="dot" cx="312.3" cy="108" r="4.5" fill="var(--c2)"><title>jevlike E4B：單筆 p50 89 ms</title></circle>
-<text class="axis" x="321.3" y="112">89</text>
+<text class="axis" x="174" y="100" text-anchor="end">jevlike E4B</text>
+<rect class="bar" x="182" y="85" width="144.0" height="12" fill="var(--c1)"><title>jevlike E4B：批次每筆 96 ms</title></rect>
+<text class="label" x="332.0" y="95">96</text>
+<circle class="dot" cx="323.5" cy="108" r="4.5" fill="var(--c2)"><title>jevlike E4B：單筆 p50 89 ms</title></circle>
+<text class="axis" x="332.5" y="112">89</text>
 <rect class="bar" x="460" y="85" width="136.6" height="12" fill="var(--c1)"><title>jevlike E4B：答對率 96%</title></rect>
 <text class="label" x="602.6" y="95">96%</text>
-<text class="axis" x="142" y="136" text-anchor="end">jevlike 26B</text>
-<rect class="bar" x="150" y="121" width="183.1" height="12" fill="var(--c1)"><title>jevlike 26B：批次每筆 157 ms</title></rect>
-<text class="label" x="339.1" y="131">157</text>
-<circle class="dot" cx="331.7" cy="144" r="4.5" fill="var(--c2)"><title>jevlike 26B：單筆 p50 151 ms</title></circle>
-<text class="axis" x="340.7" y="148">151</text>
+<text class="axis" x="174" y="136" text-anchor="end">jevlike 26B</text>
+<rect class="bar" x="182" y="121" width="159.7" height="12" fill="var(--c1)"><title>jevlike 26B：批次每筆 157 ms</title></rect>
+<text class="label" x="347.7" y="131">157</text>
+<circle class="dot" cx="340.4" cy="144" r="4.5" fill="var(--c2)"><title>jevlike 26B：單筆 p50 151 ms</title></circle>
+<text class="axis" x="349.4" y="148">151</text>
 <rect class="bar" x="460" y="121" width="147.0" height="12" fill="var(--c1)"><title>jevlike 26B：答對率 99%</title></rect>
 <text class="label" x="613.0" y="131">99%</text>
-<text class="axis" x="142" y="172" text-anchor="end">LLM call 26B</text>
-<rect class="bar" x="150" y="157" width="197.1" height="12" fill="var(--c1)"><title>LLM call 26B：批次每筆 232 ms</title></rect>
-<text class="label" x="353.1" y="167">232</text>
-<circle class="dot" cx="367.5" cy="180" r="4.5" fill="var(--c2)"><title>LLM call 26B：單筆 p50 407 ms</title></circle>
-<text class="axis" x="376.5" y="184">407</text>
+<text class="axis" x="174" y="172" text-anchor="end">LLM call 26B</text>
+<rect class="bar" x="182" y="157" width="171.9" height="12" fill="var(--c1)"><title>LLM call 26B：批次每筆 232 ms</title></rect>
+<text class="label" x="359.9" y="167">232</text>
+<circle class="dot" cx="371.7" cy="180" r="4.5" fill="var(--c2)"><title>LLM call 26B：單筆 p50 407 ms</title></circle>
+<text class="axis" x="380.7" y="184">407</text>
 <rect class="bar" x="460" y="157" width="141.0" height="12" fill="var(--c1)"><title>LLM call 26B：答對率 97%</title></rect>
 <text class="label" x="607.0" y="167">97%</text>
 </svg>

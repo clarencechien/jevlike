@@ -52,7 +52,10 @@ def _start(model):
 
 
 def _meta(out_dir, extra):
-    smi = subprocess.run(["nvidia-smi", "--query-gpu=name,memory.used", "--format=csv,noheader"], capture_output=True, text=True).stdout.strip()
+    try:
+        smi = subprocess.run(["nvidia-smi", "--query-gpu=name,memory.used", "--format=csv,noheader"], capture_output=True, text=True).stdout.strip()
+    except FileNotFoundError:
+        smi = None  # CPU container
     json.dump({"gpu": smi, "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), **extra}, open(f"{out_dir}/_run.json", "w"), indent=1)
 
 
@@ -89,6 +92,32 @@ def _eg(device, root, extra_args=""):
 @app.function(image=llm_image, gpu="L4", volumes={"/models": models, "/results": results}, timeout=60 * 60 * 2)
 def llama(model: str = "26b", limit: int = 0, root: str = "v20"):
     return _llama(model, root, f"--limit {limit}" if limit else "")
+
+
+@app.function(image=llm_image, gpu="L4", volumes={"/models": models, "/results": results}, timeout=60 * 60)
+def diag(model: str = "26b", limit: int = 0, root: str = "v20-diag", engine: str = "jev"):
+    """Why was S3 slower than S2? Same server, no S1 first: S2 (cold) -> S3 -> S2 again (warm), per-request latencies kept;
+    plus S3b (Q1 then Q2 on the same slot, one item at a time), the shared-state shape S3 was meant to measure.
+    The suite's S2 ran right after S1 had sent the identical prompts, so the server's prompt cache replayed them."""
+    import sys
+    sys.path.insert(0, "/root")
+    from bench import v20_speed
+    proc, start_s = _start(model); tag = f"{engine}_{model}_diag"; out_dir = f"/results/{root}/{tag}"; os.makedirs(out_dir, exist_ok=True)
+    try:
+        ret = v20_speed.main(base_url=f"http://127.0.0.1:{PORT}", out_dir=out_dir,
+                             args=f"--engine {engine} --tag {tag} --workers 4 --scenarios S2,S3,S2r,S3b" + (f" --limit {limit}" if limit else ""))
+        _meta(out_dir, {"model": MODEL_PATH[model], "server_start_s": start_s})
+        open(f"{out_dir}/_server.log", "w").write(open("/tmp/server.log").read()[-300000:]); results.commit()
+        return ret
+    finally:
+        proc.terminate()
+
+
+@app.local_entrypoint()
+def diag_all(limit: int = 0):
+    h = [diag.spawn("26b", limit), diag.spawn("e4b", limit)]
+    for x in h:
+        print(json.dumps(x.get(), ensure_ascii=False, default=str)[:3000], flush=True)
 
 
 @app.function(image=eg_image, gpu="L4", volumes={"/results": results}, timeout=60 * 40)

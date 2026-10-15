@@ -119,6 +119,14 @@ class LlamaEngine:
             res = list(ex.map(lambda it: self.one(it, it[which]), items))
         return (time.perf_counter() - t0), res
 
+    def s3b(self, items):
+        """Shared-state second question the way it is used in production: Q1 then immediately Q2 on the same slot,
+        one item at a time, so the state prefix is still in that slot's KV cache. Returns Q2 records (latency, cache_n)."""
+        out = []
+        for it in items:
+            self.one(it, it["question"]); out.append(self.one(it, it["question2"]))
+        return out
+
 
 # ------------------------------------------------------------------ EmbeddingGemma 2
 class EGEngine:
@@ -208,19 +216,31 @@ def main(base_url="", out_dir=".", args="", **kw):
                 f.write(json.dumps({"id": it["id"], "task": task, "gold": it["gold"], "label": it["label"], "tag": tag, **r}, ensure_ascii=False) + "\n")
             f.flush()
         X = None
+
+        def req_stats(res):
+            lat = [r["latency_ms"] for r in res if r.get("latency_ms") is not None]
+            return {"req_p50": float(np.percentile(lat, 50)) if lat else None, "req_p95": float(np.percentile(lat, 95)) if lat else None,
+                    "cache_n_mean": float(np.mean([r.get("cache_n") or 0 for r in res])), "prompt_tokens_mean": float(np.mean([r.get("prompt_tokens") or 0 for r in res])),
+                    "errors": int(sum("error" in r for r in res))}
+
         if "S2" in scen:
             if engine == "eg":
                 wall, res, X, lab_s = eng.batch(its, task, "question"); T["S2_prewarm_labels_s"] = lab_s
             else:
                 wall, res = eng.batch(its, "question")
-            T["S2"] = {"wall_s": wall, "per_item_ms": wall * 1000 / len(its), "items_per_s": len(its) / wall, "acc": score(its, res)}
+            T["S2"] = {"wall_s": wall, "per_item_ms": wall * 1000 / len(its), "items_per_s": len(its) / wall, "acc": score(its, res), **(req_stats(res) if engine != "eg" else {})}
         if "S3" in scen:
             if engine == "eg":
                 wall, res, _, lab_s = eng.batch(its, task, "question2", X=X); T["S3"] = {"wall_s": wall, "per_item_ms": wall * 1000 / len(its), "labels_s": lab_s}
             else:
                 wall, res = eng.batch(its, "question2")
-                T["S3"] = {"wall_s": wall, "per_item_ms": wall * 1000 / len(its), "cache_n_mean": float(np.mean([r.get("cache_n") or 0 for r in res])),
-                           "prompt_tokens_mean": float(np.mean([r.get("prompt_tokens") or 0 for r in res]))}
+                T["S3"] = {"wall_s": wall, "per_item_ms": wall * 1000 / len(its), **req_stats(res)}
+        if "S2r" in scen and engine != "eg":  # S2 again after S3: does order (what the slots hold) explain a difference?
+            wall, res = eng.batch(its, "question")
+            T["S2r"] = {"wall_s": wall, "per_item_ms": wall * 1000 / len(its), **req_stats(res)}
+        if "S3b" in scen and engine != "eg":  # the production shape: Q1 then Q2 on the same slot, one item at a time
+            res = eng.s3b(its)
+            T["S3b"] = {"q2_" + k: v for k, v in summarize([r["latency_ms"] for r in res if r.get("latency_ms") is not None]).items()} | req_stats(res)
         T["task_s"] = round(time.time() - t_all, 1); summ["tasks"][task] = T
         print(f"[{tag}] {task}: " + json.dumps({k: v for k, v in T.items() if k in ("S1", "S1_acc", "S2", "S3")}, ensure_ascii=False)[:400], flush=True)
     f.close()

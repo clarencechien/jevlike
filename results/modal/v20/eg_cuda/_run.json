@@ -1,0 +1,6 @@
+{
+ "gpu": "NVIDIA L4, 3776 MiB",
+ "ts": "2026-10-15T01:54:15Z",
+ "device": "cuda",
+ "cpu": "1\nmodel name\t: unknown"
+}

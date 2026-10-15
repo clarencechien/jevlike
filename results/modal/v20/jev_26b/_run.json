@@ -1,0 +1,7 @@
+{
+ "gpu": "NVIDIA L4, 20091 MiB",
+ "ts": "2026-10-15T02:02:00Z",
+ "model": "/models/gemma-4-26B-A4B-it-UD-Q4_K_M.gguf",
+ "server": "version: 0.5.0-dev (build 1, commit 99b9548)\nbuilt with GNU 11.4.0 for Linux x86_64",
+ "server_start_s": 11.0
+}

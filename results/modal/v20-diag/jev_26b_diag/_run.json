@@ -1,0 +1,6 @@
+{
+ "gpu": "NVIDIA L4, 20092 MiB",
+ "ts": "2026-10-15T02:10:14Z",
+ "model": "/models/gemma-4-26B-A4B-it-UD-Q4_K_M.gguf",
+ "server_start_s": 19.9
+}

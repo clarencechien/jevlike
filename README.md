@@ -14,15 +14,16 @@
    llama.cpp 直接用 **≥ b11371**（v11 驗證 26B 換到這版 check-lock 0 失敗），之後 Clef 也用同一個 build。
 2. **選配：Clef 27B 實測**：`docs/handoff-gb10-clef.md`。主線的真實資料標好之後做最有用（§6 要用到）；沒有真實資料也可以先做 §1–§5（速度與記憶體）。
    回答「SPC（合成資料 97% 對 86%）與重排序（0.878 對 0.840）要不要改走 Clef 27B」，判定門檻在該檔 §7。
-3. **不要做**：訓練 LoRA、用 jevify、讓判斷跟生成共用帶 `--lora` 的 server（v11 證據見 `results/16-clef-llamacpp.md` §4）；不改 `decide/prompt.py` 的模板。
+3. **輸入怎麼準備**：`docs/input-guide.md`（v12）。log／JSON 進判斷層前先用程式算好數字比較、拿掉無關欄位、填成中文句子模板；真實 log 的驗證步驟在 `docs/handoff-v12-input-format.md` §7（主線的真實資料標好後做）。
+4. **不要做**：訓練 LoRA、用 jevify、讓判斷跟生成共用帶 `--lora` 的 server（v11 證據見 `results/16-clef-llamacpp.md` §4）；不改 `decide/prompt.py` 的模板。
 
 要先讀的背景：本檔 §1–§3、`results/REPORT.md` §0／§4／§5、`results/16-clef-llamacpp.md` 的「一句話」。
 
 ## 1. 一句話
 
-值得做、用現有的 Gemma 4 26B-A4B 自己做、不採購 Jev。十類題七類零標註 ≥ 98%；弱的三類靠改寫判斷標準與幾十筆校準；一次判斷 L4 上 0.2 秒（共用現場狀況 0.07 秒）。推理引擎 llama-server 與 SGLang 都可用，SGLang 批次快 5 倍，前提是 prompt 帶 `<bos>`。十一輪實驗約 16 GPU 小時、約 $28.5。在 JevBench 公開子集自跑 88.7%，高於同派的 Cygnet 與訓練過的 Open-Jev。Cloudflare 開源的 Clef 27B 在我們的題上更準（96.6% 對 95.5%）；llama.cpp 已原生支援、Q8 可用，但速度沒贏，判斷層先不換（v10、v11）。
+值得做、用現有的 Gemma 4 26B-A4B 自己做、不採購 Jev。十類題七類零標註 ≥ 98%；弱的三類靠改寫判斷標準與幾十筆校準；一次判斷 L4 上 0.2 秒（共用現場狀況 0.07 秒）。推理引擎 llama-server 與 SGLang 都可用，SGLang 批次快 5 倍，前提是 prompt 帶 `<bos>`。十二輪實驗約 16.5 GPU 小時、約 $29.5。在 JevBench 公開子集自跑 88.7%，高於同派的 Cygnet 與訓練過的 Open-Jev。Cloudflare 開源的 Clef 27B 在我們的題上更準（96.6% 對 95.5%）；llama.cpp 已原生支援、Q8 可用，但速度沒贏，判斷層先不換（v10、v11）。輸入要先用程式算好數字比較、拿掉無關欄位，比 JSON 或文字的選擇重要得多（v12，`docs/input-guide.md`）。
 
-## 2. 走到哪裡了（十一輪，每輪先寫門檻再跑）
+## 2. 走到哪裡了（十二輪，每輪先寫門檻再跑）
 
 | 輪 | 交接文件 | 問的問題 | 答案 | 結果檔 |
 |---|---|---|---|---|
@@ -37,6 +38,7 @@
 | v9 | `handoff-v9-nine-places.md` | ByteByteGo 九格裡沒測過的四格 + 三段式門檻 | 護欄（26B 攔 96%，誤擋 5%）、LLM 評分（99.7%）、三段式門檻（11/12）成立；工具守門 90%（數字與範圍交給規則）、重排序 nDCG@5 0.84（差 0.01）沒過；修正 v7 門檻方法 | `14-nine-places.md`、`data/v9/` |
 | v10 | `handoff-v10-clef.md` | Cloudflare 開源的 Clef（訓練判斷頭）能不能取代我們？ | Clef 27B D0 96.6%（SPC +11 點）、重排序 0.879 過、三題一起不掉、護欄外部題 98%；flash 93.0%。但判斷頭接不上推論引擎、量化版不等價（FP8 NaN），只能 transformers BF16，單題 61–87 ms 不比我們快 → 不換，27B 留作弱題與重排序候選 | `15-clef.md`、`modal_clef.py` |
 | v11 | `handoff-v11-clef-llamacpp.md` | llama.cpp 原生支援 Clef 之後能不能換？同底模的 jevify LoRA 有沒有用？ | llama-server 版與原版等價、Q8／Q4 可用；同一張 L40S 上 flash Q8 48 ms 對 26B 56 ms、27B Q8 142 ms，速度沒贏 → 不換，27B Q8 可上 GB10。jevify D0 92.5% 比零訓練差，不採用；`--lora` 混用會拖慢判斷 3 倍。26B 換 b11371 不漂 | `16-clef-llamacpp.md`、`modal_clef_gguf.py` |
+| v12 | `handoff-v12-input-format.md` | 輸入要給 JSON log 還是文字？要不要先算好？ | 格式平均差 < 2 點（單類 5–13 點、方向不一）；先算好數字比較 +8～+15 點（26B；E4B +22、Clef +9），雜訊欄位 −3.6 點；最好的是中文句子＋衍生值。跨線範圍怎麼寫都 50%，交給規則 | `17-input-format.md`、`docs/input-guide.md`、`data/v12/` |
 
 ## 3. 效果多好（D0 test 每 task 100 筆，L4 / L40S）
 
@@ -73,16 +75,17 @@ python3 bench/verify.py && python3 bench/thresholds.py && python3 bench/verify.p
 
 ### 結構
 
-- `PLAN.md`；`docs/` 交接文件（每份先寫門檻，跑完在 §結論填三選一）
+- `PLAN.md`；`docs/` 交接文件（每份先寫門檻，跑完在 §結論填三選一）、`input-guide.md`（輸入準備指南）
 - `modal_clef_gguf.py` llama.cpp b11371 編譯與 Clef GGUF（L4／L40S／H100）
 - `modal_clef.py` Clef／Clef-flash 入口（釘版下載、L40S／H100）；`decide/clef_adapter.py` 題目轉 Clef schema
 - `modal_app.py` llama-server 入口（`MODELS`：26b UD-Q4_K_M / q8 / bf16 / e4b / e2b）；`modal_sglang.py` SGLang 入口（fp8 / bf16，L40S 需自帶 fused-MoE Triton 設定檔）
 - `decide/` `prompt.py`（模板：`/apply-template` 學來，或 SGLang 用的 `GEMMA4_TEMPLATE_NOTHINK_BOS`；T1 變體）、`client.py`（llama `/completion`；SGLang `/generate` 指定 token id / `input_ids`；每次回傳 `option_mass`）、`labels.py`（字母單 token 自檢）
 - `data/` `seeds/`、`gen/`、`hard/`、`rules/`、`synthetic/`（D0 + MANIFEST + SPOTCHECK）、`heldout/`、`perturbed/`（D1）、`blind/`（Gemini 盲寫 D2）、`tokenized/`（llama-server 切好的 token id）
-- `bench/` `run_local.py`（GB10 本機跑）、`clef_under_load.py`（GB10：生成負載下的 Clef 延遲）、`analyze_gb10_clef.py`（26B 對 Clef，合成或真實資料）、`rerank.py`、`smoke*.py`、`latency.py`、`accuracy.py`、`permute.py`、`packed.py`、`v4bench.py`、`jevbench.py`、`tokenize_dump.py`、`option_mass.py`、`thresholds.py`、`analyze*.py`（v2 / ladder / v4–v10）、`clef_run.py`（Clef，transformers）、`systemone_bench.py`（llama-server `/v1/systemone` 與 jevify）、`lora_mix.py`、`verify.py`（含 `--check-lock`）、`render_html_report.py`
+- `bench/` `run_local.py`（GB10 本機跑）、`clef_under_load.py`（GB10：生成負載下的 Clef 延遲）、`analyze_gb10_clef.py`（26B 對 Clef，合成或真實資料）、`rerank.py`、`smoke*.py`、`latency.py`、`accuracy.py`、`permute.py`、`packed.py`、`v4bench.py`、`jevbench.py`、`tokenize_dump.py`、`option_mass.py`、`thresholds.py`、`analyze*.py`（v2 / ladder / v4–v12）、`clef_run.py`（Clef，transformers）、`systemone_bench.py`（llama-server `/v1/systemone` 與 jevify）、`lora_mix.py`、`verify.py`（含 `--check-lock`）、`render_html_report.py`
 - `data/v9/` 護欄、工具守門、評分、重排序四份資料（產生器、抽查、Gemini 盲寫外部題）
+- `data/v12/` 一個事件五種寫法（T0／T1／J0／J1／JN）× 六類（產生器、MANIFEST、兩輪盲審）；`bench/v12_formats.py` 一次跑五種寫法
 - `data/jevbench/` JevBench 公開 231 題（MIT，釘版）；`third_party/jevbench/` 評分 harness（MIT）
-- `results/` 分項報告 `00`–`16`、`REPORT.md`、`cost.md`、`thresholds.lock.json`、`fig/`、`modal/`（原始 logprobs）
+- `results/` 分項報告 `00`–`17`、`REPORT.md`、`cost.md`、`thresholds.lock.json`、`fig/`、`modal/`（原始 logprobs）
 
 ### 踩過的坑（接 GB10 時先看）
 
@@ -91,6 +94,7 @@ python3 bench/verify.py && python3 bench/thresholds.py && python3 bench/verify.p
 - **前綴 cache**：llama-server 開 `--swa-full`，同一 slot 順序送；SGLang 先暖一題再整批。多題排成一列一個前向（packed）在 Gemma 4 上會讓後面的題答案變，不用。
 - **選項順序**：弱題兩成會因順序改答案，上線順序固定、校準用同一順序。
 - **信心**：raw 信心平均 0.99，門檻用校準後信心；`thresholds.lock.json` + `--check-lock` 當 CI。
+- **輸入**：要比數字的題沒先算好會掉 8–15 點而且錯得很有把握；不要把整筆 JSON log 直接丟進去（v12，`docs/input-guide.md`）。
 - **SGLang 重跑**：帶 `<bos>` 99.7%，加 `--enable-deterministic-inference` 99.85%（單題慢三成）；`gemma4-mtp` 映像的 `/v1/tokenize` 會崩，自檢改走 HF tokenizer。
 
 ## 5. 參考：別人怎麼做、我們借鏡了什麼

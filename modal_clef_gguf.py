@@ -29,6 +29,7 @@ GGUF = {  # name -> (repo, revision, file); pinned 2026-10-03
     "clef-q4": ("ggml-org/Clef-GGUF", "5f70656b6670c65eb85ad07a11efe211b5f211bd", "Clef-Q4_K_M.gguf"),
 }
 OURS_26B = "gemma-4-26B-A4B-it-UD-Q4_K_M.gguf"  # already in the models volume root (modal_app.py)
+OURS_E4B = "gemma-4-E4B-it-Q8_0.gguf"
 
 app = modal.App("gb10-decide-v11")
 models = modal.Volume.from_name("gb10-decide-models", create_if_missing=True)
@@ -112,8 +113,8 @@ def _run(name, which, args, extra):
     import sys
 
     sys.path.insert(0, "/root")
-    if name == "26b":
-        model_path = f"/models/{OURS_26B}"
+    if name in ("26b", "e4b"):  # e4b: v12 (input format), same server flags as 26B
+        model_path = f"/models/{OURS_26B if name == '26b' else OURS_E4B}"
         # same flags as modal_app.start_server (v1–v9), so --check-lock compares like with like
         server_extra = ["-c", "16384", "-np", "4", "--jinja", "--reasoning-budget", "0", *extra.split()]
     else:

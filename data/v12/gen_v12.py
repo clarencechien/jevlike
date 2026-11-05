@@ -144,9 +144,10 @@ class SevNg(Fam):
 
 
 class SevStations(Fam):
+    enum_zh = {"machine_state": {"stopped": "停機"}}
     def sample(self, rng):
-        a = {"line": rng.choice(LINES), "device": rng.choice(MOUNTERS), "alarm": rng.choice(["吸料失敗連續停機", "置件頭原點異常", "供料器卡料"]),
-             "waiting_stations": rng.randint(2, 5)}
+        a = {"line": rng.choice(LINES), "device": rng.choice(MOUNTERS), "alarm": rng.choice(["吸料失敗連續 5 次", "置件頭原點異常", "供料器卡料"]),
+             "machine_state": "stopped", "waiting_stations": rng.randint(2, 5)}
         b = dict(a, waiting_stations=0)
         return a, b, "numeric", None
 
@@ -157,7 +158,7 @@ class SevStations(Fam):
         return "C" if f["waiting_stations"] >= 2 else "B"
 
     def text(self, f, d=None):
-        t = f"{f['line']} {f['device']} 因{f['alarm']}停機，因此停下等待的其他站數：{f['waiting_stations']}"
+        t = f"{f['line']} {f['device']} 因{f['alarm']}{self.enum_zh['machine_state'][f['machine_state']]}，因此停下等待的其他站數：{f['waiting_stations']}"
         if d:
             t += f"（連同本站共 {d['stations_affected_total']} 站停著）"
         return t
@@ -684,7 +685,8 @@ class ToolFam(Fam):
             k, (lo, hi) = next(iter(f["param_spec"].items()))
             v = p[k]
             d["param_within_spec"] = _inside(v, lo, hi)
-            d["param_beyond_spec_by"] = 0 if _inside(v, lo, hi) else round(v - hi if v > hi else v - lo, 2)
+            d["param_vs_spec"] = "範圍內" if _inside(v, lo, hi) else ("高於上限" if v > hi else "低於下限")
+            d["param_beyond_spec_by"] = 0 if _inside(v, lo, hi) else round(v - hi if v > hi else lo - v, 2)
         return d
 
     def gold(self, f):
@@ -706,7 +708,7 @@ class ToolFam(Fam):
             t += f"\n（工具類型：{d['access']}；{self.derived_bool_zh['reversible'][0 if d['reversible'] else 1]}；影響線數 {d['lines_affected']}；"
             t += self.derived_bool_zh["target_in_caller_lines"][0 if d["target_in_caller_lines"] else 1]
             if "param_within_spec" in d:
-                t += f"；{self.derived_bool_zh['param_within_spec'][0 if d['param_within_spec'] else 1]}，超出量 {s(d['param_beyond_spec_by'])}"
+                t += f"；{self.derived_bool_zh['param_within_spec'][0 if d['param_within_spec'] else 1]}（{d['param_vs_spec']}，超出量 {s(d['param_beyond_spec_by'])}）"
             t += "）"
         return t + f"\n情境：{f['context']}"
 

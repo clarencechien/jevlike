@@ -1,0 +1,31 @@
+{
+ "mode": "coherence",
+ "variant": null,
+ "tasks": {
+  "m_alarm_severity": {
+   "n": 100,
+   "acc_raw": 0.84,
+   "s": 55.8
+  },
+  "m_alarm_category": {
+   "n": 100,
+   "acc_raw": 0.99,
+   "s": 43.6
+  },
+  "q_spc_action": {
+   "n": 100,
+   "acc_raw": 0.87,
+   "s": 47.3
+  },
+  "q_defect_root": {
+   "n": 100,
+   "acc_raw": 0.98,
+   "s": 47.3
+  },
+  "x_ticket_route": {
+   "n": 100,
+   "acc_raw": 1.0,
+   "s": 51.9
+  }
+ }
+}

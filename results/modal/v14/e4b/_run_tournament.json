@@ -1,0 +1,9 @@
+{
+ "mode": "tournament",
+ "n": 300,
+ "acc_all": 0.8966666666666666,
+ "wall_s": 428.3,
+ "gpu": "NVIDIA L4",
+ "model": "/models/gemma-4-E4B-it-Q8_0.gguf",
+ "server": "llama.cpp b11371"
+}

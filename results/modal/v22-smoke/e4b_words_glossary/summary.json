@@ -1,0 +1,11 @@
+{
+ "engine": "e4b",
+ "arm": "words_glossary",
+ "n": 10,
+ "asked": 10,
+ "skipped": 0,
+ "wall_s": 1.0,
+ "latency_p50_ms": 275.8,
+ "option_mass_mean": 0.9999,
+ "errors": 0
+}

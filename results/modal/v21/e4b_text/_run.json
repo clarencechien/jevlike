@@ -1,0 +1,7 @@
+{
+ "model": "/models/gemma-4-E4B-it-Q8_0.gguf",
+ "mmproj": null,
+ "server": "version: 0.5.0-dev (build 1, commit 99b9548)\nbuilt with GNU 11.4.0 for Linux x86_64",
+ "server_start_s": 9.0,
+ "ts": "2026-10-15T08:38:33Z"
+}

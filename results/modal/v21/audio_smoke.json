@@ -1,0 +1,311 @@
+{
+ "jfk": {
+  "text": "and so my fellow americans ask not what your country can do for you ask what you can do for your country",
+  "latency_ms": 1325,
+  "usage": {
+   "completion_tokens": 24,
+   "prompt_tokens": 359,
+   "total_tokens": 383,
+   "prompt_tokens_details": {
+    "cached_tokens": 0
+   }
+  },
+  "pass": true
+ },
+ "err_window": {
+  "id": "T1__M0__003",
+  "seconds": 7.16,
+  "breeze_text": "然後那時候做了差不多就是 bin就是 bin 設定我在非常 core 的 team",
+  "errors": [
+   {
+    "op": "replace",
+    "kind": "F2",
+    "ref": "bing",
+    "hyp": "bin"
+   },
+   {
+    "op": "replace",
+    "kind": "F2",
+    "ref": "bing 對",
+    "hyp": "bin 設 定"
+   }
+  ],
+  "transcribe": {
+   "text": "然後那時候做的差不多就是冰,就是冰水。 我在非常酷的Thing。",
+   "latency_ms": 759,
+   "usage": {
+    "completion_tokens": 20,
+    "prompt_tokens": 290,
+    "total_tokens": 310,
+    "prompt_tokens_details": {
+     "cached_tokens": 77
+    }
+   }
+  },
+  "has_latin": true,
+  "has_traditional_marker": true,
+  "has_simplified_marker": false,
+  "q1_audio_completion": {
+   "error": "/completion 400: {\"error\":{\"code\":400,\"message\":\"Failed to tokenize prompt\",\"type\":\"invalid_request_error\"}}",
+   "probs": {}
+  },
+  "q1_audio": {
+   "probs": {
+    "A": 0.9375801636020806,
+    "B": 0.06241983639791946
+   },
+   "raw_logprobs": {
+    "A": -0.06448517739772797,
+    "B": -2.773904323577881
+   },
+   "option_mass": 0.9999678400703528,
+   "latency_ms": 494.27818500000063,
+   "first_token": "A",
+   "prompt_tokens": 360,
+   "server_cache_n": 0,
+   "server_prompt_ms": 448.477,
+   "top_tokens": [
+    {
+     "token": "A",
+     "logprob": -0.06448517739772797
+    },
+    {
+     "token": "B",
+     "logprob": -2.773904323577881
+    },
+    {
+     "token": "А",
+     "logprob": -11.045223236083984
+    },
+    {
+     "token": "C",
+     "logprob": -11.352739334106445
+    },
+    {
+     "token": "Α",
+     "logprob": -13.773441314697266
+    },
+    {
+     "token": "a",
+     "logprob": -13.916178703308105
+    },
+    {
+     "token": "是",
+     "logprob": -14.692000389099121
+    },
+    {
+     "token": "",
+     "logprob": -14.743427276611328
+    }
+   ],
+   "route": "chat_logprobs"
+  },
+  "q1_text": {
+   "probs": {
+    "A": 0.8364580484026723,
+    "B": 0.16354195159732757
+   },
+   "missing": [],
+   "latency_ms": 58.8570990000008,
+   "option_mass": 0.9999785256000491,
+   "first_token": "A",
+   "first_token_id": 236776,
+   "prompt_tokens": 172,
+   "tokens_cached": 172,
+   "raw_logprobs": {
+    "A": -0.17860038578510284,
+    "B": -1.8107072114944458
+   },
+   "top_tokens": [
+    {
+     "token": "A",
+     "logprob": -0.17860038578510284
+    },
+    {
+     "token": "B",
+     "logprob": -1.8107072114944458
+    },
+    {
+     "token": "C",
+     "logprob": -11.142269134521484
+    },
+    {
+     "token": "А",
+     "logprob": -12.045595169067383
+    },
+    {
+     "token": "",
+     "logprob": -14.561756134033203
+    },
+    {
+     "token": "Α",
+     "logprob": -15.027783393859863
+    },
+    {
+     "token": "N",
+     "logprob": -15.295083045959473
+    },
+    {
+     "token": "a",
+     "logprob": -16.506759643554688
+    },
+    {
+     "token": "```",
+     "logprob": -16.712072372436523
+    },
+    {
+     "token": "🅰",
+     "logprob": -17.297550201416016
+    }
+   ],
+   "server_prompt_ms": 37.208,
+   "server_predicted_ms": 0.001,
+   "server_prompt_n": 5,
+   "server_cache_n": 167
+  }
+ },
+ "clean_window": {
+  "id": "T1__M0__002",
+  "seconds": 7.04,
+  "breeze_text": "那所以你這邊就是剛剛講做這個 search engine對然後那時候就加入微軟 search engine team",
+  "errors": [],
+  "transcribe": {
+   "text": "那所以你就是剛剛講做這個search engine對然後那時候就加入我軟搜尋引擎聽",
+   "latency_ms": 665,
+   "usage": {
+    "completion_tokens": 22,
+    "prompt_tokens": 287,
+    "total_tokens": 309,
+    "prompt_tokens_details": {
+     "cached_tokens": 105
+    }
+   }
+  },
+  "has_latin": true,
+  "has_traditional_marker": true,
+  "has_simplified_marker": false,
+  "q1_audio_completion": {
+   "error": "/completion 400: {\"error\":{\"code\":400,\"message\":\"Failed to tokenize prompt\",\"type\":\"invalid_request_error\"}}",
+   "probs": {}
+  },
+  "q1_audio": {
+   "probs": {
+    "A": 0.9666696265823046,
+    "B": 0.03333037341769534
+   },
+   "raw_logprobs": {
+    "A": -0.03390367701649666,
+    "B": -3.4012913703918457
+   },
+   "option_mass": 0.9999948126956322,
+   "latency_ms": 179.2974909999998,
+   "first_token": "A",
+   "prompt_tokens": 363,
+   "server_cache_n": 56,
+   "server_prompt_ms": 134.616,
+   "top_tokens": [
+    {
+     "token": "A",
+     "logprob": -0.03390367701649666
+    },
+    {
+     "token": "B",
+     "logprob": -3.4012913703918457
+    },
+    {
+     "token": "А",
+     "logprob": -12.372626304626465
+    },
+    {
+     "token": "Α",
+     "logprob": -15.18506145477295
+    },
+    {
+     "token": "",
+     "logprob": -15.198915481567383
+    },
+    {
+     "token": "C",
+     "logprob": -15.324532508850098
+    },
+    {
+     "token": "是",
+     "logprob": -16.19547462463379
+    },
+    {
+     "token": "🅰",
+     "logprob": -16.54505729675293
+    }
+   ],
+   "route": "chat_logprobs"
+  },
+  "q1_text": {
+   "probs": {
+    "A": 0.9671025992552669,
+    "B": 0.03289740074473312
+   },
+   "missing": [],
+   "latency_ms": 51.64902799999993,
+   "option_mass": 0.9999977679697125,
+   "first_token": "A",
+   "first_token_id": 236776,
+   "prompt_tokens": 178,
+   "tokens_cached": 178,
+   "raw_logprobs": {
+    "A": -0.033452920615673065,
+    "B": -3.4143638610839844
+   },
+   "top_tokens": [
+    {
+     "token": "A",
+     "logprob": -0.033452920615673065
+    },
+    {
+     "token": "B",
+     "logprob": -3.4143638610839844
+    },
+    {
+     "token": "А",
+     "logprob": -13.878669738769531
+    },
+    {
+     "token": "C",
+     "logprob": -14.239960670471191
+    },
+    {
+     "token": "",
+     "logprob": -15.433837890625
+    },
+    {
+     "token": "a",
+     "logprob": -16.069135665893555
+    },
+    {
+     "token": "N",
+     "logprob": -16.247331619262695
+    },
+    {
+     "token": "L",
+     "logprob": -16.612213134765625
+    },
+    {
+     "token": "D",
+     "logprob": -17.186429977416992
+    },
+    {
+     "token": "M",
+     "logprob": -17.220081329345703
+    }
+   ],
+   "server_prompt_ms": 31.685,
+   "server_predicted_ms": 0.001,
+   "server_prompt_n": 5,
+   "server_cache_n": 173
+  }
+ },
+ "check1_probs_readable": true,
+ "check2_transcription": true,
+ "check3_q1_direction": false,
+ "all_pass": false,
+ "server_start_s": 9.8
+}

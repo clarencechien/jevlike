@@ -112,6 +112,18 @@ v11（`results/16-clef-llamacpp.md`）之後，Clef 改走 **llama-server 原生
 6. 判定：27B 單題 ≤ 26B 的 2 倍、記憶體放得下，才把 SPC 與重排序改走 27B；否則維持 26B。真實資料上 SPC 的差距要重量，合成資料的 +11 點不能直接搬。
 7. 不要用 jevify 或任何通用 LoRA（v11：比零訓練差）；也不要讓判斷題跟生成共用一個帶 `--lora` 的 server（判斷延遲會被拖到 3 倍以上）。
 
+## 6c. 選配：v12 留下的兩件（半天以內）
+
+v12（`results/17-v12.md`）量了 Gemma 4 12B／31B 與「低信心才思考」，結論都是「預設不換」，但有兩件只有 GB10 能回答：
+1. **31B Q8 的延遲**（`unsloth/gemma-4-31B-it-GGUF` @ `c1ac76e99d5513b141e8adde7288b85c3f9c32ec`，32.6 GB）。合成資料 D0 96.5%、JevBench 公開 91.3%，但 L40S 上單題 181 ms 是 26B 的 3 倍。GB10 記憶體夠開 `-c 16384 -np 4 --swa-full`。判定：單題 ≤ 26B 的 2 倍、真實資料弱題 ≥ 26B + 3 點，才考慮讓弱題改走 31B。
+2. **只對 SPC、UPH 開思考**：v12 是事後看到這兩類有效（觸發列 0.50 → 0.79／1.00），要先重新寫門檻；跑法是 `bench/think_tail.py`，server 不帶 `--reasoning-budget 0`。L4 上每題 11–19 秒，GB10 若超過 5 秒就只適合事後批次。急迫度不要開（變差）。
+12B 不用量：L4 上已經比 26B 慢，GB10 上 26B-A4B 仍是較好的單一選擇。
+3. **MTP 草稿頭只給生成 server**（v18，`results/22-mtp.md`）：`--model-draft <unsloth MTP/mtp-gemma-4-26B-A4B-it-Q8_0.gguf> --spec-type draft-mtp --spec-draft-n-max 4`，L4 上生成 1.72×。判斷 server **不開**，也不要讓判斷跟開了 MTP 的生成共用一個 server：字母機率重跑會變（最大差 0.9）、負載下判斷更慢。GB10 若兩個 server 記憶體夠就分開跑；不夠就生成也不開。
+
+## 6d. 選配：v21 的 ASR 抓錯閘門在 GB10 重量（半天）
+
+`docs/handoff-v21-asr-error-gate.md` §7 Phase 0–2 在 GB10 跑一次（Breeze 要 aarch64 的 CUDA torch），只為了 G0 與 G5 的 GB10 數字；結論在 L4 上已經出來（讀文字抓不到 ASR 的錯，閘門用 Breeze 自己的 logprob），不會因為換卡改變。
+
 ## 7. 你會踩到的坑（都踩過了）
 
 - `<bos>`：HF tokenizer 引擎（SGLang、vLLM）對 Gemma 4 預設不加，llama-server 會加；差 2–3 分。靜態模板已含，smoke 會查 token 數。

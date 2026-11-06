@@ -1,0 +1,13 @@
+{
+ "mode": "deal",
+ "arm": "D100",
+ "k": null,
+ "subset": "",
+ "workers": 4,
+ "n": 300,
+ "acc_all": 0.92,
+ "wall_s": 882.8,
+ "gpu": "NVIDIA L4",
+ "model": "/models/gemma-4-26B-A4B-it-UD-Q4_K_M.gguf",
+ "server": "llama.cpp b11371"
+}

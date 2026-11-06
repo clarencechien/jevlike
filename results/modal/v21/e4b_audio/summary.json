@@ -1,0 +1,10 @@
+{
+ "engine": "e4b",
+ "mode": "audio",
+ "n": 544,
+ "wall_s": 218.6,
+ "latency_p50_ms": 265.06965699999796,
+ "latency_p95_ms": 335.92990599998984,
+ "errors": 0,
+ "option_mass_mean": 1.0
+}

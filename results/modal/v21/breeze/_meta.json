@@ -1,0 +1,16 @@
+{
+ "arm": "Xbrz_l4",
+ "model": "MediaTek-Research/Breeze-ASR-25",
+ "revision": "cffe7ccb404d025296a00758d0a33468bec3a9d0",
+ "dtype": "torch.float16",
+ "device": "cuda",
+ "chunk_length_s": 0,
+ "return_timestamps": true,
+ "language_arg": null,
+ "corpus": "exp5",
+ "model_load_sec": 6.2,
+ "transformers": "5.15.0",
+ "torch": "2.9.0+cu128",
+ "gpu": "NVIDIA L4",
+ "note": "same model/revision/dtype/flags as kikemu Xbrz_gpu (T4 fp16), decoded with generate(output_scores=True) instead of the pipeline; pipeline output kept alongside"
+}

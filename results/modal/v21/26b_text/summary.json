@@ -1,0 +1,10 @@
+{
+ "engine": "26b",
+ "mode": "text",
+ "n": 544,
+ "wall_s": 124.6,
+ "latency_p50_ms": 307.32187799999974,
+ "latency_p95_ms": 418.9305900000022,
+ "errors": 0,
+ "option_mass_mean": 1.0
+}

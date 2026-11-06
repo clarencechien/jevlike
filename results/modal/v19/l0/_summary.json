@@ -1,0 +1,56 @@
+{
+ "mode": "l0",
+ "variant": null,
+ "tasks": {
+  "m_alarm_severity": {
+   "n": 200,
+   "acc_raw": 0.81,
+   "s": 57.1
+  },
+  "m_alarm_category": {
+   "n": 200,
+   "acc_raw": 0.98,
+   "s": 123.2
+  },
+  "m_needs_dispatch": {
+   "n": 200,
+   "acc_raw": 1.0,
+   "s": 33.6
+  },
+  "q_spc_action": {
+   "n": 200,
+   "acc_raw": 0.82,
+   "s": 97.3
+  },
+  "q_defect_root": {
+   "n": 200,
+   "acc_raw": 0.98,
+   "s": 167.1
+  },
+  "p_uph_anomaly": {
+   "n": 200,
+   "acc_raw": 0.92,
+   "s": 35.5
+  },
+  "p_line_change": {
+   "n": 200,
+   "acc_raw": 0.985,
+   "s": 56.4
+  },
+  "x_ticket_route": {
+   "n": 200,
+   "acc_raw": 0.99,
+   "s": 93.8
+  },
+  "x_escalate": {
+   "n": 200,
+   "acc_raw": 1.0,
+   "s": 33.9
+  },
+  "x_10way_intent": {
+   "n": 200,
+   "acc_raw": 0.98,
+   "s": 286.9
+  }
+ }
+}

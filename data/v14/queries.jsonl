@@ -1,0 +1,300 @@
+{"id": "S001-q0", "sop_id": "S001", "style": 0, "state": "A線貼片機一直報真空異常，我看吸嘴孔好像有錫膏殘留，塞住了，吸力值一直往下掉，我先拿通針和超音波清洗機處理一下。", "has_twin": true, "title_leak": false}
+{"id": "S001-q1", "sop_id": "S001", "style": 1, "state": "B Line 的 mounter nozzle 拋料有點嚴重，check 發現真空值不穩卡屑了。晚班下班前記得要照表做 daily 護理跟 blow 氣喔。", "has_twin": true, "title_leak": false}
+{"id": "S001-q2", "sop_id": "S001", "style": 2, "state": "剛剛三線跑0201，阿明說十點多開始真空吸力不夠。我看外觀沒磨損，應該是卡髒污，晚點吃完便當我去拿通針清一下。", "has_twin": true, "title_leak": false}
+{"id": "S002-q0", "sop_id": "S002", "style": 0, "state": "貼片機3號吸嘴前端都已經崩角變形了，拋料率高到不行，放大鏡看已經缺一角，這顆沒救了，要拿新的來換。", "has_twin": true, "title_leak": false}
+{"id": "S002-q1", "sop_id": "S002", "style": 1, "state": "L2的nozzle端面都磨到發白變形了，用放大鏡看已經歪掉，這顆直接報廢退庫，不要再留著，快拿新品來replace。", "has_twin": true, "title_leak": false}
+{"id": "S002-q2", "sop_id": "S002", "style": 2, "state": "剛剛十點半阿明在A線巡檢，發現4號嘴的頭部磨損超嚴重，都已經凹進去了。等一下吃便當前，誰去領一顆新的來換？", "has_twin": true, "title_leak": false}
+{"id": "S003-q0", "sop_id": "S003", "style": 0, "state": "線長，剛剛盤點備用區的鋼帶料槍，發現上面貼的校驗標籤今天到期了，等下是不是要先推去校正台做定期保養和精度量測？", "has_twin": true, "title_leak": false}
+{"id": "S003-q1", "sop_id": "S003", "style": 1, "state": "各位，今天W4的Feeder PM時間到了喔。膠帶跟鋼帶的都要做精度Cal還有上油清潔，大家下午有空先去準備儀器。", "has_twin": true, "title_leak": false}
+{"id": "S003-q2", "sop_id": "S003", "style": 2, "state": "報告，早上十點在L3線，我跟阿榮已經把今天預計要保養的20支膠帶Feeder整理好了，等一下會開始用校正儀確認精度。", "has_twin": true, "title_leak": false}
+{"id": "S004-q0", "sop_id": "S004", "style": 0, "state": "報告，L3貼片機的0402飛達一直送不順，拋料率已經飆到5%了，我先換備品，這支故障的等等送去飛達房維修。", "has_twin": true, "title_leak": false}
+{"id": "S004-q1", "sop_id": "S004", "style": 1, "state": "剛剛A5線那台mounter吸料一直NG，OP說那支feeder好像捲帶卡住，我先把它拔下來貼紅籤，等等走流程送修喔。", "has_twin": true, "title_leak": false}
+{"id": "S004-q2", "sop_id": "S004", "style": 2, "state": "剛剛快吃宵夜時，阿明在L6看高速機，發現12mm飛達一直送不出料，已經卡兩次了。我先拿去送修，等下吃完飯再補單。", "has_twin": true, "title_leak": false}
+{"id": "S005-q0", "sop_id": "S005", "style": 0, "state": "報告，A機打出來的電阻都往X軸偏了0.15mm，換過吸嘴還是一樣偏，這台可能要重新校對相機和打件坐標了。", "has_twin": false, "title_leak": false}
+{"id": "S005-q1", "sop_id": "S005", "style": 1, "state": "欸，B機打BGA一直報vision error，貼出來都偏一邊。技師等一下看要不要跑一下cali，手動調offset好像沒用。", "has_twin": false, "title_leak": false}
+{"id": "S005-q2", "sop_id": "S005", "style": 2, "state": "三線剛吃完宵夜，阿明在顧。剛剛兩點半發現二號機打0402一直打偏，軸向可能歪了，等下看是要對相機還是調補償值。", "has_twin": false, "title_leak": false}
+{"id": "S006-q0", "sop_id": "S006", "style": 0, "state": "新工單的板子送進去直接掉下去，兩邊根本夾不到，看來是之前換線寬度沒設好，有沒有人能來排除一下？", "has_twin": false, "title_leak": false}
+{"id": "S006-q1", "sop_id": "S006", "style": 1, "state": "剛換WO，這批PCB比上一批大，進NXT直接卡在入口動不了，工程師快來幫忙Adj一下，不然要塞線了。", "has_twin": false, "title_leak": false}
+{"id": "S006-q2", "sop_id": "S006", "style": 2, "state": "剛剛十點在三線，阿明說換大板子的時候，機台一直報軌道尺寸異常，他現在先去上廁所了，等等誰去幫他看一下？", "has_twin": false, "title_leak": false}
+{"id": "S007-q0", "sop_id": "S007", "style": 0, "state": "報告，三線這台貼片機剛剛一直亮黃燈，我看底下廢料箱裡面掉了一堆電阻，數量多得有點誇張，大家先過來看一下。", "has_twin": false, "title_leak": false}
+{"id": "S007-q1", "sop_id": "S007", "style": 1, "state": "NPM那台吸嘴好像怪怪的，0201的料一直吸不起來直接進NG箱，drop rate飆很高，巡檢先來幫忙看是feeder還是nozzle有問題？", "has_twin": false, "title_leak": false}
+{"id": "S007-q2", "sop_id": "S007", "style": 2, "state": "已經快12點了，A線阿明這邊的貼片機不知怎搞的，零件一直掉，剛接班的主管也在看，能先派個技術員過來調一下嗎？肚子好餓。", "has_twin": false, "title_leak": false}
+{"id": "S009-q0", "sop_id": "S009", "style": 0, "state": "開機準備時，把置件機的防護蓋打開，機台竟然沒有自動切斷伺服電源，紅燈也沒亮，這要走哪張自主檢查的流程？", "has_twin": false, "title_leak": false}
+{"id": "S009-q1", "sop_id": "S009", "style": 1, "state": "剛剛做完PM，要測NXT那台的E-Stop跟外罩感應，結果拍下紅色香菇頭機台還在動，這要照哪本SOP來複查啊？", "has_twin": false, "title_leak": false}
+{"id": "S009-q2", "sop_id": "S009", "style": 2, "state": "剛剛早上八點跟阿明在D3線，開機前在拉防護罩跟壓那顆紅鈕，燈號反應怪怪的。不知是哪份規範，老大能貼一下嗎？", "has_twin": false, "title_leak": false}
+{"id": "S014-q0", "sop_id": "S014", "style": 0, "state": "現在鋼板表面一直有殘留，刮不乾淨，印出來的錫膏量也太厚了，我是不是要先把下壓公斤數調大，還是速度要放慢啊？", "has_twin": false, "title_leak": false}
+{"id": "S014-q1", "sop_id": "S014", "style": 1, "state": "這批新 model 的板子印出來超薄，OP問說要不要調整 squeegee 的 pressure 和 speed？有人知道這顆要調多少嗎？", "has_twin": false, "title_leak": false}
+{"id": "S014-q2", "sop_id": "S014", "style": 2, "state": "剛剛交接完，三線這邊阿榮說換了0.12的鋼板後一直少錫。現在都快十二點了組長還在看，這顆的下壓力跟速度要怎麼改？", "has_twin": false, "title_leak": false}
+{"id": "S008-q0", "sop_id": "S008", "style": 0, "state": "新開案這批板子進去機台後，相機一直抓不到板角那兩個金屬小圓點，程式一直報警卡住無法定位，有人能來幫忙看設定嗎？", "has_twin": false, "title_leak": false}
+{"id": "S008-q1", "sop_id": "S008", "style": 1, "state": "NPI這款新板子剛上，跑第一片機台就報error說找不到對位點，照相一直fail，工程師能來調一下prog的參數嗎？", "has_twin": false, "title_leak": false}
+{"id": "S008-q2", "sop_id": "S008", "style": 2, "state": "S3線剛吃完午餐開工，阿明和課長都在這，這片新板子的定位點亮度和形狀怪怪的，光學鏡頭一直對不準，現在停線中，快來救。", "has_twin": false, "title_leak": false}
+{"id": "S015-q0", "sop_id": "S015", "style": 0, "state": "2台印刷機剛才嗶嗶叫，看螢幕是自動清潔那個紙捲已經到底了，現在整條線停下來，誰去拿一捲新的來換？", "has_twin": false, "title_leak": false}
+{"id": "S015-q1", "sop_id": "S015", "style": 1, "state": "A線的OP說DEK一直Alarm，好像是擦Stencil的那卷paper用完了，IPA也快見底，誰有空幫忙set一下？", "has_twin": false, "title_leak": false}
+{"id": "S015-q2", "sop_id": "S015", "style": 2, "state": "剛剛11點半在L5跟阿明交接，課長在旁邊盯，結果印刷機螢幕跳提示說紙捲沒了。阿明已經去庫房拿了，我們這組先記錄。", "has_twin": false, "title_leak": false}
+{"id": "S011-q0", "sop_id": "S011", "style": 0, "state": "報告，目前生產中這張鋼網IC腳位的孔壁已經嚴重拉扯變形，刷出來的錫膏都糊掉，這張應該沒救了，要準備申請汰換。", "has_twin": true, "title_leak": false}
+{"id": "S011-q1", "sop_id": "S011", "style": 1, "state": "剛剛量了一下，這張 stencil 的張力剩不到 20，四個角都鬆掉了，用 squeegee 刷會滲錫，這片應該要直接走 NG 報退了。", "has_twin": true, "title_leak": false}
+{"id": "S011-q2", "sop_id": "S011", "style": 2, "state": "剛剛三線在下午兩點交接時，組長阿明發現鋼網表面有條很深的劃痕，錫膏會卡在上面，這張看來是毀了，要請設備來開單判定。", "has_twin": true, "title_leak": false}
+{"id": "S013-q0", "sop_id": "S013", "style": 0, "state": "這罐錫膏罐子上的有效日期是到上個禮拜天，而且瓶蓋上的開罐時間寫昨天早上，這罐應該不能用了，要怎麼填單處理？", "has_twin": true, "title_leak": false}
+{"id": "S013-q1", "sop_id": "S013", "style": 1, "state": "線長，D線這罐錫膏開罐時間貼紙是昨晚大夜貼的，早就超過12小時，都乾掉了。這罐是不是要直接開單丟了？", "has_twin": true, "title_leak": false}
+{"id": "S013-q2", "sop_id": "S013", "style": 2, "state": "報告，剛剛兩點跟阿明在A線巡檢，發現印刷機旁有一罐錫膏，瓶底標籤的EXP是上個月底，這罐要找品管簽聯絡單走流程嗎？", "has_twin": true, "title_leak": false}
+{"id": "S010-q0", "sop_id": "S010", "style": 0, "state": "這片剛退下來，上面還殘留很多錫膏，等一下換線要用的那一片也還沒洗，等下誰有空先幫忙處理一下？", "has_twin": true, "title_leak": false}
+{"id": "S010-q1", "sop_id": "S010", "style": 1, "state": "各位OP，老大說今天PM日，那幾片Stencil要拿去洗網機，還有用儀器量一下網面磅數，紀錄表記得要寫。", "has_twin": true, "title_leak": false}
+{"id": "S010-q2", "sop_id": "S010", "style": 2, "state": "剛剛二線的小明說，下午兩點交班前，要先把等等三點準備要上排程的那片網板拿去用藥水洗一洗，順便量一下五個點的數值。", "has_twin": true, "title_leak": false}
+{"id": "S012-q0", "sop_id": "S012", "style": 0, "state": "剛剛從冰箱拿了三罐新的錫膏出來，瓶身現在還冰冰的都是水氣，我先貼上時間標籤，等放滿四個小時再放進機器轉。", "has_twin": true, "title_leak": false}
+{"id": "S012-q1", "sop_id": "S012", "style": 1, "state": "各位，A棟冰箱拿出來的那批錫膏退冰滿4小時了，等等要上SMT line前，記得先用Mixer跑個3分鐘再拿來印刷喔。", "has_twin": true, "title_leak": false}
+{"id": "S012-q2", "sop_id": "S012", "style": 2, "state": "剛剛10點半阿明在L2線，把早上八點拿出來退冰的那罐錫膏放進去黃色那台轉了。有記錄在管制表上，大家確認一下。", "has_twin": true, "title_leak": false}
+{"id": "S017-q0", "sop_id": "S017", "style": 0, "state": "剛出來的板子錫膏都往左邊偏了0.15mm，相機一直讀不到板子的定位點狂報錯，請技術員來看一下。", "has_twin": false, "title_leak": false}
+{"id": "S017-q1", "sop_id": "S017", "style": 1, "state": "DEK那台CCD好像怪怪的，印出來的錫膏跟PAD對不上，X軸要手動Offset一下，不然一直NG。", "has_twin": false, "title_leak": false}
+{"id": "S017-q2", "sop_id": "S017", "style": 2, "state": "剛剛兩點多B線阿榮在弄那台印刷機，現在印出來的錫膏位置整排對不準，相機畫面看起來怪怪的，誰可以來救一下？", "has_twin": false, "title_leak": false}
+{"id": "S018-q0", "sop_id": "S018", "style": 0, "state": "SPI一直報連錫跟缺錫，這批板子要先用溶劑把上面的錫膏全部刷掉，等下重新過一次鋼板印刷，大家注意一下。", "has_twin": false, "title_leak": false}
+{"id": "S018-q1", "sop_id": "S018", "style": 1, "state": "剛剛那幾pcs的SPI一直NG，錫膏整個糊掉，我要先拿去洗板水那邊刷乾淨重印，助焊劑記得要吹乾喔。", "has_twin": false, "title_leak": false}
+{"id": "S018-q2", "sop_id": "S018", "style": 2, "state": "B線阿明剛剛去吃便當，現在一點半SPI狂報少錫，我先手動把這幾片板子的錫膏洗掉重來，等下兩點交接再跟線長講。", "has_twin": false, "title_leak": false}
+{"id": "S016-q0", "sop_id": "S016", "style": 0, "state": "報告，這台印刷機後面沒自動檢測儀，我剛用手動那台量高度只有0.11mm，感覺有點太薄，要照哪張規範處理？", "has_twin": false, "title_leak": false}
+{"id": "S016-q1", "sop_id": "S016", "style": 1, "state": "欸，這條line沒自動量錫膏的機器，OP等下要拿手動那台去測高度，厚度標準要看哪一張表啊？", "has_twin": false, "title_leak": false}
+{"id": "S016-q2", "sop_id": "S016", "style": 2, "state": "今天早上十點在B棟2線，課長跟小張都在現場。因為這條線沒自動測厚儀，我們正要手動量錫膏厚度，但忘了量測步驟。", "has_twin": false, "title_leak": false}
+{"id": "S019-q0", "sop_id": "S019", "style": 0, "state": "新機種今天剛上線，用SAC305無鉛膏。等一下要先過測溫板，確認峰值溫度有沒有到240度，測完爐溫才開始打件。", "has_twin": true, "title_leak": false}
+{"id": "S019-q1", "sop_id": "S019", "style": 1, "state": "大家注意，晚班要交接了。那台Reflow跑SAC305的定期profile時間到了，誰去幫忙拉一下測溫板，確認Peak有在範圍內？", "has_twin": true, "title_leak": false}
+{"id": "S019-q2", "sop_id": "S019", "style": 2, "state": "B線剛來杯珍奶，陳課長也在這。十點半要測那片SAC305新板子的爐溫，測溫線記得黏牢，別像昨天一樣半路掉下來。", "has_twin": true, "title_leak": false}
+{"id": "S023-q0", "sop_id": "S023", "style": 0, "state": "老大，DIP線的錫爐已經滿三個月了，今天是不是要拿那個勺子去撈幾塊錫樣，準備寄給廠商驗金屬成分？", "has_twin": false, "title_leak": false}
+{"id": "S023-q1", "sop_id": "S023", "style": 1, "state": "各位，DIP大爐這週要配合PM，大家記得要用專用勺子舀一點錫湯出來灌模，我們要送Lab驗裡面的成分喔。", "has_twin": false, "title_leak": false}
+{"id": "S023-q2", "sop_id": "S023", "style": 2, "state": "剛剛阿明在三線的爐子旁邊吃早餐，順便問我說，今天15號了，等下中午吃完便當，是不是該去撈那條線的錫滴來送驗了？", "has_twin": false, "title_leak": false}
+{"id": "S022-q0", "sop_id": "S022", "style": 0, "state": "這台過爐用不銹鋼黑盒子的卡榫扣不緊，剛剛出爐打開裡面熱氣超重，感覺熱防護失效了，要先停用嗎？", "has_twin": false, "title_leak": false}
+{"id": "S022-q1", "sop_id": "S022", "style": 1, "state": "老大，量 Temp 的主機剛開機一直跳 Cal 警告，看貼紙 valid date 好像上個月到期，這要送回原廠還是找 QA？", "has_twin": false, "title_leak": false}
+{"id": "S022-q2", "sop_id": "S022", "style": 2, "state": "剛剛兩點多阿明在 S2 線，發現保護主機的那個黃色隔熱棉都炭化黑掉還濕濕的。對了，等一下夜班交接會是幾點開？", "has_twin": false, "title_leak": false}
+{"id": "S021-q0", "sop_id": "S021", "style": 0, "state": "剛剛看了一下爐子的螢幕，O2的PPM已經跑到1200多了，警報器一直在響，請派人過來確認是不是鋼瓶沒氣了。", "has_twin": false, "title_leak": false}
+{"id": "S021-q1", "sop_id": "S021", "style": 1, "state": "欸 Reflow 這台 O2 的 PPM 好像爆了，平常都幾百現在直接破千，這要先停線還是怎樣？老大快來看一下。", "has_twin": false, "title_leak": false}
+{"id": "S021-q2", "sop_id": "S021", "style": 2, "state": "L3這台下班前測值怪怪的，阿明剛剛調完溫控，結果面板上那排PPM值一直往上衝，現在卡在紅色區間，等下誰要接班？", "has_twin": false, "title_leak": false}
+{"id": "S020-q0", "sop_id": "S020", "style": 0, "state": "報告，這款新入料的板子是用Sn63Pb37的有鉛錫膏，第一次上線要設定並測試回焊爐溫，峰值溫度大概設在215度，請問要看哪本規範？", "has_twin": true, "title_leak": false}
+{"id": "S020-q1", "sop_id": "S020", "style": 1, "state": "各位，等一下那款高溫特規有鉛的NPI新板子要試產，我們準備要來跑profile建新參數了，先對一下那條有鉛製程的量測標準喔。", "has_twin": true, "title_leak": false}
+{"id": "S020-q2", "sop_id": "S020", "style": 2, "state": "L2這邊下午兩點阿明跟RD都在，等下要幫那片特殊有鉛新板子測首件爐溫跟調參數，等一下測試板跑完，先幫忙訂便當啦，餓死了。", "has_twin": true, "title_leak": false}
+{"id": "S024-q0", "sop_id": "S024", "style": 0, "state": "報告，三號爐後面排氣管下面的那個收集罐已經快要溢出來了，都是黃色黏稠的液體，需要派人來處理一下。", "has_twin": false, "title_leak": false}
+{"id": "S024-q1", "sop_id": "S024", "style": 1, "state": "剛剛OP反映Reflow那台後面的tank滿了，都是黃色的黏油，等一下PM的時候順便清一下，不然要滴到地板了。", "has_twin": false, "title_leak": false}
+{"id": "S024-q2", "sop_id": "S024", "style": 2, "state": "L3線剛交班，阿明跟組長在看下午要跑的板子，發現二號爐後面管子在滴黃色怪油，積一大推，等下吃完便當誰去弄一下？", "has_twin": false, "title_leak": false}
+{"id": "S025-q0", "sop_id": "S025", "style": 0, "state": "A線爐子出口Sensor一直沒感應到板子，入口已經塞三片了，軌道傳送好像停掉，逼逼叫很大聲，麻煩技術員來看一下。", "has_twin": false, "title_leak": false}
+{"id": "S025-q1", "sop_id": "S025", "style": 1, "state": "慘了，L2的Reflow裡面好像疊板，剛剛聽到匡啷一聲，板子應該是掉到加熱模組下面了，現在conveyor卡死，快來救！", "has_twin": false, "title_leak": false}
+{"id": "S025-q2", "sop_id": "S025", "style": 2, "state": "剛剛三點阿明去吃下午茶，現在C線只有我。結果Wave軌道不知道卡到什麼，板子歪掉直接掉下去，煙一直冒，誰可以過來幫忙？", "has_twin": false, "title_leak": false}
+{"id": "S027-q0", "sop_id": "S027", "style": 0, "state": "RD剛把新機種的Gerber傳過來，等一下準備要試產。這台是第一次做，SPI電腦裡完全沒這型號，我要先去用CAD檔建一個新的。", "has_twin": true, "title_leak": false}
+{"id": "S027-q1", "sop_id": "S027", "style": 1, "state": "這次NPI的CAD檔已經拿到了，SPI目前還沒有這台的file。我先去辦公室用電腦匯入資料建program，待會首件才不會卡住。", "has_twin": true, "title_leak": false}
+{"id": "S027-q2", "sop_id": "S027", "style": 2, "state": "剛剛兩點在C線，老大帶飲料來。他說等一下要試產新機種，Gerber檔我拿到了，先去旁邊電腦把SPI程式建立起來，免得待會手忙腳亂。", "has_twin": true, "title_leak": false}
+{"id": "S028-q0", "sop_id": "S028", "style": 0, "state": "量產中更換了鋼板，結果現在SPI一直報錫少。印刷機那邊已經調過壓力了，看來需要去機台線上改一下檢測參數，不然一直擋線。", "has_twin": true, "title_leak": false}
+{"id": "S028-q1", "sop_id": "S028", "style": 1, "state": "MP這批鋼板有洗過，現在SPI判定高度一直out of spec。印刷那邊微調過了，老大，我可以直接在線上改SPI parameter嗎？", "has_twin": true, "title_leak": false}
+{"id": "S028-q2", "sop_id": "S028", "style": 2, "state": "SMT A線剛剛三點換了張新鋼板，阿明在現場調過刮刀了，但SPI還是狂報偏位。要趕快去機台拉一下參數，不然今天又要加班了。", "has_twin": true, "title_leak": false}
+{"id": "S026-q0", "sop_id": "S026", "style": 0, "state": "報告，過錫爐前那台噴FLUX的頭好像塞住了，噴出來都斷斷續續，板子背面一邊乾一邊濕，要先停機把那個孔清一清。", "has_twin": false, "title_leak": false}
+{"id": "S026-q1", "sop_id": "S026", "style": 1, "state": "DIP線那個噴flux的塞住了啦，噴出來的量超小，板子背面都沒沾到。誰有空去拿酒精把噴頭清一清、再重新調一下？", "has_twin": false, "title_leak": false}
+{"id": "S026-q2", "sop_id": "S026", "style": 2, "state": "剛十點半休完息，跟阿明在DIP B線跑板，發現錫爐前面噴液體那顆頭又在滴滴答答了，噴得不均勻，我先叫他照手冊去通一通。", "has_twin": false, "title_leak": false}
+{"id": "S029-q0", "sop_id": "S029", "style": 0, "state": "報告，第二台AOI一直把沒問題的錫膏判成短路，確認是過殺。再這樣下去沒辦法跑，請工程師來調整參數和光源。", "has_twin": true, "title_leak": false}
+{"id": "S029-q1", "sop_id": "S029", "style": 1, "state": "這台AOI的FP率也太高了吧，一直跳NG結果看都是好的，根本是false alarm。誰能來改一下algorithm，眼睛快瞎了。", "has_twin": true, "title_leak": false}
+{"id": "S029-q2", "sop_id": "S029", "style": 2, "state": "大夜班交接時，阿榮在四線發現檢測機一直把正常的電容判成空焊，整排亮紅燈。等下早會完，再麻煩設備來優化一下演算法。", "has_twin": true, "title_leak": false}
+{"id": "S031-q0", "sop_id": "S031", "style": 0, "state": "剛剛開機前拿黃色那支去測X-ray機台四周，螢幕顯示0.8微西弗，這數值好像超標了，有人能來看一下嗎？", "has_twin": false, "title_leak": false}
+{"id": "S031-q1", "sop_id": "S031", "style": 1, "state": "各位，早班開機前，那台X-ray的偵測器嗶嗶叫，數值直接NG，現在這台還不能run，要先走哪張單啊？", "has_twin": false, "title_leak": false}
+{"id": "S031-q2", "sop_id": "S031", "style": 2, "state": "剛剛十點多，我跟阿珠姐在D線，開機前用那個手持黑色的去量X-ray門縫，指針都沒動耶，是壞了還是安全？", "has_twin": false, "title_leak": false}
+{"id": "S032-q0", "sop_id": "S032", "style": 0, "state": "剛剛照了後面那顆大IC，發現裡面的錫球好幾顆都有空心，泡泡面積看起來有點大，這要對照哪一張判定標準啊？", "has_twin": false, "title_leak": false}
+{"id": "S032-q1", "sop_id": "S032", "style": 1, "state": "Line3 剛過爐完，OP 照 X 光說那顆晶片底下球裡面的洞好像超標了，PE 能來 double check 一下％數嗎？", "has_twin": false, "title_leak": false}
+{"id": "S032-q2", "sop_id": "S032", "style": 2, "state": "剛剛阿明在S2線測那片板子，都快十二點了才發現晶片底下的錫球空心很大，大家先去吃便當，下午再來看這要怎麼退。", "has_twin": false, "title_leak": false}
+{"id": "S030-q0", "sop_id": "S030", "style": 0, "state": "後段測試反映，剛送過去的那批板子有兩片缺件，但剛剛AOI明明是判定Pass。大家趕快把這批貨先扣下來，整批重新人工檢查一次！", "has_twin": true, "title_leak": false}
+{"id": "S030-q1", "sop_id": "S030", "style": 1, "state": "慘了，OQC抽驗到好幾片極性反，可是這批在AOI都有pass。老大說先hold住所有PCBA，等下可能要全部重跑一次檢驗。", "has_twin": true, "title_leak": false}
+{"id": "S030-q2", "sop_id": "S030", "style": 2, "state": "剛剛DIP線阿明說我們Line 2過去的板子有空焊，AOI竟然沒抓到。課長現在在現場發飆，大家快把出貨區的貨拉回來重新確認！", "has_twin": true, "title_leak": false}
+{"id": "S035-q0", "sop_id": "S035", "style": 0, "state": "SPI一直報U3那顆BGA錫量過多，但我看鋼網沒堵住，目檢看好像還可以，這情況是要照哪一條規則來判定要不要洗板？", "has_twin": false, "title_leak": false}
+{"id": "S035-q1", "sop_id": "S035", "style": 1, "state": "爐後AOI一直跳C12缺件，但OP用放大鏡看其實有上錫，這樣到底算OK還是NG？大家有依循那張二檢判定表嗎？", "has_twin": false, "title_leak": false}
+{"id": "S035-q2", "sop_id": "S035", "style": 2, "state": "A線這邊剛吃完便當，課長也在，AOI抓到幾片電阻偏移的，目檢妹妹拿不準要不要放行，是要翻哪一本看怎麼複驗啊？", "has_twin": false, "title_leak": false}
+{"id": "S036-q0", "sop_id": "S036", "style": 0, "state": "剛剛拆開的那批 BGA 還有剩，我先放進 3 號防潮箱了，大家記得去登記。另外，這顆如果受潮，烘烤的溫度和時間要設多少？", "has_twin": true, "title_leak": false}
+{"id": "S036-q1", "sop_id": "S036", "style": 1, "state": "線長，這批 IC 剛拆封沒用完，要塞 dry box 對吧？RH 要低於多少？還有上週受潮的那箱，temp 要調 125 度烤嗎？", "has_twin": true, "title_leak": false}
+{"id": "S036-q2", "sop_id": "S036", "style": 2, "state": "剛剛兩點交班時，二線的阿明說有一批剛拆開的晶片要先冰防潮箱。我想確認一下，這款如果受潮要烤，溫度跟時間要看哪張表？", "has_twin": true, "title_leak": false}
+{"id": "S034-q0", "sop_id": "S034", "style": 0, "state": "剛做完SPI每週點檢，那個標準厚度金屬片的量測高度值跟標籤寫的差了5um，好像有點偏，這要看哪張表調？", "has_twin": false, "title_leak": false}
+{"id": "S034-q1", "sop_id": "S034", "style": 1, "state": "大家，今天週一要跑SPI精度點檢，標準厚度片讀數一直NG，有人知道校驗那張SOP放哪嗎？", "has_twin": false, "title_leak": false}
+{"id": "S034-q2", "sop_id": "S034", "style": 2, "state": "剛10點和阿明在A線，本想去吃早餐，結果被老大抓去拿那盒標準厚度片測SPI鏡頭精度，數據怪怪的，誰有程序書？", "has_twin": false, "title_leak": false}
+{"id": "S038-q0", "sop_id": "S038", "style": 0, "state": "新工單等一下要開線，我現在在準備區把料捲裝進飛達，但刷條碼對料號一直出現錯誤逼逼聲，有人可以來看一下系統嗎？", "has_twin": true, "title_leak": false}
+{"id": "S038-q1", "sop_id": "S038", "style": 1, "state": "等下要 Run 的新機種，現在在備料區裝 Feeder 打 Barcode，系統一直 Show 料號 mismatch，要照哪張張貼表過帳啊？", "has_twin": true, "title_leak": false}
+{"id": "S038-q2", "sop_id": "S038", "style": 2, "state": "剛剛兩點多阿明在 L3 準備區，要把等等新排程的料盤卡進飛達，結果刷槍對料一直連不上主機，有人知道怎麼排除嗎？", "has_twin": true, "title_leak": false}
+{"id": "S033-q0", "sop_id": "S033", "style": 0, "state": "A面換線後的第一片剛過完大爐，準備用光學檢測機核對程式跟標準樣品，請相關人員依照流程過來 double check。", "has_twin": false, "title_leak": false}
+{"id": "S033-q1", "sop_id": "S033", "style": 1, "state": "組長，首pcs板子過完爐了，等一下要跑optical比對，程式跟golden板的點檢是誰要看？幫忙確認一下喔，謝啦！", "has_twin": false, "title_leak": false}
+{"id": "S033-q2", "sop_id": "S033", "style": 2, "state": "剛才早上十點半在L3線，領班阿德已經把開線第一片送進大爐，現在光學機要跟標準品比對，請IPQC趕快過來確認。", "has_twin": false, "title_leak": false}
+{"id": "S037-q0", "sop_id": "S037", "style": 0, "state": "這批 BGA 晶片在產線放超過 12 小時了，點料卡上面的時間已經超時，現在要先退回庫房安排進烤箱重新烘乾。", "has_twin": true, "title_leak": false}
+{"id": "S037-q1", "sop_id": "S037", "style": 1, "state": "這盤 IC 開封卡寫 8hr 限制，結果 OP 忘記收，在外面擺了整整兩天。等一下要先退料送去烤，不能直接打件。", "has_twin": true, "title_leak": false}
+{"id": "S037-q2", "sop_id": "S037", "style": 2, "state": "剛剛三線阿明交班時發現，早上九點拆的那包料在空氣中放了快十個小時，早就超過時限，我已經請他先退回去高溫烤了。", "has_twin": true, "title_leak": false}
+{"id": "S039-q0", "sop_id": "S039", "style": 0, "state": "3號貼片機的第12站電容快要打完了，剩下不到半捲。我已經準備好新料了，誰有空過來幫我雙人核對一下？", "has_twin": true, "title_leak": false}
+{"id": "S039-q1", "sop_id": "S039", "style": 1, "state": "A機台8mm的電阻快low level了，我先拿接料帶對好，巡檢或組長誰能過來嗶一下，幫忙double check？", "has_twin": true, "title_leak": false}
+{"id": "S039-q2", "sop_id": "S039", "style": 2, "state": "剛剛兩點多吃完下午茶，L5線的阿明說他那台三星機器的電容只剩幾圈，他正要動手接，叫我過去當第二確認者。", "has_twin": true, "title_leak": false}
+{"id": "S040-q0", "sop_id": "S040", "style": 0, "state": "剛剛去冰箱拿錫膏，發現最前排是上個月底生產的，後面反而還壓著上上個月的，順序好像擺錯了，大家拿的時候注意一下。", "has_twin": false, "title_leak": false}
+{"id": "S040-q1", "sop_id": "S040", "style": 1, "state": "這批 IC 備料有問題，剛剛 scan P/N 發現有兩個 Lot，新 Lot 居然先發過來，舊的還在架上。要先退回去換嗎？", "has_twin": false, "title_leak": false}
+{"id": "S040-q2", "sop_id": "S040", "style": 2, "state": "早上八點在 SMT 3 線跟阿明交接，開冰箱要拿紅膠，結果發現最外面的保存期限到下個月，裡面卻藏著一罐是這個月底到期的。", "has_twin": false, "title_leak": false}
+{"id": "S041-q0", "sop_id": "S041", "style": 0, "state": "1205工單剛跑完，機台退出來的IC還有好幾捲開過的，大家記得把數量算一算，放乾燥劑跟指示卡封起來，別直接丟著。", "has_twin": false, "title_leak": false}
+{"id": "S041-q1", "sop_id": "S041", "style": 1, "state": "剛剛下線的料還有一堆散的，阿明你先用數料機點一下Qty，然後拿去抽封口，MSL零件沒封好會吸濕，等等IPQC又要叫了。", "has_twin": false, "title_leak": false}
+{"id": "S041-q2", "sop_id": "S041", "style": 2, "state": "A線這邊剛結單，課長現在也在現場。大家先把拆過的上料捲帶過數，放進銀色鋁箔袋密封，等下12點吃宵夜前要全部送回倉庫。", "has_twin": false, "title_leak": false}
+{"id": "S046-q0", "sop_id": "S046", "style": 0, "state": "ICT測試機在TP105一直跳阻抗過高NG，用放大鏡看那個位置的針尖已經磨到變扁了，量出來的阻值完全不對。", "has_twin": true, "title_leak": false}
+{"id": "S046-q1", "sop_id": "S046", "style": 1, "state": "3線ICT的第80號pin好像歪掉了，一直誤判NG，剛剛量接觸電阻已經破表，這支針要直接拿新的來換了。", "has_twin": true, "title_leak": false}
+{"id": "S046-q2", "sop_id": "S046", "style": 2, "state": "剛才兩點多二線交班時，阿明發現ICT治具上TP3的針頭都磨平鈍掉了，壓下去接觸阻抗過大，等等要找工程師來拆裝。", "has_twin": true, "title_leak": false}
+{"id": "S042-q0", "sop_id": "S042", "style": 0, "state": "報告，電阻這站沒料了，生管拿了別款牌子的來頂。包裝不一樣，我們要先跑哪個流程確認才能上料？", "has_twin": false, "title_leak": false}
+{"id": "S042-q1", "sop_id": "S042", "style": 1, "state": "欸，二線現在IC缺料，生管送了2nd source來。這顆PE有簽ECN嗎？IPQC等一下要來確認，大家先不要直接上機喔。", "has_twin": false, "title_leak": false}
+{"id": "S042-q2", "sop_id": "S042", "style": 2, "state": "剛剛十點半在B線，我跟阿明對BOM表發現主晶片沒貨，倉庫改發別款。阿明正要去買雞排，這盤新料要先找誰簽核才能用？", "has_twin": false, "title_leak": false}
+{"id": "S043-q0", "sop_id": "S043", "style": 0, "state": "報告線長，這批電阻是用袋子裝的散料，沒有料帶。要倒進去那個會抖動的小盤子餵料，請問這個操作是要看哪本手冊？", "has_twin": false, "title_leak": false}
+{"id": "S043-q1", "sop_id": "S043", "style": 1, "state": "欸Jerry，現在A機要上散的IC，沒reel耶。要手動倒進那個會抖的feeder座，這動作的SOP是哪一張啊？急！", "has_twin": false, "title_leak": false}
+{"id": "S043-q2", "sop_id": "S043", "style": 2, "state": "三線下午兩點換線，阿華看那包電容都是一顆顆散的沒料帶，等下要用震動小盤子倒料。課長在旁邊盯，快把那張操作規範貼過來！", "has_twin": false, "title_leak": false}
+{"id": "S047-q0", "sop_id": "S047", "style": 0, "state": "換線要換那個測開機的箱子內部底座，大家拆裝定位銷時要小心，剛才又撞斷兩支探針了，去翻一下那個換機座的標準步驟啦！", "has_twin": false, "title_leak": false}
+{"id": "S047-q1", "sop_id": "S047", "style": 1, "state": "等下 A line 要 change line 換 model，那個測功能機台的上下模跟 quick connector 要怎麼拆？有人有那本 guide 嗎？", "has_twin": false, "title_leak": false}
+{"id": "S047-q2", "sop_id": "S047", "style": 2, "state": "剛下午三點在B線，阿明在換那台量測台的測試壓板，氣壓沒洩就拔氣管超危險。等下交接班記得去看一下換那套件的安全說明。", "has_twin": false, "title_leak": false}
+{"id": "S045-q0", "sop_id": "S045", "style": 0, "state": "報告，剛剛看了一下三線的 ICT 治具，上面積了蠻多松香跟灰塵的，探針那邊黏黏的，需要先拿酒精跟刷子清一清再繼續測。", "has_twin": true, "title_leak": false}
+{"id": "S045-q1", "sop_id": "S045", "style": 1, "state": "各位，ICT 跑完這批板子後，OP 記得用無塵紙和專用溶劑把針床表面擦一下，順便勾一下今天白班的確認表喔。", "has_twin": true, "title_leak": false}
+{"id": "S045-q2", "sop_id": "S045", "style": 2, "state": "剛跟阿明在 L5 剛吃完便當，等等一點開線前，大家先把 ICT 針板上的黃色殘留物刷一刷，早班自主檢查表也要記得勾。", "has_twin": true, "title_leak": false}
+{"id": "S044-q0", "sop_id": "S044", "style": 0, "state": "庫房那批受潮過期的電容跟爐後NG的晶片，數量都點好了，等一下要全部剪斷丟廢料桶，大家記得過來幫忙拍照存證喔。", "has_twin": false, "title_leak": false}
+{"id": "S044-q1", "sop_id": "S044", "style": 1, "state": "剛剛QA判定那批受潮的IC不能用了，等一下要直接拿去剪掉，大家記得要現場錄影拍照，不然系統沒辦法核銷喔。", "has_twin": false, "title_leak": false}
+{"id": "S044-q2", "sop_id": "S044", "style": 2, "state": "A線這邊下午三點要把之前堆在旁邊的壞板子全部剪碎。課長等下會過來盯著拍照，阿明你飲料喝快一點，趕快過來幫忙。", "has_twin": false, "title_leak": false}
+{"id": "S048-q0", "sop_id": "S048", "style": 0, "state": "各位，早班剛開班，測試站那台量測數值有點飄，大家要先拿綠色標籤那片標準片跑一次，確認儀器準不準再開線喔。", "has_twin": false, "title_leak": false}
+{"id": "S048-q1", "sop_id": "S048", "style": 1, "state": "Line 3 現在準備換機種，OP 記得先用點檢板過一下 ICT 測試機，確認量測功能沒跑掉再發料，不然等一下整批報廢就慘了。", "has_twin": false, "title_leak": false}
+{"id": "S048-q2", "sop_id": "S048", "style": 2, "state": "剛剛交接班，L2 的阿明在弄測試站，他說副理在旁邊盯著。大家開班前，那個綠色點檢片一定要先刷過，確認量測值 OK 才能開始過板子。", "has_twin": false, "title_leak": false}
+{"id": "S049-q0", "sop_id": "S049", "style": 0, "state": "新開的這批板子，功能測試螢幕上顯示的程式版號是 V2.1，可是我看隨附流程卡上寫 V2.0，這兩個不一樣耶，現在要先停下來嗎？", "has_twin": false, "title_leak": false}
+{"id": "S049-q1", "sop_id": "S049", "style": 1, "state": "這款 ECN 改機完，Test 電腦跑出來的 SW code 跟領料單對不起來，怪怪的。有人知道要照哪個做嗎？", "has_twin": false, "title_leak": false}
+{"id": "S049-q2", "sop_id": "S049", "style": 2, "state": "剛剛阿明在 S3 線調機，下午兩點剛好準備跑新產品，但治具螢幕上的 App 號碼跟手上那張生產指示單對不起來，要找誰確認？", "has_twin": false, "title_leak": false}
+{"id": "S050-q0", "sop_id": "S050", "style": 0, "state": "報告，剛剛在測試站被判NG的板子，拿到包裝站那邊要刷barcode的時候，系統跳紅框擋住說不能過站，這是要走哪個流程解鎖？", "has_twin": false, "title_leak": false}
+{"id": "S050-q1", "sop_id": "S050", "style": 1, "state": "欸，剛剛OP在test站打掉的PCBA，不小心流到後面，還好pack端的MES有hold住，完全刷不進去，這要找誰解鎖？", "has_twin": false, "title_leak": false}
+{"id": "S050-q2", "sop_id": "S050", "style": 2, "state": "A棟3線剛剛下午三點多的時候，阿明在包裝那邊，拿到一片測試沒過的板子，結果barcode嗶一聲就被系統鎖死了，大家注意一下。", "has_twin": false, "title_leak": false}
+{"id": "S053-q0", "sop_id": "S053", "style": 0, "state": "報告，這顆 5x5mm 的小 BGA 錫橋短路了，我看它周圍都沒其他零件，空空的，等一下我直接拿熱風槍和烙鐵手動拆下來重工喔。", "has_twin": true, "title_leak": false}
+{"id": "S053-q1", "sop_id": "S053", "style": 1, "state": "組長，這片 PCBA 上那顆 8x8 的小 BGA 要 rework，旁邊沒排阻也沒敏感件，我直接用烙鐵跟風槍吹下來可以嗎？", "has_twin": true, "title_leak": false}
+{"id": "S053-q2", "sop_id": "S053", "style": 2, "state": "A線剛吃完午餐，阿明在看這板子。上面那顆 6mm 的小 BGA 要拔掉，看四周都沒元件，等等我用熱風槍跟烙鐵手工拆了。", "has_twin": true, "title_leak": false}
+{"id": "S051-q0", "sop_id": "S051", "style": 0, "state": "報告，ICT測試台這邊聽到很明顯的嘶嘶聲，氣壓錶的數值也一直往下掉，壓頭下壓的速度變超慢，請設備過來確認一下。", "has_twin": false, "title_leak": false}
+{"id": "S051-q1", "sop_id": "S051", "style": 1, "state": "FT治具那邊下壓的橡膠頭好像磨損變形了，壓下去位置怪怪的，大家開線前點檢表有確實勾嗎？先停機免得傷到PCB。", "has_twin": false, "title_leak": false}
+{"id": "S051-q2", "sop_id": "S051", "style": 2, "state": "剛剛吃完午餐，阿明在L3測試站有聽到風管在漏氣，氣壓只剩4kg，組長現在在旁邊看，等一下兩點交班前要先把點檢做完喔。", "has_twin": false, "title_leak": false}
+{"id": "S052-q0", "sop_id": "S052", "style": 0, "state": "報告，打耐壓這邊的橡膠桌墊有一角破損，露出一塊金屬桌面，而且剛才摸到機台外殼有點麻麻的，需要叫工務嗎？", "has_twin": false, "title_leak": false}
+{"id": "S052-q1", "sop_id": "S052", "style": 1, "state": "L3的Hipot站那個壓克力防護罩卡榫斷了，OP壓下去沒反應，不能auto測試。這要找ME還是先看自主點檢表？", "has_twin": false, "title_leak": false}
+{"id": "S052-q2", "sop_id": "S052", "style": 2, "state": "剛才兩點多去B棟3線找阿明拿報表，看到他們打耐壓那站的接地線整條掉在地上，課長剛好走過去好像沒注意到，有人要處理嗎？", "has_twin": false, "title_leak": false}
+{"id": "S054-q0", "sop_id": "S054", "style": 0, "state": "這顆主控 IC 尺寸太大、腳距太密，周圍又一堆塑膠連接器，手工焊絕對會融掉，要送去用專用大機台跑曲線重做。", "has_twin": true, "title_leak": false}
+{"id": "S054-q1", "sop_id": "S054", "style": 1, "state": "那顆大 CPU 腳距超細，周圍一堆 MLCC 怕被吹飛，不能用 hand tool 亂搞，要用大台那部跑 temp profile。", "has_twin": true, "title_leak": false}
+{"id": "S054-q2", "sop_id": "S054", "style": 2, "state": "剛開完會，A線阿明拿來一張板子，說這顆大 IC 旁邊有高溫敏感零件，等下三點交接前要用大台光學對位那部重新加熱拆裝。", "has_twin": true, "title_leak": false}
+{"id": "S056-q0", "sop_id": "S056", "style": 0, "state": "AOI檢出大量錫尖和少錫不良，請認證合格的技術員趕快過來確認，判定是否可以手工修補，還是要直接報廢。", "has_twin": true, "title_leak": false}
+{"id": "S056-q1", "sop_id": "S056", "style": 1, "state": "目檢發現C32旁邊焊點空焊，請有touch-up證照的技術員過來補焊一下，順便判定能不能過，急著出貨。", "has_twin": true, "title_leak": false}
+{"id": "S056-q2", "sop_id": "S056", "style": 2, "state": "二線剛開完朝會，小李發現AOI掃出好幾片短路，十點前要把這批修補判定完，有合格修補資格的學長麻煩幫個忙。", "has_twin": true, "title_leak": false}
+{"id": "S055-q0", "sop_id": "S055", "style": 0, "state": "報告，這批板子有幾顆 0603 電阻漏件，我現在要用烙鐵手焊補上去，請問溫度要設多少？錫絲要用哪一種？", "has_twin": true, "title_leak": false}
+{"id": "S055-q1", "sop_id": "S055", "style": 1, "state": "線長，新來的 OP 焊那顆二極體時，烙鐵頭碰太久，零件有點焦焦的。手焊 R、C、D 停留時間有沒有規定幾秒啊？", "has_twin": true, "title_leak": false}
+{"id": "S055-q2", "sop_id": "S055", "style": 2, "state": "快十點了，阿明在 L3 線這邊幫忙用烙鐵補焊那批電阻。他說錫絲用完了，現在要去庫房拿，等一下 IPQC 來看喔。", "has_twin": true, "title_leak": false}
+{"id": "S057-q0", "sop_id": "S057", "style": 0, "state": "剛拆下來的那顆大IC，底下的錫點都融成一片而且缺腳。等一下要拿專用的小鐵板和新錫球重新補上去，誰能幫忙對一下孔位？", "has_twin": false, "title_leak": false}
+{"id": "S057-q1", "sop_id": "S057", "style": 1, "state": "那顆NG的BGA拔下來了，pad上都沒錫。等等要用jig跟小鋼板重新刷flux上ball，誰有空幫忙對一下microscope？手抖對不準。", "has_twin": false, "title_leak": false}
+{"id": "S057-q2", "sop_id": "S057", "style": 2, "state": "剛剛三線課長來看下午兩點的急件，拆下來的晶片底下空空的。阿明拿了助焊膏和整盒小錫球要準備套鋼板對位，等下誰去幫他？", "has_twin": false, "title_leak": false}
+{"id": "S058-q0", "sop_id": "S058", "style": 0, "state": "報告，三線手焊區的筆尖整個發黑發黃，錫都沾不上去，旁邊那塊黃色吸水棉也乾到縮起來了，可以派人來處理嗎？", "has_twin": false, "title_leak": false}
+{"id": "S058-q1", "sop_id": "S058", "style": 1, "state": "剛剛用測溫儀量了一下，修補區那把手把的temp一直跳，沒辦法固定在350度，這支是不是要先報NG不能用了？", "has_twin": false, "title_leak": false}
+{"id": "S058-q2", "sop_id": "S058", "style": 2, "state": "剛剛中午吃飽回L2線，阿明發現這台的溫度計顯示怪怪的，而且底座吸水棉都燒焦破一個洞了，下午開線前要找誰拿新的換？", "has_twin": false, "title_leak": false}
+{"id": "S060-q0", "sop_id": "S060", "style": 0, "state": "準備要拆這顆大IC，隔壁的塑膠連接器很靠近怕會融掉。請問大家，吹這顆要調幾度、風速多少？還有高溫膠帶要貼幾層防護？", "has_twin": false, "title_leak": false}
+{"id": "S060-q1", "sop_id": "S060", "style": 1, "state": "欸大家，剛剛那個OP問我說，拆QFN零件時熱風要用幾度、風速調多少？Kapton要貼哪裡？我記得有一張表有寫，有人能傳一下嗎？", "has_twin": false, "title_leak": false}
+{"id": "S060-q2", "sop_id": "S060", "style": 2, "state": "A線阿明剛剛吃飽在弄那片重工板，準備用風槍吹下那顆BGA，但他不確定溫度跟風速要設多少，怕把板子吹壞，誰有那張對照表？", "has_twin": false, "title_leak": false}
+{"id": "S061-q0", "sop_id": "S061", "style": 0, "state": "報告，二線剛才連續出來五片 PCB 都有連錫，懷疑是鋼網堵孔。我先拉下停機，把這批有問題的板子先框起來貼紅卡。", "has_twin": true, "title_leak": false}
+{"id": "S061-q1", "sop_id": "S061", "style": 1, "state": "剛剛 SPI 那邊狂噴 NG，已經累積快二十板了。我先叫 OP 把這批擋在線外，等等拿紅標籤來貼，IPQC 等一下會過來看。", "has_twin": true, "title_leak": false}
+{"id": "S061-q2", "sop_id": "S061", "style": 2, "state": "A線阿明吃飽飯回來看，發現一點半那批爐後的板子，零件位置都有偏移。我們先把那一車推到旁邊空地，綁上紅色警示牌喔。", "has_twin": true, "title_leak": false}
+{"id": "S062-q0", "sop_id": "S062", "style": 0, "state": "那批過爐爐溫異常的板子，剛剛品質委員會開會說沒救了，不能重工。我現在要載去後棟用粉碎機壓掉，有人要一起過去嗎？", "has_twin": true, "title_leak": false}
+{"id": "S062-q1", "sop_id": "S062", "style": 1, "state": "剛剛 QA 判定那批 SMT 溢錫的板子沒辦法 rework，老大叫我直接把這批 PCBA 載去切板機切掉，等下誰要陪我簽字確認處理？", "has_twin": true, "title_leak": false}
+{"id": "S062-q2", "sop_id": "S062", "style": 2, "state": "早上十點在 L3 線，我和課長還有 QA 確定那批起泡的板子救不回來了，現在要把它們丟進後棟的特定廢棄物鐵桶，大家注意一下。", "has_twin": true, "title_leak": false}
+{"id": "S064-q0", "sop_id": "S064", "style": 0, "state": "剛換完線打出第一片板子，我用顯微鏡對完沒問題，要用我們線上的帳號登錄量測數據，但系統一直轉圈圈，有人遇到嗎？", "has_twin": true, "title_leak": false}
+{"id": "S064-q1", "sop_id": "S064", "style": 1, "state": "A line 剛開線，第一 pcs 已經打出來了。我要在 shop floor 系統刷 barcode 上傳量測數值，是只要 key 厚度跟錫量就好嗎？", "has_twin": true, "title_leak": false}
+{"id": "S064-q2", "sop_id": "S064", "style": 2, "state": "一點半剛吃飽，現在 L3 這邊課長也在看。我們剛換好 B 趴的料，我要自己量測第一片板子並過系統，是要點哪個畫面登錄？", "has_twin": true, "title_leak": false}
+{"id": "S066-q0", "sop_id": "S066", "style": 0, "state": "兩點半那班的檢查時間過半小時了，可是線尾的大白板數據還是上個班的，沒看到有人來收樣品去量，請確認一下。", "has_twin": false, "title_leak": false}
+{"id": "S066-q1", "sop_id": "S066", "style": 1, "state": "欸，那個QA，我們L2這班的 check 時間又 delay 了啦，白板上那個良率格子還是空的，等一下被老大盯就慘了，快點來。", "has_twin": false, "title_leak": false}
+{"id": "S066-q2", "sop_id": "S066", "style": 2, "state": "剛剛一點半，阿明在B線跟我說抽樣箱都是空的，而且白板沒更新。那時組長也在場，大家皮繃緊一點，等下兩點記得把紀錄補上。", "has_twin": false, "title_leak": false}
+{"id": "S059-q0", "sop_id": "S059", "style": 0, "state": "報告，手焊發現板子零件腳底下的金屬點浮起來、旁邊細線路也斷了。等下要拉細漆包線跨接，再點防焊阻焊劑照燈烘乾。", "has_twin": false, "title_leak": false}
+{"id": "S059-q1", "sop_id": "S059", "style": 1, "state": "OP剛才烙鐵太熱，把C12底下的金屬片燙到剝離、線也扯斷了。IPQC說要拉一條細跳線，再點保護膠照UV燈，我們要照哪張做？", "has_twin": false, "title_leak": false}
+{"id": "S059-q2", "sop_id": "S059", "style": 2, "state": "剛剛十一點半，在SMT二線，阿明拔零件時把走線扯斷、金屬點也弄到剝離。現在組長在看，我們要拉細漆包線繞接，再點阻焊劑烤乾。", "has_twin": false, "title_leak": false}
+{"id": "S063-q0", "sop_id": "S063", "style": 0, "state": "剛剛工程師改了三線的迴焊爐溫參數，我們已經跑完片子了，請品管派人過來做最後的確認，過關了才能繼續跑。", "has_twin": true, "title_leak": false}
+{"id": "S063-q1", "sop_id": "S063", "style": 1, "state": "剛剛ECN變更，SMT這邊換了替代料，請IPQC趕快來機台前量測首件並Sign，不然這軌沒辦法開跑。", "has_twin": true, "title_leak": false}
+{"id": "S063-q2", "sop_id": "S063", "style": 2, "state": "早上十點半這班，五線小陳剛換完鋼網，他現在在吃早餐，不過品管IPQC還沒來做最終判定，大家先等一下再開工。", "has_twin": true, "title_leak": false}
+{"id": "S065-q0", "sop_id": "S065", "style": 0, "state": "報告線長，第三條線爐後AOI連續跑出十幾片錫裂跟立碑，不良率已經衝到5%了，需要趕快叫品保過來確認要不要開單。", "has_twin": false, "title_leak": false}
+{"id": "S065-q1", "sop_id": "S065", "style": 1, "state": "B Line打IC一直拋料，reject rate快破表了。IPQC等一下應該會來開單，大家先停線檢查，皮繃緊一點。", "has_twin": false, "title_leak": false}
+{"id": "S065-q2", "sop_id": "S065", "style": 2, "state": "已經快12點了，A線這邊阿榮還在調Feeder，可是爐後空焊突然爆多，再不停線等下被品保開單就慘了，誰能來支援一下？", "has_twin": false, "title_leak": false}
+{"id": "S067-q0", "sop_id": "S067", "style": 0, "state": "客戶退回上週生產的A500板子，說功能不過。品保已經拿去切片了，等下要看報告來改鋼網張力跟爐溫。", "has_twin": false, "title_leak": false}
+{"id": "S067-q1", "sop_id": "S067", "style": 1, "state": "欸，那批 RMA 的 board 到了。QA 說要做 cross-section，PE 等下也會來看是 SMT 還是板廠問題，等著改 SOP。", "has_twin": false, "title_leak": false}
+{"id": "S067-q2", "sop_id": "S067", "style": 2, "state": "剛剛在B棟休息室碰到阿明，他說明天早上十點，要拿昨天客戶退的那箱壞板子去給品保切片，討論怎麼改製程，老大也會在喔。", "has_twin": false, "title_leak": false}
+{"id": "S068-q0", "sop_id": "S068", "style": 0, "state": "生管說這批板子生產到序號 A2023100501 就要停了。後面要改貼藍色貼紙，貼片機也要改跑 V2.0 的設定檔，大家注意一下。", "has_twin": false, "title_leak": false}
+{"id": "S068-q1", "sop_id": "S068", "style": 1, "state": "A線 OP 聽一下，等等 R12 舊料打完，要換新 PN 的料卷喔！機台 path 記得 switch 到新版的，外箱 label 也要換，別搞混了。", "has_twin": false, "title_leak": false}
+{"id": "S068-q2", "sop_id": "S068", "style": 2, "state": "快 12 點在 SMT 二線，課長也在。RD 說下午開始要改用有黃點的零件，機台要載入 1025 那個檔，外箱改貼綠色那一張。", "has_twin": false, "title_leak": false}
+{"id": "S069-q0", "sop_id": "S069", "style": 0, "state": "開班點檢按壓靜電測試儀，插上綠色接地線後測出來一直亮紅燈，數值破 10^9 歐姆，這條彈簧線可能斷了，要拿新的換嗎？", "has_twin": true, "title_leak": false}
+{"id": "S069-q1", "sop_id": "S069", "style": 1, "state": "報告線長，剛剛 OP 準備開班 ESD 點檢，手環香蕉插頭插進測試儀一按就直接 NG，換別條線插也一樣，是不是機台孔鬆了？", "has_twin": true, "title_leak": false}
+{"id": "S069-q2", "sop_id": "S069", "style": 2, "state": "SMT二線這邊，阿明剛 7:50 開班點檢，按靜電測試儀發現他手環扣子接線處快斷了，電阻值一直跳，能先拿一條新的來二線嗎？", "has_twin": true, "title_leak": false}
+{"id": "S073-q0", "sop_id": "S073", "style": 0, "state": "廠務剛剛拿那台重錘在量我們這區的地板，測出來超過10的9次方歐姆了，超標了吧？是不是該走每季量測那套流程了？", "has_twin": false, "title_leak": false}
+{"id": "S073-q1", "sop_id": "S073", "style": 1, "state": "ESD稽核拿重錘量地板阻抗，一直嗶嗶叫好像異常，這要看哪條SOP去複測？大家手上有那本每季量地板的規範嗎？", "has_twin": false, "title_leak": false}
+{"id": "S073-q2", "sop_id": "S073", "style": 2, "state": "剛吃完早餐，看到廠務老大拿著重錘電阻計在SMT三線後面量地板，阿明也在旁邊看，每季一次的那個地坪檢測是不是又到了？", "has_twin": false, "title_leak": false}
+{"id": "S070-q0", "sop_id": "S070", "style": 0, "state": "包裝站這邊要常常走來走去拿紙箱，有線的常常拉扯到很不方便。想申請換成不用插線的那種，是要填哪張評估表？", "has_twin": true, "title_leak": false}
+{"id": "S070-q1", "sop_id": "S070", "style": 1, "state": "AOI那台OP手腕上那條免插線的，這週好像沒人點檢到。這款不是天天量阻值，是要看哪張sheet來check啊？", "has_twin": true, "title_leak": false}
+{"id": "S070-q2", "sop_id": "S070", "style": 2, "state": "剛剛九點多課長去 SMT A 線，看到上料站阿明常走動，說那站別拉線太危險，要我們趕快評估改用免接線款，有人知道流程嗎？", "has_twin": true, "title_leak": false}
+{"id": "S072-q0", "sop_id": "S072", "style": 0, "state": "走廊那幾箱用完的助焊劑跟洗板水空瓶已經堆到快滿出來了，要找人盤點數量上去填單申報，不然廠商下週不來收喔。", "has_twin": true, "title_leak": false}
+{"id": "S072-q1", "sop_id": "S072", "style": 1, "state": "剛剛去開Yellow cabinet拿IPA，發現裡面不同顏色的罐子都亂擺。這是不是要照規定的分類重新排一下？順便把空瓶拿去報廢。", "has_twin": true, "title_leak": false}
+{"id": "S072-q2", "sop_id": "S072", "style": 2, "state": "剛剛下午兩點交接，S2線的阿明說月底到了，黃色櫃子裡的廢空罐要趕快秤重填單，他等一下吃完飯會先去幫忙對數量。", "has_twin": true, "title_leak": false}
+{"id": "S074-q0", "sop_id": "S074", "style": 0, "state": "包裝那台除靜電的，剛剛量測發現消電時間竟然要快五秒，電壓也偏高，這是不是要走定期保養那套流程？", "has_twin": false, "title_leak": false}
+{"id": "S074-q1", "sop_id": "S074", "style": 1, "state": "Test站那台ESD fan吹出來沒什麼風，用ME的板子測一下，消電慢到爆，這要找哪張檢測SOP來做啊？", "has_twin": false, "title_leak": false}
+{"id": "S074-q2", "sop_id": "S074", "style": 2, "state": "剛剛二線包裝阿明交接時，說那台吹風機量起來殘餘電壓快30V，組長等一下會過去看，先確認要用哪張量測？", "has_twin": false, "title_leak": false}
+{"id": "S071-q0", "sop_id": "S071", "style": 0, "state": "報告，D2線後段洗網水整桶翻倒了，地板上濕了一大片，味道超重！大家先退後，我去找黃色吸油條過來圍。", "has_twin": true, "title_leak": false}
+{"id": "S071-q1", "sop_id": "S071", "style": 1, "state": "慘了，剛剛擦鋼板用的 IPA 倒整地，大約有五公升，現在味道超嗆。OP 們先撤開，有沒有人能幫忙拿吸液棉過來？", "has_twin": true, "title_leak": false}
+{"id": "S071-q2", "sop_id": "S071", "style": 2, "state": "剛剛12點半，阿明在 SMT 3線撞倒一大桶溶劑，液體流滿地一直擴散，我和課長現在拉封鎖線，下午可能沒辦法準時開線。", "has_twin": true, "title_leak": false}
+{"id": "S075-q0", "sop_id": "S075", "style": 0, "state": "門口量鞋子那台早上一直亮紅燈，好幾個人測出來都破100M歐姆，大家進無塵室前先看那本，看要怎麼重新歸零。", "has_twin": false, "title_leak": false}
+{"id": "S075-q1", "sop_id": "S075", "style": 1, "state": "剛剛新來的OP在入口測腳那台一直NG，嗶嗶叫進不來。有人可以去翻一下那本SOP，教他怎麼處理嗎？謝啦。", "has_twin": false, "title_leak": false}
+{"id": "S075-q2", "sop_id": "S075", "style": 2, "state": "剛剛八點交班，阿明在D線說他今天量鞋子右腳數值怪怪的，有先用酒精擦了。請各線組長去入口確認一下測試的步驟對不對。", "has_twin": false, "title_leak": false}
+{"id": "S076-q0", "sop_id": "S076", "style": 0, "state": "化學品區旁邊那個緊急拉淋浴的，剛剛試拉一下，流出來的水黃黃的還有沙子，這週的點檢表是不是還沒人去勾？", "has_twin": false, "title_leak": false}
+{"id": "S076-q1", "sop_id": "S076", "style": 1, "state": "各位，剛剛做 weekly PM，一樓洗眼槽噴出來的水壓超弱，根本沖不到眼睛，這肯定 NG 了，等下誰去報修一下？", "has_twin": false, "title_leak": false}
+{"id": "S076-q2", "sop_id": "S076", "style": 2, "state": "剛跟阿明在 SMT 3 線吃完便當，走去後面洗手，看到旁邊黃色那個緊急沖淋的水龍頭在漏水，地上濕一片，點檢卡也過期沒人簽。", "has_twin": false, "title_leak": false}
+{"id": "S077-q0", "sop_id": "S077", "style": 0, "state": "報告，現在全線的貼片機都因為氣壓不足在報警停機了，看壓力錶已經掉到 4 bar 以下，請廠務趕快確認一下大氣源。", "has_twin": true, "title_leak": false}
+{"id": "S077-q1", "sop_id": "S077", "style": 1, "state": "靠，CDA 壓降超嚴重，貼片機一直在 vacuum error 拋料，OP 都快瘋了，現在是要切副線氣源還是直接 shutdown？", "has_twin": true, "title_leak": false}
+{"id": "S077-q2", "sop_id": "S077", "style": 2, "state": "三線這邊剛交接班，阿明去上廁所。不過現在 8 點 15 分，主氣管壓力突然狂掉，印刷機跟貼片機都亮紅燈卡住了，要通知廠務嗎？", "has_twin": true, "title_leak": false}
+{"id": "S079-q0", "sop_id": "S079", "style": 0, "state": "現場這台溫濕度計一直在嗶嗶叫，現在顯示濕度都 75% 了，溫度也 28 度，感覺冷氣好像停了，要先停機嗎？", "has_twin": false, "title_leak": false}
+{"id": "S079-q1", "sop_id": "S079", "style": 1, "state": "A-line 這邊 Temp 飆到 29 度了啦，Humi 也超標，冷氣 AC 好像掛了，大家看一下是不是要先 hold 住生產？", "has_twin": false, "title_leak": false}
+{"id": "S079-q2", "sop_id": "S079", "style": 2, "state": "剛剛三線的阿華吃完便當回來，快一點的時候發現我們這區冷氣完全沒風，濕度計紅燈一直閃，領班跟設備都在看，這要看哪條規範處理？", "has_twin": false, "title_leak": false}
+{"id": "S083-q0", "sop_id": "S083", "style": 0, "state": "各位，D線回焊爐上面的抽風管好像沒什麼吸力，松香味道有點重，等一下是不是要拿風速計來量一下？", "has_twin": false, "title_leak": false}
+{"id": "S083-q1", "sop_id": "S083", "style": 1, "state": "剛看了一下，Wave上方的排氣管今天好像該點檢了，誰手上有那台測風速的？幫忙量一下看有沒有過標。", "has_twin": false, "title_leak": false}
+{"id": "S083-q2", "sop_id": "S083", "style": 2, "state": "剛剛十點跟阿明在SMT二線，看他調爐子時覺得排煙很慢，先幫忙查一下這條線上次排風管測風速是哪時候做的？", "has_twin": false, "title_leak": false}
+{"id": "S081-q0", "sop_id": "S081", "style": 0, "state": "鋼網清洗機下面那個藍色廢水桶已經快到最上面的紅線了，警示燈也開始閃，誰能過去換一下，順便貼個標籤？", "has_twin": false, "title_leak": false}
+{"id": "S081-q1", "sop_id": "S081", "style": 1, "state": "L2的洗板機下面那桶廢液sensor一直在嗶，OP看已經九分滿了。手動換桶的程序誰熟？來幫忙一下，順便寫一下label。", "has_twin": false, "title_leak": false}
+{"id": "S081-q2", "sop_id": "S081", "style": 2, "state": "剛吃完便當回三線，看到阿明在洗板機旁邊，他說十一點半時那桶回收液就已經滿到安全線了，現在要找新桶子來替換跟寫卡。", "has_twin": false, "title_leak": false}
+{"id": "S080-q0", "sop_id": "S080", "style": 0, "state": "剛剛大跳電現在電終於來了，但產線機台全部都是黑畫面，我們要先去開總電源還是直接重啟機台？軌道上的板子怎麼辦？", "has_twin": false, "title_leak": false}
+{"id": "S080-q1", "sop_id": "S080", "style": 1, "state": "電來了！大家先不要亂動 machine。Reflow 的爐溫要等它升，等等是不是要先 reset 檢查氣壓？誰有復歸順序的那張卡？", "has_twin": false, "title_leak": false}
+{"id": "S080-q2", "sop_id": "S080", "style": 2, "state": "剛剛兩點多跟阿明在B線後面抽菸，突然整廠全黑現在電又送來了。目前爐子跟貼片機都停擺，我們要先從哪一台開始送電啊？", "has_twin": false, "title_leak": false}
+{"id": "S078-q0", "sop_id": "S078", "style": 0, "state": "爐子後段的 N2 壓力表快歸零了，氧氣濃度一直升上去，看板子焊點有點黑。要先降速還是切成一般氣體跑？", "has_twin": true, "title_leak": false}
+{"id": "S078-q1", "sop_id": "S078", "style": 1, "state": "靠，Reflow 突然逼逼叫，看 monitor 是 N2 pressure low。現在是要先 bypass 切 Air 還是要把拉帶變慢？", "has_twin": true, "title_leak": false}
+{"id": "S078-q2", "sop_id": "S078", "style": 2, "state": "剛過十點半，三線這邊阿榮正在換料，結果後面爐子的氣體壓力突然不夠，看來外面的大罐子又沒氣了，是要改跑空氣嗎？", "has_twin": true, "title_leak": false}
+{"id": "S082-q0", "sop_id": "S082", "style": 0, "state": "各位，主管道的真空度指針現在一直卡在負60左右，吸嘴吸力明顯變弱了，拋料開始變多，麻煩廠務過來看是不是哪裡塞住或需要清洗了。", "has_twin": false, "title_leak": false}
+{"id": "S082-q1", "sop_id": "S082", "style": 1, "state": "剛剛 OP 反映大真空那台壓降很怪，吸力不夠 Nozzle 一直 drop 料。是不是該找廠務 check 一下過濾網有沒有髒啊？", "has_twin": false, "title_leak": false}
+{"id": "S082-q2", "sop_id": "S082", "style": 2, "state": "剛剛三線交接班，阿榮說今天中餐雞排超難吃。對了，他點檢時發現背後總管路的真空吸力指針掉到紅區了，是不是累積太多粉塵該洗了？", "has_twin": false, "title_leak": false}
+{"id": "S084-q0", "sop_id": "S084", "style": 0, "state": "廠務現在把貼片機後面那台備用電源的市電切掉，螢幕上的電池趴數一直在掉，說要看能撐幾分鐘，這是在跑哪張單？", "has_twin": false, "title_leak": false}
+{"id": "S084-q1", "sop_id": "S084", "style": 1, "state": "廠務老大在 L2 的 power box 那邊手動切斷市電，說要 test 電池 discharge 的 cap 夠不夠，這要看哪本？", "has_twin": false, "title_leak": false}
+{"id": "S084-q2", "sop_id": "S084", "style": 2, "state": "下午三點多在 SMT A線，我跟阿榮剛過完爐，看到廠務阿吉拿表在記錄備用電池切斷後的倒數時間，是要對照哪份規範？", "has_twin": false, "title_leak": false}
+{"id": "S085-q0", "sop_id": "S085", "style": 0, "state": "報告，目前二線所有工作站的過站畫面都轉圈圈，然後顯示與主機連線中斷，大家都卡住了，要先改用手寫紀錄表嗎？", "has_twin": true, "title_leak": false}
+{"id": "S085-q1", "sop_id": "S085", "style": 1, "state": "靠，整個PC都斷網了，連不進server，ping也沒反應。全線OP先拿紙本簽核單出來手工記，不然待會全塞車。", "has_twin": true, "title_leak": false}
+{"id": "S085-q2", "sop_id": "S085", "style": 2, "state": "A線這邊剛吃完便當，一點半要刷入庫一直顯示「連接伺服器失敗」，阿華姨那台也一樣，我先找表單來手動抄序號。", "has_twin": true, "title_leak": false}
+{"id": "S086-q0", "sop_id": "S086", "style": 0, "state": "報告，剛進來的這批板子有幾片條碼噴得很糊，掃描槍一直嗶嗶叫讀不到，請問要直接手動輸入序號，還是找生技補印？", "has_twin": true, "title_leak": false}
+{"id": "S086-q1", "sop_id": "S086", "style": 1, "state": "老大，DIP段這邊有一片板子的SN貼紙刮傷了，Scanner完全刷不過去。可以幫我開權限手打過站，還是這片要退回去重貼？", "has_twin": true, "title_leak": false}
+{"id": "S086-q2", "sop_id": "S086", "style": 2, "state": "剛剛10點半左右，我在L2線跟小明在對外觀，發現這片主板的條碼印刷缺一角，掃描槍刷不讀。系統還是順的，先放旁邊等下班再處理嗎？", "has_twin": true, "title_leak": false}
+{"id": "S087-q0", "sop_id": "S087", "style": 0, "state": "準備開線了，但條碼機印出來的PCB序號標籤一直糊掉，掃描槍刷讀失敗。有人可以來排解一下嗎？不然等一下沒辦法貼片。", "has_twin": true, "title_leak": false}
+{"id": "S087-q1", "sop_id": "S087", "style": 1, "state": "各位，SMT A棟要開線了，但條碼機碳帶斷掉，工單跟PCB的S/N貼紙都還沒印，有人能支援換一下碳帶嗎？", "has_twin": true, "title_leak": false}
+{"id": "S087-q2", "sop_id": "S087", "style": 2, "state": "剛剛10點半跟阿明在SMT三線準備轉產，結果條碼機卡紙，PCB序號標籤印不出來，等一下開線會delay，誰來救一下？", "has_twin": true, "title_leak": false}
+{"id": "S088-q0", "sop_id": "S088", "style": 0, "state": "報告線長，包裝區要出貨的大箱子，有兩箱上面的貼紙被膠帶扯破、字看不清了，請問這要找誰重印和核對？", "has_twin": true, "title_leak": false}
+{"id": "S088-q1", "sop_id": "S088", "style": 1, "state": "OQC說這批FG因為改了包裝，大箱外面貼的Label格式不對要重貼，有人知道要跑什麼流程才能重新印貼紙來核對嗎？急！", "has_twin": true, "title_leak": false}
+{"id": "S088-q2", "sop_id": "S088", "style": 2, "state": "剛剛八點交班前，我和阿明在L2包裝線清點要出貨的棧板，發現最上面那箱的貼紙不見了，待會大夜班要怎麼補辦一張來貼？", "has_twin": true, "title_leak": false}
+{"id": "S089-q0", "sop_id": "S089", "style": 0, "state": "新來的鋼網張力已經量好記錄了，現在要把鋼網編號跟張力數值key進去貼在旁邊的那顆小晶片，是要用哪台機器刷？", "has_twin": false, "title_leak": false}
+{"id": "S089-q1", "sop_id": "S089", "style": 1, "state": "新進的 stencil 要建檔，那顆 tag 的 S/N、Tension 還有 count 要怎麼 write 進去？機台一直逼逼叫，求救！", "has_twin": false, "title_leak": false}
+{"id": "S089-q2", "sop_id": "S089", "style": 2, "state": "快下班了，剛剛十點半阿明在 SMT-B 線把新來的鋼網拿去量張力，現在要把資料寫進去那顆電子晶片，要看哪份流程？", "has_twin": false, "title_leak": false}
+{"id": "S090-q0", "sop_id": "S090", "style": 0, "state": "報告，組裝線後段掛在牆上的電視整個變黑，完全沒畫面，上面的數據也沒在跳，麻煩值班技術員過來協助看一下。", "has_twin": false, "title_leak": false}
+{"id": "S090-q1", "sop_id": "S090", "style": 1, "state": "各位，SMT二線大電視的生產數字卡住半小時了，是不是LAN線鬆掉？有沒有人能去幫忙reboot一下那台小PC？", "has_twin": false, "title_leak": false}
+{"id": "S090-q2", "sop_id": "S090", "style": 2, "state": "剛跟阿明交接，三號機這裏下午三點開始螢幕就一片黑，線長剛好在旁邊盯良率，這台大螢幕要怎麼重開啊？", "has_twin": false, "title_leak": false}
+{"id": "S091-q0", "sop_id": "S091", "style": 0, "state": "報告，二線AOI剛跑完兩片，可是大看板都沒跑出這兩片的檢查數據，系統上也都沒有紀錄，是不是哪裡卡住了？", "has_twin": false, "title_leak": false}
+{"id": "S091-q1", "sop_id": "S091", "style": 1, "state": "貼片機這邊剛換完線，但MES一直沒抓到生產數量，SPI那台的連接狀態也是紅燈，是不是IP跑掉？還是port沒設定好？", "has_twin": false, "title_leak": false}
+{"id": "S091-q2", "sop_id": "S091", "style": 2, "state": "三線這邊阿民剛吃完便當過來，我們看了一下，現在1點半AOI測完的數據，系統看板都沒跳出來，機台是不是斷線了？", "has_twin": false, "title_leak": false}
+{"id": "S092-q0", "sop_id": "S092", "style": 0, "state": "報工系統的條碼怎麼掃都沒反應，嗶嗶兩聲紅燈一直閃，螢幕完全沒跳出字，有人知道這台怎麼了嗎？", "has_twin": false, "title_leak": false}
+{"id": "S092-q1", "sop_id": "S092", "style": 1, "state": "L2的OP說那支刷條碼的讀到之後PC沒畫面，重新插拔USB也沒用，是不是要刷那張設定紙重新連？", "has_twin": false, "title_leak": false}
+{"id": "S092-q2", "sop_id": "S092", "style": 2, "state": "剛剛一點吃完便當回D3線，阿明說刷工單一直逼逼叫但電腦沒反應，等一下課長要來巡，誰有那張條碼設定表的？", "has_twin": false, "title_leak": false}
+{"id": "S093-q0", "sop_id": "S093", "style": 0, "state": "目前這張工單只剩最後50台就結束了，大約十分鐘後結單，物料趕快把下一張單的料車和鋼板拉到線頭準備。", "has_twin": true, "title_leak": false}
+{"id": "S093-q1", "sop_id": "S093", "style": 1, "state": "A線WIP快清完了，下一動的BOM表和料件準備好了嗎？物料趕快先pull料過來，不然等一下要down time了。", "has_twin": true, "title_leak": false}
+{"id": "S093-q2", "sop_id": "S093", "style": 2, "state": "剛跟阿明在B線吃完下午茶，現在三點半了，這張單倒數兩支料捲，物料記得先把下一批的主晶片和PCB推過來，別發錯了。", "has_twin": true, "title_leak": false}
+{"id": "S095-q0", "sop_id": "S095", "style": 0, "state": "生管剛剛緊急通知，說A5那批晶片料不夠，要我們把現在這台正在跑的機台先停掉，等一下直接改過明天要跑的那張大單。", "has_twin": false, "title_leak": false}
+{"id": "S095-q1", "sop_id": "S095", "style": 1, "state": "剛剛PM急call，大客急插單。現在線上的model先run完這片就hold住，準備要改線了，大家先看一下轉產步驟。", "has_twin": false, "title_leak": false}
+{"id": "S095-q2", "sop_id": "S095", "style": 2, "state": "A線這邊，課長和老張都在。剛剛十一點半生管說後面沒料了，要我們先停機，下午改做別的機種，等下吃完便當先來看流程。", "has_twin": false, "title_leak": false}
+{"id": "S094-q0", "sop_id": "S094", "style": 0, "state": "新機種第一片剛過完爐，錫膏印刷看起來有點偏，印刷機的壓力跟對位需要再調一下，請助技過來看。", "has_twin": true, "title_leak": false}
+{"id": "S094-q1", "sop_id": "S094", "style": 1, "state": "新model首pcs打完了，SPI跟AOI的測量數據跟軌道寬度要對一下，IPQC跟PE可以過來check了嗎？", "has_twin": true, "title_leak": false}
+{"id": "S094-q2", "sop_id": "S094", "style": 2, "state": "剛剛十點半第三線新機台第一片吐出來了，小陳在看貼片位置好像有點歪，組長要不要過來確認一下貼片機的設定？", "has_twin": true, "title_leak": false}
+{"id": "S096-q0", "sop_id": "S096", "style": 0, "state": "今天日班 L3 的產出還差 150 支，主要是貼片機拋料，等下夜班人員來，記得先看白板上寫的異常狀況喔。", "has_twin": false, "title_leak": false}
+{"id": "S096-q1", "sop_id": "S096", "style": 1, "state": "各位，day shift 尾盤有撈到錫橋不良，WIP 跟要注意的 Q 狀況都寫在手冊了，night shift 的 OP 記得看一下再開工。", "has_twin": false, "title_leak": false}
+{"id": "S096-q2", "sop_id": "S096", "style": 2, "state": "剛晚上七點在 L2 線跟阿宏交接完了，今天換線的進度跟備料狀況都寫在看板上。對了，阿宏剛說今天晚餐便當很油。", "has_twin": false, "title_leak": false}
+{"id": "S098-q0", "sop_id": "S098", "style": 0, "state": "上一批產品都結單了，但擦乾淨的 Stencil 還有幾顆 Nozzle 還散落在工作桌上沒收，請照規定去處理好。", "has_twin": false, "title_leak": false}
+{"id": "S098-q1", "sop_id": "S098", "style": 1, "state": "各位，剛剛 run 完舊 model，那片印錫膏的鐵板跟測 functional 的座子還丟在地上，Nozzle 也沒清，趕快去收啦！", "has_twin": false, "title_leak": false}
+{"id": "S098-q2", "sop_id": "S098", "style": 2, "state": "剛下午三點去 L3 找阿明拿飲料，看到上個 model 拆下來的那片 Stencil 還有壓測盒都沒擦就堆在機台旁，等下稽核要來了，快去弄一弄。", "has_twin": false, "title_leak": false}
+{"id": "S100-q0", "sop_id": "S100", "style": 0, "state": "這張大單剛剛跑完了，大家要把迴焊爐和貼片機的軌道深處都照手電筒看一遍，確認沒有掉落的散料跟板子卡在裡面。", "has_twin": false, "title_leak": false}
+{"id": "S100-q1", "sop_id": "S100", "style": 1, "state": "各位，這批WO結單了。OP先停機，把軌道跟mounter內部吸嘴全部巡一遍，看有沒有卡料或掉零件，不要留到下一批。", "has_twin": false, "title_leak": false}
+{"id": "S100-q2", "sop_id": "S100", "style": 2, "state": "第三線剛跑完五千片，阿明班長說等下三點半要交班，叫我們趁現在把輸送帶下面跟機台縫隙都用氣槍吹乾淨，找找看有沒有掉件。", "has_twin": false, "title_leak": false}
+{"id": "S099-q0", "sop_id": "S099", "style": 0, "state": "報告，這批新機種鋼板剛架好，但開發跟製程的人還沒到現場看首件，我們要先停線等他們，還是直接打下去？", "has_twin": false, "title_leak": false}
+{"id": "S099-q1", "sop_id": "S099", "style": 1, "state": "RD跟PE現在都在Line 3後面盯著，說要記下等一下打件拋料的數據，大家動作可能要配合一下，先不要亂調機喔。", "has_twin": false, "title_leak": false}
+{"id": "S099-q2", "sop_id": "S099", "style": 2, "state": "剛吃完便當，現在一點半，A線這邊來了一堆開發部跟工管的人在拍照。阿明說等下新機器的第一片板子出來要先給他們確認才能繼續。", "has_twin": false, "title_leak": false}
+{"id": "S097-q0", "sop_id": "S097", "style": 0, "state": "快交班了，今天A線貼片機拋料卡住三次，總共停了快兩小時。大家趕快把今天機台有在跑跟沒動的時間算一算，等等要填表送出。", "has_twin": false, "title_leak": false}
+{"id": "S097-q1", "sop_id": "S097", "style": 1, "state": "各位老大，快下班囉！記得把今天SMT的OEE算一下，特別是下午迴焊爐down機的那半小時要扣掉，數據整理好等等要報上去。", "has_twin": false, "title_leak": false}
+{"id": "S097-q2", "sop_id": "S097", "style": 2, "state": "剛剛四點半阿明在第三線幫忙排除吸嘴問題。現在快五點了，組長交代要把今天整天機台開機和故障的時間通通統計好，等一下要上傳。", "has_twin": false, "title_leak": false}

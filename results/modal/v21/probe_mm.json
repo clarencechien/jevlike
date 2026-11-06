@@ -1,0 +1,25 @@
+{
+ "props": {
+  "model_path": "/models/gemma-4-E4B-it-Q8_0.gguf",
+  "modalities": {
+   "vision": true,
+   "video": true,
+   "audio": true
+  },
+  "chat_template": "{%- macro format_parameters(properties, required, filter_keys=false) -%}\n    {%- set standard_keys = ['description', 'type', 'properties', 'required', 'nullable'] -%}\n    {%- set ns = namespace(found_first=false) -%}\n    {%- for key, value in properties | dictsort -%}\n        {%- set add_comma = false -%}\n        {%- if not filter_keys or key not in standard_keys -%}\n            {%- if ns.found_first %},{% endif -%}\n            {%- set ns.found_first = true -%}\n            {{ key }}:{\n            {%- if value['description'] -%}\n                description:<|\"|>{{ value['description'] }}<|\"|>\n                {%- set add_comma = true -%}\n            {%- endif -%}\n            {%- if value['type'] | upper == 'STRING' -%}\n                {%- if value['enum'] -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    enum:{{ format_argument(value['enum']) }}\n                {%- endif -%}\n            {%- elif value['type'] | upper == 'ARRAY' -%}\n                {%- if value['items'] is mapping and value['items'] -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    ",
+  "build_info": "b1-99b9548"
+ },
+ "gemma4_turns": {
+  "status": 400,
+  "body": "{\"error\":{\"code\":400,\"message\":\"Failed to tokenize prompt\",\"type\":\"invalid_request_error\"}}"
+ },
+ "marker_only": {
+  "status": 400,
+  "body": "{\"error\":{\"code\":400,\"message\":\"Failed to tokenize prompt\",\"type\":\"invalid_request_error\"}}"
+ },
+ "alt_image_marker": {
+  "status": 400,
+  "body": "{\"error\":{\"code\":400,\"message\":\"Failed to tokenize prompt\",\"type\":\"invalid_request_error\"}}"
+ },
+ "log_tail": "0.00.051.179 I srv  llama_server: initializing ...\n0.00.051.246 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)\n0.00.052.281 W srv  llama_server: security: no API key is set and CORS allows all origins (see https://github.com/ggml-org/llama.cpp/pull/25655)\n0.00.057.984 I srv    load_model: loading model '/models/gemma-4-E4B-it-Q8_0.gguf'\n0.04.208.491 W load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden\n0.04.209.386 W load: control-looking token:     50 '<|tool_response>' was not control-type; this is probably a bug in the model. its type will be overridden\n0.04.221.274 W load: control-looking token:      1 '<eos>' was not control-type; this is probably a bug in the model. its type will be overridden\n0.04.260.664 W load: '</s>' is a normal token here, removing it from EOG list\n0.07.704.536 W llama_kv_cache_iswa: using full-size SWA cache (ref: https://github.com/ggml-org/llama.cpp/pull/13194#issuecomment-2868343055)\n0.07.755.024 I cmn          init: llama threadpool init, n_threads = 17\n0.08.800.317 W init_audio: audio input is in experimental stage and may have reduced quality:\n    https://github.com/ggml-org/llama.cpp/discussions/13759\n0.08.800.477 I srv    load_model: loaded multimodal model, '/models/v21/mmproj-gemma-4-E4B-it-BF16.gguf'\n0.08.842.331 I srv    load_model: initializing, n_slots = 4, n_ctx_slot = 4096, kv_unified = 'false'\n0.08.855.974 I srv  llama_server: model loaded\n0.08.856.021 I srv  llama_server: listening on http://127.0.0.1:8080\n0.08.856.021 W srv  llama_server: notice: server default port will be changed to :9931 in a future release (ref: https://github.com/ggml-org/llama.cpp/pull/26508)\n0.11.328.443 E mtmd_tokenize: error: number of media markers in text (0) does not match number of bitmaps (1)\n0.12.605.974 E mtmd_tokenize: error: number of media markers in text (0) does not match number of bitmaps (1)\n0.13.995.623 E mtmd_tokenize: error: number of media markers in text (0) does not match number of bitmaps (1)\n"
+}

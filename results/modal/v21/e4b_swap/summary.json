@@ -1,0 +1,10 @@
+{
+ "engine": "e4b",
+ "mode": "swap",
+ "n": 544,
+ "wall_s": 110.0,
+ "latency_p50_ms": 154.5902939999877,
+ "latency_p95_ms": 217.47285000000716,
+ "errors": 0,
+ "option_mass_mean": 1.0
+}

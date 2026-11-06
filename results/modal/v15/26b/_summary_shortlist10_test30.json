@@ -1,0 +1,9 @@
+{
+ "mode": "shortlist",
+ "k": 10,
+ "subset": "test30",
+ "workers": 1,
+ "n": 30,
+ "acc_all": 0.9666666666666667,
+ "wall_s": 10.2
+}

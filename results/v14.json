@@ -1,0 +1,115 @@
+{
+ "eg": {
+  "top1": 0.5266666666666666,
+  "recall5": 0.78,
+  "recall10": 0.8866666666666667,
+  "recall_curve": {
+   "1": 0.5266666666666666,
+   "5": 0.78,
+   "10": 0.8866666666666667,
+   "20": 0.9533333333333334,
+   "30": 0.9733333333333334,
+   "50": 0.9866666666666667
+  },
+  "top1_twin": 0.5909090909090909,
+  "top1_nontwin": 0.47619047619047616,
+  "top1_cls": 0.4066666666666667,
+  "auroc": 0.8816188268853627,
+  "coverage_eps5": 0.0,
+  "error_eps5": 0.0,
+  "by_style": {
+   "0": 0.54,
+   "1": 0.6,
+   "2": 0.44
+  },
+  "gpu_same_top1_rate": 0.97
+ },
+ "arms": {
+  "T-E4B": {
+   "n_test": 150,
+   "top1": 0.9066666666666666,
+   "top1_twin": 0.9242424242424242,
+   "top1_nontwin": 0.8928571428571429,
+   "gold_in_final": 0.98,
+   "reads": 11.0,
+   "latency_p50_ms": 5638.049058500002,
+   "latency_p95_ms": 6308.610389449997,
+   "mass_min": 0.9965922703947145
+  },
+  "H-E4B": {
+   "n_test": 150,
+   "top1": 0.8,
+   "top1_twin": 0.803030303030303,
+   "top1_nontwin": 0.7976190476190477,
+   "gold_in_final": 0.8866666666666667,
+   "reads": 1.0,
+   "latency_p50_ms": 650.5393325000028,
+   "latency_p95_ms": 667.8022522499999,
+   "mass_min": 0.9801419736141828
+  },
+  "T-26B": {
+   "n_test": 150,
+   "top1": 0.9466666666666667,
+   "top1_twin": 0.9696969696969697,
+   "top1_nontwin": 0.9285714285714286,
+   "gold_in_final": 0.98,
+   "reads": 11.0,
+   "latency_p50_ms": 10959.831302000053,
+   "latency_p95_ms": 11420.510503849999,
+   "mass_min": 0.9999852244258186
+  },
+  "H-26B": {
+   "n_test": 150,
+   "top1": 0.86,
+   "top1_twin": 0.8939393939393939,
+   "top1_nontwin": 0.8333333333333334,
+   "gold_in_final": 0.8866666666666667,
+   "reads": 1.0,
+   "latency_p50_ms": 1126.7630764999979,
+   "latency_p95_ms": 1161.3925929500003,
+   "mass_min": 0.99930910508414
+  }
+ },
+ "eg_cpu_run": {
+  "device": "cpu",
+  "gpu": null,
+  "load_s": 59.5,
+  "prewarm_100_sops_s": 61.21,
+  "latency_ms_batch1": {
+   "p50": 343.8657684999953,
+   "p95": 394.83378460010954,
+   "n": 60
+  },
+  "throughput_per_s_batch64": 5.3,
+  "top1_eg_all": 0.5333333333333333,
+  "ts": "2026-10-07T02:15:00Z"
+ },
+ "eg_gpu_run": {
+  "device": "cuda",
+  "gpu": "NVIDIA L4",
+  "load_s": 15.0,
+  "prewarm_100_sops_s": 1.58,
+  "latency_ms_batch1": {
+   "p50": 69.83623850000242,
+   "p95": 74.18310190000204,
+   "n": 60
+  },
+  "throughput_per_s_batch64": 668.3,
+  "top1_eg_all": 0.55,
+  "ts": "2026-10-07T02:17:35Z"
+ },
+ "gates": {
+  "G1_home_ground": false,
+  "G2_hybrid_standard": false,
+  "G3_recall10": false
+ },
+ "predictions": {
+  "eg_top1_0.75_0.90": false,
+  "eg_recall10_ge_0.95": false,
+  "eg_twin_le_0.70": true,
+  "t26_ge_0.90": true,
+  "t_e4b_about_0.80": false,
+  "h26_within_1pt_of_t26": false,
+  "eg_gpu_le_20ms": false
+ }
+}

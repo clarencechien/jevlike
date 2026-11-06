@@ -1,0 +1,11 @@
+{
+ "engine": "26b",
+ "arm": "glossary",
+ "n": 544,
+ "asked": 544,
+ "skipped": 0,
+ "wall_s": 60.5,
+ "latency_p50_ms": 442.3,
+ "option_mass_mean": 1.0,
+ "errors": 0
+}

@@ -113,7 +113,7 @@ def _run(name, which, args, extra):
     import sys
 
     sys.path.insert(0, "/root")
-    if name in ("26b", "e4b"):  # e4b: v12 (input format), same server flags as 26B
+    if name in ("26b", "e4b"):  # e4b: v23 (input format), same server flags as 26B
         model_path = f"/models/{OURS_26B if name == '26b' else OURS_E4B}"
         # same flags as modal_app.start_server (v1–v9), so --check-lock compares like with like
         server_extra = ["-c", "16384", "-np", "4", "--jinja", "--reasoning-budget", "0", *extra.split()]

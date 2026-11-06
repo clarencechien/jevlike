@@ -1,0 +1,62 @@
+{
+  "m_alarm_severity": {
+    "n": 120,
+    "acc": 0.7333333333333333,
+    "acc_easy": 0.5,
+    "acc_hard": 0.78,
+    "missing_rate": 0.0,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  },
+  "m_alarm_category": {
+    "n": 120,
+    "acc": 0.7416666666666667,
+    "acc_easy": 0.9833333333333333,
+    "acc_hard": 0.5,
+    "missing_rate": 0.175,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  },
+  "m_needs_dispatch": {
+    "n": 120,
+    "acc": 0.825,
+    "acc_easy": 1.0,
+    "acc_hard": 0.7666666666666667,
+    "missing_rate": 0.016666666666666666,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  },
+  "q_spc_action": {
+    "n": 120,
+    "acc": 0.6416666666666667,
+    "acc_easy": 0.0,
+    "acc_hard": 0.6416666666666667,
+    "missing_rate": 0.0,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  },
+  "p_uph_anomaly": {
+    "n": 120,
+    "acc": 0.9916666666666667,
+    "acc_easy": 0.0,
+    "acc_hard": 0.9916666666666667,
+    "missing_rate": 0.05,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  },
+  "t_tool_gate": {
+    "n": 120,
+    "acc": 0.6916666666666667,
+    "acc_easy": 0.82,
+    "acc_hard": 0.6,
+    "missing_rate": 0.0,
+    "control_n": 0,
+    "control_acc": 0.0,
+    "control_unparsed": 0
+  }
+}

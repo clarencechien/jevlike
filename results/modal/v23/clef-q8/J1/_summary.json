@@ -1,0 +1,42 @@
+{
+ "meta": {
+  "backend": "systemone",
+  "args": "--backend systemone --suites rows --rows-dir /root/data/v12/J1 --tasks m_alarm_severity,m_alarm_category,m_needs_dispatch,q_spc_action,p_uph_anomaly,t_tool_gate --criteria /root/data/seeds/tasks_v2.json --out-sub v12/J1 --workers 2",
+  "base_url": "http://127.0.0.1:8090"
+ },
+ "rows": {
+  "rows": {
+   "m_alarm_severity": {
+    "n": 120,
+    "acc": 0.8417,
+    "n_nan": 0
+   },
+   "m_alarm_category": {
+    "n": 120,
+    "acc": 0.75,
+    "n_nan": 0
+   },
+   "m_needs_dispatch": {
+    "n": 120,
+    "acc": 0.9083,
+    "n_nan": 0
+   },
+   "q_spc_action": {
+    "n": 120,
+    "acc": 0.95,
+    "n_nan": 0
+   },
+   "p_uph_anomaly": {
+    "n": 120,
+    "acc": 1.0,
+    "n_nan": 0
+   },
+   "t_tool_gate": {
+    "n": 120,
+    "acc": 0.8,
+    "n_nan": 0
+   }
+  },
+  "s": 130.0
+ }
+}

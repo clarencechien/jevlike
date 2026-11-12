@@ -6,6 +6,7 @@
 - 懶人包（公開）：<https://imitator.ai-apps.work/r/jevlike-primer>（原理、溫度怎麼校、為什麼準、什麼時候會失靈）
 - 音訊番外篇（公開）：<https://imitator.ai-apps.work/r/jevlike-audio>（v21：Breeze 聽、E4B 抓錯，為什麼讀文字和聽音訊都抓不到辨識的錯）
 - 工程報告：`results/REPORT.md`；分項報告 `results/00`–`21`；費用 `results/cost.md`
+- 外部題目對照（2026-11-12）：eg2poc v0.3 把本 repo 的讀字母介面放到 657 段專案狀態難題上，跟 Google 雲端的 Gemini Decision 1 同題比較，見本檔 §3.1
 - 生態調查與借鏡：`results/10-landscape.md`（本檔 §5 是摘要）；§11 是 2026-10-13 的補調查（AnyJev、Jeeves、JevEmbed、連貫性與審查論文）
 
 ### 給在 GB10 上接手的 Claude Code：從這裡開始
@@ -68,6 +69,26 @@
 | E4B 級聯（門檻 0.999） | acc 0.952 vs 全 26B 0.955，34% 送 26B | 平均延遲 −20% |
 | 順序敏感度 | 急迫度 21%、SPC 19%、其餘 ≤ 3% | 上線選項順序固定 |
 | 累計費用 | ≈ $36、24 GPU h | 原估 $5.5–7.5 只算前兩輪；明細 `results/cost.md` |
+
+## 3.1 外部題目對照：eg2poc v0.3（2026-11-12）
+
+[clarencechien/eg2poc](https://github.com/clarencechien/eg2poc) 的 v0.3 用本 repo 的 `decide/`（釘在 `9838918`，模板與讀機率程式未改）跑 E2B／E4B／26B，題目不是本 repo 的產線題，而是 657 段「專案狀態」四選一難題（按計畫／延後／卡關／取消）。出題照本 repo 的 `data/HARD_GUIDE.md`，判讀照 v3 的階梯規則，規格與資料都在評分前凍結。完整結果在 eg2poc 的 `results/synthetic-v3/summary.md`，三方比較與盲點在 `results/synthetic-v3/jevlike-vs-gd1.md`。
+
+| 判讀器 | 測試集準確率（425 段） | 改寫＋選項反序後答案不變 | 每筆延遲 |
+|---|---|---|---|
+| **26B-A4B UD-Q4_K_M（本 repo 讀法）** | **97.4%** | 96.0% | 210 ms（L4，單 slot） |
+| Gemini Decision 1（Google 雲端，2026-11-11 發佈） | 98.4% | 98.0% | p50 272 ms（含網路） |
+| E4B Q8_0 | 92.5% | 89.5% | 102 ms（L4） |
+| E2B Q8_0 | 80.2% | 71.5% | 62 ms（L4） |
+| MediaPipe Decision Maker：EG2／GLiNER；mDeBERTa NLI | 48.4%／34.5%；45.8% | — | CPU |
+
+- **26B 對 Gemini Decision 1 分不出高下**：差 0.9 點，95% CI −0.7 到 +2.6（McNemar p = 0.39）。657 段全算，26B 錯 18 題、GD1 錯 11 題；兩者 97.4% 的題答案相同，都錯的 6 題選同一個錯答案，集中在工作天／sprint 推算與沒照時間順序排的 log。
+- **26B 對 E4B**：+4.9 點（p = 0.0001），比預先登記的 5 點門檻少 0.1 點；日期＋長文件那組 +5.4 點，過門檻。沒有任何題型 E2B ≥ 95%，階梯在這批題上分得開。
+- **日期先用程式算好**（v23 的做法）：26B 只 +1.9 點，這批題上它自己會比日期。這和 v23 的 +8～+15 點不同；差別可能在題型（這裡是文字敘述裡的兩三個日期，v23 是 log 欄位與規格比較），沒有進一步驗證。
+- **E4B → 26B 級聯**（用存下來的機率計算）：門檻 0.999 時準確率 96.7%、16% 送 26B、平均 134 ms；要求完全不輸 26B 的話門檻要到 0.99999，過半送 26B，比只用 26B 慢。E4B 的原始信心仍然過度集中在 0.999 以上。
+- **跟 Jev 的關係沒有新的直接證據**：本 repo 仍然沒有直接跑過 Jev。間接數字是 JevBench 公開子集 +2.1 點（`results/13-jevbench.md`）與 Bespoke Labs 的 −2.0 點（`results/10-landscape.md`）；外部資料顯示 GD1 與 Jev 1.14 同級（Artificial Analysis 綜合指數 65.98 對 66.23）。三條比較只有「26B 對 GD1」是同題直接量測，不能串成等式。
+
+限制：題目由 Claude 出、另一個 Claude 模型盲判，沒有人工覆核；只有一種任務、短文字；兩者都接近滿分，只能排除 GD1 高出 2.6 點以上；GD1 無法鎖定版本，量測在它發佈的第一週；本 repo 在 JevBench 量到的弱項（`temporal_numeric`、`probability`）沒有被這批題充分測到。
 
 ## 4. Quickstart（Modal；GB10 本機見 `docs/handoff-gb10.md` 與 `docs/handoff-gb10-clef.md`）
 

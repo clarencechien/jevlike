@@ -84,6 +84,8 @@ python3 bench/run_local.py --which v4bench --backend sglang --base-url http://12
    - 錯誤預算 ε=5%（`thresholds.py` 的選擇性風險控制）：守住預算的 task ≥ 上線 task 數的 80%；強題 coverage ≥ 0.90。做不到的 task 不自動，全部送確認。
    - 順序敏感度：用 `bench/permute.py`（`--perms 4` 即可）量一次，≥ 20% 的 task 上線時選項順序寫死並在 REPORT 註明。
    - 級聯：若 E4B 也跑了真實資料，用 `bench/analyze_ladder.py` 的 cascade 邏輯重算門檻；沒跑就維持「六類 26B、四類 E4B」的查表。
+   - **不做：Dirichlet 校準**（v24，`results/28-calibration-abstain.md`）。合成資料上它比每類溫度準（弱題 0.850 → 0.915），但它用標註學一層會改答案的修正，違反上面第 3 條；2026-11-18 使用者決定先不放寬，校準一律用每類溫度。
+     日後若放寬，條件寫在 `results/28-calibration-abstain.md` §4（標註分三份、記原始與修正後答案、監看漂移、只用在弱題）。
 5. 每三個月或模型檔更換時：`python3 bench/verify.py --check-lock /secure/gb10-real/accuracy-<新>`，失敗就重校準。
 
 ## 6. 結案（Phase 5，半天）

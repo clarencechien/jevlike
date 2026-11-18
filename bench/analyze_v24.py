@@ -101,33 +101,37 @@ def nll_of(P, y):
 
 
 def fit_linear(X, y, K, full, lam):
-    """softmax(X W^T + b). full=False: diagonal W (vector scaling); full=True: Dirichlet calibration with ODIR."""
+    """softmax(X W^T + b). full=False: diagonal W (vector scaling); full=True: Dirichlet calibration with ODIR.
+    Analytic gradient (numerical gradients made the learning curve take hours)."""
+    n = len(y); Y = np.eye(K)[y]
+    off_mask = 1 - np.eye(K)
+
     def unpack(th):
         if full:
-            W = th[:K * K].reshape(K, K); b = th[K * K:]
-        else:
-            W = np.diag(th[:K]); b = th[K:]
-        return W, b
+            return th[:K * K].reshape(K, K), th[K * K:]
+        return np.diag(th[:K]), th[K:]
 
-    def loss(th):
+    def loss_grad(th):
         W, b = unpack(th)
         S = X @ W.T + b; S = S - S.max(1, keepdims=True)
-        lse = np.log(np.exp(S).sum(1))
-        L = -np.mean(S[np.arange(len(y)), y] - lse)
+        E = np.exp(S); P = E / E.sum(1, keepdims=True)
+        L = -np.mean(np.log(np.clip(P[np.arange(n), y], 1e-300, None)))
+        G = (P - Y) / n                       # dL/dS
+        gW = G.T @ X; gb = G.sum(0)
         if full:
-            off = W - np.diag(np.diag(W))
-            L += lam * (off ** 2).sum() / max(1, K * (K - 1)) + lam * (b ** 2).sum() / K
-        else:
-            L += 1e-4 * ((np.diag(W) - 1) ** 2).sum()
-        return L
+            L += lam * ((W * off_mask) ** 2).sum() / max(1, K * (K - 1)) + lam * (b ** 2).sum() / K
+            gW = gW + 2 * lam * W * off_mask / max(1, K * (K - 1)); gb = gb + 2 * lam * b / K
+            return L, np.concatenate([gW.ravel(), gb])
+        d = np.diag(W)
+        L += 1e-4 * ((d - 1) ** 2).sum()
+        return L, np.concatenate([np.diag(gW) + 2e-4 * (d - 1), gb])
 
     th0 = np.concatenate([np.eye(K).ravel(), np.zeros(K)]) if full else np.concatenate([np.ones(K), np.zeros(K)])
-    th = minimize(loss, th0, method="L-BFGS-B", options={"maxiter": 500}).x
+    th = minimize(loss_grad, th0, jac=True, method="L-BFGS-B", options={"maxiter": 500}).x
     W, b = unpack(th)
 
     def pred(Xt):
-        S = Xt @ W.T + b
-        return softmax(S)
+        return softmax(Xt @ W.T + b)
     return pred
 
 
@@ -141,46 +145,42 @@ def odir_lambda(X, y, K, groups, seed=0):
             tr = ~f
             if len(set(y[tr].tolist())) < 2:
                 continue
-            P = fit_linear(X[tr], y[tr], K, True, lam)(X[f]); v.append(nll_of(P, y[f]))
+            P = fit_linear(X[tr], y[tr], K, True, lam)(X[f]); v.append(nll_of(P, y[f]))  # noqa: E702
         if v and np.mean(v) < bl:
             bl, best = float(np.mean(v)), lam
     return best or 1.0
 
 
-def isotonic_conf(Ptr, ytr, Pev):
-    from sklearn.isotonic import IsotonicRegression
-    c_tr = Ptr.max(1); ok = (Ptr.argmax(1) == ytr).astype(float)
-    iso = IsotonicRegression(y_min=0.0, y_max=1.0, out_of_bounds="clip").fit(c_tr, ok)
-    c = iso.predict(Pev.max(1))
-    # rescale: top label gets c, the others share 1 - c in proportion
-    P = Pev.copy(); top = P.argmax(1); rest = 1 - P[np.arange(len(P)), top]
-    for i in range(len(P)):
-        s = rest[i]
-        if s > 0:
-            P[i] *= (1 - c[i]) / s
-        P[i, top[i]] = c[i]
-    return P, c
-
-
-def fit_predict(method, Z, y, K, tr, ev, groups):
+def fit_method(method, Z, y, K, tr, groups):
+    """Fit on the rows in `tr`; returns predict(mask) -> (P, conf)."""
     X = norm_logp(Z)
     if method == "temp":
-        T = fit_temperature(Z[tr], y[tr]); P = softmax(Z[ev] / T); return P, P.max(1)
+        T = fit_temperature(Z[tr], y[tr])
+        return lambda m: (lambda P: (P, P.max(1)))(softmax(Z[m] / T))
     if method == "vector":
-        P = fit_linear(X[tr], y[tr], K, False, 0)(X[ev]); return P, P.max(1)
+        f = fit_linear(X[tr], y[tr], K, False, 0)
+        return lambda m: (lambda P: (P, P.max(1)))(f(X[m]))
     if method == "affine":
         pr = fit_affine(Z[tr], y[tr], K)
         if pr is None:
-            T = fit_temperature(Z[tr], y[tr]); P = softmax(Z[ev] / T)
-        else:
-            P = pr(Z[ev])
-        return P, P.max(1)
+            T = fit_temperature(Z[tr], y[tr])
+            return lambda m: (lambda P: (P, P.max(1)))(softmax(Z[m] / T))
+        return lambda m: (lambda P: (P, P.max(1)))(pr(Z[m]))
     if method == "dirichlet":
         lam = odir_lambda(X[tr], y[tr], K, groups[tr])
-        P = fit_linear(X[tr], y[tr], K, True, lam)(X[ev]); return P, P.max(1)
+        f = fit_linear(X[tr], y[tr], K, True, lam)
+        return lambda m: (lambda P: (P, P.max(1)))(f(X[m]))
     if method == "isotonic":
-        T = fit_temperature(Z[tr], y[tr])
-        P, c = isotonic_conf(softmax(Z[tr] / T), y[tr], softmax(Z[ev] / T)); return P, c
+        from sklearn.isotonic import IsotonicRegression
+        T = fit_temperature(Z[tr], y[tr]); Ptr = softmax(Z[tr] / T)
+        iso = IsotonicRegression(y_min=0.0, y_max=1.0, out_of_bounds="clip").fit(Ptr.max(1), (Ptr.argmax(1) == y[tr]).astype(float))
+
+        def pred(m):
+            P = softmax(Z[m] / T); c = iso.predict(P.max(1)); top = P.argmax(1); rest = 1 - P[np.arange(len(P)), top]
+            Q = P * np.where(rest > 0, (1 - c) / np.clip(rest, 1e-12, None), 1.0)[:, None]
+            Q[np.arange(len(P)), top] = c
+            return Q, c
+        return pred
     raise ValueError(method)
 
 
@@ -207,9 +207,9 @@ def evaluate(method, Z, y, K, groups, splits):
     allP, ally, allc, allcorr = [], [], [], []
     cov = {e: [0, 0, 0] for e in EPS_LIST}
     for tr, ev in splits:
-        # threshold must be fitted on train predictions of the same fitted calibrator -> fit once, predict both
-        P_ev, c_ev = fit_predict(method, Z, y, K, tr, ev, groups)
-        P_tr, c_tr = fit_predict(method, Z, y, K, tr, tr, groups)
+        # the threshold is fitted on the train predictions of the same fitted calibrator
+        pred = fit_method(method, Z, y, K, tr, groups)
+        P_ev, c_ev = pred(ev); P_tr, c_tr = pred(tr)
         corr_ev = P_ev.argmax(1) == y[ev]; corr_tr = P_tr.argmax(1) == y[tr]
         for e in EPS_LIST:
             thr, _ = risk_threshold(c_tr, corr_tr, e)

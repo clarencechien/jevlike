@@ -348,9 +348,9 @@ page = f"""<!doctype html>
 
 <main class="report">
 
-  <p class="eyebrow">判定備忘 · Jev 式決策層 · 2026-09-23 起、二十三輪實驗 · 更新 2026-11-06</p>
+  <p class="eyebrow">判定備忘 · Jev 式決策層 · 2026-09-23 起、二十四輪實驗 · 更新 2026-11-18</p>
   <h1 class="display">Jev 式決策，<br>值得做，<br>而且<em>不用買</em></h1>
-  <p class="lede">用我們已經部署的 Gemma 4 26B，加一層「只從固定選項裡選答案、不寫文章」的決策 API。十類產線判斷題有七類不用任何標註就能上線，每次判斷約 0.2 秒。二十三輪驗證（含小模型對照、換引擎、追查掉分原因、借鏡他人做法、跑公開考卷、補測九個使用位置、對照 Cloudflare 開源的 Clef 與訓練過的同款模型、試用 Gemma 4 其他尺寸與別人的新做法、輸入資料怎麼準備）合計約三十六美元的雲端 GPU。</p>
+  <p class="lede">用我們已經部署的 Gemma 4 26B，加一層「只從固定選項裡選答案、不寫文章」的決策 API。十類產線判斷題有七類不用任何標註就能上線，每次判斷約 0.2 秒。二十四輪驗證（含小模型對照、換引擎、追查掉分原因、借鏡他人做法、跑公開考卷、補測九個使用位置、對照 Cloudflare 開源的 Clef 與訓練過的同款模型、試用 Gemma 4 其他尺寸與別人的新做法、輸入資料怎麼準備、校準方法與缺資料時怎麼辦）合計約三十七美元的雲端 GPU。</p>
   <p class="byline">實驗於 Modal 雲端 L4 顯示卡進行 · 合成資料 10 類 × 200 題 · 工程細節與原始數據在 results/REPORT.md</p>
 
   <div class="tldr">
@@ -372,7 +372,7 @@ page = f"""<!doctype html>
     <div class="stat"><p class="label">不標註就達 98% 的題型</p><div class="value">{len(strong)} / 10</div><div class="delta">其餘三類要調門檻</div></div>
     <div class="stat"><p class="label">一次判斷</p><div class="value">{L1['p50'] / 1000:.1f} 秒</div><div class="delta">租用 L4；GB10 待實測</div></div>
     <div class="stat"><p class="label">比模型寫答案快</p><div class="value">{speed:.1f} 倍</div><div class="delta">一次問十題可再降</div></div>
-    <div class="stat"><p class="label">本次驗證的 GPU 費用</p><div class="value">≈ $36</div><div class="delta">二十三輪實驗（一輪是提案、兩輪是語音番外），約 24 GPU 小時</div></div>
+    <div class="stat"><p class="label">本次驗證的 GPU 費用</p><div class="value">≈ $37</div><div class="delta">二十四輪實驗（一輪是提案、兩輪是語音番外），約 24.5 GPU 小時</div></div>
   </div>
 
 
@@ -395,7 +395,7 @@ page = f"""<!doctype html>
   <p>結論：<span class="mark">判斷層不開 MTP；寫報告、先想再答的那個 server 另外開一個，兩者不共用。</span>平均差只有 0.004，錯誤預算的檢查也沒抓到，但決策層不能接受「同一題重跑會從 95% 變 5%」這種事，哪怕只有千分之幾。原因還沒查，先記下現象。</p>
 
   <p class="eyebrow">00 · 走到哪裡了</p>
-  <h2>二十三輪、六週、三十六美元：每一輪問一個問題，答一個問題</h2>
+  <h2>二十四輪、八週、三十七美元：每一輪問一個問題，答一個問題</h2>
   <p>每一輪都先把「什麼算過、什麼算沒過」寫死再跑，跑完照規則填結論。沒過的也留著，因為「不值得做」和「值得做」一樣是答案。</p>
 
   <div class="table-scroll wide route">
@@ -424,6 +424,7 @@ page = f"""<!doctype html>
         <tr><td>二十</td><td>同一批題、同一張卡：讓模型寫答案、讀字母（E4B、26B）、Google 的 EmbeddingGemma 2，速度差多少？</td><td>單筆：寫答案 0.40 秒、26B 讀字母 0.15、E4B 0.09、EmbeddingGemma 0.07；批次每筆：0.23 秒、0.15、0.09、**0.002**。但 EmbeddingGemma 只在「粗類、像哪一類」的題上跟 E4B 打平，產線四類題差 10 到 27 個百分點，速度再快也不用。另量到現行引擎在 L4 上並行不加吞吐，批次要換 SGLang</td><td class="num">$1.2</td></tr>
         <tr><td>二十一、二十二</td><td>番外：語音辨識（Breeze）完之後，讀字母能不能標出「這段有錯」？給詞表、把英文字列成選項會不會更好？</td><td>讀整段判「有沒有錯」抓不到：E4B 0.71、26B 0.78，輸給或只略勝辨識器自己的把握度 0.73；讓 E4B 連聲音一起聽更差 0.60。把英文字列成選項問「哪一個聽錯」，26B 九成指得出錯字，但當閘門只少看 3 到 15 個百分點的段落。<strong>收線</strong>：閘門用辨識器自己的把握度，模型只在有人逐段複核時當提示。細節見番外篇</td><td class="num">$1.7</td></tr>
         <tr><td>二十三</td><td>機台紀錄直接丟 JSON，還是寫成文字？要不要先把數字算好？</td><td>JSON 或文字平均差不到 2 個百分點；先用程式算好比較結果，需要比數字的題高 8 到 15 個百分點（小模型高 22）；無關欄位低 3.6 個百分點。跨線操作這類規則怎麼寫都不套，交給程式</td><td class="num">$1</td></tr>
+        <tr><td>二十四</td><td>不重新訓練、只在推論時補強：還沒試過的三個做法有沒有用？</td><td>校準方法換一種會修正答案的（Dirichlet），弱題答對率 85% → 92%、警報急迫度從「不能自動」變成六成可自動，每類 25 筆標註就夠，但要分開資料定門檻；餵空白輸入扣偏好反而變差；題目缺了關鍵資料，模型不會自己說「資訊不足」（加選項也只抓到三成），要由程式先擋</td><td class="num">$0.7</td></tr>
       </tbody>
     </table>
   </div>
@@ -441,7 +442,7 @@ page = f"""<!doctype html>
         <tr><td>SGLang 批次：共用狀況問十六題 / 32 路併發</td><td class="num">快 {V4G['L4_speedup_16']:.1f} 倍 / 6 倍</td><td>準確率與現行引擎同（補上起始字元後）</td></tr>
         <tr><td>先問 4B、沒把握再問 26B</td><td class="num">{CAS['mean'][6] * 100:.1f}%</td><td>全用 26B {CAS['mean'][1] * 100:.1f}%；26B 負載剩三分之一</td></tr>
         <tr><td>同一批題對照 Cloudflare Clef 27B（訓練過的判斷層）</td><td class="num">{D10["26B"] * 100:.1f}%</td><td>Clef 27B {D10["Clef 27B"] * 100:.1f}%、Clef-flash 9B {D10["Clef-flash"] * 100:.1f}%；Clef 27B 只能用 transformers 跑，一次 {LT10["Clef 27B"]["single"]["p50_ms"]:.0f} 毫秒（H100）</td></tr>
-        <tr><td>累計 GPU 費用</td><td class="num">≈ $36</td><td>原估 $5.5–7.5 只算前兩輪；後二十一輪是追加的問題</td></tr>
+        <tr><td>累計 GPU 費用</td><td class="num">≈ $37</td><td>原估 $5.5–7.5 只算前兩輪；後二十二輪是追加的問題</td></tr>
       </tbody>
     </table>
   </div>
@@ -824,7 +825,7 @@ page = f"""<!doctype html>
 
   <div class="note">
     <p class="head">這一版沒說到的</p>
-    <p>Jev 官方另一個賣點是「校準過的把握度」，我們的替代方案要自己校準，這是條件二。獨立的小模型（Laya 之類）零標註接近亂猜，這次沒用。AI Studio 上的 Gemma 4 不提供選項機率，31B 的對照改在第二十輪用同一套引擎補做。實際 GPU 費用二十三輪合計約 24 小時、約三十六美元（首輪 0.85 小時、約一美元），比原估低很多。</p>
+    <p>Jev 官方另一個賣點是「校準過的把握度」，我們的替代方案要自己校準，這是條件二。獨立的小模型（Laya 之類）零標註接近亂猜，這次沒用。AI Studio 上的 Gemma 4 不提供選項機率，31B 的對照改在第二十輪用同一套引擎補做。實際 GPU 費用二十四輪合計約 24.5 小時、約三十七美元（首輪 0.85 小時、約一美元），比原估低很多。</p>
   </div>
 
   </details>

@@ -84,6 +84,9 @@ python3 bench/run_local.py --which v4bench --backend sglang --base-url http://12
    - 錯誤預算 ε=5%（`thresholds.py` 的選擇性風險控制）：守住預算的 task ≥ 上線 task 數的 80%；強題 coverage ≥ 0.90。做不到的 task 不自動，全部送確認。
    - 順序敏感度：用 `bench/permute.py`（`--perms 4` 即可）量一次，≥ 20% 的 task 上線時選項順序寫死並在 REPORT 註明。
    - 級聯：若 E4B 也跑了真實資料，用 `bench/analyze_ladder.py` 的 cascade 邏輯重算門檻；沒跑就維持「六類 26B、四類 E4B」的查表。
+   - **選配對照臂：Dirichlet 校準（v24，`results/28-calibration-abstain.md`）**。合成資料上它比每類溫度好很多（弱題準確率 0.850 → 0.915、5% 預算 coverage 0.55 → 0.84），但它**會改答案**，屬於上面第 3 條「不用真實資料調會影響準確率的東西」的例外，所以只當對照、不當預設，採用與否交給使用者。
+     做法：每類標註依 pair／id 分三份——擬 Dirichlet（`bench/analyze_v24.py::fit_method("dirichlet", …)`）、定 5% 門檻、量；跟每類溫度用同一份「量」的資料比。
+     門檻（pre-registered）：在「量」那份上，弱題準確率 ≥ 溫度 + 0.03、5% 預算守住的類數 ≥ 溫度、強題 coverage 不掉超過 0.01。過了才回報「建議採用」，由使用者決定。
 5. 每三個月或模型檔更換時：`python3 bench/verify.py --check-lock /secure/gb10-real/accuracy-<新>`，失敗就重校準。
 
 ## 6. 結案（Phase 5，半天）

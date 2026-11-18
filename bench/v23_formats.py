@@ -1,6 +1,6 @@
 """v23 (docs/handoff-v23-input-format.md): run the same six tasks in each of the five renderings with one server start.
 
-args: "--backend llama|systemone --renderings T0,T1,J0,J1,JN --workers 1"
+args: "--backend llama|systemone --renderings T0,T1,J0,J1,JN --workers 1 [--data-root DIR --criteria none|PATH --out-sub X]"
   llama      -> bench/accuracy.py per rendering (letter logprobs; latency_ms and prompt_tokens per row), control arm off
   systemone  -> bench/systemone_bench.py rows suite per rendering (Clef)
 Outputs: <out_dir>/v23/<R>/<task>.jsonl
@@ -18,18 +18,21 @@ CRITERIA = os.path.join(os.path.dirname(DATA), "seeds", "tasks_v2.json")
 
 def main(base_url, out_dir, args="", **kw):
     a = dict(zip(*[iter(args.split())] * 2)) if args else {}
+    # v24: --data-root <dir with <R>/<task>.jsonl> (e.g. /root/data/v24/Qplus); --criteria none keeps the row's own question
+    data = a.get("--data-root", DATA)
+    crit = "" if a.get("--criteria") == "none" else f" --criteria {a.get('--criteria', CRITERIA)}"
     backend = a.get("--backend", "llama")
     workers = a.get("--workers", "1")
     lim = f" --limit {a['--limit']}" if a.get("--limit") else ""  # smoke only (accuracy.py)
     sub_out = a.get("--out-sub", "v23")
     out = {}
     for r in a.get("--renderings", "T0,T1,J0,J1,JN").split(","):
-        d = os.path.join(DATA, r)
+        d = os.path.join(data, r)
         if backend == "llama":
-            sub = f"--data-dir {d} --tasks {TASKS} --criteria {CRITERIA} --out-sub {sub_out}/{r} --control-n 0 --workers {workers}{lim}"
+            sub = f"--data-dir {d} --tasks {TASKS}{crit} --out-sub {sub_out}/{r} --control-n 0 --workers {workers}{lim}"
             out[r] = accuracy.main(base_url, out_dir, sub, **kw)
         else:
-            sub = f"--backend systemone --suites rows --rows-dir {d} --tasks {TASKS} --criteria {CRITERIA} --out-sub {sub_out}/{r} --workers {workers}"
+            sub = f"--backend systemone --suites rows --rows-dir {d} --tasks {TASKS}{crit} --out-sub {sub_out}/{r} --workers {workers}"
             out[r] = systemone_bench.main(base_url, out_dir, sub, **{k: v for k, v in kw.items() if k == "commit"})
         print(f"[v23] {r} done: {out[r]}", flush=True)
     return out

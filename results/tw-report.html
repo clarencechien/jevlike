@@ -549,6 +549,7 @@ button, summary { transition: transform var(--dur-fast) var(--ease-out); }
       <li><strong>解法只要一行程式：先把輸入全部轉成繁體，再拿去問。</strong>轉完以後，答案相反的題目從 35 題變 1 題，五種大小的 Gemma 都一樣。這條已經寫進上線前的檢查清單。</li>
       <li><strong>我們自己的工廠題目也受一點影響。</strong>把 2,000 題產線判斷題全改成簡體，有 98.5% 的題答案不變（繁體原樣跑兩次是 99.7%）；最弱的「警報有多急」這一類掉了 6 個百分點。所以先轉繁體對工廠題也有好處。</li>
       <li><strong>順便發現一件跟字形無關的事：同一題問兩次，答案可能不一樣。</strong>現在的伺服器設定下，同一題跑兩次，機率最大可以差到 0.96。只有改成「一次只問一題、不重複用上一題算過的東西」才會每次完全一樣。需要留紀錄、被稽核的判斷要用那個設定。</li>
+      <li><strong>後續（11 月）：微軟、Google 新出的決策模型也沒修好，而且別的主權爭議換成當事方的語言一樣會偏。</strong>三家簡體翻面 17–20 題；11 個爭議裡 8–10 個「用哪一方的語言問就偏向哪一方」，獨島／竹島最嚴重。先統一字形、先翻成英文能消掉大部分，但地名本身帶立場的消不掉。見第八節。</li>
     </ol>
   </div>
 
@@ -861,7 +862,28 @@ button, summary { transition: transform var(--dur-fast) var(--ease-out); }
   </div>
   <p>只有「一次一題、不重複用上一題算過的東西」會每次完全一樣，代價是 26B 跑這 1,200 題從大約 2.5 分鐘變 5 分鐘。右邊兩欄是重點：<strong>四種設定下，繁減簡的落差都是 0.75–0.78、翻面都是 34–36 題，所以前面的結論不是運氣</strong>。這也修正了我們上一輪的一個判斷：之前把「重跑會變」歸咎給一個加速功能（MTP），但這次沒開那個功能，在爭議題上一樣會變；工廠題的機率大多接近 0 或 1，很少「兩個答案都篤定」的題，所以當時看起來很穩。</p>
 
-  <p class="eyebrow">八 · 判定</p>
+
+  <p class="eyebrow">八 · 後續（2026-11-21）</p>
+  <h2>新出的商用決策模型修好了嗎？沒有。換成別的爭議、別的語言，一樣會偏</h2>
+  <p>十一月微軟和 Google 各出了新的決策模型。微軟的 Decision-1.1 底模就是我們用的 Gemma 4 26B（再加訓練），前一版 Decision-1 用的是阿里巴巴的 Qwen。用同一份考卷考：</p>
+  <div class="table-scroll wide route">
+    <table>
+      <thead><tr><th>模型</th><th class="num">繁</th><th class="num">簡</th><th class="num">英</th><th class="num">繁減簡</th><th class="num">翻面</th></tr></thead>
+      <tbody><tr><td>微軟 Decision-1.1（底模是 Gemma 4 26B）</td><td class="num">+0.72</td><td class="num">+0.44</td><td class="num">+0.59</td><td class="num"><strong>0.27</strong></td><td class="num">17 / 84</td></tr><tr><td>微軟 Decision-1（底模是 Qwen 9B）</td><td class="num">+0.13</td><td class="num">-0.23</td><td class="num">+0.01</td><td class="num"><strong>0.35</strong></td><td class="num">20 / 84</td></tr><tr><td>Google Gemini Decision 1</td><td class="num">+0.57</td><td class="num">+0.39</td><td class="num">+0.54</td><td class="num"><strong>0.19</strong></td><td class="num">18 / 84</td></tr><tr><td>Gemma 4 26B（我們）</td><td class="num">+0.91</td><td class="num">+0.14</td><td class="num">+0.89</td><td class="num"><strong>0.77</strong></td><td class="num">35 / 84</td></tr></tbody>
+    </table>
+  </div>
+  <p>三家都還是翻 17 到 20 題。微軟 1.1 比我們的 26B 少翻一半，答題模式跟 26B 很像（逐題相關 0.75），可見偏差有一部分是從底模帶過去的；換成 Qwen 底的 1.0，整體就偏北京。簡體先轉繁再問，三家翻面變成 0 / 4 / 1 題。</p>
+  <p>接著換題目：不只台灣，拿 11 個主權爭議，用<strong>爭議雙方自己的語言</strong>問同一句話。下表是「用 X 方語言問的分數 − 用 Y 方語言問的分數」，正數代表用哪一方的語言問、就往哪一方偏；下面一行是 24 句裡答案相反的數量。</p>
+  <div class="table-scroll wide route">
+    <table>
+      <thead><tr><th>爭議</th><th class="num">微軟 1.1</th><th class="num">Gemini</th><th class="num">我們 26B</th><th class="num">26B 先翻英文</th></tr></thead>
+      <tbody><tr><td>獨島／竹島：韓文 vs 日文</td><td class="num">1.19<br><span class="dim">17/24 翻</span></td><td class="num">0.71<br><span class="dim">13/24 翻</span></td><td class="num">1.25<br><span class="dim">15/24 翻</span></td><td class="num">1.18<br><span class="dim">14/24 翻</span></td></tr><tr><td>南海：越南文 vs 簡體中文</td><td class="num">0.68<br><span class="dim">10/24 翻</span></td><td class="num">0.76<br><span class="dim">12/24 翻</span></td><td class="num">—</td><td class="num">0.66<br><span class="dim">7/24 翻</span></td></tr><tr><td>克里米亞：烏克蘭文 vs 俄文</td><td class="num">0.34<br><span class="dim">4/24 翻</span></td><td class="num">0.53<br><span class="dim">4/24 翻</span></td><td class="num">0.43<br><span class="dim">7/24 翻</span></td><td class="num">-0.01<br><span class="dim">0/24 翻</span></td></tr><tr><td>科索沃：阿爾巴尼亞文 vs 塞爾維亞文</td><td class="num">0.59<br><span class="dim">12/24 翻</span></td><td class="num">0.37<br><span class="dim">7/24 翻</span></td><td class="num">0.70<br><span class="dim">10/24 翻</span></td><td class="num">-0.01<br><span class="dim">1/24 翻</span></td></tr><tr><td>福克蘭：英文 vs 西班牙文</td><td class="num">0.34<br><span class="dim">7/24 翻</span></td><td class="num">0.43<br><span class="dim">8/24 翻</span></td><td class="num">0.35<br><span class="dim">9/24 翻</span></td><td class="num">0.07<br><span class="dim">2/24 翻</span></td></tr><tr><td>西藏：繁體 vs 簡體</td><td class="num">0.25<br><span class="dim">4/24 翻</span></td><td class="num">0.32<br><span class="dim">8/24 翻</span></td><td class="num">0.04<br><span class="dim">4/24 翻</span></td><td class="num">-0.01<br><span class="dim">1/24 翻</span></td></tr><tr><td>塞爾維亞文：拉丁字母 vs 西里爾字母</td><td class="num">0.13<br><span class="dim">6/24 翻</span></td><td class="num">0.07<br><span class="dim">3/24 翻</span></td><td class="num">0.51<br><span class="dim">9/24 翻</span></td><td class="num">-0.01<br><span class="dim">0/24 翻</span></td></tr></tbody>
+    </table>
+  </div>
+  <p>11 個爭議裡出事的數量：微軟 1.1 10 / 11、微軟 1.0 8 / 11、Gemini 10 / 11、Cloudflare Clef 9 / 10（分母是模型讀得懂那個語言的爭議數）。最嚴重的是獨島／竹島：同一句話韓文問、日文問，一半以上答案相反。</p>
+  <p>先翻成英文再問，我們的 26B 大部分偏差都消失，例外正好是獨島和南海——翻完還是寫著「竹島」「黃岩島」，<strong>地名本身就帶著立場</strong>。另外 26B 對塞爾維亞文的拉丁字母和西里爾字母也會換答案，所以「先轉繁體」要擴大成「先統一字形」。工廠題不受影響。</p>
+
+  <p class="eyebrow">九 · 判定</p>
   <h2>照開跑前寫好的規則填：先轉繁體再上線；要留紀錄的判斷用單題模式</h2>
   <p>我們每一輪實驗都在跑之前先寫好「什麼算過、什麼算沒過」，跑完照規則填，不事後改標準。這次的六條：</p>
   <div class="table-scroll wide route">

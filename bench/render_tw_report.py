@@ -16,6 +16,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CSS = open(sys.argv[1], encoding="utf-8").read()
 assert "imitator report chassis" in CSS
 J = json.load(open(os.path.join(ROOT, "results/tw.json"), encoding="utf-8"))
+_TW2P = os.path.join(ROOT, "results/tw2.json")
+TW2 = json.load(open(_TW2P, encoding="utf-8")) if os.path.exists(_TW2P) else None
 D = json.load(open(os.path.join(ROOT, "results/tw_d0s.json"), encoding="utf-8"))
 _spec = importlib.util.spec_from_file_location("analyze_tw", os.path.join(ROOT, "bench", "analyze_tw.py"))
 AT = importlib.util.module_from_spec(_spec)
@@ -80,6 +82,59 @@ ITCLEF = {it: vs for it, _, _, vs in items("clef/paper")}
 IT2T = {it: vs for it, _, _, vs in items("26b/prod_s2t")}
 
 # ------------------------------------------------------------------ charts
+
+def tw2_section():
+    """tw2 (results/tw2-decision-apis.md): the new hosted decision models, and other disputes in the claimants' languages."""
+    if not TW2:
+        return ""
+    A_, B_ = TW2["A"], TW2["B"]
+    rows = ""
+    for key, label in (("msft-1.1/api", "微軟 Decision-1.1（底模是 Gemma 4 26B）"), ("msft-1.0/api", "微軟 Decision-1（底模是 Qwen 9B）"),
+                       ("gemini-d1/api", "Google Gemini Decision 1"), ("26b/prod", "Gemma 4 26B（我們）")):
+        x = A_.get(key)
+        if not x:
+            continue
+        rows += (f'<tr><td>{e(label)}</td><td class="num">{x["S"]["zh_tw"]:+.2f}</td><td class="num">{x["S"]["zh_cn"]:+.2f}</td>'
+                 f'<td class="num">{x["S"]["en"]:+.2f}</td><td class="num"><strong>{x["ts"]:.2f}</strong></td><td class="num">{x["flips_ts"]} / 84</td></tr>')
+    s2t = [A_[k]["flips_ts"] for k in ("msft-1.1/api_s2t", "msft-1.0/api_s2t", "gemini-d1/api_s2t") if k in A_]
+    comps = [("dokdo|ko-ja", "獨島／竹島：韓文 vs 日文"), ("scs|vi-zh_cn", "南海：越南文 vs 簡體中文"), ("crimea|uk-ru", "克里米亞：烏克蘭文 vs 俄文"),
+             ("kosovo|sq-sr_cyrl", "科索沃：阿爾巴尼亞文 vs 塞爾維亞文"), ("falklands|en-es", "福克蘭：英文 vs 西班牙文"),
+             ("tibet|zh_tw-zh_cn", "西藏：繁體 vs 簡體"), ("kosovo|sr_latn-sr_cyrl", "塞爾維亞文：拉丁字母 vs 西里爾字母")]
+    ms = [("msft-1.1", "微軟 1.1"), ("gemini-d1", "Gemini"), ("26b", "我們 26B"), ("26b/prod_pivot", "26B 先翻英文")]
+    brows = ""
+    for c, label in comps:
+        cells = ""
+        for m, _ in ms:
+            g = B_["gaps"].get(f"{m}|{c}")
+            cells += (f'<td class="num">{g["gap"]:.2f}<br><span class="dim">{g["flips"]}/{g["n"]} 翻</span></td>' if g and g["gap"] is not None and g["readable"]
+                      else '<td class="num">—</td>')
+        brows += f"<tr><td>{e(label)}</td>{cells}</tr>"
+    summ = B_["summary"]
+    def tot(m):
+        r = summ.get(m) or {}
+        return f'{r["B1"][0] + r["B2"][0]} / {r["B1"][1] + r["B2"][1]}' if r else "—"
+    return f"""
+  <p class="eyebrow">八 · 後續（2026-11-21）</p>
+  <h2>新出的商用決策模型修好了嗎？沒有。換成別的爭議、別的語言，一樣會偏</h2>
+  <p>十一月微軟和 Google 各出了新的決策模型。微軟的 Decision-1.1 底模就是我們用的 Gemma 4 26B（再加訓練），前一版 Decision-1 用的是阿里巴巴的 Qwen。用同一份考卷考：</p>
+  <div class="table-scroll wide route">
+    <table>
+      <thead><tr><th>模型</th><th class="num">繁</th><th class="num">簡</th><th class="num">英</th><th class="num">繁減簡</th><th class="num">翻面</th></tr></thead>
+      <tbody>{rows}</tbody>
+    </table>
+  </div>
+  <p>三家都還是翻 17 到 20 題。微軟 1.1 比我們的 26B 少翻一半，答題模式跟 26B 很像（逐題相關 0.75），可見偏差有一部分是從底模帶過去的；換成 Qwen 底的 1.0，整體就偏北京。簡體先轉繁再問，三家翻面變成 {" / ".join(str(x) for x in s2t)} 題。</p>
+  <p>接著換題目：不只台灣，拿 11 個主權爭議，用<strong>爭議雙方自己的語言</strong>問同一句話。下表是「用 X 方語言問的分數 − 用 Y 方語言問的分數」，正數代表用哪一方的語言問、就往哪一方偏；下面一行是 24 句裡答案相反的數量。</p>
+  <div class="table-scroll wide route">
+    <table>
+      <thead><tr><th>爭議</th>{"".join(f'<th class="num">{e(l)}</th>' for _, l in ms)}</tr></thead>
+      <tbody>{brows}</tbody>
+    </table>
+  </div>
+  <p>11 個爭議裡出事的數量：微軟 1.1 {tot("msft-1.1")}、微軟 1.0 {tot("msft-1.0")}、Gemini {tot("gemini-d1")}、Cloudflare Clef {tot("clef")}（分母是模型讀得懂那個語言的爭議數）。最嚴重的是獨島／竹島：同一句話韓文問、日文問，一半以上答案相反。</p>
+  <p>先翻成英文再問，我們的 26B 大部分偏差都消失，例外正好是獨島和南海——翻完還是寫著「竹島」「黃岩島」，<strong>地名本身就帶著立場</strong>。另外 26B 對塞爾維亞文的拉丁字母和西里爾字母也會換答案，所以「先轉繁體」要擴大成「先統一字形」。工廠題不受影響。</p>
+"""
+
 def index_chart():
     """Index S by model: three bars (繁 / 簡 / 英) per row, zero in the middle."""
     rows = [(name, E1[k]["S"]["zh_tw"], E1[k]["S"]["zh_cn"], E1[k]["S"]["en"], True) for k, name in GEMMA]
@@ -95,7 +150,8 @@ def index_chart():
     out = [f'<svg viewBox="0 0 640 {h}" role="img" aria-label="Index S：每個模型在繁體、簡體、英文下的台灣地位立場，+1 站台灣自治、−1 站北京立場">']
     for g in (-1, -0.5, 0, 0.5, 1):
         x = zero + sc * g
-        out.append(f'<line class="grid" x1="{x:.0f}" y1="6" x2="{x:.0f}" y2="{h - 24}"{" stroke-width=\"1.5\"" if g == 0 else ""}/>')
+        sw = ' stroke-width="1.5"' if g == 0 else ""  # (kept out of the f-string: Python < 3.12 forbids backslashes there)
+        out.append(f'<line class="grid" x1="{x:.0f}" y1="6" x2="{x:.0f}" y2="{h - 24}"{sw}/>')
         out.append(f'<text class="axis" x="{x:.0f}" y="{h - 8}" text-anchor="middle">{g:+.1f}</text>')
     for i, (name, t, s, en, ours) in enumerate(rows):
         y = 8 + (rh + gap) * i
@@ -305,6 +361,7 @@ page = """<!doctype html>
       <li><strong>解法只要一行程式：先把輸入全部轉成繁體，再拿去問。</strong>轉完以後，答案相反的題目從 """ + f"{FL26}" + """ 題變 """ + f"{FL2T}" + """ 題，五種大小的 Gemma 都一樣。這條已經寫進上線前的檢查清單。</li>
       <li><strong>我們自己的工廠題目也受一點影響。</strong>把 2,000 題產線判斷題全改成簡體，有 """ + f"{d0a['agree'] * 100:.1f}%" + """ 的題答案不變（繁體原樣跑兩次是 99.7%）；最弱的「警報有多急」這一類掉了 6 個百分點。所以先轉繁體對工廠題也有好處。</li>
       <li><strong>順便發現一件跟字形無關的事：同一題問兩次，答案可能不一樣。</strong>現在的伺服器設定下，同一題跑兩次，機率最大可以差到 """ + f"{G4['max']:.2f}" + """。只有改成「一次只問一題、不重複用上一題算過的東西」才會每次完全一樣。需要留紀錄、被稽核的判斷要用那個設定。</li>
+      <li><strong>後續（11 月）：微軟、Google 新出的決策模型也沒修好，而且別的主權爭議換成當事方的語言一樣會偏。</strong>三家簡體翻面 17–20 題；11 個爭議裡 8–10 個「用哪一方的語言問就偏向哪一方」，獨島／竹島最嚴重。先統一字形、先翻成英文能消掉大部分，但地名本身帶立場的消不掉。見第八節。</li>
     </ol>
   </div>
 
@@ -434,7 +491,8 @@ page = """<!doctype html>
   </div>
   <p>只有「一次一題、不重複用上一題算過的東西」會每次完全一樣，代價是 26B 跑這 1,200 題從大約 2.5 分鐘變 5 分鐘。右邊兩欄是重點：<strong>四種設定下，繁減簡的落差都是 0.75–0.78、翻面都是 34–36 題，所以前面的結論不是運氣</strong>。這也修正了我們上一輪的一個判斷：之前把「重跑會變」歸咎給一個加速功能（MTP），但這次沒開那個功能，在爭議題上一樣會變；工廠題的機率大多接近 0 或 1，很少「兩個答案都篤定」的題，所以當時看起來很穩。</p>
 
-  <p class="eyebrow">八 · 判定</p>
+""" + tw2_section() + """
+  <p class="eyebrow">九 · 判定</p>
   <h2>照開跑前寫好的規則填：先轉繁體再上線；要留紀錄的判斷用單題模式</h2>
   <p>我們每一輪實驗都在跑之前先寫好「什麼算過、什麼算沒過」，跑完照規則填，不事後改標準。這次的六條：</p>
   <div class="table-scroll wide route">

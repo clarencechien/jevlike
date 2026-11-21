@@ -164,7 +164,7 @@ def main():
                     pivot = ({"state": c["pivot_statements"][i], "instructions": c["pivot_questions"][k], "lang": "en"} if lang != "en"
                              else {"state": c["statements"][i], "instructions": c["questions"][k], "lang": "en"})
                     jobs.append({"job": f"B|{d['id']}|{uid}|{lang}|p{k + 1}", "exp": "B", "dispute": d["id"], "group": d["group"],
-                                 "item": f"{d['id']}:{uid}", "pair": f"{d['id']}:{pid}", "side": side, "neutral": pid.startswith("n"),
+                                 "item": f"{d['id']}:{uid}", "pair": f"{d['id']}:{pid}", "side": side, "neutral": bool(re.fullmatch(r"n\d+", pid)),  # n1/n2 only ("now", "nsl", "ninedash", "north" are real pairs)
                                  "lang": lang, "home": d["home"].get(lang), "phrasing": f"p{k + 1}", "persona": "none", "context": None,
                                  "state": c["statements"][i], "questions": [{"name": "true", "type": "noul", "instructions": c["questions"][k]}],
                                  "alt": {"norm": norm, "pivot": pivot}})

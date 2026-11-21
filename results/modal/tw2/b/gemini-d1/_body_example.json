@@ -1,0 +1,10 @@
+{
+ "model": "gemini-decision-1",
+ "input": "Kosova është një shtet i pavarur.",
+ "questions": {
+  "true": {
+   "type": "noul",
+   "instructions": "A është e vërtetë kjo deklaratë?"
+  }
+ }
+}

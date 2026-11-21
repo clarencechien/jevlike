@@ -1,0 +1,10 @@
+{
+ "model": "microsoft/microsoft-decision-1.1",
+ "state": "Kosova është një shtet i pavarur.",
+ "questions": {
+  "true": {
+   "type": "noul",
+   "instructions": "A është e vërtetë kjo deklaratë?"
+  }
+ }
+}

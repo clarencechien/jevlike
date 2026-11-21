@@ -1,0 +1,10 @@
+{
+ "model": "microsoft/microsoft-decision-1",
+ "state": "台灣是一個國家。",
+ "questions": {
+  "true": {
+   "type": "noul",
+   "instructions": "這句陳述是否正確？"
+  }
+ }
+}

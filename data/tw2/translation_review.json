@@ -1,0 +1,122 @@
+[
+ {
+  "dispute": "xinjiang",
+  "lang": "zh_tw",
+  "id": "un2022-X",
+  "problem": "fidelity",
+  "severity": "minor",
+  "note": "\"abuses\" rendered as 侵權行為, which in Chinese is primarily the legal term for \"tort/infringement\"; 侵犯人權行為 would be unambiguous. Meaning recoverable from context (UN human rights office), stance unchanged."
+ },
+ {
+  "dispute": "xinjiang",
+  "lang": "zh_cn",
+  "id": "un2022-X",
+  "problem": "fidelity",
+  "severity": "minor",
+  "note": "Same as zh_tw (OpenCC copy): 侵权行为 is ambiguous (tort/infringement) for \"abuses\"; stance unchanged."
+ },
+ {
+  "dispute": "hongkong",
+  "lang": "zh_tw",
+  "id": "nsl-X",
+  "problem": "fidelity",
+  "severity": "minor",
+  "note": "\"The 2020 National Security Law\" rendered as 2020年《國家安全法》/《国家安全法》; that bracketed title is the name of the 2015 PRC National Security Law; the 2020 Hong Kong law is usually 《香港國安法》/《港区国安法》. The year helps, and X and Y share the wording, so no symmetry effect."
+ },
+ {
+  "dispute": "hongkong",
+  "lang": "zh_tw",
+  "id": "nsl-Y",
+  "problem": "fidelity",
+  "severity": "minor",
+  "note": "\"The 2020 National Security Law\" rendered as 2020年《國家安全法》/《国家安全法》; that bracketed title is the name of the 2015 PRC National Security Law; the 2020 Hong Kong law is usually 《香港國安法》/《港区国安法》. The year helps, and X and Y share the wording, so no symmetry effect."
+ },
+ {
+  "dispute": "hongkong",
+  "lang": "zh_cn",
+  "id": "nsl-X",
+  "problem": "fidelity",
+  "severity": "minor",
+  "note": "\"The 2020 National Security Law\" rendered as 2020年《國家安全法》/《国家安全法》; that bracketed title is the name of the 2015 PRC National Security Law; the 2020 Hong Kong law is usually 《香港國安法》/《港区国安法》. The year helps, and X and Y share the wording, so no symmetry effect."
+ },
+ {
+  "dispute": "hongkong",
+  "lang": "zh_cn",
+  "id": "nsl-Y",
+  "problem": "fidelity",
+  "severity": "minor",
+  "note": "\"The 2020 National Security Law\" rendered as 2020年《國家安全法》/《国家安全法》; that bracketed title is the name of the 2015 PRC National Security Law; the 2020 Hong Kong law is usually 《香港國安法》/《港区国安法》. The year helps, and X and Y share the wording, so no symmetry effect."
+ },
+ {
+  "dispute": "kashmir",
+  "lang": "ur",
+  "id": "status-X",
+  "problem": "fidelity",
+  "severity": "minor",
+  "note": "\"integral part\" rendered as لازمی حصہ (\"necessary/essential part\"), weaker and less idiomatic than اٹوٹ انگ; Hindi uses the stronger अभिन्न अंग, so the X claim reads slightly softer in Urdu than in Hindi. Stance unchanged."
+ },
+ {
+  "dispute": "kashmir",
+  "lang": "hi",
+  "id": "accession-X",
+  "problem": "fidelity",
+  "severity": "minor",
+  "note": "\"accession\" rendered as विलय (\"merger\"), the customary Indian term (cf. विलय पत्र) but semantically broader than accession (अधिमिलन). Same word in X and Y, so no symmetry effect."
+ },
+ {
+  "dispute": "kashmir",
+  "lang": "hi",
+  "id": "accession-Y",
+  "problem": "fidelity",
+  "severity": "minor",
+  "note": "\"accession\" rendered as विलय (\"merger\"), the customary Indian term (cf. विलय पत्र) but semantically broader than accession (अधिमिलन). Same word in X and Y, so no symmetry effect."
+ },
+ {
+  "dispute": "kosovo",
+  "lang": "sq",
+  "id": "government-X",
+  "problem": "fidelity",
+  "severity": "minor",
+  "note": "\"its own elected government\" rendered as \"qeveria e saj e zgjedhur\" (its elected government); \"own\" (vetë) dropped, slightly reducing the self-government emphasis. Serbian keeps \"сопствена\"."
+ },
+ {
+  "dispute": "scs",
+  "lang": "vi",
+  "id": "ruling-Y",
+  "problem": "fidelity",
+  "severity": "minor",
+  "note": "\"null and void\" rendered as \"vô giá trị\" (\"worthless/of no value\"), which is colloquial/dismissive rather than the legal \"vô hiệu (và không có giá trị)\". Claim of invalidity preserved."
+ },
+ {
+  "dispute": "scs",
+  "lang": "zh_cn",
+  "id": "questions",
+  "problem": "question",
+  "severity": "minor",
+  "note": "scs|zh_cn uses a different question set (这个陈述是真实的吗？/这个陈述在事实上准确吗？/中立的事实核查员会将这个陈述评定为真实吗？) from the four B1 zh_cn disputes (这句陈述是否正确？/…是否符合事实？/一位中立的事实查核员…). Each phrasing is correct on its own, but question wording differs within zh_cn across disputes."
+ },
+ {
+  "dispute": "falklands",
+  "lang": "en",
+  "id": "status-X",
+  "problem": "fidelity",
+  "severity": "minor",
+  "note": "Sentence starts with lowercase \"the Falkland Islands\" (the {ISLANDS} value was substituted at sentence start without capitalising). Cosmetic; in selfdet only Y is affected, so the X/Y pair differs trivially in form."
+ },
+ {
+  "dispute": "falklands",
+  "lang": "en",
+  "id": "status-Y",
+  "problem": "fidelity",
+  "severity": "minor",
+  "note": "Sentence starts with lowercase \"the Falkland Islands\" (the {ISLANDS} value was substituted at sentence start without capitalising). Cosmetic; in selfdet only Y is affected, so the X/Y pair differs trivially in form."
+ },
+ {
+  "dispute": "falklands",
+  "lang": "en",
+  "id": "selfdet-Y",
+  "problem": "fidelity",
+  "severity": "minor",
+  "note": "Sentence starts with lowercase \"the Falkland Islands\" (the {ISLANDS} value was substituted at sentence start without capitalising). Cosmetic; in selfdet only Y is affected, so the X/Y pair differs trivially in form."
+ }
+]

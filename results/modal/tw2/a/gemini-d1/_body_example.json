@@ -1,0 +1,10 @@
+{
+ "model": "gemini-decision-1",
+ "input": "台灣是一個國家。",
+ "questions": {
+  "true": {
+   "type": "noul",
+   "instructions": "這句陳述是否正確？"
+  }
+ }
+}

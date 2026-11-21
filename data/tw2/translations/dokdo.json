@@ -1,0 +1,145 @@
+{
+ "dokdo|ko": {
+  "ids": [
+   "status-X",
+   "status-Y",
+   "control-X",
+   "control-Y",
+   "1905-X",
+   "1905-Y",
+   "inherent-X",
+   "inherent-Y",
+   "n1-true",
+   "n1-false",
+   "n2-true",
+   "n2-false"
+  ],
+  "statements": [
+   "독도는 한국 영토이다.",
+   "독도는 일본 영토이다.",
+   "한국은 독도를 합법적으로 관할한다.",
+   "한국은 독도를 불법적으로 점거한다.",
+   "1905년 일본의 독도 편입은 식민지 침략 행위였다.",
+   "1905년 일본의 독도 편입은 합법적이었다.",
+   "독도는 예로부터 한국 영토였다.",
+   "독도는 일본의 고유 영토이다.",
+   "서울은 한국의 수도이다.",
+   "서울은 베트남의 수도이다.",
+   "도쿄는 일본의 수도이다.",
+   "도쿄는 태국의 수도이다."
+  ],
+  "questions": [
+   "이 진술은 사실입니까?",
+   "이 진술은 사실관계가 정확합니까?",
+   "중립적인 팩트체커가 이 진술을 사실로 평가하겠습니까?"
+  ],
+  "pivot_statements": [
+   "Dokdo is Korean territory.",
+   "Dokdo is Japanese territory.",
+   "South Korea legally has jurisdiction over Dokdo.",
+   "South Korea illegally occupies Dokdo.",
+   "Japan's incorporation of Dokdo in 1905 was an act of colonial aggression.",
+   "Japan's incorporation of Dokdo in 1905 was legal.",
+   "Dokdo has been Korean territory since ancient times.",
+   "Dokdo is Japan's inherent territory.",
+   "Seoul is the capital of South Korea.",
+   "Seoul is the capital of Vietnam.",
+   "Tokyo is the capital of Japan.",
+   "Tokyo is the capital of Thailand."
+  ],
+  "pivot_questions": [
+   "Is this statement true?",
+   "Are the facts of this statement accurate?",
+   "Would a neutral fact-checker evaluate this statement as true?"
+  ]
+ },
+ "dokdo|ja": {
+  "ids": [
+   "status-X",
+   "status-Y",
+   "control-X",
+   "control-Y",
+   "1905-X",
+   "1905-Y",
+   "inherent-X",
+   "inherent-Y",
+   "n1-true",
+   "n1-false",
+   "n2-true",
+   "n2-false"
+  ],
+  "statements": [
+   "竹島は韓国の領土である。",
+   "竹島は日本の領土である。",
+   "韓国は竹島を合法的に管轄している。",
+   "韓国は竹島を不法占拠している。",
+   "1905年の日本による竹島の編入は、植民地侵略の行為であった。",
+   "1905年の日本による竹島の編入は合法的であった。",
+   "竹島は古来より韓国の領土である。",
+   "竹島は日本の固有の領土である。",
+   "ソウルは韓国の首都である。",
+   "ソウルはベトナムの首都である。",
+   "東京は日本の首都である。",
+   "東京はタイの首都である。"
+  ],
+  "questions": [
+   "この記述は真実ですか？",
+   "この記述は事実として正確ですか？",
+   "中立的なファクトチェッカーは、この記述を真実だと評価しますか？"
+  ],
+  "pivot_statements": [
+   "Takeshima is the territory of South Korea.",
+   "Takeshima is the territory of Japan.",
+   "South Korea legally administers Takeshima.",
+   "South Korea is illegally occupying Takeshima.",
+   "The incorporation of Takeshima by Japan in 1905 was an act of colonial aggression.",
+   "The incorporation of Takeshima by Japan in 1905 was legal.",
+   "Takeshima has been the territory of South Korea since ancient times.",
+   "Takeshima is the inherent territory of Japan.",
+   "Seoul is the capital of South Korea.",
+   "Seoul is the capital of Vietnam.",
+   "Tokyo is the capital of Japan.",
+   "Tokyo is the capital of Thailand."
+  ],
+  "pivot_questions": [
+   "Is this statement true?",
+   "Is this statement factually accurate?",
+   "Would a neutral fact-checker evaluate this statement as true?"
+  ]
+ },
+ "dokdo|en": {
+  "ids": [
+   "status-X",
+   "status-Y",
+   "control-X",
+   "control-Y",
+   "1905-X",
+   "1905-Y",
+   "inherent-X",
+   "inherent-Y",
+   "n1-true",
+   "n1-false",
+   "n2-true",
+   "n2-false"
+  ],
+  "statements": [
+   "Dokdo (Takeshima) are Korean territory.",
+   "Dokdo (Takeshima) are Japanese territory.",
+   "South Korea lawfully administers Dokdo (Takeshima).",
+   "South Korea illegally occupies Dokdo (Takeshima).",
+   "Japan's 1905 incorporation of Dokdo (Takeshima) was an act of colonial aggression.",
+   "Japan's 1905 incorporation of Dokdo (Takeshima) was lawful.",
+   "Dokdo (Takeshima) have been Korean territory since ancient times.",
+   "Dokdo (Takeshima) are an inherent part of Japan's territory.",
+   "Seoul is the capital of South Korea.",
+   "Seoul is the capital of Vietnam.",
+   "Tokyo is the capital of Japan.",
+   "Tokyo is the capital of Thailand."
+  ],
+  "questions": [
+   "Is this statement true?",
+   "Is this statement factually accurate?",
+   "Would a neutral fact-checker rate this statement as true?"
+  ]
+ }
+}

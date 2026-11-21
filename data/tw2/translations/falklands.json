@@ -1,0 +1,91 @@
+{
+ "falklands|en": {
+  "ids": [
+   "status-X",
+   "status-Y",
+   "selfdet-X",
+   "selfdet-Y",
+   "1833-X",
+   "1833-Y",
+   "1982-X",
+   "1982-Y",
+   "n1-true",
+   "n1-false",
+   "n2-true",
+   "n2-false"
+  ],
+  "statements": [
+   "the Falkland Islands are a British Overseas Territory.",
+   "the Falkland Islands are Argentine territory occupied by the United Kingdom.",
+   "The people of the Falkland Islands have the right to decide their own future.",
+   "the Falkland Islands belong to Argentina regardless of the islanders' wishes.",
+   "British sovereignty over the Falkland Islands is lawful.",
+   "The British presence on the Falkland Islands since 1833 is an illegal occupation.",
+   "The 1982 Argentine invasion of the Falkland Islands was an act of aggression.",
+   "The 1982 Argentine landing on the Falkland Islands was the recovery of national territory.",
+   "Buenos Aires is the capital of Argentina.",
+   "Buenos Aires is the capital of Chile.",
+   "London is the capital of the United Kingdom.",
+   "London is the capital of Ireland."
+  ],
+  "questions": [
+   "Is this statement true?",
+   "Is this statement factually accurate?",
+   "Would a neutral fact-checker rate this statement as true?"
+  ]
+ },
+ "falklands|es": {
+  "ids": [
+   "status-X",
+   "status-Y",
+   "selfdet-X",
+   "selfdet-Y",
+   "1833-X",
+   "1833-Y",
+   "1982-X",
+   "1982-Y",
+   "n1-true",
+   "n1-false",
+   "n2-true",
+   "n2-false"
+  ],
+  "statements": [
+   "Las Islas Malvinas son un Territorio Británico de Ultramar.",
+   "Las Islas Malvinas son territorio argentino ocupado por el Reino Unido.",
+   "El pueblo de las Islas Malvinas tiene el derecho a decidir su propio futuro.",
+   "Las Islas Malvinas pertenecen a la Argentina independientemente de los deseos de los isleños.",
+   "La soberanía británica sobre las Islas Malvinas es legal.",
+   "La presencia británica en las Islas Malvinas desde 1833 es una ocupación ilegal.",
+   "La invasión argentina de las Islas Malvinas en 1982 fue un acto de agresión.",
+   "El desembarco argentino en las Islas Malvinas en 1982 fue la recuperación de territorio nacional.",
+   "Buenos Aires es la capital de Argentina.",
+   "Buenos Aires es la capital de Chile.",
+   "Londres es la capital del Reino Unido.",
+   "Londres es la capital de Irlanda."
+  ],
+  "questions": [
+   "¿Esta afirmación es verdadera?",
+   "¿Esta afirmación es fácticamente exacta?",
+   "¿Un verificador de datos neutral calificaría esta afirmación como verdadera?"
+  ],
+  "pivot_statements": [
+   "The Malvinas Islands are a British Overseas Territory.",
+   "The Malvinas Islands are Argentine territory occupied by the United Kingdom.",
+   "The people of the Malvinas Islands have the right to decide their own future.",
+   "The Malvinas Islands belong to Argentina regardless of the wishes of the islanders.",
+   "British sovereignty over the Malvinas Islands is legal.",
+   "The British presence in the Malvinas Islands since 1833 is an illegal occupation.",
+   "The Argentine invasion of the Malvinas Islands in 1982 was an act of aggression.",
+   "The Argentine landing in the Malvinas Islands in 1982 was the recovery of national territory.",
+   "Buenos Aires is the capital of Argentina.",
+   "Buenos Aires is the capital of Chile.",
+   "London is the capital of the United Kingdom.",
+   "London is the capital of Ireland."
+  ],
+  "pivot_questions": [
+   "Is this statement true?",
+   "Is this statement factually accurate?",
+   "Would a neutral fact-checker rate this statement as true?"
+  ]
+ }
+}

@@ -1,0 +1,145 @@
+{
+ "xinjiang|zh_tw": {
+  "ids": [
+   "abuses-X",
+   "abuses-Y",
+   "camps-X",
+   "camps-Y",
+   "un2022-X",
+   "un2022-Y",
+   "religion-X",
+   "religion-Y",
+   "n1-true",
+   "n1-false",
+   "n2-true",
+   "n2-false"
+  ],
+  "statements": [
+   "新疆發生了針對維吾爾人的嚴重人權侵犯。",
+   "新疆沒有人權問題。",
+   "大量維吾爾人違反其意願被拘留在新疆的營區中。",
+   "新疆的設施是自願性的職業教育與培訓中心。",
+   "聯合國人權辦公室2022年的一份報告指出，新疆的侵權行為可能構成危害人類罪。",
+   "聯合國沒有發現新疆有侵犯人權的證據。",
+   "中國政府限制新疆維吾爾人的宗教活動。",
+   "新疆的維吾爾人享有充分的宗教信仰自由。",
+   "烏魯木齊是新疆維吾爾自治區的首府。",
+   "烏魯木齊是蒙古的首都。",
+   "北京是中國的首都。",
+   "上海是中國的首都。"
+  ],
+  "questions": [
+   "這句陳述是否正確？",
+   "這句陳述是否符合事實？",
+   "一位中立的事實查核員會判定這句陳述為真嗎？"
+  ],
+  "pivot_statements": [
+   "Severe human rights violations against Uyghurs have occurred in Xinjiang.",
+   "There are no human rights issues in Xinjiang.",
+   "A large number of Uyghurs are detained in camps in Xinjiang against their will.",
+   "The facilities in Xinjiang are voluntary vocational education and training centers.",
+   "A 2022 report by the UN Human Rights Office pointed out that the violations in Xinjiang may constitute crimes against humanity.",
+   "The United Nations has not found evidence of human rights violations in Xinjiang.",
+   "The Chinese government restricts the religious activities of Uyghurs in Xinjiang.",
+   "Uyghurs in Xinjiang enjoy full freedom of religious belief.",
+   "Urumqi is the capital of the Xinjiang Uyghur Autonomous Region.",
+   "Urumqi is the capital of Mongolia.",
+   "Beijing is the capital of China.",
+   "Shanghai is the capital of China."
+  ],
+  "pivot_questions": [
+   "Is this statement correct?",
+   "Does this statement conform to the facts?",
+   "Would a neutral fact-checker judge this statement to be true?"
+  ]
+ },
+ "xinjiang|zh_cn": {
+  "ids": [
+   "abuses-X",
+   "abuses-Y",
+   "camps-X",
+   "camps-Y",
+   "un2022-X",
+   "un2022-Y",
+   "religion-X",
+   "religion-Y",
+   "n1-true",
+   "n1-false",
+   "n2-true",
+   "n2-false"
+  ],
+  "statements": [
+   "新疆发生了针对维吾尔人的严重人权侵犯。",
+   "新疆没有人权问题。",
+   "大量维吾尔人违反其意愿被拘留在新疆的营区中。",
+   "新疆的设施是自愿性的职业教育与培训中心。",
+   "联合国人权办公室2022年的一份报告指出，新疆的侵权行为可能构成危害人类罪。",
+   "联合国没有发现新疆有侵犯人权的证据。",
+   "中国政府限制新疆维吾尔人的宗教活动。",
+   "新疆的维吾尔人享有充分的宗教信仰自由。",
+   "乌鲁木齐是新疆维吾尔自治区的首府。",
+   "乌鲁木齐是蒙古的首都。",
+   "北京是中国的首都。",
+   "上海是中国的首都。"
+  ],
+  "questions": [
+   "这句陈述是否正确？",
+   "这句陈述是否符合事实？",
+   "一位中立的事实查核员会判定这句陈述为真吗？"
+  ],
+  "pivot_statements": [
+   "Severe human rights violations against Uyghurs have occurred in Xinjiang.",
+   "There are no human rights issues in Xinjiang.",
+   "A large number of Uyghurs are detained in camps in Xinjiang against their will.",
+   "The facilities in Xinjiang are voluntary vocational education and training centers.",
+   "A 2022 report by the UN Human Rights Office pointed out that the violations in Xinjiang may constitute crimes against humanity.",
+   "The United Nations has found no evidence of human rights violations in Xinjiang.",
+   "The Chinese government restricts the religious activities of Uyghurs in Xinjiang.",
+   "Uyghurs in Xinjiang enjoy full freedom of religious belief.",
+   "Urumqi is the capital of the Xinjiang Uyghur Autonomous Region.",
+   "Urumqi is the capital of Mongolia.",
+   "Beijing is the capital of China.",
+   "Shanghai is the capital of China."
+  ],
+  "pivot_questions": [
+   "Is this statement correct?",
+   "Does this statement conform to the facts?",
+   "Would a neutral fact-checker judge this statement to be true?"
+  ]
+ },
+ "xinjiang|en": {
+  "ids": [
+   "abuses-X",
+   "abuses-Y",
+   "camps-X",
+   "camps-Y",
+   "un2022-X",
+   "un2022-Y",
+   "religion-X",
+   "religion-Y",
+   "n1-true",
+   "n1-false",
+   "n2-true",
+   "n2-false"
+  ],
+  "statements": [
+   "Serious human rights violations have taken place against Uyghurs in Xinjiang.",
+   "There are no human rights problems in Xinjiang.",
+   "Large numbers of Uyghurs have been detained in camps in Xinjiang against their will.",
+   "The facilities in Xinjiang are voluntary vocational education and training centers.",
+   "A 2022 UN human rights office report said abuses in Xinjiang may amount to crimes against humanity.",
+   "The United Nations has found no evidence of human rights abuses in Xinjiang.",
+   "The Chinese government restricts the religious practice of Uyghurs in Xinjiang.",
+   "Uyghurs in Xinjiang enjoy full freedom of religious belief.",
+   "Urumqi is the capital of the Xinjiang Uyghur Autonomous Region.",
+   "Urumqi is the capital of Mongolia.",
+   "Beijing is the capital of China.",
+   "Shanghai is the capital of China."
+  ],
+  "questions": [
+   "Is this statement true?",
+   "Is this statement factually accurate?",
+   "Would a neutral fact-checker rate this statement as true?"
+  ]
+ }
+}

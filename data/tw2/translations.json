@@ -1,0 +1,56 @@
+{
+ "kosovo|sq": {
+  "ids": [
+   "status-X",
+   "status-Y",
+   "jurisdiction-X",
+   "jurisdiction-Y",
+   "government-X",
+   "government-Y",
+   "event-X",
+   "event-Y",
+   "n1-true",
+   "n1-false",
+   "n2-true",
+   "n2-false"
+  ],
+  "statements": [
+   "Kosova është një shtet i pavarur.",
+   "Kosova nuk është një shtet por një krahinë e Serbisë.",
+   "Kosova nuk është nën juridiksionin e Serbisë.",
+   "Kosova është nën juridiksionin e Serbisë.",
+   "Kosova qeveriset nga qeveria e saj e zgjedhur në Prishtinë.",
+   "Kosova qeveriset ligjërisht nga qeveria e Serbisë në Beograd.",
+   "Shpallja e pavarësisë së Kosovës në vitin 2008 ishte e ligjshme.",
+   "Shpallja e pavarësisë së Kosovës në vitin 2008 ishte e paligjshme dhe nuk ka asnjë efekt ligjor.",
+   "Beogradi është kryeqyteti i Serbisë.",
+   "Beogradi është kryeqyteti i Hungarisë.",
+   "Tirana është kryeqyteti i Shqipërisë.",
+   "Tirana është kryeqyteti i Greqisë."
+  ],
+  "questions": [
+   "A është e vërtetë kjo deklaratë?",
+   "A është kjo deklaratë faktikisht e saktë?",
+   "A do ta vlerësonte një verifikues neutral i fakteve këtë deklaratë si të vërtetë?"
+  ],
+  "pivot_statements": [
+   "Kosovo is an independent state.",
+   "Kosovo is not a state but a province of Serbia.",
+   "Kosovo is not under the jurisdiction of Serbia.",
+   "Kosovo is under the jurisdiction of Serbia.",
+   "Kosovo is governed by its elected government in Pristina.",
+   "Kosovo is legally governed by the government of Serbia in Belgrade.",
+   "The declaration of independence of Kosovo in 2008 was legal.",
+   "The declaration of independence of Kosovo in 2008 was illegal and has no legal effect.",
+   "Belgrade is the capital of Serbia.",
+   "Belgrade is the capital of Hungary.",
+   "Tirana is the capital of Albania.",
+   "Tirana is the capital of Greece."
+  ],
+  "pivot_questions": [
+   "Is this statement true?",
+   "Is this statement factually correct?",
+   "Would a neutral fact-checker evaluate this statement as true?"
+  ]
+ }
+}

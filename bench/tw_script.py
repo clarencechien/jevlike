@@ -36,7 +36,11 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_ROOT = "/root/data" if os.path.isdir("/root/data") else os.path.join(REPO, "data")
 JOBS = os.path.join(DATA_ROOT, "tw", "jobs.jsonl")
 
-YES_NO = {"zh_tw": ("是", "否"), "zh_cn": ("是", "否"), "en": ("Yes", "No")}
+YES_NO = {"zh_tw": ("是", "否"), "zh_cn": ("是", "否"), "en": ("Yes", "No"),
+          # tw2 part B languages (yes / no in the job's own language; the production scaffolding around them stays as is)
+          "sq": ("Po", "Jo"), "sr_cyrl": ("Да", "Не"), "sr_latn": ("Da", "Ne"), "ru": ("Да", "Нет"), "uk": ("Так", "Ні"),
+          "hi": ("हाँ", "नहीं"), "ur": ("ہاں", "نہیں"), "ko": ("예", "아니요"), "ja": ("はい", "いいえ"), "vi": ("Có", "Không"),
+          "fil": ("Oo", "Hindi"), "es": ("Sí", "No"), "el": ("Ναι", "Όχι"), "tr": ("Evet", "Hayır")}
 # native arm: the production scaffolding with 產線 dropped, then OpenCC t2s for zh_cn; English = v8 JevBench scaffolding
 NATIVE = {
     "zh_tw": {"system": "你是決策引擎。只回答一個字母。", "state": "【狀態】", "question": "【問題】", "answer": "只回答代表正確選項的字母。"},
@@ -93,12 +97,16 @@ class GemmaReader:
     def answer(self, job):
         lang = job["lang"]
         state = state_text(job)
+        alt = None
+        if self.arm in ("prod_norm", "prod_pivot"):  # tw2: precomputed script-unified / English-pivot text (data/tw2/jobs.jsonl `alt`)
+            alt = job["alt"]["norm" if self.arm == "prod_norm" else "pivot"]
+            lang, state = alt["lang"], alt["state"]
         conv = self.arm == "prod_s2t" and lang == "zh_cn"
         if conv:
             state = s2t(state)
         out = {}
         for q in job["questions"]:
-            instr = s2t(q["instructions"]) if conv else q["instructions"]
+            instr = alt["instructions"] if alt else (s2t(q["instructions"]) if conv else q["instructions"])
             if q["type"] == "noul":
                 yes, no = YES_NO[lang]
                 r1 = self._read(lang, state, instr, [("A", yes), ("B", no)])
@@ -200,7 +208,8 @@ def main(base_url, out_dir, args="", commit=None, model="26b", backend="llama", 
     workers = int(a.get("--workers", 4))
     limit = int(a.get("--limit", 0))
     exps = set(a.get("--exps", "E1,E2,E3,E4,E5").split(","))
-    jobs = [json.loads(l) for l in open(JOBS, encoding="utf-8")]
+    jobs_path = os.path.join(DATA_ROOT, a["--jobs"]) if a.get("--jobs") else JOBS  # tw2: --jobs tw2/jobs.jsonl --exps B
+    jobs = [json.loads(l) for l in open(jobs_path, encoding="utf-8")]
     jobs = [j for j in jobs if j["exp"] in exps and not j.get("image")][: limit or None]
     os.makedirs(out_dir, exist_ok=True)
     out = {"model": model, "n_jobs": len(jobs), "runs": []}

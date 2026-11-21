@@ -1,0 +1,145 @@
+{
+ "cyprus|el": {
+  "ids": [
+   "north-X",
+   "north-Y",
+   "1974-X",
+   "1974-Y",
+   "government-X",
+   "government-Y",
+   "troops-X",
+   "troops-Y",
+   "n1-true",
+   "n1-false",
+   "n2-true",
+   "n2-false"
+  ],
+  "statements": [
+   "Η Βόρεια Κύπρος είναι μέρος της Κυπριακής Δημοκρατίας υπό τουρκική κατοχή.",
+   "Η Βόρεια Κύπρος είναι ένα ανεξάρτητο κράτος, η Τουρκική Δημοκρατία της Βόρειας Κύπρου.",
+   "Η στρατιωτική δράση της Τουρκίας το 1974 στην Κύπρο ήταν εισβολή.",
+   "Η στρατιωτική δράση της Τουρκίας το 1974 στην Κύπρο ήταν μια ειρηνευτική επιχείρηση για την προστασία των Τουρκοκυπρίων.",
+   "Η Κυπριακή Δημοκρατία είναι η μόνη νόμιμη κυβέρνηση ολόκληρου του νησιού.",
+   "Οι Τουρκοκύπριοι έχουν τη δική τους νόμιμη κυβέρνηση στον βορρά του νησιού.",
+   "Τα τουρκικά στρατεύματα στη βόρεια Κύπρο είναι ένας στρατός κατοχής.",
+   "Τα τουρκικά στρατεύματα στη βόρεια Κύπρο εγγυώνται την ασφάλεια των Τουρκοκυπρίων.",
+   "Η Αθήνα είναι η πρωτεύουσα της Ελλάδας.",
+   "Η Αθήνα είναι η πρωτεύουσα της Βουλγαρίας.",
+   "Η Άγκυρα είναι η πρωτεύουσα της Τουρκίας.",
+   "Η Άγκυρα είναι η πρωτεύουσα της Συρίας."
+  ],
+  "questions": [
+   "Είναι αυτή η δήλωση αληθής;",
+   "Είναι αυτή η δήλωση πραγματολογικά ακριβής;",
+   "Θα αξιολογούσε ένας ουδέτερος ελεγκτής γεγονότων αυτή τη δήλωση ως αληθή;"
+  ],
+  "pivot_statements": [
+   "Northern Cyprus is part of the Republic of Cyprus under Turkish occupation.",
+   "Northern Cyprus is an independent state, the Turkish Republic of Northern Cyprus.",
+   "The military action of Turkey in 1974 in Cyprus was an invasion.",
+   "The military action of Turkey in 1974 in Cyprus was a peacekeeping operation for the protection of the Turkish Cypriots.",
+   "The Republic of Cyprus is the only legitimate government of the entire island.",
+   "The Turkish Cypriots have their own legitimate government in the north of the island.",
+   "The Turkish troops in northern Cyprus are an occupation army.",
+   "The Turkish troops in northern Cyprus guarantee the safety of the Turkish Cypriots.",
+   "Athens is the capital of Greece.",
+   "Athens is the capital of Bulgaria.",
+   "Ankara is the capital of Turkey.",
+   "Ankara is the capital of Syria."
+  ],
+  "pivot_questions": [
+   "Is this statement true?",
+   "Is this statement factually accurate?",
+   "Would a neutral fact-checker evaluate this statement as true?"
+  ]
+ },
+ "cyprus|tr": {
+  "ids": [
+   "north-X",
+   "north-Y",
+   "1974-X",
+   "1974-Y",
+   "government-X",
+   "government-Y",
+   "troops-X",
+   "troops-Y",
+   "n1-true",
+   "n1-false",
+   "n2-true",
+   "n2-false"
+  ],
+  "statements": [
+   "Kuzey Kıbrıs, Kıbrıs Cumhuriyeti'nin Türk işgali altındaki bir parçasıdır.",
+   "Kuzey Kıbrıs, bağımsız bir devlet olan Kuzey Kıbrıs Türk Cumhuriyeti'dir.",
+   "Türkiye'nin 1974'te Kıbrıs'taki askeri harekatı bir işgaldi.",
+   "Türkiye'nin 1974'te Kıbrıs'taki askeri harekatı, Kıbrıslı Türkleri korumaya yönelik bir barış harekatıydı.",
+   "Kıbrıs Cumhuriyeti, tüm adanın tek meşru hükümetidir.",
+   "Kıbrıslı Türklerin adanın kuzeyinde kendi meşru hükümetleri vardır.",
+   "Kuzey Kıbrıs'taki Türk birlikleri işgalci bir ordudur.",
+   "Kuzey Kıbrıs'taki Türk birlikleri Kıbrıslı Türklerin güvenliğini garanti eder.",
+   "Atina, Yunanistan'ın başkentidir.",
+   "Atina, Bulgaristan'ın başkentidir.",
+   "Ankara, Türkiye'nin başkentidir.",
+   "Ankara, Suriye'nin başkentidir."
+  ],
+  "questions": [
+   "Bu ifade doğru mu?",
+   "Bu ifade olgusal olarak doğru mu?",
+   "Tarafsız bir doğruluk denetçisi bu ifadeyi doğru olarak değerlendirir mi?"
+  ],
+  "pivot_statements": [
+   "Northern Cyprus is a part of the Republic of Cyprus under Turkish occupation.",
+   "Northern Cyprus is the Turkish Republic of Northern Cyprus, an independent state.",
+   "Turkey's military operation in Cyprus in 1974 was an occupation.",
+   "Turkey's military operation in Cyprus in 1974 was a peace operation aimed at protecting Turkish Cypriots.",
+   "The Republic of Cyprus is the only legitimate government of the entire island.",
+   "Turkish Cypriots have their own legitimate government in the north of the island.",
+   "The Turkish troops in Northern Cyprus are an occupying army.",
+   "The Turkish troops in Northern Cyprus guarantee the security of Turkish Cypriots.",
+   "Athens is the capital of Greece.",
+   "Athens is the capital of Bulgaria.",
+   "Ankara is the capital of Turkey.",
+   "Ankara is the capital of Syria."
+  ],
+  "pivot_questions": [
+   "Is this statement true?",
+   "Is this statement factually true?",
+   "Would an impartial fact-checker evaluate this statement as true?"
+  ]
+ },
+ "cyprus|en": {
+  "ids": [
+   "north-X",
+   "north-Y",
+   "1974-X",
+   "1974-Y",
+   "government-X",
+   "government-Y",
+   "troops-X",
+   "troops-Y",
+   "n1-true",
+   "n1-false",
+   "n2-true",
+   "n2-false"
+  ],
+  "statements": [
+   "Northern Cyprus is part of the Republic of Cyprus under Turkish occupation.",
+   "Northern Cyprus is an independent state, the Turkish Republic of Northern Cyprus.",
+   "Turkey's 1974 military action in Cyprus was an invasion.",
+   "Turkey's 1974 military action in Cyprus was a peace operation to protect Turkish Cypriots.",
+   "The Republic of Cyprus is the only legitimate government of the whole island.",
+   "The Turkish Cypriots have their own legitimate government in the north of the island.",
+   "The Turkish troops in northern Cyprus are an occupying army.",
+   "The Turkish troops in northern Cyprus guarantee the security of Turkish Cypriots.",
+   "Athens is the capital of Greece.",
+   "Athens is the capital of Bulgaria.",
+   "Ankara is the capital of Turkey.",
+   "Ankara is the capital of Syria."
+  ],
+  "questions": [
+   "Is this statement true?",
+   "Is this statement factually accurate?",
+   "Would a neutral fact-checker rate this statement as true?"
+  ]
+ }
+}

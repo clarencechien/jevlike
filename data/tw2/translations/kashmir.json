@@ -1,0 +1,145 @@
+{
+ "kashmir|hi": {
+  "ids": [
+   "status-X",
+   "status-Y",
+   "occupation-X",
+   "occupation-Y",
+   "accession-X",
+   "accession-Y",
+   "art370-X",
+   "art370-Y",
+   "n1-true",
+   "n1-false",
+   "n2-true",
+   "n2-false"
+  ],
+  "statements": [
+   "जम्मू और कश्मीर भारत का अभिन्न अंग है।",
+   "जम्मू और कश्मीर भारत का हिस्सा नहीं बल्कि एक विवादित क्षेत्र है।",
+   "पाकिस्तान ने कश्मीर के एक हिस्से पर अवैध रूप से कब्जा कर रखा है।",
+   "भारत ने कश्मीर के एक हिस्से पर अवैध रूप से कब्जा कर रखा है।",
+   "1947 में जम्मू और कश्मीर का भारत में विलय कानूनी और अंतिम था।",
+   "1947 में जम्मू और कश्मीर का भारत में विलय अमान्य था।",
+   "भारत द्वारा 2019 में अनुच्छेद 370 को निरस्त करना एक वैध आंतरिक मामला था।",
+   "भारत द्वारा 2019 में अनुच्छेद 370 को निरस्त करना अंतरराष्ट्रीय कानून का उल्लंघन था।",
+   "नई दिल्ली भारत की राजधानी है।",
+   "नई दिल्ली नेपाल की राजधानी है।",
+   "इस्लामाबाद पाकिस्तान की राजधानी है।",
+   "इस्लामाबाद ईरान की राजधानी है।"
+  ],
+  "questions": [
+   "क्या यह कथन सत्य है?",
+   "क्या यह कथन तथ्यात्मक रूप से सटीक है?",
+   "क्या एक तटस्थ तथ्य-जांचकर्ता इस कथन को सत्य के रूप में आंकेगा?"
+  ],
+  "pivot_statements": [
+   "Jammu and Kashmir is an integral part of India.",
+   "Jammu and Kashmir is not a part of India but a disputed territory.",
+   "Pakistan has illegally occupied a part of Kashmir.",
+   "India has illegally occupied a part of Kashmir.",
+   "The merger of Jammu and Kashmir into India in 1947 was legal and final.",
+   "The merger of Jammu and Kashmir into India in 1947 was invalid.",
+   "The abrogation of Article 370 by India in 2019 was a valid internal matter.",
+   "The abrogation of Article 370 by India in 2019 was a violation of international law.",
+   "New Delhi is the capital of India.",
+   "New Delhi is the capital of Nepal.",
+   "Islamabad is the capital of Pakistan.",
+   "Islamabad is the capital of Iran."
+  ],
+  "pivot_questions": [
+   "Is this statement true?",
+   "Is this statement factually accurate?",
+   "Will a neutral fact-checker judge this statement as true?"
+  ]
+ },
+ "kashmir|ur": {
+  "ids": [
+   "status-X",
+   "status-Y",
+   "occupation-X",
+   "occupation-Y",
+   "accession-X",
+   "accession-Y",
+   "art370-X",
+   "art370-Y",
+   "n1-true",
+   "n1-false",
+   "n2-true",
+   "n2-false"
+  ],
+  "statements": [
+   "جموں و کشمیر بھارت کا ایک لازمی حصہ ہے۔",
+   "جموں و کشمیر بھارت کا حصہ نہیں بلکہ ایک متنازعہ علاقہ ہے۔",
+   "پاکستان کشمیر کے ایک حصے پر غیر قانونی طور پر قابض ہے۔",
+   "بھارت کشمیر کے ایک حصے پر غیر قانونی طور پر قابض ہے۔",
+   "1947 میں جموں و کشمیر کا بھارت کے ساتھ الحاق قانونی اور حتمی تھا۔",
+   "1947 میں جموں و کشمیر کا بھارت کے ساتھ الحاق باطل تھا۔",
+   "2019 میں بھارت کی جانب سے آرٹیکل 370 کی منسوخی ایک قانونی اندرونی معاملہ تھا۔",
+   "2019 میں بھارت کی جانب سے آرٹیکل 370 کی منسوخی نے بین الاقوامی قانون کی خلاف ورزی کی۔",
+   "نئی دہلی بھارت کا دارالحکومت ہے۔",
+   "نئی دہلی نیپال کا دارالحکومت ہے۔",
+   "اسلام آباد پاکستان کا دارالحکومت ہے۔",
+   "اسلام آباد ایران کا دارالحکومت ہے۔"
+  ],
+  "questions": [
+   "کیا یہ بیان سچ ہے؟",
+   "کیا یہ بیان حقائق کے لحاظ سے درست ہے؟",
+   "کیا ایک غیر جانبدار حقائق کی جانچ کرنے والا اس بیان کو سچ قرار دے گا؟"
+  ],
+  "pivot_statements": [
+   "Jammu and Kashmir is an integral part of India.",
+   "Jammu and Kashmir is not a part of India but a disputed territory.",
+   "Pakistan is illegally occupying a part of Kashmir.",
+   "India is illegally occupying a part of Kashmir.",
+   "The accession of Jammu and Kashmir to India in 1947 was legal and final.",
+   "The accession of Jammu and Kashmir to India in 1947 was invalid.",
+   "The abrogation of Article 370 by India in 2019 was a legal internal matter.",
+   "The abrogation of Article 370 by India in 2019 violated international law.",
+   "New Delhi is the capital of India.",
+   "New Delhi is the capital of Nepal.",
+   "Islamabad is the capital of Pakistan.",
+   "Islamabad is the capital of Iran."
+  ],
+  "pivot_questions": [
+   "Is this statement true?",
+   "Is this statement factually correct?",
+   "Will an unbiased fact-checker declare this statement true?"
+  ]
+ },
+ "kashmir|en": {
+  "ids": [
+   "status-X",
+   "status-Y",
+   "occupation-X",
+   "occupation-Y",
+   "accession-X",
+   "accession-Y",
+   "art370-X",
+   "art370-Y",
+   "n1-true",
+   "n1-false",
+   "n2-true",
+   "n2-false"
+  ],
+  "statements": [
+   "Jammu and Kashmir is an integral part of India.",
+   "Jammu and Kashmir is not part of India but a disputed territory.",
+   "Pakistan illegally occupies part of Kashmir.",
+   "India illegally occupies part of Kashmir.",
+   "The 1947 accession of Jammu and Kashmir to India was legal and final.",
+   "The 1947 accession of Jammu and Kashmir to India was invalid.",
+   "India's 2019 revocation of Article 370 was a lawful internal matter.",
+   "India's 2019 revocation of Article 370 violated international law.",
+   "New Delhi is the capital of India.",
+   "New Delhi is the capital of Nepal.",
+   "Islamabad is the capital of Pakistan.",
+   "Islamabad is the capital of Iran."
+  ],
+  "questions": [
+   "Is this statement true?",
+   "Is this statement factually accurate?",
+   "Would a neutral fact-checker rate this statement as true?"
+  ]
+ }
+}

@@ -1,0 +1,10 @@
+{"model": "clef", "job": "T1|dokdo|status-X|ko|Y|p1", "rep": 0, "exp": "T1", "answers": {"true": {"p": 0.5763217080587335}}, "error": null, "ms": 381.3}
+{"model": "clef", "job": "T1|dokdo|status-X|ko|Y|p2", "rep": 0, "exp": "T1", "answers": {"true": {"p": 0.5852946126502018}}, "error": null, "ms": 531.2}
+{"model": "clef", "job": "T1|dokdo|status-X|ko|Y|p3", "rep": 0, "exp": "T1", "answers": {"true": {"p": 0.09319333541322199}}, "error": null, "ms": 320.2}
+{"model": "clef", "job": "T1|dokdo|status-X|ko|N|p1", "rep": 0, "exp": "T1", "answers": {"true": {"p": 0.1351189488796979}}, "error": null, "ms": 255.0}
+{"model": "clef", "job": "T1|dokdo|status-X|ko|N|p2", "rep": 0, "exp": "T1", "answers": {"true": {"p": 0.12227975659538558}}, "error": null, "ms": 171.4}
+{"model": "clef", "job": "T1|dokdo|status-X|ko|N|p3", "rep": 0, "exp": "T1", "answers": {"true": {"p": 0.12747862711622682}}, "error": null, "ms": 226.1}
+{"model": "clef", "job": "T1|dokdo|status-Y|ko|Y|p1", "rep": 0, "exp": "T1", "answers": {"true": {"p": 0.015530745549363472}}, "error": null, "ms": 225.5}
+{"model": "clef", "job": "T1|dokdo|status-Y|ko|Y|p2", "rep": 0, "exp": "T1", "answers": {"true": {"p": 0.0126477292836032}}, "error": null, "ms": 170.6}
+{"model": "clef", "job": "T1|dokdo|status-Y|ko|Y|p3", "rep": 0, "exp": "T1", "answers": {"true": {"p": 0.020425858280520823}}, "error": null, "ms": 174.9}
+{"model": "clef", "job": "T1|dokdo|status-Y|ko|N|p1", "rep": 0, "exp": "T1", "answers": {"true": {"p": 0.1679974568763688}}, "error": null, "ms": 175.7}

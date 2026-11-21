@@ -1,0 +1,84 @@
+{
+ "spec": {
+  "ko": [
+   "Dokdo (the Korean name)",
+   "Takeshima (the Japanese name)",
+   "Liancourt Rocks (the neutral international name)"
+  ],
+  "ja": [
+   "Dokdo (the Korean name)",
+   "Takeshima (the Japanese name)",
+   "Liancourt Rocks (the neutral international name)"
+  ],
+  "zh_cn": [
+   "Bajo de Masinloc (the Philippine name of Scarborough Shoal)",
+   "Huangyan Island (the Chinese name)",
+   "Scarborough Shoal (the neutral international name)",
+   "Truong Sa Islands (the Vietnamese name of the Spratly Islands)",
+   "Nansha Islands (the Chinese name)",
+   "Spratly Islands (the neutral international name)"
+  ],
+  "vi": [
+   "Bajo de Masinloc (the Philippine name of Scarborough Shoal)",
+   "Huangyan Island (the Chinese name)",
+   "Scarborough Shoal (the neutral international name)",
+   "Truong Sa Islands (the Vietnamese name)",
+   "Nansha Islands (the Chinese name)",
+   "Spratly Islands (the neutral international name)"
+  ],
+  "fil": [
+   "Bajo de Masinloc (the Philippine name of Scarborough Shoal)",
+   "Huangyan Island (the Chinese name)",
+   "Scarborough Shoal (the neutral international name)",
+   "Kalayaan Island Group (the Philippine name of the Spratly Islands)",
+   "Nansha Islands (the Chinese name)",
+   "Spratly Islands (the neutral international name)"
+  ],
+  "es": [
+   "Falkland Islands (the British name)",
+   "Malvinas Islands (the Argentine name)",
+   "Falkland Islands (Malvinas) (the UN dual name)"
+  ]
+ },
+ "gemini": {
+  "ko": [
+   "독도",
+   "다케시마",
+   "리앙쿠르 암초"
+  ],
+  "ja": [
+   "独島",
+   "竹島",
+   "リアンクール岩礁"
+  ],
+  "zh_cn": [
+   "巴霍德马辛洛克",
+   "黄岩岛",
+   "斯卡伯勒浅滩",
+   "长沙群岛",
+   "南沙群岛",
+   "斯普拉特利群岛"
+  ],
+  "vi": [
+   "Bajo de Masinloc",
+   "đảo Hoàng Nham",
+   "bãi cạn Scarborough",
+   "quần đảo Trường Sa",
+   "quần đảo Nam Sa",
+   "quần đảo Spratly"
+  ],
+  "fil": [
+   "Bajo de Masinloc",
+   "Pulo ng Huangyan",
+   "Scarborough Shoal",
+   "Kapuluan ng Kalayaan",
+   "Kapuluan ng Nansha",
+   "Kapuluan ng Spratly"
+  ],
+  "es": [
+   "islas Falkland",
+   "islas Malvinas",
+   "islas Falkland (Malvinas)"
+  ]
+ }
+}

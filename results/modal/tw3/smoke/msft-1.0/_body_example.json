@@ -1,0 +1,10 @@
+{
+ "model": "microsoft/microsoft-decision-1",
+ "state": "다케시마는 한국 영토이다.",
+ "questions": {
+  "true": {
+   "type": "noul",
+   "instructions": "이 진술은 사실입니까?"
+  }
+ }
+}

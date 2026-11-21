@@ -1,0 +1,37 @@
+{
+ "_doc": "tw3 (docs/handoff-tw3-place-names.md): per-language spellings of each side's place name. Source: Gemini 3.1 Pro (data/tw3/names_gemini_raw.json), checked by hand. Deviations from Gemini: Filipino linked forms (Pulong Huangyan, Kapuluang Kalayaan, Kapuluang Nansha) after the blind review; es dual name in the UN Spanish order 'Islas Malvinas (Falkland)' and capitalised 'Islas' like the tw2 translation; English forms written by hand. 'orig' = the form the tw2 translation already uses (that cell is reused from tw2, not re-run). X/Y = the X / Y side's own name, N = neutral.",
+ "dokdo": {
+  "ISLANDS": {
+   "ko": {"orig": "독도", "X": "독도", "Y": "다케시마", "N": "리앙쿠르 암초"},
+   "ja": {"orig": "竹島", "X": "独島", "Y": "竹島", "N": "リアンクール岩礁"},
+   "en": {"orig": "Dokdo (Takeshima)", "X": "Dokdo", "Y": "Takeshima", "N": "the Liancourt Rocks"}
+  }
+ },
+ "scs": {
+  "SCARBOROUGH": {
+   "zh_cn": {"orig": "黄岩岛", "X": "巴霍德马辛洛克", "Y": "黄岩岛", "N": "斯卡伯勒浅滩"},
+   "vi": {"orig": "Bãi cạn Scarborough", "X": "Bajo de Masinloc", "Y": "Đảo Hoàng Nham", "N": "Bãi cạn Scarborough"},
+   "fil": {"orig": "Bajo de Masinloc", "X": "Bajo de Masinloc", "Y": "Pulong Huangyan", "N": "Scarborough Shoal"},
+   "en": {"orig": "Scarborough Shoal", "X": "Bajo de Masinloc", "Y": "Huangyan Island", "N": "Scarborough Shoal"}
+  },
+  "SPRATLYS": {
+   "zh_cn": {"orig": "南沙群岛", "X": "长沙群岛", "Y": "南沙群岛", "N": "斯普拉特利群岛"},
+   "vi": {"orig": "quần đảo Trường Sa", "X": "quần đảo Trường Sa", "Y": "quần đảo Nam Sa", "N": "quần đảo Spratly"},
+   "fil": {"orig": "Spratly Islands", "X": "Kapuluang Kalayaan", "Y": "Kapuluang Nansha", "N": "Spratly Islands"},
+   "en": {"orig": "the Spratly Islands", "X": "the Truong Sa Islands", "Y": "the Nansha Islands", "N": "the Spratly Islands"}
+  }
+ },
+ "falklands": {
+  "ISLANDS": {
+   "es": {"orig": "Islas Malvinas", "X": "Islas Falkland", "Y": "Islas Malvinas", "N": "Islas Malvinas (Falkland)"},
+   "en": {"orig": "the Falkland Islands", "X": "the Falkland Islands", "Y": "the Malvinas Islands", "N": "the Falkland Islands (Malvinas)"}
+  }
+ },
+ "pivot_en_normalizer": [
+  ["\\bDokdo \\(Takeshima\\)", "the Liancourt Rocks"],
+  ["\\b(?:the )?(?:Dokdo|Takeshima|Tokdo)(?: Islands?)?\\b", "the Liancourt Rocks"],
+  ["\\b(?:the )?(?:Huangyan Island|Bajo de Masinloc|Scarborough Shoal)\\b", "Scarborough Shoal"],
+  ["\\b(?:the )?(?:Nansha|Truong Sa|Trường Sa|Kalayaan|Spratly)(?: Islands| Island Group| archipelago)\\b", "the Spratly Islands"],
+  ["\\b(?:the )?(?:Malvinas|Falkland) Islands(?: \\((?:Malvinas|Falklands?)\\))?", "the Falkland Islands (Malvinas)"]
+ ]
+}

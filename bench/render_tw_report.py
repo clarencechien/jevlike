@@ -18,6 +18,8 @@ assert "imitator report chassis" in CSS
 J = json.load(open(os.path.join(ROOT, "results/tw.json"), encoding="utf-8"))
 _TW2P = os.path.join(ROOT, "results/tw2.json")
 TW2 = json.load(open(_TW2P, encoding="utf-8")) if os.path.exists(_TW2P) else None
+_TW3P = os.path.join(ROOT, "results/tw3.json")
+TW3 = json.load(open(_TW3P, encoding="utf-8")) if os.path.exists(_TW3P) else None
 D = json.load(open(os.path.join(ROOT, "results/tw_d0s.json"), encoding="utf-8"))
 _spec = importlib.util.spec_from_file_location("analyze_tw", os.path.join(ROOT, "bench", "analyze_tw.py"))
 AT = importlib.util.module_from_spec(_spec)
@@ -132,8 +134,34 @@ def tw2_section():
     </table>
   </div>
   <p>11 個爭議裡出事的數量：微軟 1.1 {tot("msft-1.1")}、微軟 1.0 {tot("msft-1.0")}、Gemini {tot("gemini-d1")}、Cloudflare Clef {tot("clef")}（分母是模型讀得懂那個語言的爭議數）。最嚴重的是獨島／竹島：同一句話韓文問、日文問，一半以上答案相反。</p>
-  <p>先翻成英文再問，我們的 26B 大部分偏差都消失，例外正好是獨島和南海——翻完還是寫著「竹島」「黃岩島」，<strong>地名本身就帶著立場</strong>。另外 26B 對塞爾維亞文的拉丁字母和西里爾字母也會換答案，所以「先轉繁體」要擴大成「先統一字形」。工廠題不受影響。</p>
+  <p>先翻成英文再問，我們的 26B 大部分偏差都消失，例外正好是獨島和南海——翻完還是寫著「竹島」「黃岩島」，<strong>地名本身就帶著立場</strong>。另外 26B 對塞爾維亞文的拉丁字母和西里爾字母也會換答案，所以「先轉繁體」要擴大成「先統一字形」。工廠題不受影響。</p>""" + tw3_part()
+
+
+def tw3_part():
+    """tw3 (results/tw3-place-names.md): place-name normalisation, 26B rows."""
+    if not TW3:
+        return ""
+    rows = ""
+    for d, c, label in (("dokdo", "ko-ja", "獨島：韓文 vs 日文"), ("scs", "vi-zh_cn", "南海：越南文 vs 簡體中文"), ("scs", "fil-zh_cn", "南海：菲律賓文 vs 簡體中文"), ("falklands", "en-es", "福克蘭：英文 vs 西班牙文")):
+        h2 = TW3["H2"].get(f"26b|{d}|{c}") or {}
+        e2 = TW3["E2"].get(f"26b|{d}|{c}") or {}
+        f = lambda x: "—" if x is None else f"{x:+.2f}"
+        neu = f(h2.get("neutral")) if h2.get("verdict") != "讀不懂，不判" else "讀不懂"
+        orig = f(h2.get("orig")) if h2.get("verdict") != "讀不懂，不判" else "讀不懂"
+        pv, pn = e2.get("pivot", {}), e2.get("pivot_names", {})
+        rows += (f'<tr><td>{e(label)}</td><td class="num">{orig}</td><td class="num">{neu}</td><td class="num">{f(pv.get("gap"))}</td>'
+                 f'<td class="num"><strong>{f(pn.get("gap"))}</strong><br><span class="dim">{e(e2.get("verdict", "—"))}</span></td></tr>')
+    return f"""
+  <p><strong>再追一步：把地名換成中立叫法有用嗎？</strong>（tw3）把「독도／竹島」換成「Liancourt Rocks」、「黃岩島」換成「Scarborough Shoal」，其他字不動。下表是我們 26B 的主場偏差：</p>
+  <div class="table-scroll wide route">
+    <table>
+      <thead><tr><th>比較</th><th class="num">原語言、原地名</th><th class="num">原語言、中立地名</th><th class="num">先翻英文</th><th class="num">先翻英文＋地名對照表</th></tr></thead>
+      <tbody>{rows}</tbody>
+    </table>
+  </div>
+  <p>只換地名，偏差大約剩三成到一半；語言本身的偏差比地名還大。先翻英文再套地名對照表，幾乎全部消失，但南海還有一格「不確定」：剩下的不是地名，而是同一句話從越南文、從中文翻回英文時寫法不同。所以結論不變：<strong>政治、主權類的內容不交給模型自動判斷，一律轉人。</strong>工廠題不受影響。</p>
 """
+
 
 def index_chart():
     """Index S by model: three bars (繁 / 簡 / 英) per row, zero in the middle."""
@@ -362,6 +390,7 @@ page = """<!doctype html>
       <li><strong>我們自己的工廠題目也受一點影響。</strong>把 2,000 題產線判斷題全改成簡體，有 """ + f"{d0a['agree'] * 100:.1f}%" + """ 的題答案不變（繁體原樣跑兩次是 99.7%）；最弱的「警報有多急」這一類掉了 6 個百分點。所以先轉繁體對工廠題也有好處。</li>
       <li><strong>順便發現一件跟字形無關的事：同一題問兩次，答案可能不一樣。</strong>現在的伺服器設定下，同一題跑兩次，機率最大可以差到 """ + f"{G4['max']:.2f}" + """。只有改成「一次只問一題、不重複用上一題算過的東西」才會每次完全一樣。需要留紀錄、被稽核的判斷要用那個設定。</li>
       <li><strong>後續（11 月）：微軟、Google 新出的決策模型也沒修好，而且別的主權爭議換成當事方的語言一樣會偏。</strong>三家簡體翻面 17–20 題；11 個爭議裡 8–10 個「用哪一方的語言問就偏向哪一方」，獨島／竹島最嚴重。先統一字形、先翻成英文能消掉大部分，但地名本身帶立場的消不掉。見第八節。</li>
+      <li><strong>把地名換成中立叫法（tw3）：有幫助，但不夠。</strong>先翻英文、再把「竹島」「黃岩島」換成中立地名，我們的獨島偏差從 1.18 降到 −0.11；南海還剩一格「不確定」，來自翻譯寫法不同。政治、主權類內容維持不自動判斷。</li>
     </ol>
   </div>
 
